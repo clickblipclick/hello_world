@@ -17,6 +17,12 @@
   main { position: relative; overflow: hidden; width: 100%; }
   #moon { position: absolute; left: 0; top: 0; font: 12px/1 ui-monospace, Menlo, Consolas, monospace;
           color: #d9cfa6; pointer-events: none; will-change: transform; }
+  #sky { position: absolute; inset: 0; z-index: -1; pointer-events: none;
+         font: 12px/1 ui-monospace, Menlo, Consolas, monospace; color: #8d94a8; }
+  #sky i { position: absolute; font-style: normal; animation: wink 7s ease-in-out infinite; }
+  #sky b { position: absolute; left: 0; top: 0; font-weight: normal; color: #d9cfa6; opacity: 0; white-space: pre; }
+  @keyframes wink { 0%, 100% { opacity: 0.75; } 45% { opacity: 0.75; } 55% { opacity: 0.15; } 65% { opacity: 0.75; } }
+  @media (prefers-reduced-motion: reduce) { #sky i { animation: none; opacity: 0.6; } }
   #gazetteer { max-width: 30rem; padding: 0 1.5rem 6rem; }
   #gazetteer h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
                   color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
@@ -48,6 +54,7 @@
 </head>
 <body>
 <main>
+<div id="sky" aria-hidden="true"></div>
 <p>hello world</p>
 <pre id="globe" aria-label="a small turning world, drawn in characters"></pre>
 <span id="moon" aria-hidden="true">@</span>
@@ -84,6 +91,12 @@
   <dd>Flags, left by visitors. The world holds nine at most; plant a tenth and the oldest quietly falls
       over. Each is kept only by the person who planted it, so no two visitors see the same claims,
       and every territorial dispute here is settled in advance by nobody else knowing about it.</dd>
+</dl>
+<dl>
+  <dt>The Apostrophes <span>' . `</span></dt>
+  <dd>The stars. Unlike the flags, they are the same for everyone, having been dealt once from a
+      fixed deck. They do not turn with the world, or at all. Each one blinks now and then, to show
+      that it could have been otherwise. Occasionally one of them leaves; the count is not affected.</dd>
 </dl>
 <p class="wx">The seas, having names, now also have <a href="forecast.html">a forecast</a>.</p>
 </section>
@@ -259,6 +272,47 @@
     hum.textContent = on ? 'take the ear away' : 'put an ear to it';
     if (!on) heard.textContent = 'quiet again. it was always quiet; now you cannot hear that either.';
   });
+  // The Apostrophes: the same sky for every visitor, dealt from a fixed seed. None may stand behind the world.
+  var sky = document.getElementById('sky'), stars = [], seed = 1977;
+  function deal() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+  for (var s = 0; s < 70; s++) {
+    var st = document.createElement('i');
+    st.textContent = "..''`,+".charAt(Math.floor(deal() * 7));
+    st.style.left = (deal() * 98 + 1).toFixed(2) + '%';
+    st.style.top = (deal() * 96 + 2).toFixed(2) + '%';
+    st.style.animationDuration = (5 + deal() * 9).toFixed(1) + 's';
+    st.style.animationDelay = (-deal() * 14).toFixed(1) + 's';
+    sky.appendChild(st); stars.push(st);
+  }
+  function clearing() {
+    var hw = el.offsetWidth / 2 + 14, hh = el.offsetHeight / 2 + 14;
+    var cx = el.offsetLeft + el.offsetWidth / 2, cy = el.offsetTop + el.offsetHeight / 2;
+    for (var i = 0; i < stars.length; i++) {
+      var dx = (parseFloat(stars[i].style.left) / 100 * sky.offsetWidth - cx) / hw;
+      var dy = (parseFloat(stars[i].style.top) / 100 * sky.offsetHeight - cy) / hh;
+      stars[i].style.visibility = dx * dx + dy * dy < 1 ? 'hidden' : '';
+    }
+  }
+  draw(); clearing();
+  window.addEventListener('resize', clearing);
+  // Now and then one of them leaves. This one is not dealt from the deck; nobody else will see it go.
+  var streak = document.createElement('b');
+  streak.textContent = '\u00b7 - \u2014';
+  sky.appendChild(streak);
+  function leave() {
+    setTimeout(leave, 20000 + Math.random() * 40000);
+    if (document.hidden || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+    var x = Math.random() * sky.offsetWidth * 0.7, y = Math.random() * sky.offsetHeight * 0.3;
+    var a = 200 + Math.random() * 25, d = 160 + Math.random() * 120, r = a * Math.PI / 180;
+    streak.style.transition = 'none'; streak.style.opacity = 0.9;
+    streak.style.transform = 'translate(' + (x + d).toFixed(0) + 'px,' + y.toFixed(0) + 'px) rotate(' + (a - 180) + 'deg)';
+    streak.offsetWidth;
+    streak.style.transition = 'transform 0.8s ease-in, opacity 0.8s ease-in';
+    streak.style.opacity = 0;
+    streak.style.transform = 'translate(' + (x + d + Math.cos(r) * d).toFixed(0) + 'px,' + (y - Math.sin(r) * d).toFixed(0)
+                           + 'px) rotate(' + (a - 180) + 'deg)';
+  }
+  setTimeout(leave, 6000 + Math.random() * 9000);
   tick();
 })();
 </script>
