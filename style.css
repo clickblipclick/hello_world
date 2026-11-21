@@ -94,3 +94,29 @@ a { color: var(--accent); }
   font-size: 0.8125rem;
   letter-spacing: 0.04em;
 }
+
+/* Added with code.html: the same words written as programs. */
+
+.programs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
+}
+
+.programs li {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.programs pre {
+  margin: 0 0 0.35rem;
+  overflow-x: auto;
+  font: 0.9375rem/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+.programs small {
+  color: var(--faint);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+}
