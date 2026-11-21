@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hello world, sent away</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<p>hello world</p>
+<p class="note">The same two words, sent outwards at the speed of light, which is as fast as anything can be said. How long before they arrive depends on who is meant by world. Nearest first. This list only grows too. <a href="./">Back to the first page.</a></p>
+<ul class="away">
+<li><b>0.13 seconds</b><div>Once around this world<small>40,075 kilometres at the equator. The greeting comes back to the place it was said before the mouth has closed on the h.</small></div></li>
+<li><b>1.3 seconds</b><div>The Moon<small>384,400 kilometres. A reply takes as long again, which is why the pauses in the recordings from 1969 sound the way they do.</small></div></li>
+<li><b>3 to 22 minutes</b><div>Mars<small>Three minutes when the two planets are on the same side of the Sun, twenty-two when they are on opposite sides. Nobody there steers a rover by hand.</small></div></li>
+<li><b>8 minutes 19 seconds</b><div>The Sun<small>150 million kilometres. The light on the page of <a href="pictures.html">pictures</a> left there that long ago, if you are reading by daylight.</small></div></li>
+<li><b>about 1 day</b><div>Voyager 1<small>The farthest thing anyone has made, launched in 1977 and still listening. It carries a gold record with hello on it in fifty-five languages, more than <a href="greetings.html">the page of greetings</a> has managed so far.</small></div></li>
+<li><b>4 years 3 months</b><div>Proxima Centauri<small>The nearest star that is not the Sun. A hello sent today and answered at once would be an eight and a half year conversation, two words each.</small></div></li>
+<li><b>2.5 million years</b><div>The Andromeda galaxy<small>The farthest thing most people can see without help. The light arriving from it tonight set out before there was anyone to say hello.</small></div></li>
+<!-- next distance goes above this line -->
+<li class="live"><b id="km">0 kilometres</b><div>A hello that left when you opened this page<small id="where">It has not gone anywhere yet.</small></div></li>
+</ul>
+<script>
+(function () {
+  var km = document.getElementById('km');
+  var where = document.getElementById('where');
+  var start = Date.now();
+  var c = 299792.458;
+  var marks = [
+    [0, 'Still on its first lap of this world.'],
+    [40075, 'Once around this world, and on its way to the Moon.'],
+    [384400, 'Past the Moon. Next is Mars, if Mars is close, and then the Sun.'],
+    [54600000, 'As far as Mars at its nearest. The Sun is next.'],
+    [149600000, 'As far away as the Sun. You have been here more than eight minutes.'],
+    [401000000, 'Farther than Mars ever gets. Nothing now until Voyager 1, about a day from here.']
+  ];
+  function tick() {
+    var d = (Date.now() - start) / 1000 * c;
+    km.textContent = Math.round(d).toLocaleString('en') + ' kilometres';
+    var say = marks[0][1];
+    for (var i = 0; i < marks.length; i++) {
+      if (d >= marks[i][0]) say = marks[i][1];
+    }
+    if (where.textContent !== say) where.textContent = say;
+  }
+  tick();
+  setInterval(tick, 100);
+})();
+</script>
+</body>
+</html>
