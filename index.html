@@ -26,6 +26,16 @@
   #gazetteer dd { margin: 0.3rem 0 0; line-height: 1.55; color: #b9b6ac; }
   #gazetteer .wx { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; margin: 2.4rem 0 0; }
   #gazetteer .wx a { color: #7fb7a4; }
+  #post { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #post h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #post p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #post button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                 background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #post button:hover, #post button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #card { font: 10px/1.1 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; margin: 1.6rem 0 0;
+          overflow-x: auto; user-select: all; }
+  #sent { display: block; min-height: 1.2em; margin-top: 0.8rem; }
 </style>
 </head>
 <body>
@@ -68,6 +78,13 @@
       and every territorial dispute here is settled in advance by nobody else knowing about it.</dd>
 </dl>
 <p class="wx">The seas, having names, now also have <a href="forecast.html">a forecast</a>.</p>
+</section>
+<section id="post">
+<h2>Postcards</h2>
+<p>There is no post office, and nothing leaves. But the world will hold still for a picture.</p>
+<button id="shutter" type="button">take a postcard</button>
+<pre id="card" aria-label="a postcard of the world as it was when you asked"></pre>
+<small id="sent" aria-live="polite"></small>
 </section>
 <script>
 // A world made of characters. Land is invented from a few overlapping waves.
@@ -171,6 +188,28 @@
   });
   el.addEventListener('pointerup', function () { dragging = false; });
   el.addEventListener('pointercancel', function () { dragging = false; });
+  // Postcards: the frame as it stood when asked, boxed, captioned, and handed over.
+  var card = document.getElementById('card'), sent = document.getElementById('sent');
+  var regards = ['wish you were here. nobody is.', 'weather fine. see forecast.', 'having a lovely time, going round.',
+                 'the moon was out. it usually is.', 'it looked like this, briefly.', 'will write again when it has turned.'];
+  function pad(t, n) { while (t.length < n) t += ' '; return t; }
+  document.getElementById('shutter').addEventListener('click', function () {
+    var rows = el.textContent.split('\n').slice(0, H), n = W + 4;
+    var ch = rows[H / 2].charAt(W / 2), lon = Math.round(spin * 180 / Math.PI);
+    lon = ((lon + 180) % 360 + 360) % 360 - 180;
+    var where = Math.abs(lon) + '\u00b0' + (lon < 0 ? 'W' : 'E') + ', over ' + (names[ch] || 'somewhere').split('.')[0];
+    var edge = '+' + new Array(n + 1).join('-') + '+', out = [edge, '|' + pad('', n - 5) + '[@]  |'];
+    for (var i = 0; i < H; i++) out.push('|  ' + pad(rows[i], W) + '  |');
+    out.push('|' + pad('', n) + '|', '|  ' + pad('hello from ' + where, n - 2) + '|',
+             '|  ' + pad(regards[Math.floor(Math.random() * regards.length)], n - 2) + '|', edge);
+    card.textContent = out.join('\n');
+    sent.textContent = 'taken. select it and carry it off.';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(card.textContent).then(function () {
+        sent.textContent = 'taken, and slipped into your clipboard. paste it somewhere it will be seen.';
+      }, function () {});
+    }
+  });
   tick();
 })();
 </script>
