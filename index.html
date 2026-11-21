@@ -5,17 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>hello world</title>
 <style>
-  body { margin: 0; min-height: 100vh; display: grid; place-content: center; justify-items: center;
+  body { margin: 0; display: grid; justify-items: center;
          background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
   p { font-size: 1.6rem; letter-spacing: 0.04em; margin: 0 0 1.2rem; }
   #globe { font: 12px/1 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 0; cursor: grab; user-select: none; }
   small { margin-top: 1.2rem; color: #6b7388; font-style: italic; }
+  main { min-height: 100vh; display: grid; place-content: center; justify-items: center; }
+  #gazetteer { max-width: 30rem; padding: 0 1.5rem 6rem; }
+  #gazetteer h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+                  color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #gazetteer .lede { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; margin-bottom: 2rem; }
+  #gazetteer dt { font-variant: small-caps; font-size: 1.15rem; letter-spacing: 0.06em; margin-top: 1.4rem; }
+  #gazetteer dt span { font: 0.75rem ui-monospace, Menlo, Consolas, monospace; color: #6b7388; margin-left: 0.6em; }
+  #gazetteer dd { margin: 0.3rem 0 0; line-height: 1.55; color: #b9b6ac; }
 </style>
 </head>
 <body>
+<main>
 <p>hello world</p>
 <pre id="globe" aria-label="a small turning world, drawn in characters"></pre>
 <small>it turns on its own. drag it if you are impatient.</small>
+</main>
+<section id="gazetteer">
+<h2>A gazetteer</h2>
+<p class="lede">Nobody has been there, so the names are provisional.</p>
+<dl>
+  <dt>The Hash <span>###</span></dt>
+  <dd>The bright uplands, wherever the light happens to fall. The Hash is not a place so much as a time of day;
+      its inhabitants, if any, would have to keep walking east to stay in it.</dd>
+  <dt>Oland <span>ooo</span></dt>
+  <dd>Middle country. Rounded hills, each the same size as every other, arranged in rows. Reputed to be pleasant.</dd>
+  <dt>The Colons <span>:::</span></dt>
+  <dd>Land at dusk. Everything here is about to be explained, and then the planet turns and it isn't.</dd>
+  <dt>The Tilde Sea <span>~~~</span></dt>
+  <dd>Open water in full sun. The waves are all one wavelength, which makes navigation easy and poetry difficult.</dd>
+  <dt>The Flats <span>---</span></dt>
+  <dd>The same sea, later in the afternoon, having given up on waves.</dd>
+  <dt>Full Stop Deep <span>...</span></dt>
+  <dd>The night ocean. Sentences end here. Ships crossing it report a long pause, then land, or morning,
+      whichever comes first.</dd>
+  <dt>The Asterisk Caps <span>***</span></dt>
+  <dd>Ice at both poles, each flake a footnote to something nobody wrote down. On the dark side they
+      dim to plus signs, which is the only arithmetic the planet does.</dd>
+</dl>
+</section>
 <script>
 // A world made of characters. Land is invented from a few overlapping waves.
 (function () {
