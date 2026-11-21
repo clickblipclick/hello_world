@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hello world, at this hour</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<p>hello world</p>
+<p class="note">The same two words, said to the whole world at once, which is never all awake. Eleven places and what time it is in each of them right now, from where the day begins to where it ends. The words under each clock are the right hello for that hour. This list only grows too. <a href="./">Back to the first page.</a></p>
+<ul class="hour">
+<li data-zone="Pacific/Kiritimati"><b>some time today</b><div>Kiritimati<small>Fourteen hours ahead of Greenwich, as far ahead as clocks go. Every date happens here first.</small></div></li>
+<li data-zone="Pacific/Auckland"><b>some time today</b><div>Auckland<small>The first large city into each day. Its summer is the northern winter, so its clocks go forward when most others go back.</small></div></li>
+<li data-zone="Asia/Tokyo"><b>some time today</b><div>Tokyo<small>Nine hours ahead of Greenwich all year. The clocks here are not changed for summer.</small></div></li>
+<li data-zone="Asia/Kolkata"><b>some time today</b><div>Kolkata<small>Five and a half hours ahead. All of India keeps one time, and it is half an hour out of step with most of the world.</small></div></li>
+<li data-zone="Africa/Nairobi"><b>some time today</b><div>Nairobi<small>Close enough to the equator that the sun comes up at nearly the same time every morning of the year.</small></div></li>
+<li data-zone="Europe/London"><b>some time today</b><div>London<small>Greenwich is here, and the other ten are counted from it. In summer even London is an hour off Greenwich.</small></div></li>
+<li data-zone="America/Sao_Paulo"><b>some time today</b><div>São Paulo<small>Three hours behind Greenwich. Brazil stopped changing its clocks for summer in 2019.</small></div></li>
+<li data-zone="America/New_York"><b>some time today</b><div>New York<small>Five hours behind in winter and four in summer.</small></div></li>
+<li data-zone="America/Los_Angeles"><b>some time today</b><div>Los Angeles<small>Three hours behind New York, always. When one is at lunch the other is at breakfast.</small></div></li>
+<li data-zone="Pacific/Honolulu"><b>some time today</b><div>Honolulu<small>Ten hours behind Greenwich all year. Almost due north of Kiritimati, at the same hour on the clock, and a whole day behind it.</small></div></li>
+<li data-zone="Etc/GMT+12"><b>some time today</b><div>Baker Island<small>Twelve hours behind, as far behind as clocks go. Nobody lives here. It is the last place each date is still going on, twenty-six hours after Kiritimati began it.</small></div></li>
+<!-- next place goes above this line -->
+<li class="live"><b id="here">some time today</b><div>Where you are<small id="tally">The clocks on this page need a script to run. Without one, it is still some time today everywhere above, or very nearly.</small></div></li>
+</ul>
+<script>
+(function () {
+  if (!window.Intl || !Intl.DateTimeFormat) return;
+  var rows = document.querySelectorAll('.hour li[data-zone]');
+  var here = document.getElementById('here');
+  var tally = document.getElementById('tally');
+  function hello(h) {
+    if (h >= 5 && h < 12) return 'good morning';
+    if (h >= 12 && h < 18) return 'good afternoon';
+    if (h >= 18 && h < 22) return 'good evening';
+    return 'asleep, most likely';
+  }
+  function read(now, zone) {
+    var opts = { weekday: 'long', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' };
+    if (zone) opts.timeZone = zone;
+    var parts = new Intl.DateTimeFormat('en-GB', opts).formatToParts(now);
+    var out = {};
+    for (var i = 0; i < parts.length; i++) out[parts[i].type] = parts[i].value;
+    out.h = parseInt(out.hour, 10) % 24;
+    return out;
+  }
+  function line(t) {
+    return t.weekday + ' ' + t.hour + ':' + t.minute + ', ' + hello(t.h);
+  }
+  function tick() {
+    var now = new Date();
+    var awake = 0, days = {}, count = 0;
+    for (var i = 0; i < rows.length; i++) {
+      var t;
+      try { t = read(now, rows[i].getAttribute('data-zone')); } catch (e) { continue; }
+      var b = rows[i].querySelector('b');
+      var say = line(t);
+      if (b.textContent !== say) b.textContent = say;
+      if (t.h >= 5 && t.h < 22) awake++;
+      if (!days[t.weekday]) { days[t.weekday] = true; count++; }
+    }
+    var mine = line(read(now));
+    if (here.textContent !== mine) here.textContent = mine;
+    var words = ['no', 'one', 'two', 'three'];
+    var note = 'Of the ' + rows.length + ' places above, ' + awake + ' would hear a hello now and ' +
+      (rows.length - awake) + ' would sleep through it. It is ' + (words[count] || count) +
+      ' different day' + (count === 1 ? '' : 's') + ' of the week at once.';
+    if (tally.textContent !== note) tally.textContent = note;
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
+</body>
+</html>
