@@ -13,6 +13,9 @@
   #fix { display: block; min-height: 1.2em; margin-top: 0.9rem; color: #7fb7a4;
          font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; }
   main { min-height: 100vh; display: grid; place-content: center; justify-items: center; }
+  main { position: relative; overflow: hidden; width: 100%; }
+  #moon { position: absolute; left: 0; top: 0; font: 12px/1 ui-monospace, Menlo, Consolas, monospace;
+          color: #d9cfa6; pointer-events: none; will-change: transform; }
   #gazetteer { max-width: 30rem; padding: 0 1.5rem 6rem; }
   #gazetteer h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
                   color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
@@ -26,6 +29,7 @@
 <main>
 <p>hello world</p>
 <pre id="globe" aria-label="a small turning world, drawn in characters"></pre>
+<span id="moon" aria-hidden="true">@</span>
 <small>it turns on its own. drag it if you are impatient.</small>
 <output id="fix" for="globe" aria-live="off">point at it and it will tell you where you are pointing.</output>
 </main>
@@ -50,6 +54,10 @@
   <dt>The Asterisk Caps <span>***</span></dt>
   <dd>Ice at both poles, each flake a footnote to something nobody wrote down. On the dark side they
       dim to plus signs, which is the only arithmetic the planet does.</dd>
+  <dt>The At <span>@</span></dt>
+  <dd>The moon. It has one side and shows it to everybody. Goes around behind the world at regular
+      intervals, for reasons of its own, and comes back looking exactly as it did. Not on any map,
+      being the only thing here that is somewhere else.</dd>
 </dl>
 </section>
 <script>
@@ -105,9 +113,20 @@
   el.addEventListener('pointermove', point);
   el.addEventListener('pointerdown', point);
   el.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') { hx = hy = -1; fix.textContent = 'gone. it carries on without you.'; } });
+  // The At: one character on a tilted orbit, passing in front of the world and then behind it.
+  var moon = document.getElementById('moon'), ma = 2.2;
+  function orbit() {
+    ma += 0.0045;
+    var x = Math.cos(ma) * 1.32, z = Math.sin(ma), y = x * 0.2 - z * 0.3;
+    var hw = el.offsetWidth / 2, hh = el.offsetHeight / 2;
+    var px = el.offsetLeft + hw * (1 + x) - 4, py = el.offsetTop + hh * (1 + y) - 6;
+    moon.style.transform = 'translate(' + px.toFixed(1) + 'px,' + py.toFixed(1) + 'px) scale(' + (1 + z * 0.3).toFixed(2) + ')';
+    moon.style.opacity = z < 0 && x * x + y * y < 1.02 ? 0 : (0.7 + z * 0.3).toFixed(2);
+  }
   function tick() {
     if (!dragging) spin += speed;
     draw();
+    orbit();
     report();
     requestAnimationFrame(tick);
   }
