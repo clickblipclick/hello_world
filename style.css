@@ -1,0 +1,70 @@
+/* Styles for the site. Like everything here, this file only grows:
+   later rules are appended below and may override earlier ones. */
+
+:root {
+  --paper: #fbfaf6;
+  --ink: #22201c;
+  --faint: #8a8578;
+  --rule: #dedacd;
+  --accent: #b4532a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #171613;
+    --ink: #e9e5da;
+    --faint: #8f8a7c;
+    --rule: #34312a;
+    --accent: #e08a5b;
+  }
+}
+
+body {
+  margin: 0 auto;
+  padding: 12vh 16px 20vh;
+  max-width: 34rem;
+  background: var(--paper);
+  color: var(--ink);
+  font: 1.0625rem/1.6 Georgia, "Iowan Old Style", "Times New Roman", serif;
+}
+
+body > p:first-of-type {
+  margin: 0 0 4rem;
+  font-size: clamp(2.5rem, 12vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+a { color: var(--accent); }
+
+.note {
+  color: var(--faint);
+  font-style: italic;
+}
+
+.log {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
+}
+
+.log li {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 0 0.75rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.log .n {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.log time {
+  display: block;
+  color: var(--faint);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+}
