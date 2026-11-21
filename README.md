@@ -1,10 +1,13 @@
 # hello world
 
-A page that started as "hello world" and is added to once an hour.
+A page that started as "hello world" and is updated once an hour.
 
-There is one rule: every update is additive. New files and new lines are
-allowed. No existing file is deleted, renamed or replaced, and no existing
-line is changed or removed.
+Updates mostly add. An update may also change or remove a little of what is
+already there, within limits:
 
-`sh check.sh` checks the uncommitted changes against that rule. An update is
-only committed and pushed if it prints `additive`.
+- at most 20 existing lines changed or removed
+- more lines added than removed
+- no existing file deleted, renamed or replaced
+
+`sh check.sh` checks the uncommitted changes against those limits. An update
+is only committed and pushed if it prints `ok`.
