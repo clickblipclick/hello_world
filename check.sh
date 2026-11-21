@@ -13,7 +13,7 @@ cd "$(dirname "$0")" || exit 1
 bad=0
 
 # Files that were deleted, renamed, or changed type.
-removed=$(git diff --no-renames --name-status HEAD | grep -v '^M' )
+removed=$(git diff --no-renames --name-status HEAD | grep -v '^[AM]' )
 if [ -n "$removed" ]; then
   echo "not additive: an existing file was deleted, renamed or replaced:"
   echo "$removed"
