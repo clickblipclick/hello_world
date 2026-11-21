@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the forecast · hello world</title>
+<style>
+  body { margin: 0; background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
+  main { max-width: 30rem; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  h1 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #7fb7a4; margin: 0 0 0.4rem; }
+  .lede { color: #6b7388; font-style: italic; margin: 0 0 2rem; }
+  #issued { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; letter-spacing: 0.05em; }
+  h2 { font-variant: small-caps; font-weight: normal; font-size: 1.15rem; letter-spacing: 0.06em; margin: 1.6rem 0 0.3rem; }
+  #areas p { margin: 0; line-height: 1.55; color: #b9b6ac; }
+  button { margin-top: 2.4rem; background: none; border: 1px solid #263048; color: #7fb7a4; padding: 0.5rem 0.9rem;
+           font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; cursor: pointer; }
+  button:hover { border-color: #7fb7a4; }
+  a { color: #7fb7a4; }
+  footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; }
+</style>
+</head>
+<body>
+<main>
+<h1>The forecast</h1>
+<p class="lede">For shipping, of which there is none. Reissued on the hour, in case some turns up.</p>
+<p id="issued"></p>
+<div id="areas"></div>
+<button id="aloud" type="button" hidden>have it read out</button>
+<footer>Mariners are advised that the sea is made of punctuation.
+<a href="./">Back to the world.</a></footer>
+</main>
+<script>
+// The same forecast for everyone in the same hour: the hour is the seed.
+(function () {
+  var now = new Date();
+  var seed = Math.floor(now.getTime() / 3600000);
+  function rnd() {
+    seed = (seed * 1664525 + 1013904223) >>> 0;
+    return seed / 4294967296;
+  }
+  function pick(list) { return list[Math.floor(rnd() * list.length)]; }
+  var winds = ['Northerly', 'Northeasterly', 'Easterly', 'Southeasterly', 'Southerly', 'Southwesterly', 'Westerly',
+               'Northwesterly', 'Variable', 'Cyclonic'];
+  var turns = ['', '', ', backing', ', veering', ', increasing later', ', decreasing for no stated reason',
+               ', becoming variable out of indecision'];
+  var skies = ['Fair', 'Showers of commas', 'Occasional ellipsis', 'Fog patches', 'Drizzle, lower case',
+               'Thundery parentheses', 'Light static', 'Fair, then italic', 'Hyphenation at times'];
+  var sights = ['Good', 'Moderate', 'Poor', 'Good, occasionally poor', 'Moderate or good',
+                'Very poor; the far side cannot be seen from here', 'Good as far as the edge'];
+  var areas = [
+    ['Tilde Sea', ['Sea state regular', 'Waves, all of them the same wave', 'Swell, moderate, in tune']],
+    ['The Flats', ['Sea state smooth, by policy', 'No waves; none expected', 'Calm, verging on resigned']],
+    ['Full Stop Deep', ['Dark', 'Dark, with a long pause', 'Sentences ending throughout the area']],
+    ['Coastal Oland', ['Hills in rows inshore', 'Pleasant, reputedly', 'Rounded, becoming more rounded']],
+    ['The Colons, at dusk', ['An explanation imminent', 'Explanation withdrawn as the planet turns', 'Dusk, moving west']],
+    ['Asterisk Caps, north and south', ['Icing, light, annotated', 'Footnotes drifting', 'Dimming to plus on the night side']]
+  ];
+  function wind() {
+    var w = pick(winds), a = 1 + Math.floor(rnd() * 8), b = a + 1;
+    if (a === 1) return w + ' 1 or less';
+    return w + ' ' + a + (rnd() < 0.6 ? ' or ' + b : '') + pick(turns);
+  }
+  var hh = ('0' + now.getUTCHours()).slice(-2);
+  var issued = 'Issued at ' + hh + '00 universal time.';
+  document.getElementById('issued').textContent = issued;
+  var box = document.getElementById('areas'), script = ['The forecast. ' + issued];
+  for (var i = 0; i < areas.length; i++) {
+    var line = wind() + '. ' + pick(areas[i][1]) + '. ' + pick(skies) + '. ' + pick(sights) + '.';
+    var h = document.createElement('h2'), p = document.createElement('p');
+    h.textContent = areas[i][0];
+    p.textContent = line;
+    box.appendChild(h);
+    box.appendChild(p);
+    script.push(areas[i][0] + '. ' + line);
+  }
+  // Read slowly, as these things are.
+  var btn = document.getElementById('aloud');
+  if (!('speechSynthesis' in window)) return;
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    if (speechSynthesis.speaking) { speechSynthesis.cancel(); btn.textContent = 'have it read out'; return; }
+    var u = new SpeechSynthesisUtterance(script.join(' ... '));
+    u.rate = 0.82; u.pitch = 0.9;
+    u.onend = function () { btn.textContent = 'have it read out'; };
+    speechSynthesis.speak(u);
+    btn.textContent = 'that will do';
+  });
+})();
+</script>
+</body>
+</html>
