@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hello world, out loud</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<p>hello world</p>
+<p class="note">Every other page here is silent. This one is for the ear: how the two words are said, spelled aloud and sounded out. Where there is a button, the page can make the sound itself. This list only grows too. <a href="./">Back to the first page.</a></p>
+<ul class="aloud">
+<li><code>/həˈloʊ wɜːrld/</code><div>As it is pronounced<small>The International Phonetic Alphabet, 1888. Three syllables, with the weight on the second. The first vowel is a schwa, the least effort a mouth can make.</small></div><button type="button" data-play="voice" hidden>Say it</button></li>
+<li><code>Hotel Echo Lima Lima Oscar, Whiskey Oscar Romeo Lima Delta</code><div>As it is spelled over a radio<small>The NATO spelling alphabet, 1956. Ten words to carry ten letters through static. Two words become twenty-one syllables.</small></div></li>
+<li><code>.... . .-.. .-.. --- / .-- --- .-. .-.. -..</code><div>As it is keyed<small>The Morse from <a href="signals.html">the page of signals</a>, played as a tone. It is 111 units long; at twenty words a minute a unit is 60 milliseconds, so the whole greeting takes under seven seconds.</small></div><button type="button" data-play="morse" hidden>Key it</button></li>
+<li><code>43556 96753</code><div>As it is dialled<small>The letters on a telephone keypad. Each key sings two notes at once, one for its row and one for its column, a scheme from 1963. The l is always 5, so 5 sounds three times.</small></div><button type="button" data-play="dial" hidden>Dial it</button></li>
+<!-- next sound goes above this line -->
+</ul>
+<script>
+(function () {
+  var AC = window.AudioContext || window.webkitAudioContext;
+  var ctx = null;
+  var busy = false;
+
+  // Play a list of [frequencies, start, length] in seconds, then call done.
+  function tones(list, done) {
+    ctx = ctx || new AC();
+    if (ctx.state === 'suspended') ctx.resume();
+    var t0 = ctx.currentTime + 0.05;
+    var end = 0;
+    list.forEach(function (n) {
+      var gain = ctx.createGain();
+      var a = t0 + n[1], b = a + n[2];
+      gain.gain.setValueAtTime(0, a);
+      gain.gain.linearRampToValueAtTime(0.12, a + 0.005);
+      gain.gain.setValueAtTime(0.12, b - 0.005);
+      gain.gain.linearRampToValueAtTime(0, b);
+      gain.connect(ctx.destination);
+      n[0].forEach(function (f) {
+        var osc = ctx.createOscillator();
+        osc.frequency.value = f;
+        osc.connect(gain);
+        osc.start(a);
+        osc.stop(b);
+      });
+      if (n[1] + n[2] > end) end = n[1] + n[2];
+    });
+    setTimeout(done, (end + 0.1) * 1000);
+  }
+
+  var players = {
+    voice: function (done) {
+      var u = new SpeechSynthesisUtterance('hello world');
+      u.lang = 'en';
+      u.onend = u.onerror = done;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(u);
+    },
+    morse: function (done) {
+      var unit = 0.06, t = 0, list = [];
+      '.... . .-.. .-.. --- / .-- --- .-. .-.. -..'.split(' ').forEach(function (letter) {
+        if (letter === '/') { t += unit * 4; return; }
+        letter.split('').forEach(function (mark) {
+          var len = mark === '-' ? 3 : 1;
+          list.push([[600], t, len * unit]);
+          t += (len + 1) * unit;
+        });
+        t += unit * 2;
+      });
+      tones(list, done);
+    },
+    dial: function (done) {
+      var rows = [697, 770, 852, 941], cols = [1209, 1336, 1477];
+      var t = 0, list = [];
+      '43556 96753'.split('').forEach(function (key) {
+        if (key === ' ') { t += 0.3; return; }
+        var i = Number(key) - 1;
+        list.push([[rows[Math.floor(i / 3)], cols[i % 3]], t, 0.16]);
+        t += 0.24;
+      });
+      tones(list, done);
+    }
+  };
+
+  var can = { voice: 'speechSynthesis' in window, morse: !!AC, dial: !!AC };
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-play]'), function (button) {
+    var kind = button.getAttribute('data-play');
+    if (!can[kind]) return;
+    button.hidden = false;
+    button.addEventListener('click', function () {
+      if (busy) return;
+      busy = true;
+      button.setAttribute('aria-pressed', 'true');
+      players[kind](function () {
+        busy = false;
+        button.removeAttribute('aria-pressed');
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
