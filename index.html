@@ -9,6 +9,7 @@
          background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
   p { font-size: 1.6rem; letter-spacing: 0.04em; margin: 0 0 1.2rem; }
   #globe { font: 12px/1 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 0; cursor: grab; user-select: none; }
+  small.claim { margin-top: 0.3rem; font-size: 0.75rem; }
   small { margin-top: 1.2rem; color: #6b7388; font-style: italic; }
   #fix { display: block; min-height: 1.2em; margin-top: 0.9rem; color: #7fb7a4;
          font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; }
@@ -33,6 +34,7 @@
 <pre id="globe" aria-label="a small turning world, drawn in characters"></pre>
 <span id="moon" aria-hidden="true">@</span>
 <small>it turns on its own. drag it if you are impatient.</small>
+<small class="claim">double-click to plant a flag. it will not make the place yours, but it will stay.</small>
 <output id="fix" for="globe" aria-live="off">point at it and it will tell you where you are pointing.</output>
 </main>
 <section id="gazetteer">
@@ -60,6 +62,10 @@
   <dd>The moon. It has one side and shows it to everybody. Goes around behind the world at regular
       intervals, for reasons of its own, and comes back looking exactly as it did. Not on any map,
       being the only thing here that is somewhere else.</dd>
+  <dt>The Exclamations <span>!</span></dt>
+  <dd>Flags, left by visitors. The world holds nine at most; plant a tenth and the oldest quietly falls
+      over. Each is kept only by the person who planted it, so no two visitors see the same claims,
+      and every territorial dispute here is settled in advance by nobody else knowing about it.</dd>
 </dl>
 <p class="wx">The seas, having names, now also have <a href="forecast.html">a forecast</a>.</p>
 </section>
@@ -90,12 +96,37 @@
       }
       out += '\n';
     }
-    el.textContent = out;
+    el.textContent = plant(out);
   }
+  // Flags: double-click the world to leave one. They stay where they were put, and go round with the rest.
+  var flags = [];
+  try { flags = JSON.parse(localStorage.getItem('flags') || '[]'); } catch (e) {}
+  if (!Array.isArray(flags)) flags = [];
+  function plant(out) {
+    if (!flags.length) return out;
+    var cells = out.split('');
+    for (var i = 0; i < flags.length; i++) {
+      var f = flags[i], l = f[1] - spin, c = Math.cos(f[0]);
+      if (c * Math.cos(l) <= 0) continue;
+      var x = Math.floor((c * Math.sin(l) + 1) / 2 * W), y = Math.floor((Math.sin(f[0]) + 1) / 2 * H);
+      if (x >= 0 && x < W && y >= 0 && y < H && cells[y * (W + 1) + x] !== ' ') cells[y * (W + 1) + x] = '!';
+    }
+    return cells.join('');
+  }
+  el.addEventListener('dblclick', function (e) {
+    var r = el.getBoundingClientRect();
+    var nx = (Math.floor((e.clientX - r.left) / r.width * W) + 0.5) / W * 2 - 1;
+    var ny = (Math.floor((e.clientY - r.top) / r.height * H) + 0.5) / H * 2 - 1;
+    if (nx * nx + ny * ny > 1) return;
+    flags.push([Math.asin(ny), Math.atan2(nx, Math.sqrt(1 - nx * nx - ny * ny)) + spin]);
+    if (flags.length > 9) flags.shift();
+    try { localStorage.setItem('flags', JSON.stringify(flags)); } catch (err) {}
+  });
   // Where the pointer rests, the world reports itself: a position, and the gazetteer's name for it.
   var fix = document.getElementById('fix'), hx = -1, hy = -1;
   var names = { '#': 'The Hash', 'o': 'Oland', ':': 'The Colons', '~': 'The Tilde Sea',
                 '-': 'The Flats', '.': 'Full Stop Deep', '*': 'The Asterisk Caps', '+': 'The Asterisk Caps, dimmed' };
+  names['!'] = 'The Exclamations. somebody was here; possibly you.';
   function point(e) {
     var r = el.getBoundingClientRect();
     hx = Math.floor((e.clientX - r.left) / r.width * W);
