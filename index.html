@@ -36,6 +36,14 @@
   #card { font: 10px/1.1 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; margin: 1.6rem 0 0;
           overflow-x: auto; user-select: all; }
   #sent { display: block; min-height: 1.2em; margin-top: 0.8rem; }
+  #ear { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #ear h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+            color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #ear p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #ear button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #ear button:hover, #ear button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #heard { display: block; min-height: 1.2em; margin-top: 0.8rem; }
 </style>
 </head>
 <body>
@@ -85,6 +93,14 @@
 <button id="shutter" type="button">take a postcard</button>
 <pre id="card" aria-label="a postcard of the world as it was when you asked"></pre>
 <small id="sent" aria-live="polite"></small>
+</section>
+<section id="ear">
+<h2>Listening</h2>
+<p>It makes no sound, there being nothing for it to make a sound in. But each kind of place has been
+   assigned a note, and three of them pass under the middle of the picture at any moment: one in the
+   north, one on the equator, one in the south. Dragging the world plays it faster, though not better.</p>
+<button id="hum" type="button" aria-pressed="false">put an ear to it</button>
+<small id="heard" aria-live="off"></small>
 </section>
 <script>
 // A world made of characters. Land is invented from a few overlapping waves.
@@ -209,6 +225,39 @@
         sent.textContent = 'taken, and slipped into your clipboard. paste it somewhere it will be seen.';
       }, function () {});
     }
+  });
+  // Listening: three voices, one for each of three places on the middle meridian, north to south.
+  var hum = document.getElementById('hum'), heard = document.getElementById('heard'), ac = null, voices = [], out = null;
+  var notes = { '#': 392, 'o': 330, ':': 294, '~': 220, '-': 196, '.': 147, '*': 587, '+': 494, '!': 659 };
+  var parts = [[5, 2], [11, 1], [16, 0.5]], on = false;
+  function listen() {
+    if (!on || !ac) return;
+    var txt = el.textContent, said = [];
+    for (var i = 0; i < parts.length; i++) {
+      var ch = txt.charAt(parts[i][0] * (W + 1) + W / 2);
+      voices[i].frequency.setTargetAtTime((notes[ch] || 147) * parts[i][1], ac.currentTime, 0.12);
+      said.push((names[ch] || 'nothing').split('.')[0].split(',')[0]);
+    }
+    heard.textContent = said.join(' \u00b7 ');
+  }
+  hum.addEventListener('click', function () {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) { heard.textContent = 'this browser has no ears to lend.'; return; }
+    if (!ac) {
+      ac = new AC(); out = ac.createGain(); out.gain.value = 0; out.connect(ac.destination);
+      for (var i = 0; i < parts.length; i++) {
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.type = i === 1 ? 'triangle' : 'sine'; o.frequency.value = 147; g.gain.value = 0.05;
+        o.connect(g); g.connect(out); o.start(); voices.push(o);
+      }
+      setInterval(listen, 120);
+    }
+    on = !on;
+    if (on && ac.state === 'suspended') ac.resume();
+    out.gain.setTargetAtTime(on ? 1 : 0, ac.currentTime, 0.3);
+    hum.setAttribute('aria-pressed', on ? 'true' : 'false');
+    hum.textContent = on ? 'take the ear away' : 'put an ear to it';
+    if (!on) heard.textContent = 'quiet again. it was always quiet; now you cannot hear that either.';
   });
   tick();
 })();
