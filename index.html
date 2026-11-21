@@ -4,8 +4,61 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>hello world</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-content: center; justify-items: center;
+         background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
+  p { font-size: 1.6rem; letter-spacing: 0.04em; margin: 0 0 1.2rem; }
+  #globe { font: 12px/1 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 0; cursor: grab; user-select: none; }
+  small { margin-top: 1.2rem; color: #6b7388; font-style: italic; }
+</style>
 </head>
 <body>
 <p>hello world</p>
+<pre id="globe" aria-label="a small turning world, drawn in characters"></pre>
+<small>it turns on its own. drag it if you are impatient.</small>
+<script>
+// A world made of characters. Land is invented from a few overlapping waves.
+(function () {
+  var el = document.getElementById('globe');
+  var W = 44, H = 22, spin = 0, speed = 0.012, dragging = false, lastX = 0;
+  function land(lat, lon) {
+    var v = Math.sin(lon * 2 + 1) * Math.cos(lat * 3)
+          + Math.sin(lon * 5 + lat * 2) * 0.5
+          + Math.cos(lon * 3 - lat * 4 + 2) * 0.4;
+    return v > 0.35;
+  }
+  function draw() {
+    var out = '';
+    for (var y = 0; y < H; y++) {
+      for (var x = 0; x < W; x++) {
+        var nx = (x + 0.5) / W * 2 - 1, ny = (y + 0.5) / H * 2 - 1;
+        var r2 = nx * nx + ny * ny;
+        if (r2 > 1) { out += ' '; continue; }
+        var nz = Math.sqrt(1 - r2);
+        var lat = Math.asin(ny), lon = Math.atan2(nx, nz) + spin;
+        var light = nx * -0.5 + ny * -0.4 + nz * 0.75;
+        if (Math.abs(lat) > 1.25) out += light > 0.3 ? '*' : '+';
+        else if (land(lat, lon)) out += light > 0.55 ? '#' : light > 0.2 ? 'o' : ':';
+        else out += light > 0.5 ? '~' : light > 0.15 ? '-' : '.';
+      }
+      out += '\n';
+    }
+    el.textContent = out;
+  }
+  function tick() {
+    if (!dragging) spin += speed;
+    draw();
+    requestAnimationFrame(tick);
+  }
+  el.addEventListener('pointerdown', function (e) { dragging = true; lastX = e.clientX; el.setPointerCapture(e.pointerId); });
+  el.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    spin -= (e.clientX - lastX) * 0.02; lastX = e.clientX;
+  });
+  el.addEventListener('pointerup', function () { dragging = false; });
+  el.addEventListener('pointercancel', function () { dragging = false; });
+  tick();
+})();
+</script>
 </body>
 </html>
