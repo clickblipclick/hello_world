@@ -364,3 +364,81 @@ a { color: var(--accent); }
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+
+/* Added with typed.html: the same words as keystrokes, and a place to type them. */
+
+.typed {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
+}
+
+.typed li {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.typed svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0.3rem 0 0.8rem;
+  fill: var(--accent);
+}
+
+.typed svg .off {
+  fill: none;
+  stroke: var(--rule);
+}
+
+.typed svg text {
+  fill: var(--faint);
+  font: 9px ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  text-anchor: middle;
+}
+
+.typed svg text.on {
+  fill: var(--paper);
+}
+
+.typed code {
+  display: block;
+  margin: 0 0 0.2rem;
+  color: var(--accent);
+  overflow-wrap: anywhere;
+  font: 1.25rem/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+.typed small {
+  display: block;
+  color: var(--faint);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+}
+
+.typed label {
+  display: block;
+}
+
+.typed input {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0.4rem 0 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: none;
+  color: var(--accent);
+  font: 1.25rem/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+.typed input::placeholder {
+  color: var(--rule);
+}
+
+.typed input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-color: transparent;
+}

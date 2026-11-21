@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hello world, typed</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<p>hello world</p>
+<p class="note">Before the two words are anything else, somebody types them. This page is about the hands: which keys, which fingers, how many presses. At the end there is a place to type them yourself. This list only grows too. <a href="./">Back to the first page.</a></p>
+<ul class="typed">
+<li><svg viewBox="0 0 200 78" role="img" aria-label="a keyboard with the keys h, e, l, o, w, r, d and the space bar filled in"><rect x="1" y="1" width="18" height="18" rx="3" class="off"/><text x="10" y="14">q</text><rect x="21" y="1" width="18" height="18" rx="3"/><text x="30" y="14" class="on">w</text><rect x="41" y="1" width="18" height="18" rx="3"/><text x="50" y="14" class="on">e</text><rect x="61" y="1" width="18" height="18" rx="3"/><text x="70" y="14" class="on">r</text><rect x="81" y="1" width="18" height="18" rx="3" class="off"/><text x="90" y="14">t</text><rect x="101" y="1" width="18" height="18" rx="3" class="off"/><text x="110" y="14">y</text><rect x="121" y="1" width="18" height="18" rx="3" class="off"/><text x="130" y="14">u</text><rect x="141" y="1" width="18" height="18" rx="3" class="off"/><text x="150" y="14">i</text><rect x="161" y="1" width="18" height="18" rx="3"/><text x="170" y="14" class="on">o</text><rect x="181" y="1" width="18" height="18" rx="3" class="off"/><text x="190" y="14">p</text><rect x="6" y="21" width="18" height="18" rx="3" class="off"/><text x="15" y="34">a</text><rect x="26" y="21" width="18" height="18" rx="3" class="off"/><text x="35" y="34">s</text><rect x="46" y="21" width="18" height="18" rx="3"/><text x="55" y="34" class="on">d</text><rect x="66" y="21" width="18" height="18" rx="3" class="off"/><text x="75" y="34">f</text><rect x="86" y="21" width="18" height="18" rx="3" class="off"/><text x="95" y="34">g</text><rect x="106" y="21" width="18" height="18" rx="3"/><text x="115" y="34" class="on">h</text><rect x="126" y="21" width="18" height="18" rx="3" class="off"/><text x="135" y="34">j</text><rect x="146" y="21" width="18" height="18" rx="3" class="off"/><text x="155" y="34">k</text><rect x="166" y="21" width="18" height="18" rx="3"/><text x="175" y="34" class="on">l</text><rect x="16" y="41" width="18" height="18" rx="3" class="off"/><text x="25" y="54">z</text><rect x="36" y="41" width="18" height="18" rx="3" class="off"/><text x="45" y="54">x</text><rect x="56" y="41" width="18" height="18" rx="3" class="off"/><text x="65" y="54">c</text><rect x="76" y="41" width="18" height="18" rx="3" class="off"/><text x="85" y="54">v</text><rect x="96" y="41" width="18" height="18" rx="3" class="off"/><text x="105" y="54">b</text><rect x="116" y="41" width="18" height="18" rx="3" class="off"/><text x="125" y="54">n</text><rect x="136" y="41" width="18" height="18" rx="3" class="off"/><text x="145" y="54">m</text><rect x="46" y="61" width="98" height="16" rx="3"/></svg><div>Seven keys and the space bar<small>The layout is from 1873 and was made for a typewriter. Of its twenty-six letter keys, nineteen are never touched.</small></div></li>
+<li><code>5 + 5 + 0</code><div>Top row, middle row, bottom row<small>e, o, w, o, r are reached for; h, l, l, l, d are on the row where the fingers already rest. Nothing is on the bottom row.</small></div></li>
+<li><code>4 + 6</code><div>Left hand, right hand<small>The left takes e, w, r, d and the right takes h, l, l, o, o, l. The hands change over seven times. Either thumb may have the space.</small></div></li>
+<li><code>l l o o l</code><div>One finger does half the work<small>The right ring finger types both the l and the o above it, so it presses five of the ten letters. Neither little finger is needed at all.</small></div></li>
+<li><code>44 33 555 555 666 0 9 666 777 555 3</code><div>With one thumb, on twelve keys<small>How it was typed on a telephone before telephones had keyboards: press a key until its letter comes round. Twenty-five presses for eleven characters, and a pause between the two l's. The plain numbers are on <a href="aloud.html">the page of sounds</a>.</small></div></li>
+<li><label for="try">Type it</label><input id="try" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="11" placeholder="hello world"><small id="took" aria-live="polite">At forty words a minute, an ordinary speed, it takes 3.3 seconds. The page will time you from the first key to the last.</small></li>
+<!-- next entry goes above this line -->
+</ul>
+<script>
+(function () {
+  var box = document.getElementById('try');
+  var out = document.getElementById('took');
+  var want = 'hello world';
+  var began = 0;
+  var best = 0;
+
+  box.addEventListener('input', function () {
+    var got = box.value.toLowerCase();
+    if (!got) { began = 0; return; }
+    if (!began) began = performance.now();
+    if (got === want) {
+      var s = (performance.now() - began) / 1000;
+      began = 0;
+      box.value = '';
+      if (s < 0.05) {
+        out.textContent = 'That was pasted, not typed. Try again with your hands.';
+        return;
+      }
+      if (!best || s < best) best = s;
+      // Ten keystrokes after the first; a word is counted as five characters.
+      var wpm = Math.round(10 / 5 / (s / 60));
+      out.textContent = s.toFixed(2) + ' seconds, which is ' + wpm + ' words a minute. Your best so far is ' + best.toFixed(2) + '. Type it again to try again.';
+    } else if (want.indexOf(got) !== 0) {
+      out.textContent = 'Not quite: it should read hello world. Clear the box and start again.';
+    }
+  });
+})();
+</script>
+</body>
+</html>
