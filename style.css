@@ -254,3 +254,32 @@ a { color: var(--accent); }
   font-size: 0.8125rem;
   letter-spacing: 0.04em;
 }
+
+/* Added with secret.html: the same words in ciphers. */
+
+.ciphers {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
+}
+
+.ciphers li {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ciphers code {
+  display: block;
+  margin: 0 0 0.2rem;
+  color: var(--accent);
+  overflow-wrap: anywhere;
+  font: 1.25rem/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+.ciphers small {
+  display: block;
+  color: var(--faint);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+}
