@@ -217,3 +217,40 @@ a { color: var(--accent); }
   font-size: 0.8125rem;
   letter-spacing: 0.04em;
 }
+
+/* Added with history.html: where the words came from, by year. */
+
+.history {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
+}
+
+.history li {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr);
+  gap: 0 0.75rem;
+  align-items: baseline;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.history b {
+  color: var(--accent);
+  font-weight: normal;
+  font-variant-numeric: tabular-nums;
+}
+
+.history pre {
+  margin: 0.6rem 0 0.35rem;
+  overflow-x: auto;
+  font: 0.9375rem/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+.history small {
+  display: block;
+  color: var(--faint);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+}
