@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hello world, by chance</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<p>hello world</p>
+<p class="note">On every other page somebody meant it. Here nobody does: the keys are pressed at random, and the question is how long until the two words turn up anyway. The keyboard has twenty-seven keys, the letters and a space bar. This list only grows too. <a href="./">Back to the first page.</a></p>
+<ul class="chance">
+<li><b>1 in 27</b><div>to get the h<small>The first key is the easy one. About four presses in every hundred are right.</small></div></li>
+<li><b>1 in 14,348,907</b><div>to get as far as <code>hello</code><small>Twenty-seven, five times over. At ten keys a second that is a little over sixteen days of typing, on average, for the first word alone.</small></div></li>
+<li><b>1 in 5,559,060,566,555,523</b><div>to get all eleven<small>Five and a half quadrillion. The space in the middle has to be hit by chance as well, and it costs as much as any letter.</small></div></li>
+<li><b>17,600,000 years</b><div>of typing, at ten keys a second<small>That is the average wait, with no breaks. The typist would have had to start before there were any people to greet.</small></div></li>
+<li><b>1913</b><div>when the monkeys were hired<small>Émile Borel, a French mathematician, imagined a million of them at typewriters for ten hours a day, to show how unlikely the unlikely is. They have been typing in arguments ever since.</small></div></li>
+<li hidden id="monkey"><code id="stream" aria-hidden="true">&nbsp;</code><div>A typist with no idea<small id="monkey-says" role="status">Press the button and the page will type at random, several thousand keys a second, and keep the closest it has come.</small></div><button type="button" id="monkey-go" aria-pressed="false">Start typing</button></li>
+<li hidden id="breeder"><code id="bred" aria-hidden="true">&nbsp;</code><div>The same typist, allowed to keep what works<small id="breeder-says" role="status">Start from eleven random keys. Make a hundred copies, each with a few mistakes, keep whichever copy is nearest, and repeat. Richard Dawkins did this with a line of Hamlet in 1986. Chance alone needs millions of years; chance with a memory needs a few seconds.</small></div><button type="button" id="breeder-go">Breed it</button></li>
+<!-- next chance goes above this line -->
+</ul>
+<script>
+(function () {
+  var keys = 'abcdefghijklmnopqrstuvwxyz ';
+  var want = 'hello world';
+
+  function key() { return keys.charAt(Math.floor(Math.random() * 27)); }
+  function show(s) { return s.replace(/ /g, '·'); }
+  function count(n) { return String(n).replace(/\B(?=(\d{3})+$)/g, ','); }
+
+  // The typist with no idea.
+  var monkey = document.getElementById('monkey');
+  var stream = document.getElementById('stream');
+  var says = document.getElementById('monkey-says');
+  var go = document.getElementById('monkey-go');
+  var running = false, pressed = 0, run = 0, best = 0, tail = '', spoke = 0;
+
+  function report() {
+    says.textContent = count(pressed) + ' keys pressed. The closest so far: ' +
+      (best ? 'the first ' + best + ' of eleven, “' + want.slice(0, best) + '”.' : 'nothing yet.');
+  }
+
+  function type() {
+    if (!running) return;
+    for (var i = 0; i < 4000; i++) {
+      var k = key();
+      pressed++;
+      tail += k;
+      // No part of the end of "hello world" is also its beginning,
+      // so a wrong key only ever falls back to nothing, or to a fresh h.
+      run = k === want.charAt(run) ? run + 1 : (k === 'h' ? 1 : 0);
+      if (run > best) best = run;
+      if (run === 11) {
+        running = false;
+        stream.textContent = show(tail.slice(-24));
+        says.textContent = 'It typed hello world, after ' + count(pressed) + ' keys. This should not have happened in your lifetime. Tell someone.';
+        go.textContent = 'Start typing';
+        go.setAttribute('aria-pressed', 'false');
+        return;
+      }
+    }
+    tail = tail.slice(-24);
+    stream.textContent = show(tail);
+    // The count is only read out every few seconds, not sixty times a second.
+    if (Date.now() - spoke > 3000) { spoke = Date.now(); report(); }
+    requestAnimationFrame(type);
+  }
+
+  go.addEventListener('click', function () {
+    if (run === 11) { pressed = 0; run = 0; best = 0; tail = ''; }
+    running = !running;
+    go.textContent = running ? 'Stop typing' : 'Carry on typing';
+    go.setAttribute('aria-pressed', String(running));
+    report();
+    if (running) { spoke = Date.now(); requestAnimationFrame(type); }
+  });
+  monkey.hidden = false;
+
+  // The typist who keeps what works.
+  var breeder = document.getElementById('breeder');
+  var bred = document.getElementById('bred');
+  var bsays = document.getElementById('breeder-says');
+  var bgo = document.getElementById('breeder-go');
+  var timer = 0;
+
+  function score(s) {
+    var n = 0;
+    for (var i = 0; i < 11; i++) if (s.charAt(i) === want.charAt(i)) n++;
+    return n;
+  }
+
+  function copy(s) {
+    var out = '';
+    for (var i = 0; i < 11; i++) out += Math.random() < 0.05 ? key() : s.charAt(i);
+    return out;
+  }
+
+  bgo.addEventListener('click', function () {
+    clearInterval(timer);
+    var parent = '', generation = 0;
+    for (var i = 0; i < 11; i++) parent += key();
+    bred.textContent = show(parent);
+    bgo.disabled = true;
+    bsays.textContent = 'Breeding…';
+    timer = setInterval(function () {
+      var top = parent, most = score(parent);
+      for (var c = 0; c < 100; c++) {
+        var child = copy(parent), s = score(child);
+        if (s > most) { most = s; top = child; }
+      }
+      parent = top;
+      generation++;
+      bred.textContent = show(parent);
+      if (most === 11) {
+        clearInterval(timer);
+        bgo.disabled = false;
+        bgo.textContent = 'Breed it again';
+        bsays.textContent = 'hello world, in ' + generation + ' generations and ' + count(generation * 100) + ' tries. The typist above needs about five and a half quadrillion. Nothing here knew how to spell; it only knew which copy was closer.';
+      }
+    }, 90);
+  });
+  breeder.hidden = false;
+})();
+</script>
+</body>
+</html>
