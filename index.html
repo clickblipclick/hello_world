@@ -78,6 +78,25 @@
   #corked { display: block; min-height: 1.2em; margin-top: 1rem; color: #d9cfa6; word-break: break-all;
             font: 0.75rem/1.5 ui-monospace, Menlo, Consolas, monospace; user-select: all; }
   #found { display: block; min-height: 1.2em; margin-top: 0.8rem; }
+  #cross { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #cross h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #cross p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #lights { display: grid; grid-template-columns: repeat(9, 1.9rem); gap: 1px; margin: 1.6rem 0; }
+  #lights span { position: relative; width: 1.9rem; height: 1.9rem; }
+  #lights span[data-n]::before { content: attr(data-n); position: absolute; left: 2px; top: 1px; pointer-events: none;
+                                 font: 0.5rem ui-monospace, Menlo, Consolas, monospace; color: #6b7388; }
+  #lights input { width: 100%; height: 100%; box-sizing: border-box; padding: 0.35rem 0 0; text-align: center;
+                  text-transform: uppercase; background: #131b2e; border: 1px solid #263048; border-radius: 0;
+                  color: #d9cfa6; font: 0.95rem ui-monospace, Menlo, Consolas, monospace; caret-color: transparent; }
+  #lights input:focus { outline: none; border-color: #7fb7a4; background: #1b2740; }
+  #cross h3 { font: 0.75rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #6b7388; margin: 1.4rem 0 0.2rem; }
+  #cross ol { list-style: none; margin: 0; padding: 0; color: #b9b6ac; line-height: 1.55; }
+  #cross li b { font: 0.75rem ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin-right: 0.6em; }
+  #cross li i { font-size: 0.8rem; color: #6b7388; }
+  #solved { display: block; min-height: 1.2em; margin-top: 1.4rem; }
+  @media print { #cross { display: none; } }
   @media print {
     body { background: #fff; color: #000; }
     main { min-height: 0; padding-top: 2rem; overflow: visible; }
@@ -95,6 +114,7 @@
   /* For visitors who arrive without scripts: the moving parts are put away, and what is left is the picture and the book. */
   #globe, #moon, #sky, main small, #fix, #post, #flotsam, #ear, #cal { display: none; }
   small.keys { display: none; }
+  #cross { display: none; }
   #still { font: 12px/1 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 0; }
   .stopped { max-width: 26rem; padding: 0 1.5rem; margin: 1.6rem 0 0; font-size: 1rem; letter-spacing: 0;
              line-height: 1.55; color: #6b7388; font-style: italic; text-align: center; }
@@ -268,6 +288,88 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    this is the only place where that works.</p>
 <output id="date" for="globe" aria-live="off"></output>
 </section>
+<section id="cross">
+<h2>The crossword</h2>
+<p>The world has been set as a puzzle, which it already was. Ten lights, as the squares are called by people
+   who set these, and they are the only lights here that can be put in by hand. Every answer is somewhere
+   above. Looking is not cheating; it is the only geography there is.</p>
+<div id="lights" role="group" aria-label="a crossword grid, nine squares wide and ten deep"></div>
+<h3>Across</h3>
+<ol>
+  <li><b>1</b>Land at dusk, taken singly. Something is about to be explained. <i>(5)</i></li>
+  <li><b>2</b>One flake of the ice, and a footnote to nothing. <i>(8)</i></li>
+  <li><b>5</b>What the only ship does to whoever is looking for it. <i>(5)</i></li>
+  <li><b>8</b>The ship has none, there being none. <i>(4)</i></li>
+</ol>
+<h3>Down</h3>
+<ol>
+  <li><b>1</b>It points up, and goes along. <i>(5)</i></li>
+  <li><b>2</b>The moon, in full. <i>(2)</i></li>
+  <li><b>3</b>One wave. They are all this long. <i>(5)</i></li>
+  <li><b>4</b>A small round night, monthly. <i>(5)</i></li>
+  <li><b>6</b>Sailed towards until seen, then sailed away from. <i>(4)</i></li>
+  <li><b>7</b>Where sentences end, and how far down. <i>(4)</i></li>
+</ol>
+<small id="solved" aria-live="polite"></small>
+</section>
+<script>
+// The crossword. It knows nothing about the world above it except how the world is spelled.
+(function () {
+  var rows = ['....COLON', '....A....', 'ASTERISK.', 'T.I.E.H..', '..L.T.A..',
+              '..D...D..', '..ELUDE..', '...A.E...', '...N.E...', '...D.PORT'];
+  var grid = document.getElementById('lights'), said = document.getElementById('solved');
+  var cells = {}, down = false, n = 0, x, y;
+  function lit(x, y) { return y >= 0 && y < rows.length && x >= 0 && x < 9 && rows[y].charAt(x) !== '.'; }
+  function go(x, y) { if (cells[x + ',' + y]) { cells[x + ',' + y].focus(); return true; } return false; }
+  function mark() {
+    var full = true, right = true, k;
+    for (k in cells) {
+      if (!cells[k].value) full = false;
+      if (cells[k].value.toUpperCase() !== cells[k].want) right = false;
+    }
+    said.textContent = right ? 'all ten. the world is now spelled correctly, which changes nothing about it.'
+      : full ? 'full, but not right. something in there is spelled the way they spell it elsewhere.' : '';
+  }
+  function make(x, y) {
+    var box = document.createElement('span');
+    grid.appendChild(box);
+    if (!lit(x, y)) return;
+    var across = !lit(x - 1, y) && lit(x + 1, y), deep = !lit(x, y - 1) && lit(x, y + 1);
+    if (across || deep) box.setAttribute('data-n', ++n);
+    var inp = document.createElement('input');
+    inp.maxLength = 1; inp.autocomplete = 'off'; inp.spellcheck = false; inp.want = rows[y].charAt(x);
+    inp.setAttribute('autocapitalize', 'characters');
+    inp.setAttribute('aria-label', 'row ' + (y + 1) + ', column ' + (x + 1) + (across || deep ? ', where ' + n + ' starts' : ''));
+    inp.addEventListener('focus', function () {
+      var h = lit(x - 1, y) || lit(x + 1, y), v = lit(x, y - 1) || lit(x, y + 1);
+      if (h !== v) down = v;
+      inp.select();
+    });
+    inp.addEventListener('mousedown', function () {
+      if (document.activeElement === inp) down = !down; else if (across !== deep) down = deep;
+    });
+    inp.addEventListener('click', function () { inp.select(); });
+    inp.addEventListener('input', function () {
+      inp.value = inp.value.replace(/[^a-z]/gi, '').slice(-1);
+      if (inp.value) { if (down) go(x, y + 1); else go(x + 1, y); }
+      mark();
+    });
+    inp.addEventListener('keydown', function (e) {
+      var k = e.key, moved = true;
+      if (k === 'ArrowLeft') { down = false; go(x - 1, y); }
+      else if (k === 'ArrowRight') { down = false; go(x + 1, y); }
+      else if (k === 'ArrowUp') { down = true; go(x, y - 1); }
+      else if (k === 'ArrowDown') { down = true; go(x, y + 1); }
+      else if (k === 'Backspace' && !inp.value) { if (down) go(x, y - 1); else go(x - 1, y); }
+      else moved = false;
+      if (moved) e.preventDefault();
+    });
+    box.appendChild(inp);
+    cells[x + ',' + y] = inp;
+  }
+  for (y = 0; y < rows.length; y++) for (x = 0; x < 9; x++) make(x, y);
+})();
+</script>
 <script>
 // A world made of characters. Land is invented from a few overlapping waves.
 (function () {
