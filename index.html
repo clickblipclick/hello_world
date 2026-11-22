@@ -34,6 +34,7 @@
   #gazetteer dd a { color: #7fb7a4; }
   #gazetteer .wx { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; margin: 2.4rem 0 0; }
   #gazetteer .wx a { color: #7fb7a4; }
+  #gazetteer .wx code { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; font-style: normal; color: #7fb7a4; }
   #post { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
   #post h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
@@ -192,6 +193,8 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <p class="wx">The seas, having names, now also have <a href="forecast.html">a forecast</a>.</p>
 <p class="wx">The inhabitants, having none, nevertheless have a language, and it has <a href="phrasebook.html">a phrasebook</a>.</p>
 <p class="wx">Nobody has been there. For a visitor prepared to be very small, that <a href="ashore.html">can be arranged</a>.</p>
+<p class="wx">There is a speaking tube round the back, behind the page, where the console is kept. Those who know how to get
+   there may address the world directly, as <code>world</code>, and it will answer. It asks <code>world.help</code> of nobody else.</p>
 <p class="wx">The world does not print. Ask a printer for it and what comes out is the map, which until then nobody has drawn.</p>
 </section>
 <section id="post">
@@ -585,6 +588,79 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   window.addEventListener('beforeprint', unroll);
   if (window.matchMedia) matchMedia('print').addListener(function (m) { if (m.matches) unroll(); });
   unroll();
+  // The speaking tube: for visitors who come in by the console. The world answers there to the name of world.
+  var tube = {}, cruising = speed;
+  function fixed(lat, lon) {
+    lat = Math.round(-lat * 180 / Math.PI); lon = Math.round(lon * 180 / Math.PI);
+    lon = ((lon + 180) % 360 + 360) % 360 - 180;
+    return Math.abs(lat) + '°' + (lat < 0 ? 'S' : 'N') + ' ' + Math.abs(lon) + '°' + (lon < 0 ? 'W' : 'E');
+  }
+  function ask(name, fn) { Object.defineProperty(tube, name, { get: fn, enumerable: true }); }
+  ask('help', function () {
+    return ['questions, asked by name alone:',
+            '  world.where    what is facing you',
+            '  world.ship     the Caret, last known',
+            '  world.moon     the At',
+            '  world.claims   flags, yours',
+            '  world.bottle   the note, if there is one',
+            '  world.date     the calendar, read aloud',
+            'orders, given with brackets:',
+            '  world.stop()   world.go()   world.back()   world.hurry()',
+            '  world.hail()   shouts at the ship',
+            'it will do as it is told. it has never been told anything before.'].join('\n');
+  });
+  ask('where', function () {
+    var ch = el.textContent.charAt((H / 2) * (W + 1) + W / 2);
+    return fixed(0, spin) + ' · ' + (names[ch] || 'nothing').split('.')[0];
+  });
+  ask('ship', function () {
+    var near = Math.cos(ship[0]) * Math.cos(ship[1] - spin) > 0;
+    return 'the Caret, ' + fixed(ship[0], ship[1]) + ', ' + (near ? 'on your side of the world. look for a ^.'
+         : 'on the far side, where it believes it is unobserved.');
+  });
+  ask('moon', function () {
+    return 'the At is ' + (Math.sin(ma) < 0 ? 'round the back. it will not say what it does there.' : 'out in front, being looked at.');
+  });
+  ask('claims', function () {
+    if (!flags.length) return 'none. the world is entirely unclaimed, which it has not noticed.';
+    var list = [];
+    for (var i = 0; i < flags.length; i++) list.push('  ! ' + fixed(flags[i][0], flags[i][1]));
+    return flags.length + ' of a possible nine:\n' + list.join('\n');
+  });
+  ask('bottle', function () {
+    return bottle ? 'a %, at ' + fixed(bottle.at[0], bottle.at[1]) + '. it says: “' + bottle.msg + '”'
+                  : 'no bottle. the sea is carrying nothing but the ship, and that under protest.';
+  });
+  ask('date', function () { return date.textContent; });
+  tube.stop = function () {
+    if (!speed) return 'it is already stopped. it cannot be stopped harder.';
+    speed = 0;
+    return 'stopped. it is now permanently whatever time it was. the ship carries on; nobody told the ship.';
+  };
+  tube.go = function () {
+    var was = speed; speed = cruising;
+    return was === cruising ? 'it was going. it continues to go.' : 'turning again, eastward, at the usual rate. the calendar resumes without comment.';
+  };
+  tube.back = function () {
+    speed = -cruising;
+    return 'it now turns the other way. the days will be counted downwards until you have not arrived yet.';
+  };
+  tube.hurry = function () {
+    if (!speed) return 'nothing times two is nothing. try world.go() first.';
+    if (Math.abs(speed) >= cruising * 8) return 'no. the seas are beginning to slop over the edges.';
+    speed *= 2;
+    return 'twice as fast. the days are now ' + Math.round(Math.abs(cruising / speed) * 100) + '% of their proper length, and feel it.';
+  };
+  tube.hail = function () {
+    helm = -helm; head += 0.6 * helm;
+    return 'ahoy. the Caret has heard something, cannot tell where from, and has altered course to be on the safe side.';
+  };
+  try {
+    Object.defineProperty(window, 'world', { value: tube, configurable: true });
+    console.log('%c' + el.textContent, 'color:#7fb7a4;font:10px/1 ui-monospace,Menlo,Consolas,monospace');
+    console.log('%chello, back door. you have found the speaking tube. the world is listening, as much as it does anything.\n'
+              + 'type  world.help  and it will say what it answers to.', 'color:#6b7388;font-style:italic');
+  } catch (e) {}
   tick();
 })();
 </script>
