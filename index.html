@@ -104,6 +104,11 @@
   <dd>The stars. Unlike the flags, they are the same for everyone, having been dealt once from a
       fixed deck. They do not turn with the world, or at all. Each one blinks now and then, to show
       that it could have been otherwise. Occasionally one of them leaves; the count is not affected.</dd>
+  <dt>The Caret <span>^</span></dt>
+  <dd>A ship, and the only one. It has no port, there being no ports, and no cargo, there being nothing
+      to want. It sails until it sees land, turns away, and sails until it sees some more. The crew
+      regard this as a route. It is the one thing on the world that goes anywhere the world is not
+      already taking it, and it is hard to find, which is how you know it is small and not far away.</dd>
   <dt>Elsewhere <span>?</span></dt>
   <dd>Everything that is not the world. There is a great deal of it and none of it is listed.
       Travellers who insist on going are <a href="elsewhere">shown the way</a> and, shortly afterwards, the way back.</dd>
@@ -161,7 +166,7 @@
       }
       out += '\n';
     }
-    el.textContent = plant(out);
+    el.textContent = sail(plant(out));
   }
   // Flags: double-click the world to leave one. They stay where they were put, and go round with the rest.
   var flags = [];
@@ -187,11 +192,30 @@
     if (flags.length > 9) flags.shift();
     try { localStorage.setItem('flags', JSON.stringify(flags)); } catch (err) {}
   });
+  // The Caret: one ship. It keeps to the water by looking a little way ahead and turning when it sees land or ice.
+  var ship = [0.2, Math.random() * 6.28], head = Math.random() * 6.28, helm = 1;
+  while (land(ship[0], ship[1])) ship[1] += 0.1;
+  function sail(out) {
+    var a = ship[0] + Math.sin(head) * 0.09, b = ship[1] + Math.cos(head) * 0.09 / Math.cos(ship[0]);
+    if (land(a, b) || Math.abs(a) > 1.1) head += 0.04 * helm;
+    else {
+      ship[0] += Math.sin(head) * 0.001; ship[1] += Math.cos(head) * 0.001 / Math.cos(ship[0]);
+      head += (Math.random() - 0.5) * 0.03;
+      if (Math.random() < 0.002) helm = -helm;
+    }
+    var l = ship[1] - spin, c = Math.cos(ship[0]);
+    if (c * Math.cos(l) <= 0) return out;
+    var x = Math.floor((c * Math.sin(l) + 1) / 2 * W), y = Math.floor((Math.sin(ship[0]) + 1) / 2 * H);
+    var at = y * (W + 1) + x, under = out.charAt(at);
+    if (under !== '~' && under !== '-' && under !== '.') return out;
+    return out.slice(0, at) + '^' + out.slice(at + 1);
+  }
   // Where the pointer rests, the world reports itself: a position, and the gazetteer's name for it.
   var fix = document.getElementById('fix'), hx = -1, hy = -1;
   var names = { '#': 'The Hash', 'o': 'Oland', ':': 'The Colons', '~': 'The Tilde Sea',
                 '-': 'The Flats', '.': 'Full Stop Deep', '*': 'The Asterisk Caps', '+': 'The Asterisk Caps, dimmed' };
   names['!'] = 'The Exclamations. somebody was here; possibly you.';
+  names['^'] = 'The Caret. the ship. it has seen you and is pretending it has not.';
   function point(e) {
     var r = el.getBoundingClientRect();
     hx = Math.floor((e.clientX - r.left) / r.width * W);
@@ -261,6 +285,7 @@
   // Listening: three voices, one for each of three places on the middle meridian, north to south.
   var hum = document.getElementById('hum'), heard = document.getElementById('heard'), ac = null, voices = [], out = null;
   var notes = { '#': 392, 'o': 330, ':': 294, '~': 220, '-': 196, '.': 147, '*': 587, '+': 494, '!': 659 };
+  notes['^'] = 440;
   var parts = [[5, 2], [11, 1], [16, 0.5]], on = false;
   function listen() {
     if (!on || !ac) return;
