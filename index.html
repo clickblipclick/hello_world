@@ -182,6 +182,12 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
       to want. It sails until it sees land, turns away, and sails until it sees some more. The crew
       regard this as a route. It is the one thing on the world that goes anywhere the world is not
       already taking it, and it is hard to find, which is how you know it is small and not far away.</dd>
+  <dt>The Shade <span>:.</span></dt>
+  <dd>An eclipse, of which there is one a month, the At being punctual. When it comes out in front it
+      stands in the light, and a small round night crosses the day from west to east, taking the colour
+      out of whatever it passes over. The Hash becomes the Colons for a moment and the Tilde Sea goes
+      as quiet as the Deep. Nobody underneath has ever looked up, there being nobody. The Caret has been
+      under it many times and each time has lit a lamp that cannot be seen from here.</dd>
   <dt>Elsewhere <span>?</span></dt>
   <dd>Everything that is not the world. There is a great deal of it and none of it is listed.
       Travellers who insist on going are <a href="elsewhere">shown the way</a> and, shortly afterwards, the way back.</dd>
@@ -251,7 +257,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
         if (r2 > 1) { out += ' '; continue; }
         var nz = Math.sqrt(1 - r2);
         var lat = Math.asin(ny), lon = Math.atan2(nx, nz) + spin;
-        var light = nx * -0.5 + ny * -0.4 + nz * 0.75;
+        var light = shaded(nx, ny) ? 0 : nx * -0.5 + ny * -0.4 + nz * 0.75;
         if (Math.abs(lat) > 1.25) out += light > 0.3 ? '*' : '+';
         else if (land(lat, lon)) out += light > 0.55 ? '#' : light > 0.2 ? 'o' : ':';
         else out += light > 0.5 ? '~' : light > 0.15 ? '-' : '.';
@@ -259,6 +265,20 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
       out += '\n';
     }
     el.textContent = bob(sail(plant(out)));
+  }
+  // The Shade: while the At is out in front it stands in the light, and a small round night goes across the day.
+  // The shadow lands a little down and to the right of the moon, the light coming from up and to the left.
+  function shade0() {
+    var z = Math.sin(ma), x = Math.cos(ma) * 1.32;
+    return z > 0.15 ? [x + 0.1, x * 0.2 - z * 0.3 + 0.08, 0.1 + z * 0.08] : null;
+  }
+  function shaded(nx, ny) {
+    var u = shade0();
+    return !!u && (nx - u[0]) * (nx - u[0]) + (ny - u[1]) * (ny - u[1]) < u[2] * u[2];
+  }
+  function eclipsed() {
+    var u = shade0();
+    return !!u && u[0] * u[0] + u[1] * u[1] < 0.8;
   }
   // Flags: double-click the world to leave one. They stay where they were put, and go round with the rest.
   var flags = [];
@@ -324,6 +344,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
     lon = ((lon + 180) % 360 + 360) % 360 - 180;
     fix.textContent = Math.abs(lat) + '\u00b0' + (lat < 0 ? 'S' : 'N') + ' '
                     + Math.abs(lon) + '\u00b0' + (lon < 0 ? 'W' : 'E') + ' \u00b7 ' + names[ch];
+    if (shaded(nx, ny)) fix.textContent += ' \u00b7 in the Shade. it is not night here, only the At, standing in the way.';
   }
   el.addEventListener('pointermove', point);
   el.addEventListener('pointerdown', point);
@@ -511,6 +532,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
     if (d < 0) line += '\nthis is before you came. nothing has happened yet, including you.';
     else if (d > 0 && d % 7 === 6) line += '\nStarday is observed by carrying on exactly as usual.';
     else if (d >= 365) line += '\na year, if there were years. there is nothing for it to go around.';
+    if (eclipsed()) line += '\nan eclipse is in progress. it happens every month and is still an occasion.';
     date.textContent = line;
   }
   today(); setInterval(today, 250);
