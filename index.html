@@ -50,6 +50,12 @@
                 background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
   #ear button:hover, #ear button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
   #heard { display: block; min-height: 1.2em; margin-top: 0.8rem; }
+  #cal { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #cal h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+            color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #cal p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #date { display: block; color: #d9cfa6; font: 0.8rem/1.7 ui-monospace, Menlo, Consolas, monospace;
+          letter-spacing: 0.05em; white-space: pre-line; }
 </style>
 </head>
 <body>
@@ -115,6 +121,14 @@
    north, one on the equator, one in the south. Dragging the world plays it faster, though not better.</p>
 <button id="hum" type="button" aria-pressed="false">put an ear to it</button>
 <small id="heard" aria-live="off"></small>
+</section>
+<section id="cal">
+<h2>The calendar</h2>
+<p>A day is one turn, and takes about as long as reading this sentence slowly. A month is one trip of
+   the At around the back and out again. The week has seven days, named for what the world is made of,
+   and no weekend. Time began when you arrived. Dragging the world moves the date, in either direction;
+   this is the only place where that works.</p>
+<output id="date" for="globe" aria-live="off"></output>
 </section>
 <script>
 // A world made of characters. Land is invented from a few overlapping waves.
@@ -314,6 +328,20 @@
                            + 'px) rotate(' + (a - 180) + 'deg)';
   }
   setTimeout(leave, 6000 + Math.random() * 9000);
+  // The calendar: days counted in turns, months in orbits, both from the moment the page was opened.
+  var date = document.getElementById('date'), spin0 = spin, ma0 = ma;
+  var week = ['Hashday', 'Oday', 'Colonday', 'Tildeday', 'Flatday', 'Stopday', 'Starday'];
+  var hours = ['small hours', 'morning', 'noon, roughly', 'afternoon', 'evening', 'night'];
+  function today() {
+    var t = (spin - spin0) / (Math.PI * 2), d = Math.floor(t), m = Math.floor((ma - ma0) / (Math.PI * 2));
+    var line = 'day ' + (d + 1) + ' \u00b7 ' + week[((d % 7) + 7) % 7] + ' \u00b7 ' + hours[Math.floor((t - d) * 6) % 6]
+             + '\nmonth ' + (m + 1) + ' \u00b7 the At is ' + (Math.sin(ma) < 0 ? 'round the back' : 'out in front');
+    if (d < 0) line += '\nthis is before you came. nothing has happened yet, including you.';
+    else if (d > 0 && d % 7 === 6) line += '\nStarday is observed by carrying on exactly as usual.';
+    else if (d >= 365) line += '\na year, if there were years. there is nothing for it to go around.';
+    date.textContent = line;
+  }
+  today(); setInterval(today, 250);
   tick();
 })();
 </script>
