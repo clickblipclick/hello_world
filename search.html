@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the search · hello world</title>
+<link rel="icon" href="data:,">
+<style>
+  body { margin: 0; background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
+  main { max-width: 34rem; margin: 0 auto; padding: 4rem 1rem 6rem; }
+  h1 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #7fb7a4; margin: 0 0 0.4rem; }
+  .lede { color: #6b7388; font-style: italic; margin: 0 0 1.6rem; }
+  p { line-height: 1.55; color: #b9b6ac; }
+  #sea { display: grid; grid-template-columns: repeat(36, 1fr); margin: 2rem 0 1rem; user-select: none;
+         border: 1px solid #263048; padding: 0.4rem; }
+  #sea button, #sea span { font: 13px/1.5 ui-monospace, Menlo, Consolas, monospace; text-align: center;
+                           background: none; border: 0; padding: 0; margin: 0; min-width: 0; }
+  #sea span { color: #7fb7a4; }
+  #sea span.ice { color: #e8e6df; }
+  #sea button { color: #3a4a6b; cursor: pointer; }
+  #sea button:hover { color: #e8e6df; }
+  #sea button:focus { outline: none; }
+  #sea button:focus-visible { outline: 1px dotted #7fb7a4; color: #e8e6df; }
+  #sea button.heard { color: #d9cfa6; }
+  #sea button.near { color: #e8e6df; font-weight: bold; }
+  #sea button.found { color: #0d1321; background: #7fb7a4; }
+  #sea.over button { cursor: default; }
+  #word { display: block; min-height: 3.2em; color: #7fb7a4; font: 0.8rem/1.6 ui-monospace, Menlo, Consolas, monospace;
+          letter-spacing: 0.05em; }
+  #again { background: none; border: 1px solid #263048; color: #7fb7a4; padding: 0.5rem 0.9rem; margin-top: 0.6rem;
+           font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; cursor: pointer; }
+  #again:hover, #again:focus-visible { border-color: #7fb7a4; outline: none; }
+  a { color: #7fb7a4; }
+  footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; }
+  @media (max-width: 30rem) { #sea button, #sea span { font-size: 9px; } }
+</style>
+</head>
+<body>
+<main>
+<h1>The search</h1>
+<p class="lede">The Caret is overdue. It has nowhere to be, so this has taken some time to notice.</p>
+<p>The ship is somewhere on the water below, hove to, with its lamp out. It has a bell, and the crew are ringing it,
+   that being the procedure. Choose a piece of sea and a boat will be rowed there to listen. The bell can be heard from
+   anywhere, the world being small, and a practised ear can say how far off it is. It cannot say which way.
+   Nobody has a practised eye.</p>
+<p>Distance is counted in squares, the long way of the two, and a boat may go off one side of the map and
+   on at the other, since the map is the only thing here with sides.</p>
+<div id="sea" role="grid" aria-label="the world unrolled, for searching. arrow keys move; enter listens."></div>
+<output id="word" aria-live="polite">nothing heard yet. nobody has gone to listen.</output>
+<button id="again" type="button">lose it again</button>
+<noscript><p>The search has been called off for want of scripts. The Caret is presumed fine. It generally is.</p></noscript>
+<footer>The ship has not been asked whether it wishes to be found.
+<a href="./">Back to the world, where it is merely hard to see.</a></footer>
+</main>
+<script>
+// The same land as the world's, unrolled. One ship, hidden on the water, holding still for once.
+(function () {
+  var sea = document.getElementById('sea'), word = document.getElementById('word');
+  var W = 36, H = 12, cells = [], water = [], ship = -1, tries = 0, done = false, off = Math.random() * 6.28;
+  function land(lat, lon) {
+    var v = Math.sin(lon * 2 + 1) * Math.cos(lat * 3)
+          + Math.sin(lon * 5 + lat * 2) * 0.5
+          + Math.cos(lon * 3 - lat * 4 + 2) * 0.4;
+    return v > 0.35;
+  }
+  function far(a, b) {
+    var dx = Math.abs(a % W - b % W), dy = Math.abs(Math.floor(a / W) - Math.floor(b / W));
+    return Math.max(Math.min(dx, W - dx), dy);
+  }
+  var verdicts = ['at the first attempt. this is not seamanship. the crew suspect you of having been told.',
+                  'in two. either luck or geometry, and the crew do not hold with geometry.',
+                  'in three, which is about what it takes if nothing is wasted. nothing was.',
+                  'in four. a tidy search. the boat crews are barely out of breath.',
+                  'in five. respectable. one of those was rowed for the exercise.'];
+  function listen(i) {
+    if (done || cells[i].className) return;
+    tries++;
+    var d = far(i, ship), b = cells[i];
+    if (!d) {
+      done = true; b.textContent = '^'; b.className = 'found'; sea.className = 'over';
+      word.textContent = 'found, ' + (verdicts[tries - 1] || 'in ' + tries + '. the bell-ringer has asked to be relieved. '
+                       + 'the Caret thanks you and would like it known that it was never lost, only elsewhere.');
+      return;
+    }
+    b.textContent = d > 9 ? '+' : String(d);
+    b.className = d < 3 ? 'heard near' : 'heard';
+    b.setAttribute('aria-label', 'listened here: ' + d + ' off');
+    word.textContent = 'boat ' + tries + ' reports the bell ' + d + (d === 1 ? ' square' : ' squares') + ' off'
+      + (d === 1 ? '. they can also hear the crew arguing about whose turn it is.'
+       : d < 4 ? '. close. somebody thought they smelled the galley.'
+       : d > 12 ? '. very faint. that is nearly as far as the world goes.'
+       : '. direction unknown; the sound comes from all round, as it does on a ball.');
+  }
+  function lose() {
+    sea.textContent = ''; sea.className = ''; cells = []; water = []; tries = 0; done = false;
+    off += 1 + Math.random() * 4;
+    for (var i = 0; i < W * H; i++) {
+      var lat = ((Math.floor(i / W) + 0.5) / H - 0.5) * 2.8, lon = off + (i % W + 0.5) / W * Math.PI * 2;
+      var ice = Math.abs(lat) > 1.25, dry = ice || land(lat, lon);
+      var c = document.createElement(dry ? 'span' : 'button');
+      c.textContent = ice ? '*' : dry ? '#' : '~';
+      if (ice) c.className = 'ice';
+      if (!dry) {
+        c.type = 'button'; c.tabIndex = -1; c.setAttribute('data-at', i);
+        c.setAttribute('aria-label', 'sea, row ' + (Math.floor(i / W) + 1) + ', column ' + (i % W + 1));
+        water.push(i);
+      }
+      sea.appendChild(c); cells.push(c);
+    }
+    ship = water[Math.floor(Math.random() * water.length)];
+    cells[water[Math.floor(water.length / 2)]].tabIndex = 0;
+    word.textContent = 'nothing heard yet. nobody has gone to listen.';
+  }
+  sea.addEventListener('click', function (e) {
+    var at = e.target.getAttribute && e.target.getAttribute('data-at');
+    if (at !== null && at !== undefined) listen(+at);
+  });
+  // The keys: one stop for the whole sea, and the arrows row across it, stepping over the land.
+  sea.addEventListener('keydown', function (e) {
+    var at = e.target.getAttribute('data-at'), step = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -W, ArrowDown: W }[e.key];
+    if (at === null || !step) return;
+    e.preventDefault();
+    var i = +at;
+    for (var n = 0; n < W; n++) {
+      if (Math.abs(step) === 1) i = Math.floor(i / W) * W + ((i % W + step) + W) % W;
+      else i += step;
+      if (i < 0 || i >= W * H) return;
+      if (cells[i].tagName === 'BUTTON') break;
+    }
+    if (cells[i].tagName !== 'BUTTON') return;
+    e.target.tabIndex = -1; cells[i].tabIndex = 0; cells[i].focus();
+  });
+  document.getElementById('again').addEventListener('click', lose);
+  lose();
+})();
+</script>
+</body>
+</html>
