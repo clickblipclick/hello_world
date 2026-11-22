@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ashore · hello world</title>
+<meta name="description" content="The world, from the ground. You are a lowercase i. Walk east to keep the afternoon.">
+<style>
+  body { margin: 0; background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
+  main { max-width: 30rem; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  h1 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #7fb7a4; margin: 0 0 0.4rem; }
+  .lede { color: #6b7388; font-style: italic; margin: 0 0 2rem; line-height: 1.55; }
+  #view { font: 14px/1 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 0; text-align: center; }
+  #where { display: block; margin: 0.9rem 0 1.6rem; text-align: center; color: #7fb7a4;
+           font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; }
+  #tale { line-height: 1.55; color: #b9b6ac; min-height: 5em; margin: 0 0 1rem; }
+  #find { line-height: 1.55; color: #d9cfa6; min-height: 6.5em; margin: 0 0 1.6rem; }
+  #legs { display: grid; grid-template-columns: repeat(3, auto); justify-content: center; gap: 0.4rem; }
+  #legs button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                 background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #legs button:hover, #legs button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #legs [data-go="n"], #legs [data-go="s"] { grid-column: 2; }
+  #legs [data-go="w"] { grid-column: 1; }
+  #view b { color: #e8e6df; }
+  a { color: #7fb7a4; }
+  footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; line-height: 1.55; }
+</style>
+</head>
+<body>
+<main>
+<h1>Ashore</h1>
+<p class="lede">Nobody has been there. You are about to be the exception, on a scale that will not spoil the statistic.</p>
+<noscript><p class="lede">Or you would be. You have come without scripts, and a letter that cannot be moved is
+only part of the ground. The country is the one in the picture on the front page, seen from closer. Take its word.</p></noscript>
+<pre id="view" aria-label="the ground around you, drawn in characters, with you in the middle"></pre>
+<output id="where" aria-live="off"></output>
+<p id="tale" aria-live="polite">You are put ashore the way anything arrives here: by being typed. You are a
+lowercase i, the smallest thing that stands up, and you are in the middle of the picture. Time passes when
+you do something and not otherwise. The inhabitants have always suspected as much.</p>
+<p id="find" aria-live="polite"></p>
+<div id="legs">
+  <button type="button" data-go="n">north</button>
+  <button type="button" data-go="w">west</button>
+  <button type="button" data-go="0">stand still</button>
+  <button type="button" data-go="e">east</button>
+  <button type="button" data-go="s">south</button>
+</div>
+<footer>The arrow keys also work, for those with arrows. You leave as you came, by no longer being typed.
+<a href="./">Back to the world.</a></footer>
+</main>
+<script>
+// The same world as the front page, from the ground. One step is one character; one step is also one turn of the clock.
+(function () {
+  function land(lat, lon) {
+    var v = Math.sin(lon * 2 + 1) * Math.cos(lat * 3)
+          + Math.sin(lon * 5 + lat * 2) * 0.5
+          + Math.cos(lon * 3 - lat * 4 + 2) * 0.4;
+    return v > 0.35;
+  }
+  var DX = 0.05, DY = 0.1, VW = 27, VH = 9;
+  var ix = -12, iy = -3, spin = 0, last = '', been = {}, found = 0, wet = 0, same = 0, done = false;
+  // Put ashore a little way inland, at about noon.
+  for (var g = 0; g < 400 && !(land(iy * DY, ix * DX) && land(iy * DY, (ix - 3) * DX) && land(iy * DY, (ix + 3) * DX)); g++) ix++;
+  spin = ix * DX + 0.588;
+  function glyph(lat, lon) {
+    var l = lon - spin, c = Math.cos(lat);
+    var light = c * Math.sin(l) * -0.5 + Math.sin(lat) * -0.4 + c * Math.cos(l) * 0.75;
+    if (Math.abs(lat) > 1.25) return light > 0.3 ? '*' : '+';
+    if (land(lat, lon)) return light > 0.55 ? '#' : light > 0.2 ? 'o' : ':';
+    return light > 0.5 ? '~' : light > 0.15 ? '-' : '.';
+  }
+  // The phrasebook's alphabet, for talking to anyone met on the way.
+  var groups = { '#': 'bdgk', 'o': 'mnouw', ':': 'chqx', '~': 'aelr', '-': 'fstv', '.': 'ijy', '*': 'pz' };
+  function put(text) {
+    for (var out = '', i = 0; i < text.length; i++) {
+      var ch = text.charAt(i);
+      if (ch === ' ') { out += '  '; continue; }
+      for (var k in groups) if (groups[k].indexOf(ch) >= 0) out += k;
+    }
+    return out;
+  }
+  var names = { '#': 'The Hash', 'o': 'Oland', ':': 'The Colons', '*': 'The Asterisk Caps', '+': 'The Asterisk Caps, dimmed' };
+  var ground = {
+    '#': ['The Hash. High ground in full sun, ruled both ways like a page nobody has started on.',
+          'Still the Hash. The light is exactly as it was, which here takes effort, and the effort is yours.',
+          'Bright uplands. Your shadow is short and to the point.'],
+    'o': ['Oland. Rounded hills in rows, each the size of the last. You go over one and are at once on the next.',
+          'More Oland. It is pleasant, as reported. It is pleasant in the same way as far as you can see.',
+          'The hills go on. You have begun to suspect there is one hill and it is being used again.'],
+    ':': ['The Colons. The ground is two dots, one above the other, and a feeling that something follows.',
+          'Still the Colons. Everything remains about to be explained.',
+          'Dusk, or long after. The world has one character for land without light and uses it all night, so it is always only just getting dark.'],
+    '*': ['The ice. Each flake is a footnote. You look down for what it refers to and find another flake.',
+          'More ice. Underfoot, a great many references to things nobody wrote down.'],
+    '+': ['The ice, dimmed to plus signs. You are standing on a sum. It does not come to anything.']
+  };
+  var change = {
+    '#o': 'The light has gone on ahead without you. The ground rounds off: this is Oland now, and a moment ago it was the Hash, in the same place.',
+    'o#': 'You have caught the Hash up, or it has come round again. Either way the ground squares itself under you.',
+    'o:': 'The hills lose their middles and become pairs of dots. The Colons. It is about to be explained why.',
+    ':o': 'Morning, from the direction you would have expected had you been keeping track. The dots join up into hills.',
+    '#:': 'The afternoon ends all at once, which it is not supposed to do. You have walked off the edge of it.'
+  };
+  var shore = ['The sea. From here it is all one wavelength, as advertised. You are a letter and do not float; only the ship and the bottle do, and neither stops for letters.',
+               'Water again. You stand at the edge of it for a turn, which is the most anyone has made of this coast.',
+               'Still sea that way. The Caret has turned away from this shore, from the other side, more than once. You now have that in common.'];
+  var finds = [
+    'On the ground, an exclamation mark, lying on its side. Down, it is only a line and a dot that have come apart. Somebody’s tenth flag, or the first of ten. You leave it. It is not yours, and would not be if you stood it up.',
+    'Someone is here. Local, by the look: made of the same things as the ground and hard to tell from it. They say:  ' + put('is this your flag')
+      + '  You have the phrasebook, which offers several thousand readings. You choose the politest and shake your dot.',
+    'A rise. From the top you can see thirteen characters to either side and four each way up and down. It is the best view on the world and has no name, so you do not give it one.',
+    'A comma, in the dust. Not local; the world does not use them. Somebody paused here once and left it behind. You pause too, since it is provided.',
+    'Another local, or the same one. Names would settle it, and there are none. You try the phrasebook:  ' + put('i am lost')
+      + '  They answer at once:  ' + put('so is everyone') + '  It is said kindly.',
+    'A dot on the ground with nothing under it. Some earlier i has been through and lost the top of itself. You check. Yours is on.',
+    'A place where the ground has been written twice, one character over another, so that neither can be read. It is the only mistake you have found. You are glad of it, and step round it.'
+  ];
+  var view = document.getElementById('view'), where = document.getElementById('where');
+  var tale = document.getElementById('tale'), find = document.getElementById('find');
+  function show() {
+    var out = '';
+    for (var y = 0; y < VH; y++) {
+      for (var x = 0; x < VW; x++) {
+        var a = iy + y - (VH - 1) / 2, b = ix + x - (VW - 1) / 2;
+        out += a === iy && b === ix ? 'i' : Math.abs(a * DY) > 1.55 ? ' ' : glyph(a * DY, b * DX);
+      }
+      out += '\n';
+    }
+    var at = (VH - 1) / 2 * (VW + 1) + (VW - 1) / 2, me = document.createElement('b');
+    me.textContent = 'i';
+    view.textContent = out.slice(0, at);
+    view.appendChild(me);
+    view.appendChild(document.createTextNode(out.slice(at + 1)));
+    var la = Math.round(-iy * DY * 180 / Math.PI), lo = Math.round(ix * DX * 180 / Math.PI);
+    lo = ((lo + 180) % 360 + 360) % 360 - 180;
+    where.textContent = Math.abs(la) + '°' + (la < 0 ? 'S' : 'N') + ' ' + Math.abs(lo) + '°' + (lo < 0 ? 'W' : 'E')
+                      + ' · ' + names[glyph(iy * DY, ix * DX)];
+  }
+  function go(dir) {
+    var nx = ix + (dir === 'e' ? 1 : dir === 'w' ? -1 : 0), ny = iy + (dir === 's' ? 1 : dir === 'n' ? -1 : 0);
+    var said = '', extra = '', ice = Math.abs(ny * DY) > 1.25;
+    spin += DX;
+    if (Math.abs(ny * DY) > 1.5) said = 'There is no more north than this, or no more south; at the pole they come to the same thing. You turn round, which here means facing every way there is.';
+    else if (!ice && !land(ny * DY, nx * DX)) {
+      said = glyph(ny * DY, nx * DX) === '.' ? 'Full Stop Deep. A sentence ends here and so, in this direction, do you.' : shore[wet++ % shore.length];
+    } else { ix = nx; iy = ny; }
+    var now = glyph(iy * DY, ix * DX), cold = now === '*' || now === '+', was = last === '*' || last === '+';
+    if (!said) {
+      if (now !== last && last) {
+        same = 0;
+        said = cold && !was ? 'The land stops being land and becomes punctuation of a colder kind. ' + ground[now][0]
+             : was && !cold ? 'You come down off the ice. The footnotes end without a text having appeared. ' + ground[now][0]
+             : change[last + now] || ground[now][0];
+      } else if (dir === 'e' && now === '#' && same % 4 === 1) {
+        said = 'You walk east and the afternoon stays where it is. This is what keeping up with the Hash is like: a great deal of walking, and it gets no later.';
+      } else {
+        said = (dir === '0' ? 'You stand still. The world does not. ' : '') + ground[now][same % ground[now].length];
+      }
+      same++;
+    }
+    last = now;
+    var key = ix + ',' + iy;
+    if (!been[key] && !cold && found < finds.length && (((ix * 7 + iy * 13) % 6) + 6) % 6 === 0) extra = finds[found++];
+    else if (found === finds.length && !done) {
+      done = true;
+      extra = 'That is everything there is to find. Nothing is being held back; the world is small, and you have been thorough. You may go on walking. It does not mind either way.';
+    }
+    been[key] = 1;
+    tale.textContent = said; find.textContent = extra;
+    show();
+  }
+  document.getElementById('legs').addEventListener('click', function (e) {
+    var d = e.target.getAttribute && e.target.getAttribute('data-go');
+    if (d) go(d);
+  });
+  document.addEventListener('keydown', function (e) {
+    var d = { ArrowUp: 'n', ArrowDown: 's', ArrowLeft: 'w', ArrowRight: 'e' }[e.key];
+    if (!d || e.altKey || e.ctrlKey || e.metaKey) return;
+    e.preventDefault(); go(d);
+  });
+  last = glyph(iy * DY, ix * DX); been[ix + ',' + iy] = 1;
+  show();
+})();
+</script>
+</body>
+</html>
