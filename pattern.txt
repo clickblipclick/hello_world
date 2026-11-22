@@ -1,0 +1,165 @@
+THE WORLD, IN WOOL
+==================
+
+A pattern for one small world, knitted in the round, seamless, as the
+original is. It comes out about the size of an orange. It does not turn.
+It can be thrown, which the other one cannot, and it is warm.
+
+
+YOU WILL NEED
+
+  A   the Tilde Sea    ~   a blue, or whatever the sea is where you are.
+                           About thirty metres.
+  B   the Hash         #   a green. Ten metres. There is less land than
+                           people expect: 483 stitches of it in the chart,
+                           against 1,245 of water.
+  C   the Asterisks    *   white, a few metres, for the two ends.
+
+  Double-knitting weight, or anything, so long as all three agree.
+  Five double-pointed needles a size smaller than the yarn asks for, so
+  that the stuffing stays in and the night stays out.
+  Stuffing. A blunt needle. Twelve minutes of patience near the start.
+
+  Tension is not critical. It is a world; nobody will try it on.
+
+
+ABBREVIATIONS
+
+  k        knit
+  m1       make one: lift the strand between the stitches and knit into
+           the back of it. The world gets bigger. This is the only place
+           where that happens.
+  k2tog    knit two together. The world gets smaller. Two places become
+           one place and neither is consulted.
+  rnd      a round. Elsewhere this is called a day, but these take longer.
+
+
+THE SOUTH
+
+It is begun at the bottom, like most things that are meant to stand up.
+
+  With C, cast on 12 stitches. Share them over four needles, three each,
+  and join, taking the usual care not to twist. This is the worst of it.
+
+  Rnd 1    k.                                           12 stitches
+  Rnd 2    (k1, m1) twelve times.                       24
+  Rnd 3    k.
+  Rnd 4    (k2, m1) twelve times.                       36
+  Rnd 5    k.
+
+  Break C. That was the ice. Join A.
+
+  Rnd 6    (k3, m1) twelve times.                       48
+  Rnd 7    k.
+  Rnd 8    (k4, m1) twelve times.                       60
+  Rnd 9    k.
+  Rnd 10   (k5, m1) twelve times.                       72
+  Rnds 11 and 12   k.
+
+There is some land in these rounds, on the real one. It has been left
+off. Shaping and geography at once is how worlds end up unfinished, and
+the far south has never yet been looked at from underneath by anyone.
+
+
+THE MIDDLE
+
+Twenty-four rounds from the chart, seventy-two stitches to the round,
+which is what the map has; it is the same land, taken at the moment
+longitude starts. Join B.
+
+The chart is read as all such charts are: from the bottom, and from
+right to left, every round. Knitting goes westward. The world itself
+goes the other way, and this has never been resolved.
+
+Carry the colour you are not using loosely across the back. The sea is
+wide, and some crossings run past thirty stitches with no land in them;
+catch the idle yarn under the working one every fifth stitch or so, or
+there will be a loop inside the world for the stuffing to get hold of.
+
+    north
+36  ~~~~~~~~~~~~~~~~~~~########~~~~~~~~~~~~~~~~~~~~~#########~~~~~##~~~~~~~~
+35  ~~~~~####~~~~~~~~~~#######~~~~~~~~~~~~~~~~~~~~~~########~~~~~~##~~~~~~~~
+34  ~~~~#####~~~~~~~~~~~###~~~~~~~~~####~~~~~~~~~~~~#######~~~~~~###~~~~~~~~
+33  ~~~~######~~~~~~~~~~~~~~~~~~~~~######~~~~~~~~~~~~####~~~~~~~~###~~~~~~~~
+32  ~~~#######~~~~~~~~~~~~~~~~~~~~~#######~~~~~~~~~~~~~~~~~~~~~~~###~~~~~~~~
+31  ~~~#######~~~~~~~~~~~~~~~~~~~~~#######~~~~~~~~~~~~~~~~~~~~~~~###~~~~~~~~
+30  ~~########~~~~~~~~~~~~~~~~~~~~~########~~~~~~~~~~~~~~~~~~~~~~###~~~~~~~~
+29  ~~########~~~~~~~~~~~~~~~~~~~~~#########~~~~~~~~~~~~~~~~~~~~~~##~~~~~~~~
+28  ~#########~~~~~~~~~~~~~~~~~~~~~###########~~##~~~~~~~~~~~~~~~~##~~~~~~~~
+27  #########~~~~~~~~~~~~~~~~~~~~~~################~~~~~~~~~~~~~~~~~~~~~~~~~
+26  #########~~~~~~~~~~~~~~~~~~~~~~#################~~~~~~~~~~~~~~~~~~~~~~~~
+25  ########~~~~~~~~~~~~~~~~~~~~~~~#################~~~~~~~~~~~~~~~~~~~~~~~#
+24  #######~~~~~~~~~~~~~~~~~~~~~~~~#################~~~~~~~~~~~~~~~~~~~~~~##
+23  #######~~~~~~~~~~~~~~~~~~~~~~~~~################~~~~~~~~~~~~~~~~~~~~~###
+22  ######~~~~~~~~~~~~~~~~~~~~~~~~~~################~~~~~~~~~~~~~~~~~~~~~###
+21  ######~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#########~~~~~~~~~~~~~~~~~~~~~###
+20  ######~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~########~~~~~~~~~~~~~~~~~~~~~###
+19  #####~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#######~~~~~~~~~~~~~~~~~~~~~###
+18  #####~~~~~~~~~~~~~~~~~~~~~~~~#~~~~~~~~~~~#######~~~~~~~~~~~~~~~~~~~~~###
+17  ####~~~~~~~~~~~~~~~~~~~~~~~####~~~~~~~~~~~######~~~~~~~~~~~~~~~~~~~~~~##
+16  ####~~~~~~~~~~~~~~~~~~~~~~#####~~~~~~~~~~~~#####~~~~~~~~~~~~~~~~~~~~~~##
+15  ###~~~~~~~~~~~~~~~~~~~~~~######~~~~~~~~~~~~~###~~~~~~~~#####~~~~~~~~~~~#
+14  ##~~~~~~~~~~~~~~~~~~~~~~#######~~~~~~~~~~~~~~~~~~~~~~#######~~~~~~~~~~~~
+13  ~~~~~~~~~~~~~~###~~~~~~########~~~~~~~~~~~~~~~~~~~~~#########~~~~~~~~~~~
+    south                                            begin here ^
+
+  ~  knit in A        #  knit in B
+
+Break B at the end of round 36. Do not weave the ends in. They are
+going to be on the inside, with the dark.
+
+
+THE NORTH
+
+  Rnds 37 and 38   k, in A.
+  Rnd 39   (k4, k2tog) twelve times.                    60
+  Rnd 40   k.
+  Rnd 41   (k3, k2tog) twelve times.                    48
+  Rnd 42   k.
+  Rnd 43   (k2, k2tog) twelve times.                    36
+
+  Stop. Stuff it now, through the top, firmly, a little at a time,
+  turning it as you go. This is the only turning it will get, so be
+  thorough. It should be round. If it is a pear, take some out.
+
+  Break A. Join C.
+
+  Rnd 44   k.
+  Rnd 45   (k1, k2tog) twelve times.                    24
+  Rnd 46   k.
+  Rnd 47   k2tog twelve times.                          12
+  Rnd 48   k.
+
+  Add the last of the stuffing with the blunt end of something. Break
+  the yarn, thread it through the twelve stitches that are left, draw
+  them up, and fasten off down through the pole and out the other side.
+  That thread is the axis. It is the first one the world has had.
+
+
+FINISHING
+
+  The Caret. One stitch, in anything dark, worked as a small upward V
+  over any stitch of sea. There is only one. If you make two, one of
+  them is a mistake, and you will not be able to say which.
+
+  The At. A bobble in a pale yellow, on four centimetres of chain,
+  fastened anywhere along the equator. It will hang down instead of
+  going round. It has one side and shows it to the floor.
+
+  The Exclamations. Pins. Up to nine. Not for children under three,
+  who will plant them elsewhere.
+
+  The Dittos, the Shade, and the night. These are not knitted. Take it
+  to a window. For the night, turn the lamp off; it will then be night
+  on all of it at once, which the other one has never managed.
+
+
+CARE
+
+  Hand wash, cool. Dry flat, although it is not. Do not wring; the seas
+  have nowhere to go.
+
+
+Made up, it will sit where it is put and face the same way until
+somebody moves it. Compare the original, which has not sat still since
+it was started, and cannot be picked up.
