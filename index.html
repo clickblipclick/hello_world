@@ -58,6 +58,18 @@
   #cal p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
   #date { display: block; color: #d9cfa6; font: 0.8rem/1.7 ui-monospace, Menlo, Consolas, monospace;
           letter-spacing: 0.05em; white-space: pre-line; }
+  #chart { display: none; }
+  @media print {
+    body { background: #fff; color: #000; }
+    main { min-height: 0; padding-top: 2rem; overflow: visible; }
+    #globe, #moon, #sky, main small, #fix, #post, #ear, #cal, #gazetteer .wx { display: none; }
+    #chart { display: block; margin: 0 0 2rem; text-align: center; break-inside: avoid; }
+    #chart pre { display: inline-block; text-align: left; font: 9px/1.15 ui-monospace, Menlo, Consolas, monospace; margin: 0; }
+    #chart figcaption { font-style: italic; font-size: 0.85rem; margin: 0.8rem auto 0; max-width: 30rem; }
+    #gazetteer { padding-bottom: 0; }
+    #gazetteer h2, #gazetteer .lede, #gazetteer dt span, #gazetteer dd, #gazetteer dd a { color: #000; border-color: #000; }
+    #gazetteer dt, #gazetteer dd { break-inside: avoid; }
+  }
 </style>
 </head>
 <body>
@@ -70,6 +82,11 @@
 <small class="claim">double-click to plant a flag. it will not make the place yours, but it will stay.</small>
 <output id="fix" for="globe" aria-live="off">point at it and it will tell you where you are pointing.</output>
 </main>
+<figure id="chart">
+<pre id="map" aria-label="the world unrolled into a map, drawn in characters"></pre>
+<figcaption>The world would not hold still for the printer, so this is the map instead: all of it at once,
+which is more than anyone has seen. A map has no time of day. North is up, by a show of hands.</figcaption>
+</figure>
 <section id="gazetteer">
 <h2>A gazetteer</h2>
 <p class="lede">Nobody has been there, so the names are provisional.</p>
@@ -116,6 +133,7 @@
 </dl>
 <p class="wx">The seas, having names, now also have <a href="forecast.html">a forecast</a>.</p>
 <p class="wx">The inhabitants, having none, nevertheless have a language, and it has <a href="phrasebook.html">a phrasebook</a>.</p>
+<p class="wx">The world does not print. Ask a printer for it and what comes out is the map, which until then nobody has drawn.</p>
 </section>
 <section id="post">
 <h2>Postcards</h2>
@@ -411,6 +429,40 @@
   document.addEventListener('visibilitychange', function () {
     document.title = document.hidden ? 'hello world, still turning' : 'hello world';
   });
+  // The map: the whole world unrolled, drawn only when somebody asks a printer for it. No light falls on a map.
+  var map = document.getElementById('map'), MW = 72, MH = 24;
+  function unroll() {
+    var rows = [], lon0 = spin - Math.PI, i, x, y;
+    for (y = 0; y < MH; y++) {
+      var lat = ((y + 0.5) / MH - 0.5) * Math.PI, row = '';
+      for (x = 0; x < MW; x++) {
+        var lon = lon0 + (x + 0.5) / MW * Math.PI * 2;
+        row += Math.abs(lat) > 1.25 ? '*' : land(lat, lon) ? '#' : (x + y * 3) % 7 ? ' ' : '~';
+      }
+      rows.push(row.split(''));
+    }
+    function mark(p, ch) {
+      var mx = Math.floor((((p[1] - lon0) / (Math.PI * 2)) % 1 + 1) % 1 * MW);
+      var my = Math.floor((p[0] / Math.PI + 0.5) * MH);
+      if (my >= 0 && my < MH) rows[my][mx] = ch;
+    }
+    for (i = 0; i < flags.length; i++) mark(flags[i], '!');
+    mark(ship, '^');
+    var edge = '+', scale = ' ';
+    for (x = 0; x < MW; x++) { edge += x % 12 || !x ? '-' : '+'; }
+    for (x = 0; x < MW; x += 12) {
+      var deg = Math.round((lon0 + x / MW * Math.PI * 2) * 180 / Math.PI);
+      deg = ((deg + 180) % 360 + 360) % 360 - 180;
+      scale += pad(Math.abs(deg) + '\u00b0' + (deg < 0 ? 'W' : 'E'), 12);
+    }
+    var out = [scale, edge + '+'];
+    for (y = 0; y < MH; y++) out.push('|' + rows[y].join('') + '|' + (y === 0 ? ' N' : y === MH - 1 ? ' S' : ''));
+    out.push(edge + '+', ' # land   ~ sea   * ice   ^ the ship, as of going to press   ! claims, yours only');
+    map.textContent = out.join('\n');
+  }
+  window.addEventListener('beforeprint', unroll);
+  if (window.matchMedia) matchMedia('print').addListener(function (m) { if (m.matches) unroll(); });
+  unroll();
   tick();
 })();
 </script>
