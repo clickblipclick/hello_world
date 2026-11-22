@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>a phrasebook · hello world</title>
+<style>
+  body { margin: 0; background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
+  main { max-width: 30rem; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  h1 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #7fb7a4; margin: 0 0 0.4rem; }
+  .lede { color: #6b7388; font-style: italic; margin: 0 0 2rem; line-height: 1.55; }
+  h2 { font-variant: small-caps; font-weight: normal; font-size: 1.15rem; letter-spacing: 0.06em; margin: 2.4rem 0 0.6rem; }
+  table { border-collapse: collapse; width: 100%; }
+  td { padding: 0.35rem 0; vertical-align: top; line-height: 1.45; color: #b9b6ac; }
+  td.g { font: 0.9rem/1.6 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; white-space: pre-wrap;
+         word-break: break-all; padding-right: 1.2rem; width: 45%; }
+  td.k { width: 2.5rem; }
+  label { display: block; color: #6b7388; font-style: italic; margin-bottom: 0.6rem; }
+  input { width: 100%; box-sizing: border-box; background: none; border: 0; border-bottom: 1px solid #263048;
+          color: #e8e6df; font: 1rem Georgia, serif; padding: 0.4rem 0; }
+  input:focus { outline: none; border-bottom-color: #7fb7a4; }
+  #said { display: block; min-height: 1.6em; margin-top: 1rem; font: 1.1rem/1.6 ui-monospace, Menlo, Consolas, monospace;
+          color: #d9cfa6; white-space: pre-wrap; word-break: break-all; }
+  #loss { color: #6b7388; font-style: italic; min-height: 3em; line-height: 1.55; }
+  a { color: #7fb7a4; }
+  footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; line-height: 1.55; }
+</style>
+</head>
+<body>
+<main>
+<h1>A phrasebook</h1>
+<p class="lede">For travellers, of whom there are none. The local language is written with the same eight
+characters the place is made of, which saves on type but means that every sentence is also a small map.</p>
+
+<h2>The alphabet</h2>
+<table>
+  <tr><td class="g k">#</td><td>b, d, g, k. The hard sounds, made on high ground.</td></tr>
+  <tr><td class="g k">o</td><td>m, n, o, u, w. Anything that can be hummed.</td></tr>
+  <tr><td class="g k">:</td><td>c, h, q, x. Said at dusk, with hesitation.</td></tr>
+  <tr><td class="g k">~</td><td>a, e, l, r. The sounds that carry over water.</td></tr>
+  <tr><td class="g k">-</td><td>f, s, t, v. The same, with less wind.</td></tr>
+  <tr><td class="g k">.</td><td>i, j, y. Small, and said quietly.</td></tr>
+  <tr><td class="g k">*</td><td>p, z. Reserved for the poles and for emphasis.</td></tr>
+  <tr><td class="g k">+</td><td>Any digit. All numbers are written alike; see under arithmetic, in the gazetteer.</td></tr>
+</table>
+
+<h2>Useful phrases</h2>
+<table id="phrases"></table>
+
+<h2>Say something</h2>
+<label for="say">Type it here and it will be put into the local language. Getting it back out is another matter.</label>
+<input id="say" type="text" autocomplete="off" spellcheck="false" maxlength="120" placeholder="hello world">
+<output id="said" for="say" aria-live="polite"></output>
+<p id="loss"></p>
+
+<footer>The language has no word for "elsewhere", though it has a character for it.
+<a href="./">Back to the world.</a></footer>
+</main>
+<script>
+// Eight characters for twenty-six letters. Translation in is exact; translation out is a matter of opinion.
+(function () {
+  var groups = { '#': 'bdgk', 'o': 'mnouw', ':': 'chqx', '~': 'aelr', '-': 'fstv', '.': 'ijy', '*': 'pz', '+': '0123456789' };
+  var to = {}, size = {};
+  for (var g in groups) for (var i = 0; i < groups[g].length; i++) { to[groups[g].charAt(i)] = g; size[groups[g].charAt(i)] = groups[g].length; }
+  function put(text) {
+    var out = '', ways = 0, n = 0;
+    text = text.toLowerCase();
+    for (var i = 0; i < text.length; i++) {
+      var ch = text.charAt(i);
+      if (to[ch]) { out += to[ch]; ways += Math.log(size[ch]) / Math.LN10; n++; }
+      else if (ch === ' ') out += '  ';
+      else if (ch === '!') out += '!';
+    }
+    return { glyphs: out, ways: ways, letters: n };
+  }
+  var phrases = ['hello', 'hello world', 'good morning', 'good evening', 'where is the sea', 'it is that way',
+                 'it is also that way', 'is this your flag', 'how much is it', 'it is 3', 'it is 7',
+                 'i am lost', 'so is everyone', 'thank you', 'goodbye'];
+  var table = document.getElementById('phrases');
+  for (var p = 0; p < phrases.length; p++) {
+    var tr = document.createElement('tr'), a = document.createElement('td'), b = document.createElement('td');
+    a.className = 'g'; a.textContent = put(phrases[p]).glyphs; b.textContent = phrases[p];
+    tr.appendChild(a); tr.appendChild(b); table.appendChild(tr);
+  }
+  var say = document.getElementById('say'), said = document.getElementById('said'), loss = document.getElementById('loss');
+  function count(ways) {
+    if (ways < 6) return Math.round(Math.pow(10, ways)).toLocaleString();
+    return 'about 1 followed by ' + Math.round(ways) + ' zeros';
+  }
+  function speak() {
+    var r = put(say.value || say.placeholder);
+    said.textContent = r.glyphs;
+    if (!r.letters) { loss.textContent = 'Nothing sayable there. The language has no punctuation of its own, being made of everyone else’s.'; return; }
+    loss.textContent = (say.value ? 'A local reading that back' : 'For example. A local reading this back')
+      + ' would have ' + count(r.ways) + ' ways to take it, and would choose the politest.'
+      + (/!/.test(say.value) ? ' The exclamation mark goes through untranslated. It is a flag; mind where you plant it.' : '')
+      + (r.glyphs.replace(/ /g, '').length > 3 && /^([^!])\1*$/.test(r.glyphs.replace(/ /g, '')) ? ' You have described open country.' : '');
+  }
+  say.addEventListener('input', speak);
+  speak();
+})();
+</script>
+</body>
+</html>
