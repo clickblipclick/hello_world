@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the desk · hello world</title>
+<meta name="description" content="There is no border, but there is a desk at it. Arrivals are asked to declare themselves.">
+<style>
+  body { margin: 0; background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
+  main { max-width: 30rem; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  h1 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #7fb7a4; margin: 0 0 0.4rem; }
+  .lede { color: #6b7388; font-style: italic; margin: 0 0 2rem; line-height: 1.55; }
+  fieldset { border: 0; border-top: 1px solid #263048; margin: 0; padding: 1.4rem 0 1.2rem; }
+  legend { padding: 0 0.8em 0 0; font-variant: small-caps; font-size: 1.15rem; letter-spacing: 0.06em; }
+  .hint { color: #6b7388; font-style: italic; line-height: 1.55; margin: 0 0 0.8rem; }
+  label { display: block; line-height: 1.9; color: #b9b6ac; cursor: pointer; }
+  input[type="text"], input[type="number"] { display: block; width: 100%; box-sizing: border-box; background: none; border: 0;
+         border-bottom: 1px solid #263048; color: #e8e6df; font: 1rem Georgia, serif; padding: 0.4rem 0; }
+  input[type="number"] { width: 6rem; }
+  input:focus { outline: none; border-bottom-color: #7fb7a4; }
+  input[type="radio"], input[type="checkbox"] { accent-color: #7fb7a4; margin-right: 0.6em; }
+  input[type="radio"]:focus-visible, input[type="checkbox"]:focus-visible { outline: 1px dotted #7fb7a4; outline-offset: 2px; }
+  button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+           background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; margin-top: 0.6rem; }
+  button:hover, button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #permit { font: 11px/1.25 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; margin: 2.4rem 0 0;
+            overflow-x: auto; user-select: all; }
+  #rulings { margin: 1.4rem 0 0; padding: 0; list-style: none; }
+  #rulings li { line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  a { color: #7fb7a4; }
+  footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; line-height: 1.55; }
+  @media print {
+    body { background: #fff; color: #000; }
+    form, .lede, footer, #rulings { display: none; }
+    #permit { color: #000; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+<main>
+<h1>The desk</h1>
+<p class="lede">There is no border, the world being round and the rest being Elsewhere. But there is a desk at it,
+and the desk has a form. Nobody is behind the desk. The form is answered by the desk itself, which has had a long
+time to think about what it would say.</p>
+<noscript><p class="lede">You have come without scripts, so the desk cannot stamp anything. Fill the form in anyway
+if you like. It has been filled in and not stamped before, by everyone who was never here.</p></noscript>
+<form id="form" autocomplete="off">
+<fieldset>
+  <legend>Name</legend>
+  <p class="hint">Twenty-four characters. It will be converted into the local alphabet at the day&rsquo;s rate, which is poor.</p>
+  <input id="name" type="text" maxlength="24" aria-label="your name" placeholder="as you are usually typed">
+</fieldset>
+<fieldset>
+  <legend>Purpose of visit</legend>
+  <label><input type="radio" name="why" value="looking" checked>looking</label>
+  <label><input type="radio" name="why" value="pointing">pointing</label>
+  <label><input type="radio" name="why" value="planting flags">planting flags</label>
+  <label><input type="radio" name="why" value="business">business</label>
+  <label><input type="radio" name="why" value="lost">lost</label>
+</fieldset>
+<fieldset>
+  <legend>Length of stay</legend>
+  <p class="hint">In turns of the world. Nine seconds each, near enough, unless somebody drags it.</p>
+  <input id="stay" type="number" min="0" max="99999" step="1" value="7" aria-label="length of stay, in turns">
+</fieldset>
+<fieldset>
+  <legend>Anything to declare</legend>
+  <label><input type="checkbox" name="has" value="commas">commas</label>
+  <label><input type="checkbox" name="has" value="a weekend">a weekend</label>
+  <label><input type="checkbox" name="has" value="a compass">a compass</label>
+  <label><input type="checkbox" name="has" value="a second ship">a second ship</label>
+  <label><input type="checkbox" name="has" value="a capital letter">a capital letter</label>
+  <label><input type="checkbox" name="has" value="an opinion about the At">an opinion about the At</label>
+</fieldset>
+<button type="submit">hand it over</button>
+</form>
+<pre id="permit" aria-label="your permit, drawn in characters" aria-live="polite"></pre>
+<ul id="rulings" aria-live="polite"></ul>
+<footer>The permit prints, for those who like to carry one. It will not be asked for.
+<a href="./">Through to the world.</a></footer>
+</main>
+<script>
+// The desk. Nothing is sent anywhere and nothing is kept: the form is read, answered, and forgotten, like any other arrival.
+(function () {
+  // The phrasebook's alphabet. Several names come out the same, which the desk regards as a saving.
+  var groups = { '#': 'bdgk', 'o': 'mnouw', ':': 'chqx', '~': 'aelr', '-': 'fstv', '.': 'ijy', '*': 'pz' };
+  function put(text) {
+    for (var out = '', i = 0; i < text.length; i++) {
+      var ch = text.charAt(i);
+      if (ch === ' ') { out += ' '; continue; }
+      for (var k in groups) if (groups[k].indexOf(ch) >= 0) out += k;
+    }
+    return out.replace(/ +/g, ' ').replace(/^ | $/g, '');
+  }
+  var why = {
+    'looking': 'Looking is permitted. It is the main industry, and you are now most of the workforce.',
+    'pointing': 'Pointing is permitted. The world will tell you what at. It will not tell you why you wanted to know.',
+    'planting flags': 'Up to nine. A tenth may be planted at the expense of the first, which is not consulted.',
+    'business': 'There is no business here. You are free to conduct it, and to report excellent results.',
+    'lost': 'Lost is not a purpose, but it is the commonest one and the desk has stopped arguing. Elsewhere is the other way, in every direction.'
+  };
+  var has = {
+    'commas': 'Commas: confiscated. The world does not use them. They will be returned when you leave, though not necessarily in the same places.',
+    'a weekend': 'A weekend: refused. The week has seven days and all of them are observed by carrying on. Yours will be held at the desk, where it will take place without you.',
+    'a compass': 'A compass: allowed. North is up, by a show of hands. Your compass was not present for the vote and may abstain.',
+    'a second ship': 'A second ship: not permitted. There is one ship. It has only just got used to that, and somebody would have to tell it.',
+    'a capital letter': 'A capital letter: admitted, lowered. Everything here begins small. You may raise it again on the way out, at the start of a sentence.',
+    'an opinion about the At': 'An opinion about the At: noted. The At has heard it, has gone round the back to consider it, and will return looking exactly as before.'
+  };
+  var W = 44;
+  function row(text) {
+    text = text || '';
+    while (text.length < W) text += ' ';
+    return '|  ' + text.slice(0, W) + '  |\n';
+  }
+  function wrap(label, text) {
+    var words = text.split(' '), lines = [], line = label;
+    for (var i = 0; i < words.length; i++) {
+      if (line.length > 10 && line.length + words[i].length + 1 > W) { lines.push(line); line = '          '; }
+      line += (line.length > 10 ? ' ' : '') + words[i];
+    }
+    lines.push(line);
+    for (var out = '', j = 0; j < lines.length; j++) out += row(lines[j]);
+    return out;
+  }
+  var form = document.getElementById('form'), permit = document.getElementById('permit'), rulings = document.getElementById('rulings');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var typed = document.getElementById('name').value.replace(/\s+/g, ' ').replace(/^ | $/g, '');
+    var local = put(typed.toLowerCase());
+    var purpose = form.querySelector('input[name="why"]:checked').value;
+    var turns = Math.max(0, Math.floor(Number(document.getElementById('stay').value) || 0));
+    var boxes = form.querySelectorAll('input[name="has"]:checked'), goods = [], said = [];
+    for (var i = 0; i < boxes.length; i++) goods.push(boxes[i].value);
+
+    if (!typed) said.push('No name given. This matches the desk’s records exactly, and you are entered under it.');
+    else if (!local) said.push('Your name contains nothing the local alphabet can hold. You have been entered as a pause, which is how most things here are pronounced.');
+    else said.push('Your name has been converted. Anyone called something else that comes to the same marks is, for the length of your stay, also you. There have been no complaints.');
+    said.push(why[purpose]);
+    if (turns === 0) said.push('You have applied to stay for no time at all. Granted. It has already elapsed, and you are thanked for your visit.');
+    else if (turns >= 365) said.push('That is a year or more, if there were years. There is nothing for the world to go around, so the desk has granted you until the tab is closed, which is the longest anybody gets.');
+    else {
+      var secs = turns * 9, mins = Math.round(secs / 60);
+      said.push(turns + (turns === 1 ? ' turn' : ' turns') + ' granted: about ' + (secs < 90 ? secs + ' seconds' : mins + ' minutes')
+              + ' of your time and ' + (turns === 1 ? 'a whole day' : turns + ' whole days') + ' of the world’s. Nobody will come to tell you when it is up.');
+    }
+    if (!goods.length) said.push('Nothing to declare. This is the world’s principal import and it has plenty already. You are waved through on the understanding that you take it with you.');
+    for (var j = 0; j < goods.length; j++) said.push(has[goods[j]]);
+
+    var edge = '+' + new Array(W + 5).join('-') + '+\n', out = edge + row();
+    out += row('PERMIT TO BE HERE') + row();
+    out += wrap('bearer    ', local || (typed ? '(a pause)' : '(nobody)'));
+    if (typed) out += wrap('formerly  ', typed);
+    out += wrap('purpose   ', purpose);
+    out += wrap('stay      ', turns >= 365 ? 'until closed' : turns + (turns === 1 ? ' turn' : ' turns'));
+    out += wrap('declared  ', goods.length ? goods.join('; ') : 'nothing');
+    out += row();
+    var stamp = turns === 0 ? '[ ADMITTED, DEPARTED ]' : '[ ADMITTED ]';
+    out += row(new Array(W - stamp.length + 1).join(' ') + stamp);
+    out += row() + edge;
+    permit.textContent = out;
+    rulings.textContent = '';
+    for (var k = 0; k < said.length; k++) {
+      var li = document.createElement('li'); li.textContent = said[k]; rulings.appendChild(li);
+    }
+    var last = document.createElement('li');
+    last.textContent = 'This is permit number one. They are all number one. Each arrival is the first, the desk having no way to remember the others.';
+    rulings.appendChild(last);
+  });
+})();
+</script>
+</body>
+</html>
