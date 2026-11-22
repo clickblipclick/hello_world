@@ -218,6 +218,9 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <p class="wx">The world may be turned without touching it. Tab to it and it is in your hands: the arrows turn it,
    <code>shift</code> turns it further, <code>space</code> holds it still and lets it go, <code>home</code> puts it back where
    longitude starts, and <code>enter</code> plants a flag in the exact middle of whatever is facing you.</p>
+<p class="wx">The Apostrophes have names. Point at one, anywhere that is not the world, and the telescope will give it:
+   seventy in all, the same seventy for everyone, taken from the vocabulary of printers because the sky is mostly margin.
+   Nobody has learned them. The ones standing behind the world cannot be asked, and are thought to prefer it.</p>
 <p class="wx">The world does not print. Ask a printer for it and what comes out is the map, which until then nobody has drawn.</p>
 </section>
 <section id="post">
@@ -562,6 +565,45 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   }
   draw(); clearing();
   window.addEventListener('resize', clearing);
+  // The telescope: point anywhere that is not the world and the nearest star gives its name. The names were dealt
+  // with the stars, so they too are the same for everyone. They are printers' words, the sky being mostly margin.
+  var cat = ('Stet Sic Ibid Viz Dele Recto Verso Passim Errata Colophon Pilcrow Obelus Dagger Lemma Gloss Kern Serif Quire '
+           + 'Folio Octavo Caesura Tittle Virgule Guillemet Interrobang Manicule Asterism Diesis Macron Breve Cedilla Ogonek '
+           + 'Umlaut Solidus Lacuna Rubric Incipit Explicit Versal Ligature Swash Minim Ascender Descender Majuscule Minuscule '
+           + 'Hedera Coronis Diple Catchword Flyleaf Vellum Palimpsest Addendum Corrigendum Scholium Siglum Stemma Codex Quarto '
+           + 'Gutter Widow Orphan River Bleed Leading Caron Ampersand Bracket Thorn').split(' ');
+  var kinds = { '.': 'a full stop, faint', "'": 'an apostrophe, upright', '`': 'a grave, leaning',
+                ',': 'a comma, hung low', '+': 'a plus, the brightest kind there is' };
+  var lore = ['it is not as far away as it looks. nothing here is; the page is only so big.',
+              'it winked while you were finding it, and will deny this.',
+              'said to be visible from the Caret, by the Caret.',
+              'uncharted, like the rest. this is the chart.',
+              'one of the fixed ones. they are all fixed ones.',
+              'it is in the same place for everybody, which is the nearest thing here to an agreement.',
+              'nobody steers by it. the ship steers by not hitting things.',
+              'it has been looked at before, though not often, and not by you.',
+              'the name was ready before anyone pointed. it has been waiting to be asked.'];
+  var frame = document.querySelector('main'), seen = -1;
+  function scope(e) {
+    var best = -1;
+    if (e.target !== el && !dragging) {
+      var r = sky.getBoundingClientRect(), near = 24 * 24;
+      for (var i = 0; i < stars.length; i++) {
+        if (stars[i].style.visibility) continue;
+        var dx = parseFloat(stars[i].style.left) / 100 * r.width + 3.5 - (e.clientX - r.left);
+        var dy = parseFloat(stars[i].style.top) / 100 * r.height + 6 - (e.clientY - r.top);
+        if (dx * dx + dy * dy < near) { near = dx * dx + dy * dy; best = i; }
+      }
+    }
+    if (best === seen) return;
+    if (seen >= 0) stars[seen].style.color = '';
+    seen = best;
+    if (best < 0) return;
+    stars[best].style.color = '#e8e6df';
+    fix.textContent = cat[best % cat.length] + ' · ' + kinds[stars[best].textContent] + ' · ' + lore[(best * 7 + 3) % lore.length];
+  }
+  frame.addEventListener('pointermove', scope);
+  frame.addEventListener('pointerdown', scope);
   // Now and then one of them leaves. This one is not dealt from the deck; nobody else will see it go.
   var streak = document.createElement('b');
   streak.textContent = '\u00b7 - \u2014';
