@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 1040" role="img" aria-labelledby="t d">
+<title id="t">The Apostrophes: a chart of the fixed stars</title>
+<desc id="d">Seventy stars, each a punctuation mark with a printer's word for a name, plotted where they stand behind the page that says hello world. Four constellations are joined up. A dashed circle in the middle marks where the world gets in the way.</desc>
+<!-- Drawn from the same deck the sky is dealt from. If a star here is not where the sky has it, the sky is right. -->
+<style>
+  .bg { fill: #0d1321; }
+  .rule { fill: none; stroke: #263048; }
+  .head { font: 22px Georgia, serif; letter-spacing: 0.3em; fill: #7fb7a4; }
+  .note { font: italic 15px Georgia, serif; fill: #6b7388; }
+  .star { font: 15px ui-monospace, Menlo, Consolas, monospace; fill: #e8e6df; text-anchor: middle; }
+  .name { font: 9.5px Georgia, serif; letter-spacing: 0.04em; fill: #8d94a8; }
+  .join { fill: none; stroke: #7fb7a4; stroke-width: 0.8; stroke-dasharray: 2 4; }
+  .fig { font: italic 12px Georgia, serif; fill: #7fb7a4; }
+  .world { fill: none; stroke: #d9cfa6; stroke-width: 0.8; stroke-dasharray: 1 6; }
+  .here { font: italic 12px Georgia, serif; fill: #d9cfa6; text-anchor: middle; }
+  .tick { font: 10px ui-monospace, Menlo, Consolas, monospace; fill: #6b7388; }
+</style>
+<rect class="bg" width="1320" height="1040"/>
+<text class="head" x="60" y="58">THE APOSTROPHES</text>
+<text class="note" x="60" y="84">A chart of the fixed stars, all seventy, surveyed from the front of the page by pointing.</text>
+<g transform="translate(60 120)">
+<rect class="rule" width="1200" height="800"/>
+<path class="rule" d="M300 0v8M300 800v-8M0 200h8M1200 200h-8"/>
+<path class="rule" d="M600 0v8M600 800v-8M0 400h8M1200 400h-8"/>
+<path class="rule" d="M900 0v8M900 800v-8M0 600h8M1200 600h-8"/>
+<text class="tick" x="6" y="-8">left margin</text>
+<text class="tick" x="1194" y="-8" text-anchor="end">right margin</text>
+<circle class="world" cx="600" cy="400" r="118"/>
+<text class="here" x="600" y="372">the world stands here,</text>
+<text class="here" x="600" y="388">and is in the way</text>
+<path class="join" d="M40 646L71 655L97 645"/>
+<text class="fig" x="70" y="690">The Ellipsis</text>
+<path class="join" d="M532 561L602 553L674 509"/>
+<text class="fig" x="640" y="580">The Em Dash, bent</text>
+<path class="join" d="M354 378L409 254L452 333"/>
+<text class="fig" x="300" y="320">The Greater Caret</text>
+<path class="join" d="M919 116L936 156L946 188L1026 184L993 132L919 116"/>
+<text class="fig" x="1040" y="110">The Thumbprint</text>
+<text class="star" x="71" y="660">.</text><text class="name" x="71" y="644" text-anchor="middle">Stet</text>
+<text class="star" x="20" y="110">+</text><text class="name" x="29" y="108" text-anchor="start">Sic</text>
+<text class="star" x="1054" y="650">.</text><text class="name" x="1063" y="648" text-anchor="start">Ibid</text>
+<text class="star" x="1026" y="189">.</text><text class="name" x="1035" y="187" text-anchor="start">Viz</text>
+<text class="star" x="894" y="333">'</text><text class="name" x="903" y="331" text-anchor="start">Dele</text>
+<text class="star" x="970" y="634">,</text><text class="name" x="979" y="632" text-anchor="start">Recto</text>
+<text class="star" x="1030" y="689">`</text><text class="name" x="1039" y="687" text-anchor="start">Verso</text>
+<text class="star" x="866" y="346">+</text><text class="name" x="857" y="344" text-anchor="end">Passim</text>
+<text class="star" x="602" y="558">'</text><text class="name" x="611" y="556" text-anchor="start">Errata</text>
+<text class="star" x="884" y="72">`</text><text class="name" x="893" y="70" text-anchor="start">Colophon</text>
+<text class="star" x="571" y="82">'</text><text class="name" x="580" y="80" text-anchor="start">Pilcrow</text>
+<text class="star" x="1006" y="533">.</text><text class="name" x="1015" y="531" text-anchor="start">Obelus</text>
+<text class="star" x="532" y="566">'</text><text class="name" x="541" y="564" text-anchor="start">Dagger</text>
+<text class="star" x="209" y="312">`</text><text class="name" x="218" y="310" text-anchor="start">Lemma</text>
+<text class="star" x="540" y="628">+</text><text class="name" x="549" y="626" text-anchor="start">Gloss</text>
+<text class="star" x="385" y="33">.</text><text class="name" x="394" y="31" text-anchor="start">Kern</text>
+<text class="star" x="1008" y="306">`</text><text class="name" x="1017" y="304" text-anchor="start">Serif</text>
+<text class="star" x="619" y="128">`</text><text class="name" x="628" y="126" text-anchor="start">Quire</text>
+<text class="star" x="716" y="756">.</text><text class="name" x="725" y="754" text-anchor="start">Folio</text>
+<text class="star" x="816" y="533">'</text><text class="name" x="825" y="531" text-anchor="start">Octavo</text>
+<text class="star" x="97" y="650">.</text><text class="name" x="106" y="648" text-anchor="start">Caesura</text>
+<text class="star" x="431" y="288">.</text><text class="name" x="440" y="286" text-anchor="start">Tittle</text>
+<text class="star" x="452" y="338">,</text><text class="name" x="461" y="336" text-anchor="start">Virgule</text>
+<text class="star" x="1024" y="489">`</text><text class="name" x="1033" y="487" text-anchor="start">Guillemet</text>
+<text class="star" x="1024" y="735">+</text><text class="name" x="1033" y="733" text-anchor="start">Interrobang</text>
+<text class="star" x="274" y="254">'</text><text class="name" x="283" y="252" text-anchor="start">Manicule</text>
+<text class="star" x="153" y="184">`</text><text class="name" x="162" y="182" text-anchor="start">Asterism</text>
+<text class="star" x="1174" y="538">'</text><text class="name" x="1165" y="536" text-anchor="end">Diesis</text>
+<text class="star" x="1004" y="406">`</text><text class="name" x="1013" y="404" text-anchor="start">Macron</text>
+<text class="star" x="456" y="639">.</text><text class="name" x="465" y="637" text-anchor="start">Breve</text>
+<text class="star" x="112" y="146">'</text><text class="name" x="121" y="144" text-anchor="start">Cedilla</text>
+<text class="star" x="612" y="427">.</text><text class="name" x="621" y="425" text-anchor="start">Ogonek</text>
+<text class="star" x="1077" y="539">+</text><text class="name" x="1086" y="537" text-anchor="start">Umlaut</text>
+<text class="star" x="230" y="617">`</text><text class="name" x="239" y="615" text-anchor="start">Solidus</text>
+<text class="star" x="1102" y="196">'</text><text class="name" x="1111" y="194" text-anchor="start">Lacuna</text>
+<text class="star" x="358" y="106">.</text><text class="name" x="367" y="104" text-anchor="start">Rubric</text>
+<text class="star" x="244" y="239">.</text><text class="name" x="253" y="237" text-anchor="start">Incipit</text>
+<text class="star" x="664" y="742">'</text><text class="name" x="673" y="740" text-anchor="start">Explicit</text>
+<text class="star" x="335" y="772">`</text><text class="name" x="344" y="770" text-anchor="start">Versal</text>
+<text class="star" x="1016" y="731">+</text><text class="name" x="1007" y="729" text-anchor="end">Ligature</text>
+<text class="star" x="321" y="472">.</text><text class="name" x="330" y="470" text-anchor="start">Swash</text>
+<text class="star" x="589" y="50">+</text><text class="name" x="598" y="48" text-anchor="start">Minim</text>
+<text class="star" x="1153" y="756">.</text><text class="name" x="1144" y="754" text-anchor="end">Ascender</text>
+<text class="star" x="40" y="651">,</text><text class="name" x="40" y="624" text-anchor="middle">Descender</text>
+<text class="star" x="1071" y="781">`</text><text class="name" x="1071" y="765" text-anchor="middle">Majuscule</text>
+<text class="star" x="14" y="337">`</text><text class="name" x="23" y="335" text-anchor="start">Minuscule</text>
+<text class="star" x="679" y="317">,</text><text class="name" x="688" y="315" text-anchor="start">Hedera</text>
+<text class="star" x="138" y="626">+</text><text class="name" x="147" y="624" text-anchor="start">Coronis</text>
+<text class="star" x="409" y="259">,</text><text class="name" x="418" y="257" text-anchor="start">Diple</text>
+<text class="star" x="310" y="540">.</text><text class="name" x="319" y="538" text-anchor="start">Catchword</text>
+<text class="star" x="880" y="725">.</text><text class="name" x="889" y="723" text-anchor="start">Flyleaf</text>
+<text class="star" x="354" y="383">,</text><text class="name" x="363" y="381" text-anchor="start">Vellum</text>
+<text class="star" x="430" y="730">'</text><text class="name" x="439" y="728" text-anchor="start">Palimpsest</text>
+<text class="star" x="936" y="161">`</text><text class="name" x="945" y="159" text-anchor="start">Addendum</text>
+<text class="star" x="361" y="590">'</text><text class="name" x="370" y="588" text-anchor="start">Corrigendum</text>
+<text class="star" x="1028" y="560">'</text><text class="name" x="1037" y="558" text-anchor="start">Scholium</text>
+<text class="star" x="450" y="202">'</text><text class="name" x="459" y="200" text-anchor="start">Siglum</text>
+<text class="star" x="919" y="121">`</text><text class="name" x="928" y="119" text-anchor="start">Stemma</text>
+<text class="star" x="993" y="137">`</text><text class="name" x="1002" y="135" text-anchor="start">Codex</text>
+<text class="star" x="923" y="663">+</text><text class="name" x="932" y="661" text-anchor="start">Quarto</text>
+<text class="star" x="674" y="514">'</text><text class="name" x="683" y="512" text-anchor="start">Gutter</text>
+<text class="star" x="946" y="193">`</text><text class="name" x="955" y="191" text-anchor="start">Widow</text>
+<text class="star" x="183" y="85">`</text><text class="name" x="192" y="83" text-anchor="start">Orphan</text>
+<text class="star" x="953" y="525">,</text><text class="name" x="962" y="523" text-anchor="start">River</text>
+<text class="star" x="1028" y="786">,</text><text class="name" x="1019" y="784" text-anchor="end">Bleed</text>
+<text class="star" x="401" y="567">+</text><text class="name" x="410" y="565" text-anchor="start">Leading</text>
+<text class="star" x="1114" y="786">,</text><text class="name" x="1123" y="784" text-anchor="start">Caron</text>
+<text class="star" x="203" y="579">,</text><text class="name" x="212" y="577" text-anchor="start">Ampersand</text>
+<text class="star" x="1094" y="61">.</text><text class="name" x="1103" y="59" text-anchor="start">Bracket</text>
+<text class="star" x="951" y="561">,</text><text class="name" x="960" y="559" text-anchor="start">Thorn</text>
+</g>
+<text class="star" x="68" y="962">.</text><text class="note" x="84" y="960">a full stop, faint</text>
+<text class="star" x="268" y="966">'</text><text class="note" x="284" y="960">an apostrophe, upright</text>
+<text class="star" x="508" y="966">`</text><text class="note" x="524" y="960">a grave, leaning</text>
+<text class="star" x="708" y="960">,</text><text class="note" x="724" y="960">a comma, hung low</text>
+<text class="star" x="928" y="965">+</text><text class="note" x="944" y="960">a plus, the brightest kind there is</text>
+<text class="note" x="60" y="996">The chart is the shape of a wide page. On a tall one the sky is the same sky, stood on end, and the stars keep their places by proportion.</text>
+<text class="note" x="60" y="1018">Ogonek is behind the world on most pages and is charted by dead reckoning. The joined-up figures are not official. Nothing is.</text>
+</svg>
