@@ -201,6 +201,12 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   <dd>A bottle, when there is one. There is only ever one, and only for those who were sent it or who
       threw it in themselves. It goes where the water goes, which is east, and around anything in the way.
       The Caret has passed it several times and has never once stopped, being a ship and not a postman.</dd>
+  <dt>The Dittos <span>" " "</span></dt>
+  <dd>Weather. Cloud comes over from the west in rows, each mark meaning the same as the one above it, which
+      is what the mark is for. It has no opinion about coastlines and crosses the Hash and the Tilde Sea
+      alike, so that for a while there is no telling which is underneath; the Caret goes in at one side and
+      is not seen until it comes out at the other, and neither is a flag, though the flag is still there.
+      It can only be seen by day. Whether there is cloud at night is a question for someone standing under it.</dd>
 </dl>
 <p class="wx">The seas, having names, now also have <a href="forecast.html">a forecast</a>.</p>
 <p class="wx">The inhabitants, having none, nevertheless have a language, and it has <a href="phrasebook.html">a phrasebook</a>.</p>
@@ -267,6 +273,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
         var nz = Math.sqrt(1 - r2);
         var lat = Math.asin(ny), lon = Math.atan2(nx, nz) + spin;
         var light = shaded(nx, ny) ? 0 : nx * -0.5 + ny * -0.4 + nz * 0.75;
+        if (light > 0.2 && Math.abs(lat) < 1.2 && cloud(lat, lon)) { out += '"'; continue; }
         if (Math.abs(lat) > 1.25) out += light > 0.3 ? '*' : '+';
         else if (land(lat, lon)) out += light > 0.55 ? '#' : light > 0.2 ? 'o' : ':';
         else out += light > 0.5 ? '~' : light > 0.15 ? '-' : '.';
@@ -274,6 +281,15 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
       out += '\n';
     }
     el.textContent = bob(sail(plant(out)));
+  }
+  // The Dittos: weather. Cloud is a second, thinner set of waves laid over the first and let slip eastward,
+  // so that it crosses land and sea alike and never sits over the same place twice in quite the same shape.
+  // It is only drawn where there is light to see it by; what the nights are like overhead is not known.
+  var wx = Math.random() * 6.28;
+  function cloud(lat, lon) {
+    var l = lon - wx;
+    return Math.sin(l * 3 + lat * 5 + wx * 0.7) * Math.cos(lat * 4 - l)
+         + Math.sin(l * 7 - lat * 6) * 0.45 + Math.cos(lat * 9 + wx * 2) * 0.25 > 0.85;
   }
   // The Shade: while the At is out in front it stands in the light, and a small round night goes across the day.
   // The shadow lands a little down and to the right of the moon, the light coming from up and to the left.
@@ -337,6 +353,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
                 '-': 'The Flats', '.': 'Full Stop Deep', '*': 'The Asterisk Caps', '+': 'The Asterisk Caps, dimmed' };
   names['!'] = 'The Exclamations. somebody was here; possibly you.';
   names['^'] = 'The Caret. the ship. it has seen you and is pretending it has not.';
+  names['"'] = 'The Dittos. cloud. whatever is under it is having weather.';
   function point(e) {
     var r = el.getBoundingClientRect();
     hx = Math.floor((e.clientX - r.left) / r.width * W);
@@ -420,6 +437,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   }
   function tick() {
     if (!dragging) spin += speed;
+    wx += 0.0011;
     draw();
     orbit();
     report();
@@ -488,6 +506,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   var notes = { '#': 392, 'o': 330, ':': 294, '~': 220, '-': 196, '.': 147, '*': 587, '+': 494, '!': 659 };
   notes['^'] = 440;
   notes['%'] = 523;
+  notes['"'] = 262;
   var parts = [[5, 2], [11, 1], [16, 0.5]], on = false;
   function listen() {
     if (!on || !ac) return;
@@ -664,6 +683,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
             '  world.claims   flags, yours',
             '  world.bottle   the note, if there is one',
             '  world.date     the calendar, read aloud',
+            '  world.sky      the weather, such as it is',
             'orders, given with brackets:',
             '  world.stop()   world.go()   world.back()   world.hurry()',
             '  world.hail()   shouts at the ship',
@@ -693,6 +713,13 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
                   : 'no bottle. the sea is carrying nothing but the ship, and that under protest.';
   });
   ask('date', function () { return date.textContent; });
+  ask('sky', function () {
+    var txt = el.textContent, n = 0, all = 0;
+    for (var i = 0; i < txt.length; i++) { if (txt.charAt(i) === '"') n++; if (txt.charAt(i) > ' ') all++; }
+    var pc = Math.round(n / all * 100);
+    return (pc ? pc + '% of what you can see is under cloud' : 'not a cloud in it, on this side') + '. '
+         + (cloud(ship[0], ship[1]) ? 'the Caret is under some now and has put its collar up.' : 'the Caret is in the clear.');
+  });
   tube.stop = function () {
     if (!speed) return 'it is already stopped. it cannot be stopped harder.';
     speed = 0;
