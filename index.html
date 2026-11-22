@@ -108,6 +108,13 @@
     #gazetteer h2, #gazetteer .lede, #gazetteer dt span, #gazetteer dd, #gazetteer dd a { color: #000; border-color: #000; }
     #gazetteer dt, #gazetteer dd { break-inside: avoid; }
   }
+  #absent { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #absent h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+               color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #absent p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #missed { display: block; color: #d9cfa6; font: 0.8rem/1.7 ui-monospace, Menlo, Consolas, monospace;
+            letter-spacing: 0.05em; white-space: pre-line; }
+  @media print { #absent { display: none; } }
 </style>
 <meta name="description" content="A small world made of punctuation. It turns. There is a ship, a moon, and a forecast for shipping, of which there is none.">
 <noscript><style>
@@ -293,6 +300,13 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    and no weekend. Time began when you arrived. Dragging the world moves the date, in either direction;
    this is the only place where that works.</p>
 <output id="date" for="globe" aria-live="off"></output>
+</section>
+<section id="absent" hidden>
+<h2>While you were out</h2>
+<p>The calendar starts when you arrive, which is flattering and not true. The world was turning before
+   and went on turning after. It keeps no record of this. You do, on your own machine, without having
+   been asked: one line, saying when you were last seen. What follows is worked out from that.</p>
+<output id="missed"></output>
 </section>
 <section id="cross">
 <h2>The crossword</h2>
@@ -913,6 +927,60 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
               + 'type  world.help  and it will say what it answers to.', 'color:#6b7388;font-style:italic');
   } catch (e) {}
   tick();
+})();
+</script>
+<script>
+// While you were out: the visitor's own machine remembers when they were last here, and the world does the sums.
+(function () {
+  var box = document.getElementById('absent'), out = document.getElementById('missed');
+  var DAY = Math.PI * 2 / 0.012 / 60, MONTH = Math.PI * 2 / 0.0045 / 60, now = Date.now(), seen = null;
+  try {
+    seen = JSON.parse(localStorage.getItem('seen') || 'null');
+  } catch (e) { return; }
+  if (!seen || typeof seen.last !== 'number' || typeof seen.times !== 'number') seen = null;
+  function count(n, one, many) {
+    return n.toLocaleString('en') + ' ' + (n === 1 ? one : many);
+  }
+  function ago(s) {
+    if (s < 90) return 'a moment ago';
+    if (s < 5400) return count(Math.round(s / 60), 'minute', 'minutes') + ' ago';
+    if (s < 129600) return count(Math.round(s / 3600), 'hour', 'hours') + ' ago';
+    return count(Math.round(s / 86400), 'day', 'days') + ' ago, your days';
+  }
+  var lines = [];
+  if (!seen) {
+    lines.push('first sighting. either you have not been before, or you have come in a different browser,',
+               'which from here is the same thing.',
+               'come back and there will be an account of what you missed. it will be short.');
+    seen = { times: 0 };
+  } else {
+    var gone = Math.max(0, (now - seen.last) / 1000);
+    var days = Math.floor(gone / DAY), months = Math.floor(gone / MONTH);
+    lines.push('arrival ' + (seen.times + 1) + ' \u00b7 last seen ' + ago(gone));
+    if (days < 1) {
+      lines.push('you were not gone a whole day. nothing was missed; there was barely room for it.');
+    } else {
+      lines.push('it turned ' + count(days, 'time', 'times') + ' with nobody looking.');
+      lines.push(months < 1 ? 'the At did not get as far as the back.'
+                            : 'the At went round ' + count(months, 'time', 'times')
+                              + ', and there ' + (months === 1 ? 'was an eclipse' : 'were as many eclipses') + ', unattended.');
+      lines.push('the Caret sighted land about ' + count(Math.max(1, Math.round(days / 3)), 'time', 'times') + ' and declined it.');
+      lines.push('nothing else is reported. this is not for want of time.');
+      if (days >= 365) lines.push('that is more than a year, if there were years. you have not aged here at all.');
+    }
+    if (seen.times + 1 === 7) lines.push('a seventh arrival would be Starday, if arrivals were days. carry on as usual.');
+  }
+  out.textContent = lines.join('\n');
+  box.hidden = false;
+  seen.times += 1; seen.last = now;
+  function keep() {
+    seen.last = Date.now();
+    try { localStorage.setItem('seen', JSON.stringify(seen)); } catch (e) {}
+  }
+  keep();
+  // Leaving is noted too, so that the absence is measured from the door and not from the hello.
+  window.addEventListener('pagehide', keep);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) keep(); });
 })();
 </script>
 </body>
