@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>hello world</title>
+<link rel="icon" id="icon" href="data:,">
 <style>
   body { margin: 0; display: grid; justify-items: center;
          background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
@@ -371,6 +372,45 @@
     date.textContent = line;
   }
   today(); setInterval(today, 250);
+  // The world is also kept in the tab, very small, where it goes on turning whether or not anyone has the page open.
+  var icon = document.getElementById('icon'), cv = document.createElement('canvas'), away = 0;
+  cv.width = cv.height = 32;
+  var cx2 = cv.getContext && cv.getContext('2d');
+  function shade(rgb, k) {
+    return 'rgb(' + Math.round(rgb[0] * k) + ',' + Math.round(rgb[1] * k) + ',' + Math.round(rgb[2] * k) + ')';
+  }
+  function dot(x, y, z) {
+    cx2.fillStyle = shade([217, 207, 166], 0.75 + z * 0.25);
+    cx2.fillRect(Math.round(16 + x * 11) - 1, Math.round(16 + y * 11) - 1, 3, 3);
+  }
+  function small() {
+    var now = Date.now();
+    if (document.hidden && away) {
+      // Nobody is drawing frames, so the turning is done here, by the clock.
+      var dt = Math.min(now - away, 5000) / 1000 * 60;
+      spin += speed * dt; ma += 0.0045 * dt;
+    }
+    away = now;
+    if (!cx2) return;
+    var mx = Math.cos(ma) * 1.32, mz = Math.sin(ma), my = mx * 0.2 - mz * 0.3;
+    cx2.clearRect(0, 0, 32, 32);
+    if (mz < 0) dot(mx, my, mz);
+    for (var y = 0; y < 32; y++) for (var x = 0; x < 32; x++) {
+      var nx = (x - 15.5) / 11, ny = (y - 15.5) / 11, r2 = nx * nx + ny * ny;
+      if (r2 > 1) continue;
+      var nz = Math.sqrt(1 - r2), lat = Math.asin(ny), lon = Math.atan2(nx, nz) + spin;
+      var k = Math.max(0.22, Math.min(1, 0.35 + (nx * -0.5 + ny * -0.4 + nz * 0.75) * 0.8));
+      cx2.fillStyle = Math.abs(lat) > 1.25 ? shade([232, 230, 223], k)
+                    : land(lat, lon) ? shade([127, 183, 164], k) : shade([44, 74, 120], k);
+      cx2.fillRect(x, y, 1, 1);
+    }
+    if (mz >= 0) dot(mx, my, mz);
+    try { icon.href = cv.toDataURL('image/png'); } catch (e) {}
+  }
+  small(); setInterval(small, 500);
+  document.addEventListener('visibilitychange', function () {
+    document.title = document.hidden ? 'hello world, still turning' : 'hello world';
+  });
   tick();
 })();
 </script>
