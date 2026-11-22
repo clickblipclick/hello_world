@@ -1,0 +1,349 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 512" role="img" aria-labelledby="t d">
+<title id="t">The world, as a kit</title>
+<desc id="d">Twelve tapering strips of punctuation, joined at the equator, to be cut out and bent into a small paper world. With a moon and a ship, also to be cut out.</desc>
+<!-- The world in pieces. It is the same land as the one that turns, taken at the moment longitude starts,
+     and cut along every thirtieth meridian. Each row is as many characters wide as that latitude has room for:
+     six at the equator, one at the poles. Seventy-two across the middle, which is what the map has. -->
+<style>
+  .paper { fill: #fbfaf5; }
+  text { font-family: ui-monospace, Menlo, Consolas, monospace; fill: #1a2233; }
+  .g text { font-size: 11px; text-anchor: middle; }
+  .cut { fill: none; stroke: #1a2233; stroke-width: 0.5; }
+  .fold { fill: none; stroke: #1a2233; stroke-width: 0.4; stroke-dasharray: 2 2; }
+  .tab { fill: #e9e6da; stroke: #1a2233; stroke-width: 0.4; }
+  .deg, .g .deg { font-size: 6px; text-anchor: middle; fill: #5d667c; }
+  .h { font-family: Georgia, serif; font-size: 15px; letter-spacing: 3px; }
+  .say { font-family: Georgia, serif; font-size: 7.6px; font-style: italic; fill: #3a4358; }
+  .no { font-family: Georgia, serif; font-size: 7.6px; font-variant: small-caps; letter-spacing: 0.6px; }
+  @media print { .paper { fill: none; } }
+</style>
+<rect class="paper" width="620" height="512"/>
+<text class="h" x="51" y="34">THE WORLD, AS A KIT</text>
+<text class="say" x="51" y="48">Twelve pieces, some assembly. It does not turn until you turn it, which makes a change.</text>
+<defs>
+  <path id="gore" class="cut" d="M0.0 -129.6 L2.8 -118.8 L5.6 -108.0 L8.3 -97.2 L10.8 -86.4 L13.1 -75.6 L15.3 -64.8 L17.1 -54.0 L18.7 -43.2 L20.0 -32.4 L20.9 -21.6 L21.4 -10.8 L21.6 0.0 L21.4 10.8 L20.9 21.6 L20.0 32.4 L18.7 43.2 L17.1 54.0 L15.3 64.8 L13.1 75.6 L10.8 86.4 L8.3 97.2 L5.6 108.0 L2.8 118.8 L0.0 129.6 L-0.0 129.6 L-2.8 118.8 L-5.6 108.0 L-8.3 97.2 L-10.8 86.4 L-13.1 75.6 L-15.3 64.8 L-17.1 54.0 L-18.7 43.2 L-20.0 32.4 L-20.9 21.6 L-21.4 10.8 L-21.6 0.0 L-21.4 -10.8 L-20.9 -21.6 L-20.0 -32.4 L-18.7 -43.2 L-17.1 -54.0 L-15.3 -64.8 L-13.1 -75.6 L-10.8 -86.4 L-8.3 -97.2 L-5.6 -108.0 L-2.8 -118.8 L-0.0 -129.6 Z"/>
+  <path id="tabs" class="tab" d="M8.3 -97.2 L10.8 -86.4 L13.1 -75.6 L15.3 -64.8 L17.1 -54.0 L18.7 -43.2 L20.0 -32.4 L20.9 -21.6 L24.4 -24.6 L11.8 -94.2 Z M20.9 21.6 L20.0 32.4 L18.7 43.2 L17.1 54.0 L15.3 64.8 L13.1 75.6 L10.8 86.4 L8.3 97.2 L11.8 94.2 L24.4 24.6 Z"/>
+</defs>
+<g class="g" transform="translate(72.6 196)" xml:space="preserve">
+  <use href="#tabs"/><use href="#gore"/>
+  <text y="-120.6">*</text>
+  <text y="-109.8">*</text>
+  <text y="-99.0" textLength="14.4">~&#160;</text>
+  <text y="-88.2" textLength="21.6">&#160;&#160;~</text>
+  <text y="-55.8" textLength="36.0">&#160;&#160;~&#160;&#160;</text>
+  <text y="-45.0" textLength="36.0">~&#160;&#160;&#160;&#160;</text>
+  <text y="-34.2" textLength="36.0">##&#160;~&#160;</text>
+  <text y="-23.4" textLength="43.2">####&#160;&#160;</text>
+  <text y="-12.6" textLength="43.2">######</text>
+  <text y="-1.8" textLength="43.2">######</text>
+  <text y="9.0" textLength="43.2">######</text>
+  <text y="19.8" textLength="43.2">######</text>
+  <text y="30.6" textLength="43.2">~&#160;&#160;&#160;##</text>
+  <text y="41.4" textLength="36.0">&#160;&#160;&#160;~&#160;</text>
+  <text y="52.2" textLength="36.0">&#160;~&#160;&#160;&#160;</text>
+  <text y="63.0" textLength="36.0">&#160;&#160;&#160;&#160;~</text>
+  <text y="73.8" textLength="28.8">&#160;~&#160;&#160;</text>
+  <text y="95.4" textLength="21.6">&#160;~&#160;</text>
+  <text y="117.0">*</text>
+  <text y="127.8">*</text>
+  <text class="deg" y="138.6">165°W</text>
+</g>
+<g class="g" transform="translate(115.8 196)" xml:space="preserve">
+  <use href="#tabs"/><use href="#gore"/>
+  <text y="-120.6">*</text>
+  <text y="-109.8">*</text>
+  <text y="-77.4" textLength="21.6">&#160;~&#160;</text>
+  <text y="-66.6" textLength="28.8">~&#160;&#160;&#160;</text>
+  <text y="-55.8" textLength="36.0">&#160;&#160;&#160;~&#160;</text>
+  <text y="-45.0" textLength="36.0">&#160;~&#160;&#160;&#160;</text>
+  <text y="-34.2" textLength="36.0">&#160;&#160;&#160;&#160;~</text>
+  <text y="-23.4" textLength="43.2">&#160;&#160;~&#160;&#160;&#160;</text>
+  <text y="-12.6" textLength="43.2">#####&#160;</text>
+  <text y="-1.8" textLength="43.2">######</text>
+  <text y="9.0" textLength="43.2">######</text>
+  <text y="19.8" textLength="43.2">######</text>
+  <text y="30.6" textLength="43.2">######</text>
+  <text y="41.4" textLength="36.0">#####</text>
+  <text y="52.2" textLength="36.0">&#160;####</text>
+  <text y="73.8" textLength="28.8">&#160;&#160;~&#160;</text>
+  <text y="106.2" textLength="14.4">~&#160;</text>
+  <text y="117.0">*</text>
+  <text y="127.8">*</text>
+  <text class="deg" y="138.6">135°W</text>
+</g>
+<g class="g" transform="translate(159.0 196)" xml:space="preserve">
+  <use href="#tabs"/><use href="#gore"/>
+  <text y="-120.6">*</text>
+  <text y="-109.8">*</text>
+  <text y="-99.0" textLength="14.4">##</text>
+  <text y="-88.2" textLength="21.6">###</text>
+  <text y="-77.4" textLength="21.6">###</text>
+  <text y="-66.6" textLength="28.8">####</text>
+  <text y="-55.8" textLength="36.0">#####</text>
+  <text y="-45.0" textLength="36.0">#####</text>
+  <text y="-23.4" textLength="43.2">&#160;&#160;&#160;~&#160;&#160;</text>
+  <text y="-12.6" textLength="43.2">~&#160;&#160;&#160;&#160;&#160;</text>
+  <text y="-1.8" textLength="43.2">&#160;&#160;&#160;&#160;~&#160;</text>
+  <text y="9.0" textLength="43.2">&#160;~&#160;&#160;&#160;&#160;</text>
+  <text y="19.8" textLength="43.2">&#160;&#160;&#160;&#160;&#160;~</text>
+  <text y="30.6" textLength="43.2">&#160;&#160;~&#160;&#160;&#160;</text>
+  <text y="52.2" textLength="36.0">&#160;&#160;~&#160;&#160;</text>
+  <text y="63.0" textLength="36.0">~&#160;&#160;&#160;#</text>
+  <text y="73.8" textLength="28.8">&#160;&#160;##</text>
+  <text y="84.6" textLength="21.6">~&#160;#</text>
+  <text y="95.4" textLength="21.6">&#160;&#160;#</text>
+  <text y="106.2" textLength="14.4">&#160;#</text>
+  <text y="117.0">*</text>
+  <text y="127.8">*</text>
+  <text class="deg" y="138.6">105°W</text>
+</g>
+<g class="g" transform="translate(202.2 196)" xml:space="preserve">
+  <use href="#tabs"/><use href="#gore"/>
+  <text y="-120.6">*</text>
+  <text y="-109.8">*</text>
+  <text y="-99.0" textLength="14.4">#~</text>
+  <text y="-88.2" textLength="21.6">#&#160;&#160;</text>
+  <text y="-77.4" textLength="21.6">##~</text>
+  <text y="-66.6" textLength="28.8">##&#160;&#160;</text>
+  <text y="-55.8" textLength="36.0">##&#160;&#160;&#160;</text>
+  <text y="-45.0" textLength="36.0">&#160;&#160;~&#160;&#160;</text>
+  <text y="-34.2" textLength="36.0">~&#160;&#160;&#160;&#160;</text>
+  <text y="-23.4" textLength="43.2">&#160;&#160;&#160;&#160;~&#160;</text>
+  <text y="-12.6" textLength="43.2">&#160;~&#160;&#160;&#160;&#160;</text>
+  <text y="-1.8" textLength="43.2">&#160;&#160;&#160;&#160;&#160;~</text>
+  <text y="9.0" textLength="43.2">&#160;&#160;~&#160;&#160;&#160;</text>
+  <text y="30.6" textLength="43.2">&#160;&#160;&#160;~&#160;&#160;</text>
+  <text y="41.4" textLength="36.0">~&#160;&#160;&#160;&#160;</text>
+  <text y="52.2" textLength="36.0">&#160;&#160;##&#160;</text>
+  <text y="63.0" textLength="36.0">#####</text>
+  <text y="73.8" textLength="28.8">####</text>
+  <text y="84.6" textLength="21.6">###</text>
+  <text y="95.4" textLength="21.6">###</text>
+  <text y="106.2" textLength="14.4">##</text>
+  <text y="117.0">*</text>
+  <text y="127.8">*</text>
+  <text class="deg" y="138.6">75°W</text>
+</g>
+<g class="g" transform="translate(245.4 196)" xml:space="preserve">
+  <use href="#tabs"/><use href="#gore"/>
+  <text y="-120.6">*</text>
+  <text y="-109.8">*</text>
+  <text y="-99.0" textLength="14.4">&#160;#</text>
+  <text y="-88.2" textLength="21.6">&#160;##</text>
+  <text y="-77.4" textLength="21.6">&#160;##</text>
+  <text y="-66.6" textLength="28.8">&#160;&#160;#&#160;</text>
+  <text y="-55.8" textLength="36.0">~&#160;#&#160;&#160;</text>
+  <text y="-45.0" textLength="36.0">&#160;##~&#160;</text>
+  <text y="-34.2" textLength="36.0">&#160;##&#160;&#160;</text>
+  <text y="-23.4" textLength="43.2">&#160;###&#160;~</text>
+  <text y="-12.6" textLength="43.2">&#160;&#160;##&#160;&#160;</text>
+  <text y="9.0" textLength="43.2">&#160;&#160;&#160;~&#160;&#160;</text>
+  <text y="19.8" textLength="43.2">~&#160;&#160;&#160;&#160;&#160;</text>
+  <text y="30.6" textLength="43.2">&#160;&#160;&#160;&#160;~&#160;</text>
+  <text y="41.4" textLength="36.0">&#160;~&#160;&#160;&#160;</text>
+  <text y="52.2" textLength="36.0">&#160;&#160;&#160;&#160;~</text>
+  <text y="63.0" textLength="36.0">#&#160;&#160;&#160;&#160;</text>
+  <text y="73.8" textLength="28.8">#&#160;&#160;&#160;</text>
+  <text y="84.6" textLength="21.6">#~&#160;</text>
+  <text y="95.4" textLength="21.6">#&#160;&#160;</text>
+  <text y="106.2" textLength="14.4">#~</text>
+  <text y="117.0">*</text>
+  <text y="127.8">*</text>
+  <text class="deg" y="138.6">45°W</text>
+</g>
+<g class="g" transform="translate(288.6 196)" xml:space="preserve">
+  <use href="#tabs"/><use href="#gore"/>
+  <text y="-120.6">*</text>
+  <text y="-109.8">*</text>
+  <text y="-99.0" textLength="14.4">#&#160;</text>
+  <text y="-88.2" textLength="21.6">#~&#160;</text>
+  <text y="-55.8" textLength="36.0">&#160;~&#160;&#160;&#160;</text>
+  <text y="-45.0" textLength="36.0">&#160;&#160;&#160;&#160;~</text>
+  <text y="-12.6" textLength="43.2">&#160;&#160;&#160;~&#160;&#160;</text>
+  <text y="-1.8" textLength="43.2">~&#160;&#160;&#160;&#160;#</text>
+  <text y="9.0" textLength="43.2">&#160;&#160;&#160;&#160;##</text>
+  <text y="19.8" textLength="43.2">&#160;~&#160;###</text>
+  <text y="30.6" textLength="43.2">&#160;&#160;&#160;###</text>
+  <text y="41.4" textLength="36.0">&#160;&#160;&#160;##</text>
+  <text y="52.2" textLength="36.0">&#160;&#160;&#160;&#160;#</text>
+  <text y="63.0" textLength="36.0">&#160;&#160;~&#160;&#160;</text>
+  <text y="73.8" textLength="28.8">~&#160;&#160;&#160;</text>
+  <text y="95.4" textLength="21.6">~&#160;&#160;</text>
+  <text y="117.0">*</text>
+  <text y="127.8">*</text>
+  <text class="deg" y="138.6">15°W</text>
+</g>
+<g class="g" transform="translate(331.8 196)" xml:space="preserve">
+  <use href="#tabs"/><use href="#gore"/>
+  <text y="-120.6">*</text>
+  <text y="-109.8">*</text>
+  <text y="-77.4" textLength="21.6">~&#160;&#160;</text>
+  <text y="-66.6" textLength="28.8">&#160;&#160;&#160;~</text>
+  <text y="-45.0" textLength="36.0">&#160;&#160;&#160;##</text>
+  <text y="-34.2" textLength="36.0">&#160;&#160;~##</text>
+  <text y="-23.4" textLength="43.2">~&#160;####</text>
+  <text y="-12.6" textLength="43.2">&#160;#####</text>
+  <text y="-1.8" textLength="43.2">######</text>
+  <text y="9.0" textLength="43.2">######</text>
+  <text y="19.8" textLength="43.2">######</text>
+  <text y="30.6" textLength="43.2">#####&#160;</text>
+  <text y="41.4" textLength="36.0">####&#160;</text>
+  <text y="52.2" textLength="36.0">###&#160;&#160;</text>
+  <text y="63.0" textLength="36.0">&#160;&#160;&#160;~&#160;</text>
+  <text y="84.6" textLength="21.6">&#160;&#160;~</text>
+  <text y="117.0">*</text>
+  <text y="127.8">*</text>
+  <text class="deg" y="138.6">15°E</text>
+</g>
+<g class="g" transform="translate(375.0 196)" xml:space="preserve">
+  <use href="#tabs"/><use href="#gore"/>
+  <text y="-120.6">*</text>
+  <text y="-109.8">*</text>
+  <text y="-99.0" textLength="14.4">~&#160;</text>
+  <text y="-88.2" textLength="21.6">&#160;&#160;~</text>
+  <text y="-55.8" textLength="36.0">##~&#160;&#160;</text>
+  <text y="-45.0" textLength="36.0">###&#160;&#160;</text>
+  <text y="-34.2" textLength="36.0">###~&#160;</text>
+  <text y="-23.4" textLength="43.2">####&#160;&#160;</text>
+  <text y="-12.6" textLength="43.2">###&#160;&#160;~</text>
+  <text y="-1.8" textLength="43.2">##~&#160;&#160;&#160;</text>
+  <text y="9.0" textLength="43.2">#&#160;&#160;&#160;&#160;&#160;</text>
+  <text y="19.8" textLength="43.2">&#160;&#160;&#160;~&#160;&#160;</text>
+  <text y="30.6" textLength="43.2">~&#160;&#160;&#160;&#160;&#160;</text>
+  <text y="41.4" textLength="36.0">&#160;&#160;&#160;~&#160;</text>
+  <text y="52.2" textLength="36.0">&#160;~&#160;&#160;&#160;</text>
+  <text y="63.0" textLength="36.0">&#160;&#160;&#160;&#160;~</text>
+  <text y="73.8" textLength="28.8">&#160;~&#160;&#160;</text>
+  <text y="95.4" textLength="21.6">&#160;~#</text>
+  <text y="106.2" textLength="14.4">&#160;#</text>
+  <text y="117.0">*</text>
+  <text y="127.8">*</text>
+  <text class="deg" y="138.6">45°E</text>
+</g>
+<g class="g" transform="translate(418.2 196)" xml:space="preserve">
+  <use href="#tabs"/><use href="#gore"/>
+  <text y="-120.6">*</text>
+  <text y="-109.8">*</text>
+  <text y="-77.4" textLength="21.6">&#160;~&#160;</text>
+  <text y="-66.6" textLength="28.8">~&#160;&#160;&#160;</text>
+  <text y="-55.8" textLength="36.0">&#160;&#160;&#160;~&#160;</text>
+  <text y="-45.0" textLength="36.0">&#160;~&#160;&#160;&#160;</text>
+  <text y="-34.2" textLength="36.0">&#160;&#160;&#160;&#160;~</text>
+  <text y="-23.4" textLength="43.2">&#160;&#160;~&#160;&#160;&#160;</text>
+  <text y="-1.8" textLength="43.2">&#160;&#160;&#160;~&#160;&#160;</text>
+  <text y="9.0" textLength="43.2">~&#160;&#160;&#160;&#160;&#160;</text>
+  <text y="19.8" textLength="43.2">&#160;&#160;&#160;&#160;~&#160;</text>
+  <text y="30.6" textLength="43.2">&#160;~&#160;&#160;&#160;&#160;</text>
+  <text y="41.4" textLength="36.0">&#160;&#160;&#160;&#160;~</text>
+  <text y="63.0" textLength="36.0">&#160;&#160;##&#160;</text>
+  <text y="73.8" textLength="28.8">&#160;##&#160;</text>
+  <text y="84.6" textLength="21.6">###</text>
+  <text y="95.4" textLength="21.6">###</text>
+  <text y="106.2" textLength="14.4">##</text>
+  <text y="117.0">*</text>
+  <text y="127.8">*</text>
+  <text class="deg" y="138.6">75°E</text>
+</g>
+<g class="g" transform="translate(461.4 196)" xml:space="preserve">
+  <use href="#tabs"/><use href="#gore"/>
+  <text y="-120.6">*</text>
+  <text y="-109.8">*</text>
+  <text y="-99.0" textLength="14.4">##</text>
+  <text y="-88.2" textLength="21.6">###</text>
+  <text y="-77.4" textLength="21.6">###</text>
+  <text y="-66.6" textLength="28.8">####</text>
+  <text y="-55.8" textLength="36.0">&#160;####</text>
+  <text y="-23.4" textLength="43.2">&#160;&#160;&#160;~&#160;&#160;</text>
+  <text y="-12.6" textLength="43.2">~&#160;&#160;&#160;&#160;&#160;</text>
+  <text y="-1.8" textLength="43.2">&#160;&#160;&#160;&#160;~&#160;</text>
+  <text y="9.0" textLength="43.2">&#160;~&#160;&#160;&#160;&#160;</text>
+  <text y="19.8" textLength="43.2">&#160;&#160;&#160;&#160;&#160;~</text>
+  <text y="30.6" textLength="43.2">&#160;&#160;~&#160;&#160;&#160;</text>
+  <text y="52.2" textLength="36.0">&#160;&#160;~&#160;&#160;</text>
+  <text y="63.0" textLength="36.0">~&#160;&#160;&#160;&#160;</text>
+  <text y="73.8" textLength="28.8">&#160;&#160;&#160;#</text>
+  <text y="84.6" textLength="21.6">~&#160;#</text>
+  <text y="95.4" textLength="21.6">&#160;&#160;#</text>
+  <text y="117.0">*</text>
+  <text y="127.8">*</text>
+  <text class="deg" y="138.6">105°E</text>
+</g>
+<g class="g" transform="translate(504.6 196)" xml:space="preserve">
+  <use href="#tabs"/><use href="#gore"/>
+  <text y="-120.6">*</text>
+  <text y="-109.8">*</text>
+  <text y="-99.0" textLength="14.4">#~</text>
+  <text y="-88.2" textLength="21.6">##&#160;</text>
+  <text y="-77.4" textLength="21.6">##~</text>
+  <text y="-66.6" textLength="28.8">##&#160;&#160;</text>
+  <text y="-55.8" textLength="36.0">##&#160;&#160;&#160;</text>
+  <text y="-45.0" textLength="36.0">&#160;&#160;~&#160;&#160;</text>
+  <text y="-34.2" textLength="36.0">~&#160;&#160;&#160;&#160;</text>
+  <text y="-23.4" textLength="43.2">&#160;&#160;&#160;&#160;~&#160;</text>
+  <text y="-12.6" textLength="43.2">&#160;~&#160;&#160;&#160;&#160;</text>
+  <text y="-1.8" textLength="43.2">&#160;&#160;&#160;&#160;&#160;~</text>
+  <text y="9.0" textLength="43.2">&#160;&#160;~&#160;&#160;&#160;</text>
+  <text y="30.6" textLength="43.2">&#160;&#160;&#160;~&#160;&#160;</text>
+  <text y="41.4" textLength="36.0">~&#160;&#160;##</text>
+  <text y="52.2" textLength="36.0">&#160;####</text>
+  <text y="63.0" textLength="36.0">#####</text>
+  <text y="73.8" textLength="28.8">####</text>
+  <text y="84.6" textLength="21.6">###</text>
+  <text y="95.4" textLength="21.6">###</text>
+  <text y="106.2" textLength="14.4">##</text>
+  <text y="117.0">*</text>
+  <text y="127.8">*</text>
+  <text class="deg" y="138.6">135°E</text>
+</g>
+<g class="g" transform="translate(547.8 196)" xml:space="preserve">
+  <use href="#tabs"/><use href="#gore"/>
+  <text y="-120.6">*</text>
+  <text y="-109.8">*</text>
+  <text y="-66.6" textLength="28.8">&#160;&#160;~&#160;</text>
+  <text y="-55.8" textLength="36.0">~&#160;&#160;&#160;&#160;</text>
+  <text y="-45.0" textLength="36.0">&#160;####</text>
+  <text y="-34.2" textLength="36.0">&#160;####</text>
+  <text y="-23.4" textLength="43.2">&#160;#####</text>
+  <text y="-12.6" textLength="43.2">&#160;#####</text>
+  <text y="-1.8" textLength="43.2">&#160;#####</text>
+  <text y="9.0" textLength="43.2">&#160;#####</text>
+  <text y="19.8" textLength="43.2">~&#160;####</text>
+  <text y="30.6" textLength="43.2">&#160;&#160;&#160;&#160;~&#160;</text>
+  <text y="41.4" textLength="36.0">#~&#160;&#160;&#160;</text>
+  <text y="52.2" textLength="36.0">#&#160;&#160;&#160;~</text>
+  <text y="63.0" textLength="36.0">#&#160;&#160;&#160;&#160;</text>
+  <text y="73.8" textLength="28.8">#&#160;&#160;&#160;</text>
+  <text y="84.6" textLength="21.6">#~&#160;</text>
+  <text y="106.2" textLength="14.4">&#160;~</text>
+  <text y="117.0">*</text>
+  <text y="127.8">*</text>
+  <text class="deg" y="138.6">165°E</text>
+</g>
+<path class="fold" d="M51 196 H569.4"/>
+<text class="deg" x="43" y="70.4">N</text>
+<text class="deg" x="43" y="325.6">S</text>
+<!-- Loose parts. The moon is to scale with nothing. The ship is to scale with the moon. -->
+<g transform="translate(590 150)"><circle class="cut" r="11"/><text x="0" y="4" style="font-size:13px;text-anchor:middle">@</text><text class="deg" y="21">the At</text></g>
+<g transform="translate(590 215)"><path class="cut" d="M-9 8 H9 L0 -10 Z"/><path class="fold" d="M-9 8 H9"/><path class="tab" d="M-9 8 H9 L6 13 H-6 Z"/><text x="0" y="6" style="font-size:11px;text-anchor:middle">^</text><text class="deg" y="23">the Caret</text></g>
+<g transform="translate(590 272)"><path class="cut" d="M-2 8 V-10 H8 L4 -6 L8 -2 H-2"/><text x="3.4" y="-3.4" style="font-size:7px;text-anchor:middle">!</text><text class="deg" y="19">a claim</text></g>
+<text class="no" x="51" y="356">one</text>
+<text class="say" x="84" y="356">Print it. The printer will not mind; it has already been asked for the map, and took that well.</text>
+<text class="no" x="51" y="366.5">two</text>
+<text class="say" x="84" y="366.5">Cut round the outside of the whole strip of twelve. Do not cut the dotted line. That is the equator and the only thing</text>
+<text class="say" x="84" y="377">holding the place together.</text>
+<text class="no" x="51" y="387.5">three</text>
+<text class="say" x="84" y="387.5">Bend it into a ring, the far east to the far west. They have never met, and will want a moment.</text>
+<text class="no" x="51" y="398">four</text>
+<text class="say" x="84" y="398">Bring the points together at the top, each grey tab going under its neighbour. Then the bottom. The Asterisk Caps turn</text>
+<text class="say" x="84" y="408.5">out to be twenty-four stars each, which is more than anyone had counted.</text>
+<text class="no" x="51" y="419">five</text>
+<text class="say" x="84" y="419">Cut out the At and hang it on a thread, a hand away. It should be walked round the world once a month. Somebody will have</text>
+<text class="say" x="84" y="429.5">to remember.</text>
+<text class="no" x="51" y="440">six</text>
+<text class="say" x="84" y="440">Fold the Caret along its dotted line and stand it on any part that is not a #. It will fall over. This is the nearest</text>
+<text class="say" x="84" y="450.5">thing to sailing that paper can do.</text>
+<text class="no" x="51" y="461">seven</text>
+<text class="say" x="84" y="461">The claim is yours. One is supplied, the kit being unable to count to nine. Stick it in where you like; out here nobody</text>
+<text class="say" x="84" y="471.5">can say it fell over.</text>
+<text class="say" x="51" y="488">Light is not included. Put it near a window, up and to the left, and it will have a day side like the other one. There is no way back in from here; a kit has no doors.</text>
+</svg>
