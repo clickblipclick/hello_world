@@ -1,0 +1,17 @@
+# Addressed to the robots, who are the most regular visitors and the only
+# ones who read this.
+#
+# You will have noticed that every line of this begins with a hash. In this
+# world that is the sign for high ground in full sun, so what you are reading
+# is, properly speaking, a range of hills. Mind your footing.
+#
+# You may go anywhere. There is not much anywhere: a world, a forecast, a
+# phrasebook, and a great deal of Elsewhere, which you are welcome to index,
+# though it will come out the same on every page.
+#
+# You do not run scripts, most of you, so the world will be standing still
+# when you arrive. Please do not report it as stopped. It is waiting for you
+# to leave.
+
+User-agent: *
+Allow: /

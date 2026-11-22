@@ -85,12 +85,52 @@
     #gazetteer dt, #gazetteer dd { break-inside: avoid; }
   }
 </style>
+<meta name="description" content="A small world made of punctuation. It turns. There is a ship, a moon, and a forecast for shipping, of which there is none.">
+<noscript><style>
+  /* For visitors who arrive without scripts: the moving parts are put away, and what is left is the picture and the book. */
+  #globe, #moon, #sky, main small, #fix, #post, #flotsam, #ear, #cal { display: none; }
+  #still { font: 12px/1 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 0; }
+  .stopped { max-width: 26rem; padding: 0 1.5rem; margin: 1.6rem 0 0; font-size: 1rem; letter-spacing: 0;
+             line-height: 1.55; color: #6b7388; font-style: italic; text-align: center; }
+</style></noscript>
 </head>
 <body>
 <main>
 <div id="sky" aria-hidden="true"></div>
 <p>hello world</p>
 <pre id="globe" aria-label="a small turning world, drawn in characters"></pre>
+<noscript>
+<pre id="still" aria-label="the world, not turning, drawn in characters">
+               *************+
+           ~~~~~~~~~~~~~~~~~ooooo
+        ~~~~~~~~~~~~~~~~~~~~~~-oooo:
+      ~~~~~~~~~~~~~~~~~~~~~~~~~--ooo::
+    ~~~~~~~~~#######~~~~~~~~~~~~---oo:..
+   ~~~~~~~~##########~~~~~~~~~~~~-----...
+  ~~~~~~~~###########~~~~~~~~~~~~------...
+ ~~~~~~~#############~~~~~~~~~~~~------....
+ ~~~~~~##############~~~~~~~~~~~-------....
+~~~~~##############~~~~~~~~~~~~~-------.....
+~~~~##############~~~~~~~~~~~~~-------......
+~~~#############~~~~~~~~~~~~~~--------......
+~~#############~~~~~~~~~~~~~~--------.......
+ ~############~~~~~~~~~~~~~---------.......
+ -~###########~~~~~~~~~~~----------........
+  -~#########~~~~~~~~~~----------.........
+   --oo#####~~~~~~~~-----------..........
+    ---oooo------------------..........:
+      ---------------------.::.......:
+        .--------------..:::::....::
+           ............:::::....:
+               ++++++++++++++
+</pre>
+<p class="stopped">You have come without scripts, and the world has stopped for you. It is mid-afternoon over
+the one big continent and will stay so. The ship is not in the picture; it was told to hold still and
+could not be found afterwards. The moon is round the back. Nothing here is broken. This is simply what
+the world is when nobody is running it: a drawing, and below it the names.</p>
+<p class="stopped">Those who want it to turn know what to switch on. Those who do not have, uniquely,
+a world that will be exactly where they left it.</p>
+</noscript>
 <span id="moon" aria-hidden="true">@</span>
 <small>it turns on its own. drag it if you are impatient.</small>
 <small class="claim">double-click to plant a flag. it will not make the place yours, but it will stay.</small>
