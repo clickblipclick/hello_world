@@ -59,10 +59,24 @@
   #date { display: block; color: #d9cfa6; font: 0.8rem/1.7 ui-monospace, Menlo, Consolas, monospace;
           letter-spacing: 0.05em; white-space: pre-line; }
   #chart { display: none; }
+  #flotsam { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #flotsam h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+                color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #flotsam p, #flotsam label { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #flotsam input { display: block; width: 100%; box-sizing: border-box; background: none; border: 0;
+                   border-bottom: 1px solid #263048; color: #e8e6df; font: 1rem Georgia, serif;
+                   padding: 0.4rem 0; margin: 0.6rem 0 1.2rem; }
+  #flotsam input:focus { outline: none; border-bottom-color: #7fb7a4; }
+  #flotsam button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                    background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #flotsam button:hover, #flotsam button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #corked { display: block; min-height: 1.2em; margin-top: 1rem; color: #d9cfa6; word-break: break-all;
+            font: 0.75rem/1.5 ui-monospace, Menlo, Consolas, monospace; user-select: all; }
+  #found { display: block; min-height: 1.2em; margin-top: 0.8rem; }
   @media print {
     body { background: #fff; color: #000; }
     main { min-height: 0; padding-top: 2rem; overflow: visible; }
-    #globe, #moon, #sky, main small, #fix, #post, #ear, #cal, #gazetteer .wx { display: none; }
+    #globe, #moon, #sky, main small, #fix, #post, #ear, #cal, #flotsam, #gazetteer .wx { display: none; }
     #chart { display: block; margin: 0 0 2rem; text-align: center; break-inside: avoid; }
     #chart pre { display: inline-block; text-align: left; font: 9px/1.15 ui-monospace, Menlo, Consolas, monospace; margin: 0; }
     #chart figcaption { font-style: italic; font-size: 0.85rem; margin: 0.8rem auto 0; max-width: 30rem; }
@@ -130,6 +144,10 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   <dt>Elsewhere <span>?</span></dt>
   <dd>Everything that is not the world. There is a great deal of it and none of it is listed.
       Travellers who insist on going are <a href="elsewhere">shown the way</a> and, shortly afterwards, the way back.</dd>
+  <dt>The Percent <span>%</span></dt>
+  <dd>A bottle, when there is one. There is only ever one, and only for those who were sent it or who
+      threw it in themselves. It goes where the water goes, which is east, and around anything in the way.
+      The Caret has passed it several times and has never once stopped, being a ship and not a postman.</dd>
 </dl>
 <p class="wx">The seas, having names, now also have <a href="forecast.html">a forecast</a>.</p>
 <p class="wx">The inhabitants, having none, nevertheless have a language, and it has <a href="phrasebook.html">a phrasebook</a>.</p>
@@ -141,6 +159,17 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <button id="shutter" type="button">take a postcard</button>
 <pre id="card" aria-label="a postcard of the world as it was when you asked"></pre>
 <small id="sent" aria-live="polite"></small>
+</section>
+<section id="flotsam">
+<h2>Bottles</h2>
+<p>Nothing leaves; the postcards were clear about that. But a note can be put in the sea here and turn up
+   in the sea of whoever is given the address, it being the same sea. The note is not kept anywhere.
+   It travels in the address itself, folded small, which is the only way anything has ever got out.</p>
+<label for="note">What it says. A hundred and forty characters; it is not a large bottle.</label>
+<input id="note" type="text" maxlength="140" autocomplete="off" placeholder="hello from the other side of it">
+<button id="throw" type="button">cork it and throw</button>
+<output id="corked" for="note"></output>
+<small id="found" aria-live="polite"></small>
 </section>
 <section id="ear">
 <h2>Listening</h2>
@@ -185,7 +214,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
       }
       out += '\n';
     }
-    el.textContent = sail(plant(out));
+    el.textContent = bob(sail(plant(out)));
   }
   // Flags: double-click the world to leave one. They stay where they were put, and go round with the rest.
   var flags = [];
@@ -255,6 +284,56 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   el.addEventListener('pointermove', point);
   el.addEventListener('pointerdown', point);
   el.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') { hx = hy = -1; fix.textContent = 'gone. it carries on without you.'; } });
+  // The Percent: a bottle. Its note arrives in the address, after the #, and is never stored anywhere else.
+  var bottle = null, corked = document.getElementById('corked'), found = document.getElementById('found');
+  function cork(msg) {
+    msg = String(msg).replace(/\s+/g, ' ').replace(/^ | $/g, '').slice(0, 140);
+    if (!msg) return false;
+    // Where it goes in is decided by what it says, so the same note always starts from the same water.
+    for (var h = 0, i = 0; i < msg.length; i++) h = (h * 31 + msg.charCodeAt(i)) % 6283;
+    var p = [Math.sin(h) * 0.9, h / 1000];
+    for (var n = 0; n < 200 && land(p[0], p[1]); n++) p[1] += 0.05;
+    bottle = { at: p, msg: msg, lee: h % 2 ? 1 : -1 };
+    names['%'] = 'The Percent. a bottle. the note inside says: \u201c' + msg + '\u201d';
+    return true;
+  }
+  function bob(out) {
+    if (!bottle) return out;
+    var p = bottle.at;
+    if (!land(p[0], p[1] + 0.06)) p[1] += 0.0006;
+    else {
+      p[0] += 0.004 * bottle.lee;
+      if (Math.abs(p[0]) > 1.1 || land(p[0], p[1])) { bottle.lee = -bottle.lee; p[0] += 0.008 * bottle.lee; }
+    }
+    var l = p[1] - spin, c = Math.cos(p[0]);
+    if (c * Math.cos(l) <= 0) return out;
+    var x = Math.floor((c * Math.sin(l) + 1) / 2 * W), y = Math.floor((Math.sin(p[0]) + 1) / 2 * H);
+    var at = y * (W + 1) + x, under = out.charAt(at);
+    if (under !== '~' && under !== '-' && under !== '.') return out;
+    return out.slice(0, at) + '%' + out.slice(at + 1);
+  }
+  function washed() {
+    var m = /^#bottle=(.+)$/.exec(location.hash), msg = '';
+    if (!m) return;
+    try { msg = decodeURIComponent(m[1]); } catch (e) { return; }
+    if (cork(msg)) found.textContent = 'one came in with you. it is out on the water now, a %, going east. '
+      + 'point at it when it comes round, or take the short way: \u201c' + bottle.msg + '\u201d';
+  }
+  washed();
+  window.addEventListener('hashchange', washed);
+  document.getElementById('throw').addEventListener('click', function () {
+    if (!cork(document.getElementById('note').value)) {
+      corked.textContent = ''; found.textContent = 'an empty bottle is only litter. say something first.';
+      return;
+    }
+    corked.textContent = location.href.split('#')[0] + '#bottle=' + encodeURIComponent(bottle.msg);
+    found.textContent = 'thrown. that address is the bottle; whoever opens it finds the note in their sea.';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(corked.textContent).then(function () {
+        found.textContent = 'thrown, and the address is in your clipboard. whoever opens it finds the note in their sea.';
+      }, function () {});
+    }
+  });
   // The At: one character on a tilted orbit, passing in front of the world and then behind it.
   var moon = document.getElementById('moon'), ma = 2.2;
   function orbit() {
@@ -305,6 +384,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   var hum = document.getElementById('hum'), heard = document.getElementById('heard'), ac = null, voices = [], out = null;
   var notes = { '#': 392, 'o': 330, ':': 294, '~': 220, '-': 196, '.': 147, '*': 587, '+': 494, '!': 659 };
   notes['^'] = 440;
+  notes['%'] = 523;
   var parts = [[5, 2], [11, 1], [16, 0.5]], on = false;
   function listen() {
     if (!on || !ac) return;
@@ -448,6 +528,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
     }
     for (i = 0; i < flags.length; i++) mark(flags[i], '!');
     mark(ship, '^');
+    if (bottle) mark(bottle.at, '%');
     var edge = '+', scale = ' ';
     for (x = 0; x < MW; x++) { edge += x % 12 || !x ? '-' : '+'; }
     for (x = 0; x < MW; x += 12) {
