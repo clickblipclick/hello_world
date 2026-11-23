@@ -238,6 +238,32 @@
   }
   @media print { #beside h2, #beside p, #beside th, #beside td { color: #000 !important; border-color: #000; } }
 </style>
+<style>
+  /* The arms. Drawn with a line and the same sorts as everything else; the tinctures follow the edition. */
+  #arms { --line: #7fb7a4; --metal: #d9cfa6; --pale: #8d94a8; --field: #0a0f1a;
+          max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #arms h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: var(--line); border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #arms p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #arms figure { margin: 2rem 0; text-align: center; }
+  #arms svg { width: 13rem; max-width: 100%; height: auto; }
+  #arms svg text { font-family: ui-monospace, Menlo, Consolas, monospace; text-anchor: middle; }
+  #arms .shield { fill: var(--field); stroke: var(--line); stroke-width: 1.5; }
+  #arms .rule { fill: none; stroke: var(--line); stroke-width: 1; }
+  #arms .or { fill: var(--metal); }
+  #arms .argent { fill: var(--pale); }
+  #arms .vert { fill: var(--line); }
+  #arms .scroll { fill: var(--metal); font-size: 11px; letter-spacing: 0.35em; }
+  #arms figcaption { margin-top: 1.2rem; font-size: 0.95rem; line-height: 1.6; color: #b9b6ac; text-align: left; }
+  #arms figcaption b { font-weight: normal; font-variant: small-caps; letter-spacing: 0.06em; color: var(--metal); }
+  @media screen and (prefers-color-scheme: light) {
+    #arms { --line: #2f6f5e; --metal: #8a6a1f; --pale: #6a6f7d; --field: #f7f3e8; }
+    #arms h2 { border-color: #cfc8b6; }
+    #arms p { color: #6a6f7d; }
+    #arms figcaption { color: #3d4353; }
+  }
+  @media print { #arms { --line: #000; --metal: #000; --pale: #000; --field: #fff; } #arms p, #arms figcaption { color: #000; } }
+</style>
 <meta name="description" content="A small world made of punctuation. It turns. There is a ship, a moon, and a forecast for shipping, of which there is none.">
 <!-- What the world sends ahead of itself when its address is passed along: a likeness, taken once, with the continent in. -->
 <link rel="canonical" href="https://helloworldandthen.com/">
@@ -638,6 +664,43 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   <summary>Why is this question here?</summary>
   <p>To make ten. Nobody asked for ten.</p>
 </details>
+</section>
+<section id="arms">
+<h2>The arms</h2>
+<p>A world that has flags planted on it ought to have something to put on one. The flags here are a single
+   stroke and carry no device, there being no room. So the arms were granted separately, by the usual authority,
+   which is nobody, and are shown at a size the world itself could not bear them at.</p>
+<figure>
+<svg viewBox="0 0 200 250" role="img" aria-labelledby="blazon">
+  <text class="vert" x="100" y="22" font-size="22">*</text>
+  <path class="shield" d="M30 32 H170 V120 C170 170 140 200 100 216 C60 200 30 170 30 120 Z"/>
+  <text class="or" x="62" y="72" font-size="24">@</text>
+  <text class="argent" x="126" y="58" font-size="13">'</text>
+  <text class="argent" x="142" y="70" font-size="13">.</text>
+  <text class="argent" x="152" y="56" font-size="13">`</text>
+  <text class="vert" x="100" y="116" font-size="30">^</text>
+  <path class="rule" d="M31 132 q8.6 -7 17.2 0 t17.2 0 t17.2 0 t17.2 0 t17.2 0 t17.2 0 t17.2 0 t17.2 0"/>
+  <text class="vert" x="100" y="150" font-size="13" textLength="118">~~~~~~~~~~~~</text>
+  <text class="vert" x="100" y="166" font-size="13" textLength="100">----------</text>
+  <text class="argent" x="100" y="182" font-size="13" textLength="70">.......</text>
+  <text class="argent" x="100" y="198" font-size="13">, ;</text>
+  <text class="argent" x="16" y="150" font-size="34">,</text>
+  <text class="argent" x="184" y="150" font-size="34">,</text>
+  <path class="rule" d="M44 228 q-10 4 -4 12 M44 228 H156 M156 228 q10 4 4 12 M40 240 q60 8 120 0"/>
+  <text class="scroll" x="102" y="238">ET DEINDE</text>
+</svg>
+<figcaption id="blazon"><b>Blazon.</b> Sable, a caret vert under way; in dexter chief an at Or; in sinister chief
+   three apostrophes argent, one of them blinking, which the drawing omits; a base wavy of the sea in its three
+   conditions, tilde, flat and deep, charged in the foot with as many commas as can be seen. <b>Crest.</b> An
+   asterisk, for the ice. <b>Supporters.</b> Two commas rampant, unconfirmed. <b>Motto.</b> <i lang="la">Et deinde</i>:
+   and then.</figcaption>
+</figure>
+<p>Dexter is the left as you look at it, a shield being described by whoever stands behind it. Nobody does. The At
+   is on that side because the light is. Sable is black, and in the paper edition is not; the heralds were told and
+   said the field was whatever was there before the charges, which settled it. There is no continent in the arms.
+   It would not keep to one quarter.</p>
+<p>The arms may be displayed by any visitor, on the grounds that every visitor is the only one. The Caret
+   does not fly them. It was offered, and turned away, as it does from anything with an edge.</p>
 </section>
 <footer id="colophon">
 <h2>Colophon</h2>
