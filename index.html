@@ -305,6 +305,36 @@
 <link rel="manifest" href="pocket.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-title" content="world">
+<style>
+  /* The telegraph. A mast, two arms, and the same sorts as everything else. */
+  #signal { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #signal h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+               color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #signal p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #signal label { display: block; font-size: 0.8rem; font-style: italic; color: #6b7388; margin: 1.2rem 0 0.3rem; }
+  #signal input { display: block; width: 100%; box-sizing: border-box; background: none; border: 0;
+                  border-bottom: 1px solid #263048; color: #e8e6df; padding: 0.4em 0; margin: 0 0 1rem;
+                  font: 0.9rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.15em; text-transform: uppercase; }
+  #signal input:focus { outline: none; border-bottom-color: #7fb7a4; }
+  #signal button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                   background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #signal button:hover, #signal button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #arms2 { font: 14px/1.1 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 1.6rem 0 0; }
+  #spelt { display: block; min-height: 1.3em; margin-top: 0.9rem; color: #d9cfa6; font-style: normal;
+           font: 0.85rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.3em; overflow-wrap: anywhere; }
+  #reply { display: block; min-height: 1.2em; margin-top: 0.6rem; }
+  @media screen and (prefers-color-scheme: light) {
+    #signal h2, #arms2 { color: #2f6f5e; }
+    #signal h2, #signal input { border-color: #cfc8b6; }
+    #signal p, #signal label { color: #6a6f7d; }
+    #signal input { color: #1d2433; }
+    #signal input:focus { border-bottom-color: #2f6f5e; }
+    #signal button { color: #2f6f5e; border-color: #2f6f5e; }
+    #signal button:hover, #signal button:focus-visible { background: #2f6f5e; color: #f1ecdf; }
+    #spelt { color: #8a6a1f; }
+  }
+  @media print { #signal { display: none; } }
+</style>
 <noscript><style>
   /* For visitors who arrive without scripts: the moving parts are put away, and what is left is the picture and the book. */
   #globe, #moon, #sky, main small, #fix, #post, #flotsam, #ear, #cal { display: none; }
@@ -316,6 +346,7 @@
   #above { display: none; }
   #tide { display: none; }
   #roll { display: none; }
+  #signal { display: none; }
 </style></noscript>
 </head>
 <body>
@@ -523,6 +554,23 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    the At comes over. Dragging the world drags the post through the tide, which the tide does not mind.</p>
 <pre id="gauge" aria-label="a post standing in the sea, with the water rising and falling against its marks"></pre>
 <small id="tidal" aria-live="off"></small>
+</section>
+<section id="signal">
+<h2>The telegraph</h2>
+<p>The Caret cannot be reached, and that is in writing. It can, however, be signalled at, which is a different
+   thing and asks nothing of the ship. A mast was put up beside the tide post, with two arms on it, and the arms
+   will spell whatever they are given, a letter at a time, in the code sailors use when they are in sight of one
+   another and out of earshot. It has twenty-six positions and a rest. Whether the Caret is in sight is a matter
+   for the Caret.</p>
+<label for="wire">What to send. Letters only; the mast has two arms and cannot do a comma, which here is a serious thing to lack.</label>
+<input id="wire" type="text" maxlength="40" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ahoy">
+<button id="wave" type="button">make the signal</button>
+<pre id="arms2" aria-label="a mast with two arms, which move to spell the message one letter at a time"></pre>
+<output id="spelt" for="wire" aria-live="off"></output>
+<small id="reply" aria-live="polite"></small>
+<p>Nobody stands at the foot of the mast; the arms are worked from where you are sitting, by a long wire. The
+   code is the real one. A visitor who learns it here may use it on their own world, where it was invented, and
+   where there is a fair chance of somebody waving back.</p>
 </section>
 <section id="above">
 <h2>From above</h2>
@@ -1689,6 +1737,66 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   amount.addEventListener('input', weigh);
   unit.addEventListener('change', weigh);
   weigh();
+})();
+</script>
+<script>
+// The telegraph. Eight directions an arm can point, numbered round from straight down by way of the reader's left,
+// and for each letter the two directions it wants. The mast knows the alphabet and nothing else about the world.
+(function () {
+  var mast = document.getElementById('arms2'), wire = document.getElementById('wire'), wave = document.getElementById('wave'),
+      spelt = document.getElementById('spelt'), reply = document.getElementById('reply');
+  if (!mast || !wire || !wave || !spelt || !reply) return;
+  var code = { A: '10', B: '20', C: '30', D: '40', E: '05', F: '06', G: '07', H: '21', I: '13', J: '46', K: '14',
+               L: '15', M: '16', N: '17', O: '23', P: '24', Q: '25', R: '26', S: '27', T: '34', U: '35', V: '47',
+               W: '56', X: '57', Y: '36', Z: '67' };
+  var dx = [0, -1, -1, -1, 0, 1, 1, 1], dy = [1, 1, 0, -1, -1, -1, 0, 1], stroke = ['|', '/', '-', '\\', '|', '/', '-', '\\'];
+  var W = 21, mid = 10, timer = 0;
+  function draw(pair) {
+    var rows = [], r, c, i, k, d, line, out = '';
+    for (r = 0; r < 8; r++) { rows[r] = []; for (c = 0; c < W; c++) rows[r][c] = ' '; }
+    for (r = 3; r < 8; r++) rows[r][mid] = ':';
+    for (i = 0; i < 2; i++) {
+      d = +pair.charAt(i);
+      for (k = 1; k <= 2; k++) {
+        rows[2 + dy[d] * k][mid + dx[d] * 2 * k] = stroke[d];
+        if (!dy[d]) rows[2][mid + dx[d] * (2 * k - 1)] = '-';
+      }
+    }
+    rows[2][mid] = 'o';
+    for (r = 0; r < 8; r++) { line = rows[r].join(''); out += line.replace(/\s+$/, '') + '\n'; }
+    mast.textContent = out + '~~~-~~~-~~:~~-~~~-~~~';
+  }
+  function verdict(sent, dropped) {
+    var n = sent.length, left = dropped
+      ? ' ' + (dropped === 1 ? 'one mark was' : dropped + ' marks were') + ' left out, the arms not bending that way.' : '';
+    if (!n) return dropped ? 'nothing in that could be put on two arms. the mast is at rest, which is also a signal; it means this.'
+                           : 'nothing to send. the arms are down, which is also a signal; it means nothing to send.';
+    if (sent === 'HELLO' || sent === 'HELLOWORLD') return 'sent. the world has had that one before, and regards itself as the answer.' + left;
+    if (sent === 'SOS') return 'sent. the Caret is the only vessel that could come, and is the vessel least likely to stop.' + left;
+    var said = [
+      'sent, ' + (n === 1 ? 'the one letter' : 'all ' + n + ' letters') + '. no reply. the Caret has a mast as well, and has never been seen to move anything on it.',
+      'sent. the Caret was looking at land at the time, and then, as usual, away from it.',
+      'sent. it is not known whether the Caret reads semaphore. it is not known whether the Caret reads.',
+      'sent. the Commas were nearest and saw the whole of it from underneath, where it spells something else.',
+      'sent, and received by the sea, which has passed it on eastward in its own words.'
+    ];
+    return said[(n * 7 + sent.charCodeAt(0)) % said.length] + left;
+  }
+  function send() {
+    clearTimeout(timer);
+    var raw = wire.value.toUpperCase(), sent = raw.replace(/[^A-Z]/g, ''), dropped = raw.replace(/[A-Z\s]/g, '').length, i = 0;
+    spelt.textContent = ''; reply.textContent = sent ? 'the arms are going up.' : '';
+    (function step(rest) {
+      if (i >= sent.length) { draw('00'); reply.textContent = verdict(sent, dropped); return; }
+      if (rest) { draw('00'); timer = setTimeout(function () { step(false); }, 150); return; }
+      draw(code[sent.charAt(i)]);
+      spelt.textContent = sent.slice(0, ++i);
+      timer = setTimeout(function () { step(true); }, 640);
+    })(false);
+  }
+  draw('00');
+  wave.addEventListener('click', send);
+  wire.addEventListener('keydown', function (e) { if (e.key === 'Enter') send(); });
 })();
 </script>
 </body>
