@@ -286,6 +286,25 @@
     #weighed { color: #8a6a1f; }
   }
   @media print { #scales { display: none; } }
+  /* The index: what a book puts at the back so that it need not be read from the front. */
+  #index { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #index h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #index p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #index ul { list-style: none; margin: 1.8rem 0; padding: 0; columns: 2; column-gap: 2rem;
+              font-size: 0.85rem; line-height: 1.5; color: #b9b6ac; }
+  #index li { padding-left: 1em; text-indent: -1em; break-inside: avoid; }
+  #index li.gap { margin-top: 0.9rem; }
+  #index li ul { margin: 0; columns: auto; }
+  #index li li { padding-left: 2em; }
+  #index i { color: #6b7388; }
+  @media (max-width: 26rem) { #index ul { columns: 1; } }
+  @media (prefers-color-scheme: light) {
+    #index h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #index p, #index i { color: #6a6f7d; }
+    #index ul { color: #3d4353; }
+  }
+  @media print { #index h2, #index p, #index ul, #index i { color: #000; border-color: #000; } }
 </style>
 <meta name="description" content="A small world made of punctuation. It turns. There is a ship, a moon, and a forecast for shipping, of which there is none.">
 <!-- What the world sends ahead of itself when its address is passed along: a likeness, taken once, with the continent in. -->
@@ -801,6 +820,69 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <p>The rates are fixed. Your world was laid across this one, edge to edge, and the day was timed with a watch
    borrowed from a visitor, who has it back. The comma was weighed by setting one on a screen and observing that
    nothing happened; the figure used is therefore a courtesy. No change is given.</p>
+</section>
+<section id="index">
+<h2>Index</h2>
+<p>A book of any length is expected to have one. The world has no pages, so the references are to wherever
+   the thing was last seen, and several have moved since. Entries are in the order of the alphabet, which is
+   the one arrangement of characters the world has never tried.</p>
+<ul>
+  <li>Alphabet, the: not found on the surface; used here under protest</li>
+  <li>Apostrophes, the
+    <ul>
+      <li>blinking of, <i>passim</i></li>
+      <li>departure of one, uncounted</li>
+      <li>names of, unlearned</li>
+    </ul></li>
+  <li>Arithmetic: <i>see</i> Asterisk Caps, dark side of</li>
+  <li>At, the: in front; behind; in front again</li>
+  <li class="gap">Bottle: <i>see</i> Percent</li>
+  <li>Breath, time taken to draw: <i>see</i> Commas</li>
+  <li class="gap">Caret, the
+    <ul>
+      <li>cargo of, none</li>
+      <li>is asked to hold still</li>
+      <li>is mislaid</li>
+      <li>is offered arms</li>
+      <li>is not a postman</li>
+      <li>lamp of, lit, unseen</li>
+      <li>turns away, <i>passim</i></li>
+    </ul></li>
+  <li>Cloud: by day; by night, <i>see</i> Somebody</li>
+  <li>Commas, the: uncovered, briefly; unconfirmed, at length</li>
+  <li>Continent: omitted from arms; would not keep still for index either</li>
+  <li class="gap">Disputes, territorial: settled in advance</li>
+  <li class="gap">East: where the water goes</li>
+  <li>Edge: all of it</li>
+  <li>Elsewhere: not indexed</li>
+  <li class="gap">Flags: nine; a tenth; nine</li>
+  <li class="gap">Glue: not supplied</li>
+  <li class="gap">Hash, the: <i>see under</i> time of day</li>
+  <li>Hello: said once, at the top, and not taken back</li>
+  <li class="gap">Inhabitants: <i>see</i> Nobody</li>
+  <li class="gap">Moon: <i>see</i> At</li>
+  <li class="gap">Nobody
+    <ul>
+      <li>as granting authority</li>
+      <li>has been there</li>
+      <li>has looked up</li>
+      <li>stands behind the shield</li>
+      <li><i>see also</i> Inhabitants</li>
+    </ul></li>
+  <li>North: up, by a show of hands</li>
+  <li class="gap">Percent, the: one at a time</li>
+  <li>Poetry, difficulty of: <i>see</i> Tilde Sea</li>
+  <li>Ports: none</li>
+  <li class="gap">Sentences: end of, <i>see</i> Full Stop Deep; continuation of, <i>see</i> Commas</li>
+  <li>Somebody: no entry</li>
+  <li class="gap">Turning, the: not supplied; <i>but see</i> everything above</li>
+  <li class="gap">Watch, borrowed: returned</li>
+  <li>West: where the cloud comes from, and has not said why</li>
+  <li>World, the: <i>see</i> the top of the page</li>
+  <li class="gap">You: here; the only one; <i>see also</i> Nobody</li>
+</ul>
+<p>The indexer worked from a single copy and asks it to be understood that yours turned differently.
+   No entry could be found for X, or for Z, and Q was looked for with particular care.</p>
 </section>
 <footer id="colophon">
 <h2>Colophon</h2>
