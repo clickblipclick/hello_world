@@ -373,6 +373,34 @@
   @media print { #slip div { transform: none; box-shadow: none; background: none; color: #000; border: 1px solid #000; }
                  #slip .tip { color: #000; } }
 </style>
+<style>
+  /* The small advertisements. Set narrow and close, the way a paper sets what it is paid for by the line. */
+  #smalls { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #smalls h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+               color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #smalls p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #smalls .cols { columns: 2; column-gap: 1.6rem; column-rule: 1px solid #263048; margin: 1.8rem 0;
+                  font-size: 0.8rem; line-height: 1.45; color: #b9b6ac; text-align: justify; hyphens: auto; }
+  #smalls h3 { font: 0.7rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.25em; text-transform: uppercase;
+               text-align: center; color: #d9cfa6; border-top: 3px double #263048; border-bottom: 1px solid #263048;
+               padding: 0.35rem 0 0.3rem; margin: 1.1rem 0 0.5rem; break-after: avoid; }
+  #smalls h3:first-child { margin-top: 0; }
+  #smalls .cols p { font-size: inherit; font-style: normal; color: inherit; margin: 0 0 0.6rem; break-inside: avoid; }
+  #smalls .cols b { font-weight: normal; text-transform: uppercase; letter-spacing: 0.06em; color: #e8e6df; }
+  #smalls .cols i { color: #6b7388; }
+  #smalls .cols .box { border: 1px solid #6b7388; padding: 0.5rem 0.6rem; text-align: center; hyphens: manual; }
+  @media (max-width: 24rem) { #smalls .cols { columns: 1; } }
+  @media screen and (prefers-color-scheme: light) {
+    #smalls h2 { color: #2f6f5e; }
+    #smalls h2, #smalls h3, #smalls .cols { border-color: #cfc8b6; column-rule-color: #cfc8b6; }
+    #smalls p, #smalls .cols i { color: #6a6f7d; }
+    #smalls .cols { color: #3d4353; }
+    #smalls h3 { color: #8a6a1f; }
+    #smalls .cols b { color: #1d2433; }
+  }
+  @media print { #smalls h2, #smalls h3, #smalls p, #smalls .cols, #smalls .cols b, #smalls .cols i
+                 { color: #000; border-color: #000; column-rule-color: #000; } }
+</style>
 <noscript><style>
   /* For visitors who arrive without scripts: the moving parts are put away, and what is left is the picture and the book. */
   #globe, #moon, #sky, main small, #fix, #post, #flotsam, #ear, #cal { display: none; }
@@ -845,6 +873,54 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <p>The rates are fixed. Your world was laid across this one, edge to edge, and the day was timed with a watch
    borrowed from a visitor, who has it back. The comma was weighed by setting one on a screen and observing that
    nothing happened; the figure used is therefore a courtesy. No change is given.</p>
+</section>
+<section id="smalls">
+<h2>Small advertisements</h2>
+<p>There is no newspaper, there being no news. The back page was set anyway, since it is the part that pays.
+   Insertions are charged by the line, in commas, and no advertiser has yet been asked to settle.</p>
+<div class="cols">
+<h3>Lost</h3>
+<p><b>Apostrophe,</b> one, from the upper margin. Small, pale, last seen blinking. Answers to a name nobody
+   learned. May since have been used in a contraction; if so, the owner would only like to know which.</p>
+<p><b>Ship.</b> Was asked to hold still for a drawing and has not been in the picture since. Points upward.
+   Finder is asked not to approach, which would be the first time it worked.</p>
+<p><b>The tenth flag.</b> Planted in good faith. Sentimental value to one person, and visible to no other.</p>
+<h3>Found</h3>
+<p><b>A watch.</b> No, that went back. The advertiser apologises, having only wanted to have found something.</p>
+<p><b>The way back</b> from Elsewhere, at the place where the way there gives out. Several travellers
+   have used it already. It is not worn.</p>
+<h3>Wanted</h3>
+<p><b>Glue.</b> Any quantity. A world in twelve pieces is waiting on it, patiently, flat.</p>
+<p><b>A rhyme for tilde.</b> The poet has been at sea some time, the waves all being one length, and is
+   beginning to scan. Will also consider a second wavelength.</p>
+<p><b>Somebody,</b> to look up during the Shade. Four minutes monthly. No experience can be had beforehand.
+   Must supply own presence.</p>
+<h3>Situations vacant</h3>
+<p><b>In charge.</b> The post has stood open since before it existed. Duties: none have arisen. The successful
+   candidate will report to nobody, who is described by all who have worked under them as easy to work under.</p>
+<p><b>Enumerator's relief.</b> To take the census every other second so that the enumerator may blink.
+   Must be able to count cloud as cloud and say no more about it.</p>
+<p><b>Harbourmaster.</b> No harbour. Applicants should explain in their own words what they would do all day,
+   and may take all day to do so.</p>
+<h3>For sale</h3>
+<p><b>Sea view.</b> From anywhere on the coast, and for most of the day from the middle of the continent too,
+   the land being one character high. <i>Unfurnished. Lit from the upper left. Vacant possession, as throughout.</i></p>
+<p><b>Semaphore mast,</b> two arms, one careful owner, never answered. Does all twenty-six and a rest.
+   Buyer collects, and should bring the long wire back with them.</p>
+<h3>Personal</h3>
+<p><b>Caret.</b> You were under way, heading for land, then not. I was the one at the glass. I have waved
+   everything I can spell. If the lamp is for anyone, light it somewhere I can see. <i>Box 44.</i></p>
+<p><b>To the Commas.</b> You have been confirmed by nobody and weighed as a courtesy. A pause, at any time
+   convenient to yourselves, will be taken as a reply.</p>
+<h3>Public notices</h3>
+<p class="box"><b>The At</b> will pass behind the world at the usual hour, and will not be available during
+   that time. It regrets nothing and has asked for that to be printed.</p>
+<p class="box"><b>Notice is given</b> that north remains up. Objections were invited at the show of hand.
+   There was one hand. It was up.</p>
+</div>
+<p>Replies to box numbers should be addressed to the box. There are forty-four, one for each character across,
+   and the post, as has been said, does not leave. A reply is therefore best read aloud, toward the picture,
+   at a moment when the advertiser is on the near side.</p>
 </section>
 <section id="index">
 <h2>Index</h2>
