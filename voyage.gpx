@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The log of the Caret, the only ship on a small world made of punctuation, in a form a chartplotter will take.
+
+  The positions are the ship's own, in the world's own degrees, and have not been converted, there being
+  nothing to convert them into. Load this over your planet and the track will go where it went there:
+  through open water that on yours may be a mountain range, a car park, or somebody's kitchen. The Caret
+  apologises for none of it. The land is in different places where it comes from, and it kept off all of that.
+
+  There are no times. The voyage took about as long as a cup of tea, and is still going on.
+-->
+<gpx version="1.1" creator="hello world" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata>
+    <name>The Caret: one voyage, or part of one</name>
+    <desc>A hundred and thirty-two positions and seven remarks. No port of departure, no destination, and no cargo. It sails until it sees land, turns away, and sails until it sees some more. Not to be used for navigation, though it is the only thing here that ever was.</desc>
+    <author><name>the crew, who have not been seen</name></author>
+    <link href="https://helloworldandthen.com/"><text>hello world</text></link>
+    <keywords>ship, punctuation, nowhere in particular</keywords>
+  </metadata>
+  <wpt lat="-11.507" lon="34.409">
+    <name>Log opened</name>
+    <desc>Not a departure. The ship was already under way and somebody found a pencil.</desc>
+    <sym>Flag, Green</sym>
+  </wpt>
+  <wpt lat="35.566" lon="-75.920">
+    <name>Land sighted</name>
+    <desc>Oland, probably: rounded, in rows. Reputed to be pleasant. Declined.</desc>
+    <sym>Danger Area</sym>
+  </wpt>
+  <wpt lat="-60.096" lon="-163.436">
+    <name>Ice</name>
+    <desc>The Asterisk Caps. Each flake a footnote. Nobody aboard wished to read them. Came about.</desc>
+    <sym>Danger Area</sym>
+  </wpt>
+  <wpt lat="33.132" lon="125.476">
+    <name>Land sighted</name>
+    <desc>The Hash, in full sun. Very bright. Declined, with one hand over the eyes.</desc>
+    <sym>Danger Area</sym>
+  </wpt>
+  <wpt lat="58.935" lon="43.964">
+    <name>Ice again</name>
+    <desc>The other cap. It is the same as the first one, which the crew take as proof that the world is round.</desc>
+    <sym>Danger Area</sym>
+  </wpt>
+  <wpt lat="7.403" lon="152.874">
+    <name>Passed a bottle</name>
+    <desc>The Percent, going east. Did not stop. A ship is not a postman. Somebody waved at it anyway.</desc>
+    <sym>Buoy, White</sym>
+  </wpt>
+  <wpt lat="8.166" lon="115.048">
+    <name>Log closed</name>
+    <desc>The pencil ran out here. The ship did not. Its present position is anywhere on the blue that is not this.</desc>
+    <sym>Flag, Red</sym>
+  </wpt>
+  <trk>
+    <name>The route</name>
+    <desc>The crew regard this as a route.</desc>
+    <type>sailing</type>
+    <trkseg>
+      <trkpt lat="-11.507" lon="34.409"/>
+      <trkpt lat="-36.422" lon="49.969"/>
+      <trkpt lat="-59.755" lon="52.684"/>
+      <trkpt lat="-62.333" lon="-5.766"/>
+      <trkpt lat="-62.271" lon="-28.012"/>
+      <trkpt lat="-59.731" lon="31.298"/>
+      <trkpt lat="-62.319" lon="43.427"/>
+      <trkpt lat="-62.661" lon="12.661"/>
+      <trkpt lat="-62.103" lon="-41.419"/>
+      <trkpt lat="-36.461" lon="-58.235"/>
+      <trkpt lat="-8.024" lon="-60.742"/>
+      <trkpt lat="19.521" lon="-67.920"/>
+      <trkpt lat="34.421" lon="-86.677"/>
+      <trkpt lat="22.485" lon="-116.214"/>
+      <trkpt lat="13.633" lon="-142.458"/>
+      <trkpt lat="24.639" lon="-167.815"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="43.844" lon="166.254"/>
+      <trkpt lat="60.503" lon="146.502"/>
+      <trkpt lat="59.518" lon="143.883"/>
+      <trkpt lat="32.059" lon="138.786"/>
+      <trkpt lat="3.567" lon="141.750"/>
+      <trkpt lat="-22.369" lon="141.657"/>
+      <trkpt lat="-22.596" lon="172.210"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-17.764" lon="-162.062"/>
+      <trkpt lat="-12.076" lon="-174.095"/>
+      <trkpt lat="-26.988" lon="-151.054"/>
+      <trkpt lat="-45.671" lon="-123.895"/>
+      <trkpt lat="-62.060" lon="-121.689"/>
+      <trkpt lat="-49.758" lon="-104.043"/>
+      <trkpt lat="-21.299" lon="-100.666"/>
+      <trkpt lat="6.928" lon="-105.223"/>
+      <trkpt lat="28.385" lon="-104.166"/>
+      <trkpt lat="36.805" lon="-71.629"/>
+      <trkpt lat="50.282" lon="-46.600"/>
+      <trkpt lat="31.862" lon="-56.941"/>
+      <trkpt lat="6.130" lon="-70.380"/>
+      <trkpt lat="-20.017" lon="-82.073"/>
+      <trkpt lat="-40.613" lon="-100.846"/>
+      <trkpt lat="-52.122" lon="-139.099"/>
+      <trkpt lat="-62.436" lon="-144.578"/>
+      <trkpt lat="-62.675" lon="-134.249"/>
+      <trkpt lat="-57.271" lon="-106.685"/>
+      <trkpt lat="-62.652" lon="-132.952"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-60.591" lon="166.723"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-62.792" lon="-152.116"/>
+      <trkpt lat="-62.224" lon="-123.137"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-62.535" lon="175.845"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-62.730" lon="-167.954"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-50.390" lon="157.574"/>
+      <trkpt lat="-21.976" lon="156.240"/>
+      <trkpt lat="-16.115" lon="165.288"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-31.740" lon="-168.339"/>
+      <trkpt lat="-42.851" lon="-134.932"/>
+      <trkpt lat="-51.524" lon="-105.023"/>
+      <trkpt lat="-62.621" lon="-141.735"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-61.826" lon="163.436"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-62.086" lon="-138.845"/>
+      <trkpt lat="-62.420" lon="-130.310"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-62.749" lon="178.514"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-61.988" lon="-119.691"/>
+      <trkpt lat="-62.776" lon="-156.805"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-53.702" lon="157.963"/>
+      <trkpt lat="-25.346" lon="155.228"/>
+      <trkpt lat="1.902" lon="146.219"/>
+      <trkpt lat="26.720" lon="131.473"/>
+      <trkpt lat="48.011" lon="139.158"/>
+      <trkpt lat="61.981" lon="148.897"/>
+      <trkpt lat="36.887" lon="132.314"/>
+      <trkpt lat="9.734" lon="122.692"/>
+      <trkpt lat="-18.894" lon="122.024"/>
+      <trkpt lat="-45.437" lon="114.168"/>
+      <trkpt lat="-56.975" lon="90.462"/>
+      <trkpt lat="-29.138" lon="84.734"/>
+      <trkpt lat="-0.739" lon="82.441"/>
+      <trkpt lat="26.546" lon="73.480"/>
+      <trkpt lat="51.316" lon="54.612"/>
+      <trkpt lat="62.671" lon="74.759"/>
+      <trkpt lat="38.918" lon="93.097"/>
+      <trkpt lat="10.531" lon="95.323"/>
+      <trkpt lat="-17.516" lon="100.034"/>
+      <trkpt lat="-42.185" lon="111.609"/>
+      <trkpt lat="-50.037" lon="110.988"/>
+      <trkpt lat="-51.819" lon="87.514"/>
+      <trkpt lat="-23.796" lon="80.411"/>
+      <trkpt lat="4.396" lon="76.196"/>
+      <trkpt lat="31.035" lon="65.079"/>
+      <trkpt lat="54.821" lon="42.730"/>
+      <trkpt lat="62.790" lon="74.124"/>
+      <trkpt lat="39.175" lon="92.788"/>
+      <trkpt lat="10.819" lon="95.108"/>
+      <trkpt lat="-17.320" lon="99.257"/>
+      <trkpt lat="-43.388" lon="111.337"/>
+      <trkpt lat="-24.848" lon="134.289"/>
+      <trkpt lat="-0.225" lon="149.175"/>
+      <trkpt lat="-8.475" lon="158.124"/>
+      <trkpt lat="-35.161" lon="169.192"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-58.829" lon="-168.418"/>
+      <trkpt lat="-62.446" lon="-144.872"/>
+      <trkpt lat="-62.595" lon="-130.333"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-60.557" lon="169.339"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-62.804" lon="-155.552"/>
+      <trkpt lat="-62.085" lon="-120.438"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-62.605" lon="178.678"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-62.573" lon="-162.603"/>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="-54.983" lon="157.769"/>
+      <trkpt lat="-26.772" lon="157.182"/>
+      <trkpt lat="-13.438" lon="172.398"/>
+      <trkpt lat="-13.389" lon="168.676"/>
+      <trkpt lat="-18.328" lon="139.412"/>
+      <trkpt lat="-30.172" lon="110.908"/>
+      <trkpt lat="-40.350" lon="81.859"/>
+      <trkpt lat="-29.732" lon="49.233"/>
+      <trkpt lat="-23.699" lon="26.077"/>
+      <trkpt lat="-8.125" lon="33.408"/>
+      <trkpt lat="-3.573" lon="36.409"/>
+      <trkpt lat="3.300" lon="41.470"/>
+      <trkpt lat="27.884" lon="56.298"/>
+      <trkpt lat="53.112" lon="74.607"/>
+      <trkpt lat="60.373" lon="82.246"/>
+      <trkpt lat="62.112" lon="23.187"/>
+      <trkpt lat="61.752" lon="-6.153"/>
+      <trkpt lat="61.402" lon="-14.551"/>
+      <trkpt lat="61.942" lon="45.295"/>
+      <trkpt lat="62.400" lon="61.309"/>
+      <trkpt lat="61.602" lon="0.352"/>
+      <trkpt lat="62.677" lon="19.014"/>
+      <trkpt lat="62.771" lon="58.472"/>
+      <trkpt lat="61.719" lon="-3.214"/>
+      <trkpt lat="62.697" lon="26.098"/>
+      <trkpt lat="57.670" lon="82.276"/>
+      <trkpt lat="32.320" lon="98.559"/>
+      <trkpt lat="8.166" lon="115.048"/>
+    </trkseg>
+  </trk>
+</gpx>
