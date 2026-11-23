@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>once round · hello world</title>
+<meta name="description" content="A game for two visitors, one die and the middle of the world. The sea does most of the moving.">
+<style>
+  body { margin: 0; background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
+  main { max-width: 32rem; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  h1 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #7fb7a4; margin: 0 0 0.4rem; }
+  h2 { font-size: 0.85rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #6b7388; margin: 2.6rem 0 0.8rem; }
+  .lede { color: #6b7388; font-style: italic; margin: 0 0 2rem; line-height: 1.55; }
+  #board { font: 15px/1.25 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 0; text-align: center; overflow-x: auto; }
+  #board b { color: #e8e6df; font-weight: normal; }
+  #board i { color: #d9cfa6; font-style: normal; }
+  #board u { color: #6b7388; text-decoration: none; }
+  #die { display: block; margin: 1rem 0 0.4rem; text-align: center; color: #d9cfa6; min-height: 1.2em;
+         font: 1.1rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.15em; }
+  #tale { line-height: 1.55; color: #b9b6ac; min-height: 6.5em; margin: 0 0 1.2rem; }
+  #hand { text-align: center; }
+  #throw { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+           background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #throw:hover, #throw:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  dl { margin: 0; line-height: 1.5; }
+  dt { font: 0.9rem ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin-top: 0.8rem; }
+  dd { margin: 0.15rem 0 0 0; color: #b9b6ac; }
+  p { line-height: 1.55; color: #b9b6ac; }
+  a { color: #7fb7a4; }
+  footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; line-height: 1.55; }
+</style>
+</head>
+<body>
+<main>
+<h1>Once round</h1>
+<p class="lede">A game for two visitors, one die, and the middle of the world, which has been cut along the
+equator and laid out straight so that it can be raced on. It is thirty squares from the post to the post.</p>
+<noscript><p class="lede">You have come without scripts, so nobody here will throw the die for you. The board
+is the line of characters in the rules, read left to right. Bring a die, two crumbs and a third crumb for the
+ship. The rules do not need a machine and are below.</p></noscript>
+<pre id="board" aria-label="the track round the middle of the world, with two pieces and a ship on it"></pre>
+<output id="die" aria-live="off"></output>
+<p id="tale" aria-live="polite">Two pieces have been set down at the post where longitude starts. They are
+a lowercase i and a lowercase j, the j being an i with further to go down. The i throws first, having less to carry.</p>
+<div id="hand"><button id="throw" type="button">throw for i</button></div>
+
+<h2>The rules</h2>
+<p>Throw, and go east by what the die says. East is the only direction; the world settled that by turning.
+What happens next depends on what you are standing on, and happens once. First to come round to the post
+again has been round the world, and wins. Nothing is won.</p>
+<dl>
+  <dt>|~#~,~"##~.~,~#"~~##~.,~"#~~#~|</dt>
+  <dd>The board. The post is at both ends, being the same post.</dd>
+  <dt># &nbsp;the Hash</dt>
+  <dd>Dry land. You stay where you are put. It is the only square that can be relied on.</dd>
+  <dt>~ &nbsp;the Tilde Sea</dt>
+  <dd>Water goes east, and so do you, by one square. What you fetch up on is your affair and has no further effect.</dd>
+  <dt>. &nbsp;the Deep</dt>
+  <dd>You go down, which is not east. The throw is struck from the record and you are back where you began it.</dd>
+  <dt>, &nbsp;a Comma</dt>
+  <dd>Draw breath, which is what it is for, and throw again.</dd>
+  <dt>" &nbsp;the Dittos</dt>
+  <dd>Cloud, meaning the same as the one above. Your throw is repeated, unseen, and you come out wherever that is.</dd>
+  <dt>^ &nbsp;the Caret</dt>
+  <dd>The ship moves one square east after every throw, whoever threw. End a throw on its square and you are
+      taken aboard and carried until land is in sight, which is the square before the next Hash, where it
+      puts you down and turns away. If land is already in sight you are put down at once, with an apology.</dd>
+</dl>
+<p>The die is marked in Deeps, there being no other way to write a small number here. A visitor alone may
+play both hands. They will win, and also lose, and should decide beforehand which they came for.</p>
+<footer>No score is kept, and the pieces are put back at the post when you leave, by nobody.
+<a href="./">Back to the world.</a></footer>
+</main>
+<script>
+// Once round the equator. All the rules are in the page above; this only throws the die and keeps count.
+(function () {
+  var T = '|~#~,~"##~.~,~#"~~##~.,~"#~~#~', N = T.length;
+  var FACE = ['.', ':', ':.', '::', '::.', ':::'];
+  var WORD = ['one', 'two', 'three', 'four', 'five', 'six'];
+  var NAME = ['i', 'j'];
+  var board = document.getElementById('board'), die = document.getElementById('die');
+  var tale = document.getElementById('tale'), btn = document.getElementById('throw');
+  var pos, ship, who, over;
+
+  function reset() { pos = [0, 0]; ship = 15; who = 0; over = false; }
+
+  function row(p, tag) {
+    var at = Math.min(pos[p], N), s = '';
+    for (var k = 0; k <= N; k++) s += k === at ? '<' + tag + '>' + NAME[p] + '</' + tag + '>' : ' ';
+    return s;
+  }
+  function show() {
+    var sea = '';
+    for (var k = 0; k < N; k++) sea += k === ship ? '<i>^</i>' : ' ';
+    board.innerHTML = row(0, 'b') + '\n' + row(1, 'b') + '\n' + T.replace(/"/g, '&quot;') + '|\n' + sea + ' \n' +
+      '<u>' + 'W' + new Array(N).join(' ') + 'E</u>';
+    btn.textContent = over ? 'set them down again' : 'throw for ' + NAME[who];
+  }
+
+  function turn() {
+    if (over) { reset(); die.textContent = ''; tale.textContent = 'Both pieces are back at the post. Neither remembers going round. The i throws first.'; show(); return; }
+    var n = 1 + Math.floor(Math.random() * 6), me = NAME[who], from = pos[who], s = from + n, again = false;
+    var say = 'The ' + me + ' throws ' + WORD[n - 1] + '. ';
+    die.textContent = FACE[n - 1];
+    if (s < N) {
+      var c = T.charAt(s);
+      if (c === '#') say += 'Dry land, and it stays there. ';
+      else if (c === '~') { s += 1; say += 'Sea. The water goes east and takes the ' + me + ' one square with it. '; }
+      else if (c === '.') { s = from; say += 'The Deep. It goes down, comes up where it started, and says nothing about what was there. '; }
+      else if (c === ',') { again = true; say += 'A Comma. It draws breath and will throw again. '; }
+      else if (c === '"') { s += n; say += 'Cloud. Ditto: ' + WORD[n - 1] + ' more, with nobody watching. '; }
+    }
+    if (s < N && s === ship && s !== from) {
+      var put = s;
+      while (put + 1 < N && T.charAt(put + 1) !== '#') put++;
+      if (put === s) say += 'The Caret is here, with land already in sight. The ' + me + ' is put down at once, with an apology. ';
+      else say += 'The Caret is here. The ' + me + ' is taken aboard, carried ' + WORD[Math.min(put - s, 6) - 1] +
+                  (put - s > 6 ? ' and more' : '') + ', and put down where land comes in sight. ';
+      s = ship = put;
+    }
+    pos[who] = s;
+    if (s >= N) {
+      over = true;
+      say += 'That is the post again. The ' + me + ' has been round the world and is exactly where it started, which is what winning is here. The ' +
+             NAME[1 - who] + ' has ' + (N - pos[1 - who]) + ' squares still to go and may regard them as scenery.';
+    } else {
+      ship = ship + 1 >= N ? 1 : ship + 1;
+      if (!again) who = 1 - who;
+      say += 'The Caret moves up one, to nobody in particular.';
+    }
+    tale.textContent = say;
+    show();
+  }
+
+  reset(); show();
+  btn.addEventListener('click', turn);
+})();
+</script>
+</body>
+</html>

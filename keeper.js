@@ -11,7 +11,7 @@
 var DRAWER = 'drawer';
 
 // What a visitor is given to begin with, so that a first visit is enough to keep the world by.
-var KEPT = ['./', 'forecast.html', 'phrasebook.html', 'ashore.html', 'customs.html', 'below.html',
+var KEPT = ['./', 'forecast.html', 'phrasebook.html', 'ashore.html', 'round.html', 'customs.html', 'below.html',
             'exam.html', 'search.html', 'departures.html', 'shanty.html', 'sky.svg', 'kit.svg',
             'pattern.txt', 'almanac.ics', 'voyage.gpx', 'world.sh', 'icon.svg', 'pocket.webmanifest'];
 
