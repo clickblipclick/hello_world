@@ -80,7 +80,7 @@
   #corked { display: block; min-height: 1.2em; margin-top: 1rem; color: #d9cfa6; word-break: break-all;
             font: 0.75rem/1.5 ui-monospace, Menlo, Consolas, monospace; user-select: all; }
   #found { display: block; min-height: 1.2em; margin-top: 0.8rem; }
-  #cross { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #cross { max-width: 30rem; padding: 0 1.5rem 3rem; width: 100%; box-sizing: border-box; }
   #cross h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
               color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
   #cross p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
@@ -124,6 +124,19 @@
   #gauge { font: 12px/1.15 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 1.6rem 0 0; }
   #tidal { display: block; min-height: 1.2em; margin-top: 0.8rem; }
   @media print { #tide { display: none; } }
+  #asked { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #asked h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #asked p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #asked details { border-bottom: 1px solid #263048; }
+  #asked summary { padding: 0.8rem 0; cursor: pointer; color: #e8e6df; list-style: none; }
+  #asked summary::-webkit-details-marker { display: none; }
+  #asked summary::before { content: '?'; display: inline-block; width: 1.4em; color: #7fb7a4;
+                           font: 0.9rem ui-monospace, Menlo, Consolas, monospace; }
+  #asked details[open] summary::before { content: '.'; }
+  #asked summary:focus-visible { outline: 1px solid #7fb7a4; outline-offset: 2px; }
+  #asked details p { margin: 0 0 1rem 1.4em; font-style: normal; color: #b9b6ac; line-height: 1.55; }
+  @media print { #asked { display: none; } }
 </style>
 <meta name="description" content="A small world made of punctuation. It turns. There is a ship, a moon, and a forecast for shipping, of which there is none.">
 <noscript><style>
@@ -365,6 +378,63 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   <li><b>7</b>Where sentences end, and how far down. <i>(4)</i></li>
 </ol>
 <small id="solved" aria-live="polite"></small>
+</section>
+<section id="asked">
+<h2>Questions nobody has asked</h2>
+<p>There is no enquiries desk, and so far no enquiries. The answers have been prepared anyway, to save time later.
+   Each is kept shut until wanted. A question mark is Elsewhere, as the gazetteer has it; opening one turns it
+   into a full stop, which is the Deep. That is roughly what being answered is like.</p>
+<details>
+  <summary>How big is it?</summary>
+  <p>About as big as it looks. This is unusual in a world and has been remarked on. Measured in its own
+     characters it is a few dozen across; measured in anything else it depends how far back you are sitting.</p>
+</details>
+<details>
+  <summary>Why does it turn?</summary>
+  <p>Nobody has stopped it for longer than they could hold a key down. The better question is why it turns
+     east, and the answer is that east is defined here as the way it turns.</p>
+</details>
+<details>
+  <summary>Where does the light come from?</summary>
+  <p>Up and to the left. There is nothing there. It has been looked for, with the telescope, and what was found
+     was margin, and some stars named after it. The light arrives regardless.</p>
+</details>
+<details>
+  <summary>Is it safe to drag?</summary>
+  <p>Yes. It has been dragged a great many times, in both directions, and no coastline has come loose. The Caret's
+     crew feel it as weather. The Commas do not feel it at all, or have not said.</p>
+</details>
+<details>
+  <summary>What happens to it when I close the page?</summary>
+  <p>Nothing that can be checked. It will be here when you come back, and will tell you how long you were gone,
+     and will be right about everything except whether it missed you.</p>
+</details>
+<details>
+  <summary>Can I live there?</summary>
+  <p>There is room. There is no air, fresh water, soil, or third dimension, and the ground is a different
+     colour every time the sun moves. Applicants who have read this far and still wish to are advised to plant a
+     flag and stand very near it.</p>
+</details>
+<details>
+  <summary>Who is in charge?</summary>
+  <p>The post is vacant and has been since before the post existed. The At is the most senior object, being
+     highest up, but has never given an instruction. The Caret has a captain, presumably, whose authority extends
+     to the Caret, and who has used it only to turn away from land.</p>
+</details>
+<details>
+  <summary>Is there another one?</summary>
+  <p>Every visitor has one, and they are all this one. They differ only in their flags, their bottle, and what
+     day they think it is. Two visitors comparing worlds will agree on the stars and on nothing they did themselves.</p>
+</details>
+<details>
+  <summary>What comes after hello?</summary>
+  <p>World. After that, by the look of things, quite a lot; but it was all put there afterwards, and none of
+     it was promised. The greeting was complete when it was made. Everything since is the world answering.</p>
+</details>
+<details>
+  <summary>Why is this question here?</summary>
+  <p>To make ten. Nobody asked for ten.</p>
+</details>
 </section>
 <script>
 // The crossword. It knows nothing about the world above it except how the world is spelled.
