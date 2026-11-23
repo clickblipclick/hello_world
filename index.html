@@ -174,6 +174,18 @@
     #above h2 { border-color: #cfc8b6; }
     #above p { color: #6a6f7d; }
   }
+  #roll { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #roll h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #roll p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #returns { font: 12px/1.5 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 1.6rem 0 0; overflow-x: auto; }
+  #tally { display: block; min-height: 2.4em; margin-top: 0.8rem; }
+  @media print { #roll { display: none; } }
+  @media screen and (prefers-color-scheme: light) {
+    #returns, #roll h2 { color: #2f6f5e; }
+    #roll h2 { border-color: #cfc8b6; }
+    #roll p { color: #6a6f7d; }
+  }
 </style>
 <meta name="description" content="A small world made of punctuation. It turns. There is a ship, a moon, and a forecast for shipping, of which there is none.">
 <!-- What the world sends ahead of itself when its address is passed along: a likeness, taken once, with the continent in. -->
@@ -203,6 +215,7 @@
              line-height: 1.55; color: #6b7388; font-style: italic; text-align: center; }
   #above { display: none; }
   #tide { display: none; }
+  #roll { display: none; }
 </style></noscript>
 </head>
 <body>
@@ -415,6 +428,19 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <p>You are at the bottom, marked, and have not moved. The At can be followed the whole way round from here,
    including the part where it used to vanish. Only the upper half of the world shows; whatever is in the lower
    half is underneath, where it is assumed to be carrying on.</p>
+</section>
+<section id="roll">
+<h2>The census</h2>
+<p>Everything on the world is counted, and since the world is made of nothing else, the count is complete.
+   It is taken of the side facing you, the back being difficult to enumerate from here, and it is taken again
+   about once a second, which no other administration has managed. Residence is by appearance. A square of
+   upland is entered under the Hash while the light is on it and under the Colons when it is not, without having
+   moved, and no objection has been received.</p>
+<pre id="returns" aria-label="a table of how many of each character are on the visible face of the world, with a bar for each"></pre>
+<small id="tally" aria-live="off"></small>
+<p>The At is not in the returns, being non-resident. Cloud is counted as cloud, and whatever is under it is
+   not counted at all, on the principle that the enumerator did not see it. The figures are correct at the time
+   of reading and at no other time. Drag the world and they are revised without complaint.</p>
 </section>
 <section id="cal">
 <h2>The calendar</h2>
@@ -1258,6 +1284,39 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   window.addEventListener('online', function () {
     fix.textContent = 'the line is back. nothing was missed, or nothing that was written down.';
   });
+})();
+</script>
+<script>
+// The census. The enumerator does not know how the world is made; it reads the picture, like everyone else, and counts.
+(function () {
+  var globe = document.getElementById('globe'), returns = document.getElementById('returns'), tally = document.getElementById('tally');
+  if (!globe || !returns || !tally) return;
+  var roll = [['#', 'The Hash'], ['o', 'Oland'], [':', 'The Colons'], ['~', 'The Tilde Sea'], ['-', 'The Flats'],
+              ['.', 'Full Stop Deep'], ['*', 'The Caps, lit'], ['+', 'The Caps, unlit'], ['"', 'The Dittos'],
+              ['!', 'The Exclamations'], ['^', 'The Caret'], ['%', 'The Percent']];
+  function pad(s, n, left) { s = String(s); while (s.length < n) s = left ? ' ' + s : s + ' '; return s; }
+  function count() {
+    var txt = globe.textContent, n = {}, all = 0, out = '', top = 0, i, c, k, bar;
+    if (!txt) return;
+    for (i = 0; i < txt.length; i++) {
+      c = txt.charAt(i);
+      if (c === ' ' || c === '\n') continue;
+      n[c] = (n[c] || 0) + 1; all++;
+    }
+    for (i = 0; i < roll.length; i++) {
+      k = n[roll[i][0]] || 0;
+      if (k > (n[roll[top][0]] || 0)) top = i;
+      bar = k ? new Array(Math.ceil(k / 16) + 1).join(roll[i][0]) : i > 8 ? '(not in view)' : '';
+      out += pad(roll[i][1], 17) + pad(k, 4, true) + '  ' + bar + '\n';
+    }
+    returns.textContent = out + pad('', 17) + ' ---\n' + pad('all persons', 17) + pad(all, 4, true);
+    var land = (n['#'] || 0) + (n['o'] || 0) + (n[':'] || 0), dark = (n[':'] || 0) + (n['.'] || 0) + (n['+'] || 0);
+    tally.textContent = 'the largest party is ' + roll[top][1] + '. ' + Math.round(land / all * 100) + ' in the hundred are on dry land and '
+      + Math.round(dark / all * 100) + ' are in the dark. '
+      + (n['^'] ? 'the Caret was at sea and has been counted as one.' : 'the Caret was not found and has been entered as abroad.');
+  }
+  count();
+  setInterval(function () { if (!document.hidden) count(); }, 900);
 })();
 </script>
 </body>
