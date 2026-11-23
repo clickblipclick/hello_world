@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the shanty · hello world</title>
+<meta name="description" content="The one song of the one ship, in nine verses, with the tune. The crew take the second and fourth lines. Nobody takes the first.">
+<style>
+  body { margin: 0; background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
+  main { max-width: 30rem; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  h1 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #7fb7a4; margin: 0 0 0.4rem; }
+  .lede { color: #6b7388; font-style: italic; margin: 0 0 2rem; }
+  p { line-height: 1.55; color: #b9b6ac; }
+  a { color: #7fb7a4; }
+  button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+           background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  button:hover, button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #said { display: block; min-height: 1.2em; margin-top: 0.8rem; color: #6b7388; font-style: italic; font-size: 0.85rem; }
+  #song { list-style: none; margin: 2.4rem 0; padding: 0; counter-reset: verse; }
+  #song li { margin: 0 0 1.5rem; padding-left: 2rem; position: relative; line-height: 1.6; font-size: 1.1rem; }
+  #song li::before { counter-increment: verse; content: counter(verse); position: absolute; left: 0; top: 0.35em;
+                     font: 0.7rem ui-monospace, Menlo, Consolas, monospace; color: #6b7388; }
+  #song span { display: block; }
+  #song .all { font-style: italic; color: #7fb7a4; padding-left: 1.2rem; }
+  #song b { font-weight: normal; transition: color 0.5s; }
+  #song b.now { color: #d9cfa6; transition: none; }
+  #tune { margin: 1rem 0 0; padding: 0.9rem 0.8rem; background: #070b14; border: 1px solid #263048; overflow-x: auto;
+          font: 0.8rem/1.6 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; user-select: all; }
+  footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; }
+  @media print { body { background: #fff; color: #000; } button, #said { display: none; }
+                 p, #song .all, #tune { color: #000; background: #fff; border-color: #000; } }
+</style>
+</head>
+<body>
+<main>
+<h1>The shanty</h1>
+<p class="lede">A working song, for a ship on which there is no work.</p>
+<p>The Caret has a crew, and a crew has a song, and this is it. There is only the one. It is sung to keep
+   time while hauling, and since there is nothing aboard to haul it is sung to keep time while turning
+   away from land, which is the only thing the ship does that takes more than one person to agree on.</p>
+<p>The plain lines belong to the shantyman, a post that has never been filled. The lines set in from the
+   margin belong to everybody else, and those are sung with some force.</p>
+<button id="strike" type="button" aria-pressed="false">strike it up</button>
+<small id="said" aria-live="polite"></small>
+<ol id="song">
+<li><span>We left from no&shy;where, as you do,</span>
+    <span class="all">A&shy;way, a&shy;way, and round we go!</span>
+    <span>And no&shy;where's where we're head&shy;ing to.</span>
+    <span class="all">There's land a&shy;head, so turn her round!</span></li>
+<li><span>We have no port, there be&shy;ing none,</span>
+    <span class="all">A&shy;way, a&shy;way, and round we go!</span>
+    <span>We car&shy;ry no&shy;thing, by the ton.</span>
+    <span class="all">There's land a&shy;head, so turn her round!</span></li>
+<li><span>We steer by not quite hit&shy;ting things,</span>
+    <span class="all">A&shy;way, a&shy;way, and round we go!</span>
+    <span>It's all the chart the morn&shy;ing brings.</span>
+    <span class="all">There's land a&shy;head, so turn her round!</span></li>
+<li><span>The At goes round the back a&shy;lone,</span>
+    <span class="all">A&shy;way, a&shy;way, and round we go!</span>
+    <span>And what it does there is not known.</span>
+    <span class="all">There's land a&shy;head, so turn her round!</span></li>
+<li><span>We passed a bot&shy;tle, go&shy;ing east,</span>
+    <span class="all">A&shy;way, a&shy;way, and round we go!</span>
+    <span>It did not need us in the least.</span>
+    <span class="all">There's land a&shy;head, so turn her round!</span></li>
+<li><span>Some gi&shy;ant plant&shy;ed flags a&shy;shore,</span>
+    <span class="all">A&shy;way, a&shy;way, and round we go!</span>
+    <span>We count&shy;ed nine and ne&shy;ver more.</span>
+    <span class="all">There's land a&shy;head, so turn her round!</span></li>
+<li><span>The cloud came o&shy;ver from the west,</span>
+    <span class="all">A&shy;way, a&shy;way, and round we go!</span>
+    <span>We put our col&shy;lars up and guessed.</span>
+    <span class="all">There's land a&shy;head, so turn her round!</span></li>
+<li><span>There's some&shy;one watch&shy;ing from the sky,</span>
+    <span class="all">A&shy;way, a&shy;way, and round we go!</span>
+    <span>We do not wave as we go by.</span>
+    <span class="all">There's land a&shy;head, so turn her round!</span></li>
+<li><span>And when the page is closed at night,</span>
+    <span class="all">A&shy;way, a&shy;way, and round we go!</span>
+    <span>We car&shy;ry on with&shy;out the light.</span>
+    <span class="all">There's land a&shy;head, so turn her round!</span></li>
+</ol>
+<p>There is no tenth verse. After the ninth the song is started again from the first, the route being
+   what it is. Verses have been proposed about arriving, and were voted down as speculative.</p>
+<p>For anyone with a whistle, a squeezebox, or a program that reads this sort of thing, the tune, written
+   out the way tunes are when there is no stave to hand:</p>
+<pre id="tune" aria-label="the tune, in ABC notation">X:1
+T:Round We Go
+C:the crew of the Caret, who deny it
+M:6/8
+L:1/8
+K:Ddor
+A | d2 d f2 e | d2 c A2
+A | c2 A d2 c | A2 G A2
+A | f2 e d2 f | e2 d c2
+c | d2 A c2 A | G2 E D2 z |]</pre>
+<p>It is in the Dorian mode, which is the minor key of people who are not actually unhappy. Six quavers
+   to the bar, two bars to the line, and the last note is the only one that sounds like stopping.
+   The crew dislike it for that reason and tend to come in early with the next verse.</p>
+<noscript><p>The tune is played by script, and without one the crew stand with their mouths open and
+   nothing comes out. The words are all here regardless. Hum.</p></noscript>
+<footer>The ship this is sung aboard is small and hard to find.
+<a href="./">It is on the world.</a></footer>
+</main>
+<script>
+// The shanty: every line is eight syllables to the same eight lengths, so one bar-plan serves the whole song.
+(function () {
+  var hz = { D: 293.66, E: 329.63, G: 392, A: 440, c: 523.25, d: 587.33, e: 659.25, f: 698.46 };
+  var tunes = ['AddfedcA', 'AcAdcAGA', 'Afedfedc', 'cdAcAGED'], lens = [1, 2, 1, 2, 1, 2, 1, 2], Q = 0.2;
+  var btn = document.getElementById('strike'), said = document.getElementById('said');
+  var lines = document.querySelectorAll('#song span'), sung = [], ac = null, timers = [], i, j, k;
+  // The words are cut at spaces and at soft hyphens, which is where the printer would have cut them anyway.
+  for (i = 0; i < lines.length; i++) {
+    var words = lines[i].textContent.split(' '), row = [];
+    lines[i].textContent = '';
+    for (j = 0; j < words.length; j++) {
+      var bits = words[j].split('­');
+      for (k = 0; k < bits.length; k++) {
+        var b = document.createElement('b');
+        b.textContent = bits[k];
+        lines[i].appendChild(b); row.push(b);
+      }
+      if (j < words.length - 1) lines[i].appendChild(document.createTextNode(' '));
+    }
+    sung.push(row);
+  }
+  function note(f, at, dur, crew) {
+    var o = ac.createOscillator(), g = ac.createGain();
+    o.type = crew ? 'sawtooth' : 'triangle'; o.frequency.value = f;
+    g.gain.setValueAtTime(0, at);
+    g.gain.linearRampToValueAtTime(crew ? 0.035 : 0.11, at + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.001, at + dur * 0.95);
+    o.connect(g); g.connect(ac.destination); o.start(at); o.stop(at + dur);
+  }
+  function light(b, ms, last) {
+    timers.push(setTimeout(function () {
+      b.className = 'now';
+      setTimeout(function () { b.className = ''; }, 260);
+      if (last) stop('and round again, if you like. they would.');
+    }, ms));
+  }
+  function stop(why) {
+    for (var t = 0; t < timers.length; t++) clearTimeout(timers[t]);
+    timers = [];
+    if (ac) { try { ac.close(); } catch (e) {} ac = null; }
+    btn.setAttribute('aria-pressed', 'false'); btn.textContent = 'strike it up';
+    said.textContent = why;
+  }
+  btn.addEventListener('click', function () {
+    if (ac) { stop('belayed. the crew finish the line under their breath.'); return; }
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) { said.textContent = 'this browser cannot carry a tune. the words still work.'; return; }
+    ac = new AC();
+    var t = ac.currentTime + 0.15, t0 = t;
+    for (var l = 0; l < sung.length; l++) {
+      var tune = tunes[l % 4], crew = l % 2 === 1;
+      for (var s = 0; s < 8 && s < sung[l].length; s++) {
+        var f = hz[tune.charAt(s)], dur = lens[s] * Q;
+        note(f, t, dur * 1.1, false);
+        if (crew) { note(f / 2, t, dur * 1.1, true); note(f * 1.006, t, dur * 1.1, true); }
+        light(sung[l][s], (t - t0) * 1000 + 150, l === sung.length - 1 && s === 7);
+        t += dur;
+      }
+    }
+    btn.setAttribute('aria-pressed', 'true'); btn.textContent = 'belay that';
+    said.textContent = 'nine verses, a little over a minute. the crew come in on every other line.';
+  });
+})();
+</script>
+</body>
+</html>
