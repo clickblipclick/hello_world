@@ -263,6 +263,29 @@
     #arms figcaption { color: #3d4353; }
   }
   @media print { #arms { --line: #000; --metal: #000; --pale: #000; --field: #fff; } #arms p, #arms figcaption { color: #000; } }
+  #scales { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #scales h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+               color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #scales p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #scales form { display: flex; gap: 0.8rem; align-items: baseline; margin: 1.6rem 0 0; }
+  #scales input, #scales select { background: none; border: 0; border-bottom: 1px solid #263048; color: #e8e6df;
+                                  font: 1rem Georgia, serif; padding: 0.4rem 0; border-radius: 0; }
+  #scales input { width: 6.5rem; min-width: 0; }
+  #scales select { flex: 1; min-width: 0; }
+  #scales option { background: #0d1321; color: #e8e6df; }
+  #scales input:focus, #scales select:focus { outline: none; border-bottom-color: #7fb7a4; }
+  #weighed { display: block; min-height: 4.8em; margin-top: 1.2rem; color: #d9cfa6; font-style: normal;
+             font: 0.8rem/1.7 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; }
+  @media screen and (prefers-color-scheme: light) {
+    #scales h2 { color: #2f6f5e; }
+    #scales h2, #scales input, #scales select { border-color: #cfc8b6; }
+    #scales p { color: #6a6f7d; }
+    #scales input, #scales select { color: #1d2433; }
+    #scales option { background: #f1ecdf; color: #1d2433; }
+    #scales input:focus, #scales select:focus { border-bottom-color: #2f6f5e; }
+    #weighed { color: #8a6a1f; }
+  }
+  @media print { #scales { display: none; } }
 </style>
 <meta name="description" content="A small world made of punctuation. It turns. There is a ship, a moon, and a forecast for shipping, of which there is none.">
 <!-- What the world sends ahead of itself when its address is passed along: a likeness, taken once, with the continent in. -->
@@ -705,6 +728,31 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    It would not keep to one quarter.</p>
 <p>The arms may be displayed by any visitor, on the grounds that every visitor is the only one. The Caret
    does not fly them. It was offered, and turned away, as it does from anything with an edge.</p>
+</section>
+<section id="scales">
+<h2>Weights and measures</h2>
+<p>Anything brought in from your world has to be restated in this one's units before it can be discussed. There
+   are three: the day, which is one turn; the character, which is the only length there is; and the comma, which
+   is used for weight, on the assumption that the inhabitants weigh something. The office is unattended. Put the
+   amount on the counter and say what it is an amount of.</p>
+<form onsubmit="return false">
+  <label for="amount" hidden>Amount</label>
+  <input id="amount" type="number" inputmode="decimal" min="0" step="any" value="1" autocomplete="off">
+  <label for="unit" hidden>Unit</label>
+  <select id="unit">
+    <option value="year">years, of yours</option>
+    <option value="hour">hours</option>
+    <option value="minute">minutes, such as a kettle takes</option>
+    <option value="km">kilometres</option>
+    <option value="mile">miles</option>
+    <option value="kg">kilograms</option>
+    <option value="lb">pounds</option>
+  </select>
+</form>
+<small id="weighed" aria-live="polite">The scales run on the same current as the world, and without it they only look like scales.</small>
+<p>The rates are fixed. Your world was laid across this one, edge to edge, and the day was timed with a watch
+   borrowed from a visitor, who has it back. The comma was weighed by setting one on a screen and observing that
+   nothing happened; the figure used is therefore a courtesy. No change is given.</p>
 </section>
 <footer id="colophon">
 <h2>Colophon</h2>
@@ -1589,6 +1637,58 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
     var q = matchMedia('(prefers-color-scheme: light)');
     if (q.addEventListener) q.addEventListener('change', paper);
   }
+})();
+</script>
+<script>
+// Weights and measures. Three units, fixed rates, and an office with nobody in it.
+(function () {
+  var amount = document.getElementById('amount'), unit = document.getElementById('unit');
+  var out = document.getElementById('weighed');
+  if (!amount || !unit || !out) return;
+  var DAY = 9;              // seconds to one turn, near enough
+  var CHAR = 12742 / 44;    // kilometres of your world to one character of this one
+  var COMMA = 0.002;        // kilograms to the comma, by courtesy
+  function fig(n) {
+    if (n >= 1e15) return 'more than the office has figures for';
+    if (n >= 100) return String(Math.round(n)).replace(/\B(?=(\d{3})+$)/g, ',');
+    if (n >= 1) return String(Math.round(n * 10) / 10);
+    if (n > 0) return n < 0.001 ? 'under a thousandth of one' : String(Math.round(n * 1000) / 1000);
+    return 'no';
+  }
+  function s(n, word) { return fig(n) + ' ' + word + (fig(n) === '1' ? '' : 's'); }
+  function weigh() {
+    var n = parseFloat(amount.value), u = unit.value, days, chars, commas, t;
+    if (!isFinite(n) || n < 0) { out.textContent = 'Nothing on the counter. Nothing is not charged for, and converts exactly.'; return; }
+    if (u === 'year' || u === 'hour' || u === 'minute') {
+      days = n * (u === 'year' ? 31557600 : u === 'hour' ? 3600 : 60) / DAY;
+      t = 'Comes to ' + s(days, 'day') + ' here. ';
+      t += n === 0 ? 'No time at all, which is the one amount both worlds keep in stock.'
+        : days < 1 ? 'Less than one turn. The Caret would not have got round to you.'
+        : u === 'year' && n >= 5 && n <= 120 ? 'If that is your age, you are older than anything on the world, the world included, and should be addressed accordingly.'
+        : days < 500 ? 'The At went over about ' + fig(days / 2) + ' times, counting generously, and the post was wetted every one of them.'
+        : 'Nobody here has stayed up for that many. The sea saw all of them and kept no count.';
+    } else if (u === 'km' || u === 'mile') {
+      chars = n * (u === 'mile' ? 1.609344 : 1) / CHAR;
+      t = 'Comes to ' + s(chars, 'character') + '. ';
+      t += n === 0 ? 'No distance. You are already here; it was the only place near enough.'
+        : chars < 1 ? 'That falls inside a single character, where nothing is measured because nothing fits.'
+        : Math.abs(chars - 44) < 0.5 ? 'That is the world across, exactly. It is also yours across. The office finds this suspicious.'
+        : chars < 44 ? 'It would go across the world, with ' + fig(44 - chars) + ' to spare for the sea.'
+        : chars <= 138 ? 'Wider than the world. Wound round the middle it would not quite meet.'
+        : 'That is ' + fig(chars / 138) + ' times round the middle, by which point the Caret would have stopped looking surprised.';
+    } else {
+      commas = n * (u === 'lb' ? 0.45359237 : 1) / COMMA;
+      t = 'Comes to ' + s(commas, 'comma') + '. ';
+      t += n === 0 ? 'Weightless. You would fit in well.'
+        : commas < 7 ? 'About as many as can be seen at once, which is the largest crowd on record.'
+        : commas < 5000 ? 'More Commas than have been confirmed, by exactly that many.'
+        : 'If that is you, please do not come ashore all at once. The continent is held up by being looked at.';
+    }
+    out.textContent = t;
+  }
+  amount.addEventListener('input', weigh);
+  unit.addEventListener('change', weigh);
+  weigh();
 })();
 </script>
 </body>
