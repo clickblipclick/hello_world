@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>departures · hello world</title>
+<meta name="description" content="A departure board for a world with one ship and no ports. Every sailing is the same ship. All of them leave on time.">
+<style>
+  body { margin: 0; background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
+  main { max-width: 30rem; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  h1 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #7fb7a4; margin: 0 0 0.4rem; }
+  .lede { color: #6b7388; font-style: italic; margin: 0 0 2rem; }
+  #board { margin: 0; padding: 0.9rem 0.8rem; background: #070b14; border: 1px solid #263048; overflow: hidden;
+           font: min(13px, 2.9vw)/1.9 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; letter-spacing: 0.04em; }
+  #board .head { color: #6b7388; }
+  #board .next { color: #e8e6df; }
+  #clock { display: block; margin-top: 0.9rem; font: 0.8rem ui-monospace, Menlo, Consolas, monospace;
+           color: #7fb7a4; letter-spacing: 0.05em; }
+  p { line-height: 1.55; color: #b9b6ac; }
+  a { color: #7fb7a4; }
+  footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; }
+  @media print { body { background: #fff; color: #000; } #board { background: #fff; color: #000; border-color: #000; } }
+</style>
+</head>
+<body>
+<main>
+<h1>Departures</h1>
+<p class="lede">There are no ports. This is the board that would hang in one.</p>
+<pre id="board" aria-label="a departure board, six sailings deep" aria-live="off">TIME   TO                      REMARKS
+--:--  THE BOARD IS BEING WOUND
+</pre>
+<output id="clock" for="board"></output>
+<p>Every sailing listed is the Caret, there being no other ship, which is why the board has no column for
+   the vessel. It was thought a column with one word in it six times would lower morale.</p>
+<p>The times are yours. The world has its own, but a day there is over before a ticket could be torn, so
+   the sailings have been spaced to suit somebody standing on a quay with a watch. There is no quay.
+   Destinations are given as the crew understand them, which is in terms of what to turn away from next.</p>
+<p>Passengers are reminded that there is no gangway, no ticket office, and no way aboard. The Caret has
+   never left late. This is the whole of its reputation and it was not difficult to earn.</p>
+<noscript><p>The board is worked by script, and without one the flaps hang as they were left. The Caret
+   has sailed regardless. It does not consult the board; nobody aboard has seen it.</p></noscript>
+<footer>The ship itself can be watched, when it can be found.
+<a href="./">It is on the world.</a></footer>
+</main>
+<script>
+// The board. A sailing is a slot of four minutes on the visitor's own clock, and everything about a sailing
+// is worked out from the number of its slot, so two people looking at the same minute read the same board.
+(function () {
+  var board = document.getElementById('board'), clock = document.getElementById('clock');
+  var SLOT = 240000, ROWS = 6, FLAPS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:,.-';
+  var to = ['NOT OLAND', 'AWAY FROM THE HASH', 'MORE SEA', 'THE FLATS, PRESUMABLY', 'FULL STOP DEEP',
+            'LAND, THEN NOT', 'EAST, BROADLY', 'THE TILDE SEA', 'WHERE IT WAS', 'ROUND THE BACK',
+            'THE COLONS, BRIEFLY', 'ANYWHERE COASTLESS', 'THE ICE, AND BACK'];
+  var notes = ['ON TIME', 'ON TIME', 'ON TIME', 'ON TIME', 'NO PASSENGERS', 'IN CLOUD', 'LAMP LIT',
+               'UNDER THE SHADE', 'NO BERTH', 'ON TIME, AGAIN', 'BOTTLE SIGHTED', 'CREW CONTENT'];
+  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function mix(n) { n = (n ^ 61) ^ (n >>> 16); n = (n + (n << 3)) | 0; n ^= n >>> 4;
+                    n = Math.imul(n, 0x27d4eb2d); return (n ^ (n >>> 15)) >>> 0; }
+  function pad(s, w) { return (s + new Array(w + 1).join(' ')).slice(0, w); }
+  function two(n) { return (n < 10 ? '0' : '') + n; }
+  function wanted(now) {
+    var first = Math.floor(now / SLOT) + 1, lines = [];
+    for (var i = 0; i < ROWS; i++) {
+      var s = first + i, at = new Date(s * SLOT), h = mix(s);
+      var note = notes[(h >>> 8) % notes.length];
+      if (i === 0 && s * SLOT - now < 30000) note = 'NOW LEAVING';
+      lines.push(two(at.getHours()) + ':' + two(at.getMinutes()) + '  ' + pad(to[h % to.length], 24) + pad(note, 15));
+    }
+    return lines;
+  }
+  // Each flap turns through the alphabet in order until it reaches the letter it was sent for, as flaps do.
+  var shown = [], goal = [];
+  function paint() {
+    board.textContent = '';
+    var head = document.createElement('span');
+    head.className = 'head';
+    head.textContent = 'TIME   TO                      REMARKS\n';
+    board.appendChild(head);
+    for (var i = 0; i < shown.length; i++) {
+      var row = document.createElement('span');
+      if (i === 0) row.className = 'next';
+      row.textContent = shown[i] + '\n';
+      board.appendChild(row);
+    }
+  }
+  function flap() {
+    var moved = false;
+    for (var i = 0; i < goal.length; i++) {
+      var out = '';
+      for (var j = 0; j < goal[i].length; j++) {
+        var c = shown[i].charAt(j), g = goal[i].charAt(j);
+        if (c !== g) { moved = true; c = still ? g : FLAPS.charAt((FLAPS.indexOf(c) + 1) % FLAPS.length); }
+        out += c;
+      }
+      shown[i] = out;
+    }
+    if (moved) paint();
+  }
+  function tick() {
+    var now = Date.now(), d = new Date(now);
+    goal = wanted(now);
+    var left = Math.ceil((SLOT - now % SLOT) / 1000);
+    clock.textContent = two(d.getHours()) + ':' + two(d.getMinutes()) + ':' + two(d.getSeconds()) +
+      ' by your watch. next sailing in ' + (left >= 60 ? Math.floor(left / 60) + ' min ' : '') + left % 60 + ' s.';
+  }
+  goal = wanted(Date.now());
+  for (var i = 0; i < ROWS; i++) shown.push(still ? goal[i] : pad('', goal[i].length));
+  paint(); tick();
+  setInterval(tick, 1000);
+  setInterval(flap, 45);
+})();
+</script>
+</body>
+</html>
