@@ -1,0 +1,26 @@
+{
+  "name": "hello world",
+  "short_name": "world",
+  "description": "A small world made of punctuation, kept on a shelf. It turns. It goes on turning when the line is down.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0d1321",
+  "theme_color": "#0d1321",
+  "categories": ["entertainment", "navigation", "weather"],
+  "icons": [
+    { "src": "icon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" },
+    { "src": "icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "The forecast", "short_name": "forecast", "url": "forecast.html",
+      "description": "For shipping, of which there is one." },
+    { "name": "Go ashore", "short_name": "ashore", "url": "ashore.html",
+      "description": "For a visitor prepared to be very small." },
+    { "name": "Look for the Caret", "short_name": "search", "url": "search.html",
+      "description": "It has always turned up so far." }
+  ]
+}

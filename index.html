@@ -177,6 +177,10 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0d1321" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f1ecdf" media="(prefers-color-scheme: light)">
+<!-- For keeping the world on a shelf: its papers, and the small picture it goes under. -->
+<link rel="manifest" href="pocket.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-title" content="world">
 <noscript><style>
   /* For visitors who arrive without scripts: the moving parts are put away, and what is left is the picture and the book. */
   #globe, #moon, #sky, main small, #fix, #post, #flotsam, #ear, #cal { display: none; }
@@ -346,6 +350,11 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    pictures, <a href="card.png">a likeness</a> goes ahead of it. It was taken once, on a clear afternoon, and does not turn.
    The At is in it. The Caret is not, having been asked to hold still. People who have seen only the likeness
    have seen the world at its best, and are advised that it is also sometimes cloudy, and usually later.</p>
+<p class="wx">The world may be kept. A browser, asked in whatever way that browser likes to be asked, will put it on a
+   shelf with the other things you own, under <a href="icon.svg">a small picture</a> of itself, and it opens from there
+   without an address, like something that lives with you. It has also been given a keeper, who sits behind the page
+   and saves a copy of everything that goes by. When the line is down the keeper hands the copies back, and the world
+   turns as before, a little out of date, which it was already. The Caret does not notice. It has never had a line.</p>
 </section>
 <section id="post">
 <h2>Postcards</h2>
@@ -1166,6 +1175,24 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   // Leaving is noted too, so that the absence is measured from the door and not from the hello.
   window.addEventListener('pagehide', keep);
   document.addEventListener('visibilitychange', function () { if (document.hidden) keep(); });
+})();
+</script>
+<script>
+// The keeper is taken on here. It works behind the page and is told nothing except where to stand.
+(function () {
+  var fix = document.getElementById('fix');
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('keeper.js').catch(function () {});
+    });
+  }
+  // The line going down, and coming back, are the only two things that happen here which the world did not do itself.
+  window.addEventListener('offline', function () {
+    fix.textContent = 'the line is down. this is the world as you last saw it. it turns all the same.';
+  });
+  window.addEventListener('online', function () {
+    fix.textContent = 'the line is back. nothing was missed, or nothing that was written down.';
+  });
 })();
 </script>
 </body>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t">
+<title id="t">A small round world drawn in punctuation, with a moon that is an at sign</title>
+<!-- The world, at the size of a thumbnail, for keeping on a shelf. It does not turn at this size.
+     Nothing does. The Caret is in it, which is more than the likeness managed; see if you can find it. -->
+<rect width="512" height="512" fill="#0d1321"/>
+<g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="34" fill="#7fb7a4"
+   text-anchor="middle" xml:space="preserve">
+<text x="236" y="126">****+</text>
+<text x="236" y="160">~~~~~~~ooo</text>
+<text x="236" y="194">~~~###~~~-oo:</text>
+<text x="236" y="228">~~#####~~~--o..</text>
+<text x="236" y="262">~~######~~~---...</text>
+<text x="236" y="296">~######~~^~---...</text>
+<text x="236" y="330">~#####~~~~---....</text>
+<text x="236" y="364">-~###~~~----...</text>
+<text x="236" y="398">--oo------...</text>
+<text x="236" y="432">..---..::</text>
+<text x="236" y="466">+++++</text>
+</g>
+<text x="420" y="112" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="44" fill="#d9cfa6"
+      text-anchor="middle">@</text>
+<g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="22" fill="#8d94a8">
+<text x="52" y="84">'</text>
+<text x="96" y="412">.</text>
+<text x="452" y="300">`</text>
+<text x="404" y="468">'</text>
+<text x="40" y="250">.</text>
+</g>
+</svg>
