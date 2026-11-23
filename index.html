@@ -354,6 +354,25 @@
   }
   @media print { #signal { display: none; } }
 </style>
+<style>
+  /* The slip. A loose piece of paper, and so the one thing here that is paper-coloured whatever the hour. */
+  #slip { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #slip div { max-width: 21rem; margin: 0 auto; padding: 1.4rem 1.5rem 1.2rem; background: #e6dfc9; color: #33323a;
+              transform: rotate(-1.2deg); box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.45); }
+  #slip h2 { font-size: 0.85rem; font-weight: normal; letter-spacing: 0.35em; text-transform: uppercase;
+             text-align: center; margin: 0 0 0.9rem; }
+  #slip p { font-size: 0.85rem; letter-spacing: 0; line-height: 1.5; margin: 0 0 0.7rem; }
+  #slip ul { list-style: none; margin: 0; padding: 0; font-size: 0.85rem; line-height: 1.5; }
+  #slip li { margin: 0 0 0.6rem; padding-left: 1em; text-indent: -1em; }
+  #slip li b { font-weight: normal; font-variant: small-caps; letter-spacing: 0.05em; }
+  #slip del { text-decoration-color: #9a3b2e; }
+  #slip ins { text-decoration: none; font-style: italic; }
+  #slip .tip { font-style: italic; text-align: center; margin: 1rem 0 0; color: #6d6a62; }
+  @media (prefers-color-scheme: light) { #slip div { background: #fffdf4; box-shadow: 0 0.3rem 0.9rem rgba(60, 50, 30, 0.25); } }
+  @media (prefers-reduced-motion: no-preference) { #slip div { transition: transform 0.4s; } #slip div:hover { transform: rotate(0.6deg); } }
+  @media print { #slip div { transform: none; box-shadow: none; background: none; color: #000; border: 1px solid #000; }
+                 #slip .tip { color: #000; } }
+</style>
 <noscript><style>
   /* For visitors who arrive without scripts: the moving parts are put away, and what is left is the picture and the book. */
   #globe, #moon, #sky, main small, #fix, #post, #flotsam, #ear, #cal { display: none; }
@@ -889,6 +908,30 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 </ul>
 <p>The indexer worked from a single copy and asks it to be understood that yours turned differently.
    No entry could be found for X, or for Z, and Q was looked for with particular care.</p>
+</section>
+<section id="slip">
+<div>
+<h2>Errata</h2>
+<p>The reader is asked to make the following corrections, in pencil, on the glass.</p>
+<ul>
+  <li><b>The top.</b> For <del>hello world</del> read <ins>hello world</ins>. No fault has been found in it. It is
+      entered so that the list should contain one thing that was right.</li>
+  <li><b>The gazetteer.</b> For <del>Nobody has been there</del> read <ins>Nobody has been there</ins>. The words
+      stand. They have been corrected to mean slightly less, a visitor having since gone ashore, though at no size
+      that counts.</li>
+  <li><b>The map.</b> For <del>a show of hands</del> read <ins>a show of hand</ins>. One visitor was present. The
+      motion that north is up was carried unanimously, and would have been lost on a tie.</li>
+  <li><b>By comparison.</b> For <del>About nine seconds</del> read <ins>About nine seconds, if left alone</ins>.
+      Days of under a second have since been reported, and one that went backwards. The visitor responsible knows.</li>
+  <li><b>The index.</b> After <i>No entry could be found for X</i> add <ins>on the surface</ins>. The mast can
+      make an X whenever asked. The indexer holds that a thing waved is not a thing found, and is not speaking to
+      the mast.</li>
+  <li><b>The colophon.</b> For <del>Printed nowhere</del> read <ins>Printed nowhere, except this slip</ins>. You
+      have not reached that line yet. Correct it when you do.</li>
+  <li><b>This slip.</b> For <del>six corrections</del> read <ins>seven</ins>.</li>
+</ul>
+<p class="tip">Tipped in loose. If it has fallen out, it was here.</p>
+</div>
 </section>
 <footer id="colophon">
 <h2>Colophon</h2>
