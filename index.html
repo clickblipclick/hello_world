@@ -137,6 +137,31 @@
   #asked summary:focus-visible { outline: 1px solid #7fb7a4; outline-offset: 2px; }
   #asked details p { margin: 0 0 1rem 1.4em; font-style: normal; color: #b9b6ac; line-height: 1.55; }
   @media print { #asked { display: none; } }
+  /* The paper edition. A visitor whose machine is kept light gets the same world in ink: it is day out there
+     in the margin, the stars are specks in the stock, and the lit side is the side with the most ink on it. */
+  @media screen and (prefers-color-scheme: light) {
+    body { background: #f1ecdf; color: #1d2433; }
+    #globe, #fix, #gauge, #gazetteer h2, #post h2, #ear h2, #cal h2, #flotsam h2, #cross h2, #absent h2, #tide h2, #asked h2,
+    #gazetteer dd a, #gazetteer .wx a, #gazetteer .wx code, #cal .diary a, #cross li b, #asked summary::before { color: #2f6f5e; }
+    #gazetteer h2, #post h2, #ear h2, #cal h2, #flotsam h2, #cross h2, #absent h2, #tide h2, #asked h2,
+    #asked details { border-color: #cfc8b6; }
+    small, #gazetteer .lede, #gazetteer .wx, #gazetteer dt span, #post p, #ear p, #cal p, #flotsam p, #flotsam label,
+    #cross p, #absent p, #tide p, #asked p, #cross h3, #cross li i, #lights span[data-n]::before { color: #6a6f7d; }
+    #gazetteer dd, #cross ol, #asked details p { color: #3d4353; }
+    #moon, #sky b, #card, #date, #corked, #missed { color: #8a6a1f; }
+    #sky { color: #a39c88; }
+    #sky i[style*="color"] { color: #1d2433 !important; }
+    #post button, #ear button, #flotsam button { color: #2f6f5e; border-color: #2f6f5e; }
+    #post button:hover, #post button:focus-visible, #ear button:hover, #ear button:focus-visible,
+    #flotsam button:hover, #flotsam button:focus-visible { background: #2f6f5e; color: #f1ecdf; }
+    #flotsam input { color: #1d2433; border-bottom-color: #cfc8b6; }
+    #flotsam input:focus { border-bottom-color: #2f6f5e; }
+    #lights input { background: #e8e2d2; border-color: #cfc8b6; color: #8a6a1f; }
+    #lights input:focus { border-color: #2f6f5e; background: #ddd5c0; }
+    #asked summary { color: #1d2433; }
+    #globe:focus-visible, #asked summary:focus-visible { outline-color: #2f6f5e; }
+    ::selection { background: #2f6f5e; color: #f1ecdf; }
+  }
 </style>
 <meta name="description" content="A small world made of punctuation. It turns. There is a ship, a moon, and a forecast for shipping, of which there is none.">
 <noscript><style>
@@ -300,6 +325,10 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <p class="wx">Paper tears, and a terminal is cold. For those who would rather have a world they can drop without
    consequences there is <a href="pattern.txt">a pattern</a>: three colours, seventy-two stitches round the middle, and an
    orange's worth of stuffing. It is the first version with an inside that anybody put there on purpose.</p>
+<p class="wx">The world comes in two editions and does not say which you have. Visitors who keep their machines dark
+   see it by night, lit from the side. Those who keep them light get it on paper, in ink, where the Hash is simply
+   the part with the most ink on it and the Apostrophes are flaws in the stock. It is the same world. Changing
+   your mind changes the edition at once, without a reprint, which is more than paper has managed before.</p>
 </section>
 <section id="post">
 <h2>Postcards</h2>
