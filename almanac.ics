@@ -1,0 +1,151 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hello world//almanac//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:hello world
+X-WR-CALDESC:The observances of a small world made of punctuation\, slowed 
+ down to fit a diary. A day there takes about as long as reading a sentence
+ \; these have been kept at your pace instead\, as a courtesy\, and repeat 
+ for as long as you let them.
+BEGIN:VEVENT
+UID:starday@helloworldandthen.com
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:19700104
+DTEND;VALUE=DATE:19700105
+RRULE:FREQ=WEEKLY;BYDAY=SU
+SUMMARY:Starday
+DESCRIPTION:The seventh day of the week and not a weekend\, the world havin
+ g none. Observed by carrying on exactly as usual. If you were going to do 
+ something today\, that is the observance.
+LOCATION:The world. Not yours\; the small one.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:shade@helloworldandthen.com
+DTSTAMP:19700101T000000Z
+DTSTART:19700115T120000
+DTEND:19700115T120400
+RRULE:FREQ=MONTHLY;BYMONTHDAY=15
+SUMMARY:The Shade
+DESCRIPTION:The At comes out in front and stands in the light\, and a small
+  round night crosses the day from west to east. It lasts about four of you
+ r minutes\, which is generous. Nobody underneath looks up. You may.
+LOCATION:The world. Not yours\; the small one.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:back@helloworldandthen.com
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:19700101
+DTEND;VALUE=DATE:19700102
+RRULE:FREQ=MONTHLY;BYMONTHDAY=1
+SUMMARY:The At goes round the back
+DESCRIPTION:For reasons of its own. It will come back looking exactly as it
+  did. No action is required\, and none is possible.
+LOCATION:The world. Not yours\; the small one.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:land@helloworldandthen.com
+DTSTAMP:19700101T000000Z
+DTSTART:19700113T030000
+DTEND:19700113T030100
+RRULE:FREQ=MONTHLY;BYDAY=2TU
+SUMMARY:The Caret sights land
+DESCRIPTION:And turns away. The crew regard this as a route. Entered here a
+ t three in the morning so as not to disturb anyone\, including the land.
+LOCATION:The world. Not yours\; the small one.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:flags@helloworldandthen.com
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:19700309
+DTEND;VALUE=DATE:19700310
+RRULE:FREQ=YEARLY
+SUMMARY:Flag Day!
+DESCRIPTION:For the Exclamations. The world holds nine. Plant a tenth today
+  and the oldest quietly falls over\, as on any other day. The exclamation 
+ mark in the title is not enthusiasm\; it is a flag.
+LOCATION:The world. Not yours\; the small one.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:poles-n@helloworldandthen.com
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:19700621
+DTEND;VALUE=DATE:19700622
+RRULE:FREQ=YEARLY
+SUMMARY:Midwinter at the Asterisk Caps (south)
+DESCRIPTION:The world has no tilt and so no seasons. Midwinter is kept anyw
+ ay\, once for each pole\, to be fair. The ice is the same as yesterday. Ea
+ ch flake remains a footnote.
+LOCATION:The world. Not yours\; the small one.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:poles-s@helloworldandthen.com
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:19701221
+DTEND;VALUE=DATE:19701222
+RRULE:FREQ=YEARLY
+SUMMARY:Midwinter at the Asterisk Caps (north)
+DESCRIPTION:See the other one. On the dark side the asterisks dim to plus s
+ igns\; this is the only arithmetic the planet does\, and it is not doing i
+ t for the occasion.
+LOCATION:The world. Not yours\; the small one.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:dittos@helloworldandthen.com
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:19701001
+DTEND;VALUE=DATE:19701002
+RRULE:FREQ=YEARLY
+SUMMARY:Cloud expected
+DESCRIPTION:The Dittos come over from the west in rows. This is true of eve
+ ry day\, but it seemed wrong for a calendar to have no weather in it at al
+ l. Same as above. Same as above.
+LOCATION:The world. Not yours\; the small one.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:stop@helloworldandthen.com
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:19701231
+DTEND;VALUE=DATE:19710101
+RRULE:FREQ=YEARLY
+SUMMARY:Full Stop
+DESCRIPTION:Sentences end here. Expect a long pause\, then land\, or mornin
+ g\, whichever comes first.
+LOCATION:The world. Not yours\; the small one.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:began@helloworldandthen.com
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:19700101
+DTEND;VALUE=DATE:19700102
+RRULE:FREQ=YEARLY
+SUMMARY:The beginning of time (observed)
+DESCRIPTION:Time on the world began when you arrived\, which is a different
+  day for everyone and no good to a calendar. This date is a compromise\, b
+ orrowed from the machines\, who all believe it.
+LOCATION:The world. Not yours\; the small one.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:year@helloworldandthen.com
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:19720229
+DTEND;VALUE=DATE:19720301
+RRULE:FREQ=YEARLY;BYMONTH=2;BYMONTHDAY=29
+SUMMARY:A year\, if there were years
+DESCRIPTION:There are none\, the world having nothing to go around. This is
+  the day on which your calendar comes nearest to admitting the same diffic
+ ulty.
+LOCATION:The world. Not yours\; the small one.
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR
