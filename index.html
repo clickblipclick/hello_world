@@ -186,6 +186,19 @@
     #roll h2 { border-color: #cfc8b6; }
     #roll p { color: #6a6f7d; }
   }
+  #twin { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #twin h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #twin p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #other { font: 6px/1 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; margin: 1.6rem 0 0 2rem; user-select: none; }
+  #other.left { opacity: 0.35; }
+  #sighted { display: block; min-height: 2.4em; margin-top: 0.8rem; }
+  @media print { #twin { display: none; } }
+  @media screen and (prefers-color-scheme: light) {
+    #twin h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #twin p { color: #6a6f7d; }
+    #other { color: #8a6a1f; }
+  }
 </style>
 <meta name="description" content="A small world made of punctuation. It turns. There is a ship, a moon, and a forecast for shipping, of which there is none.">
 <!-- What the world sends ahead of itself when its address is passed along: a likeness, taken once, with the continent in. -->
@@ -460,6 +473,19 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    and went on turning after. It keeps no record of this. You do, on your own machine, without having
    been asked: one line, saying when you were last seen. What follows is worked out from that.</p>
 <output id="missed"></output>
+</section>
+<section id="twin" hidden>
+<h2>Company</h2>
+<p>It was given out that there is one world. That holds for as long as it is open in one window. You have
+   it open in more than one, and each of them has been turning on its own account, with its own afternoon,
+   under the impression that it was the only one. They have now been introduced. This is the other, as seen
+   from here: small, because it is some way off, and a different colour, because it is not yours.</p>
+<pre id="other" aria-label="another copy of the world, open in another window, drawn small"></pre>
+<small id="sighted" aria-live="off"></small>
+<p>The flags are the same on both, flags being kept by the visitor and not by the world. The time of day is
+   not, since time began in each when you arrived there. A world that is not being looked at stops turning
+   and says nothing about it afterwards; from here, for once, it can be caught at it. Over there, this one
+   is the small one.</p>
 </section>
 <section id="cross">
 <h2>The crossword</h2>
@@ -1317,6 +1343,52 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   }
   count();
   setInterval(function () { if (!document.hidden) count(); }, 900);
+})();
+</script>
+<script>
+// Company. Windows on the same world can hear one another, and each one says, about once a second, what it looks like.
+(function () {
+  var globe = document.getElementById('globe'), box = document.getElementById('twin');
+  var pic = document.getElementById('other'), note = document.getElementById('sighted');
+  if (!globe || !box || !pic || !note || !('BroadcastChannel' in window)) return;
+  var line, me = Math.random().toString(36).slice(2), others = {}, last = null, met = 0;
+  try { line = new BroadcastChannel('world'); } catch (e) { return; }
+  function say(gone) {
+    try { line.postMessage({ id: me, gone: !!gone, idle: document.hidden, pic: globe.textContent }); } catch (e) {}
+  }
+  function words(n) { return ['no', 'one', 'two', 'three', 'four', 'five', 'six'][n] || 'a number of'; }
+  function look() {
+    var now = Date.now(), n = 0, id;
+    for (id in others) {
+      if (now - others[id].at > 5000) delete others[id]; else n++;
+    }
+    if (!n) {
+      if (!met) return;
+      pic.className = 'left';
+      note.textContent = 'it has gone, or been shut. that is the last that was seen of it. there is one world again, as advertised.';
+      return;
+    }
+    if (!others[last]) for (id in others) last = id;
+    box.hidden = false;
+    pic.className = '';
+    pic.textContent = others[last].pic;
+    note.textContent = (n === 1 ? 'one other world in sight. ' : words(n) + ' other worlds in sight, of which this is the nearest. ')
+      + (others[last].idle ? 'nobody is looking at it, and it has stopped. it thinks nobody knows.'
+                           : 'it is being looked at, and is turning accordingly.');
+  }
+  line.onmessage = function (e) {
+    var m = e.data;
+    if (!m || typeof m.id !== 'string' || m.id === me || typeof m.pic !== 'string' || m.pic.length > 2000) return;
+    if (m.gone) { delete others[m.id]; look(); return; }
+    if (!others[m.id]) { met++; say(); }
+    others[m.id] = { pic: m.pic, idle: !!m.idle, at: Date.now() };
+    if (!others[last]) last = m.id;
+    look();
+  };
+  say();
+  setInterval(function () { say(); look(); }, 1000);
+  document.addEventListener('visibilitychange', function () { say(); });
+  window.addEventListener('pagehide', function () { say(true); });
 })();
 </script>
 </body>
