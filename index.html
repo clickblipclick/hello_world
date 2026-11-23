@@ -213,6 +213,30 @@
     #colophon .end span { color: #2f6f5e; }
   }
   @media print { #colophon h2, #colophon p, #colophon .end span { color: #000; border-color: #000; } }
+  /* The comparison: two columns ruled up, one for this world and one for the visitor's. The only table here. */
+  #beside { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #beside h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+               color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #beside p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #beside table { width: 100%; border-collapse: collapse; margin: 1.6rem 0; line-height: 1.45; }
+  #beside thead th { font: 0.75rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.2em; text-transform: uppercase;
+                     color: #6b7388; text-align: left; padding: 0 0.8rem 0.6rem 0; border-bottom: 1px solid #263048; }
+  #beside tbody th { font-weight: normal; font-variant: small-caps; letter-spacing: 0.06em; text-align: left;
+                     color: #e8e6df; white-space: nowrap; }
+  #beside tbody th, #beside td { padding: 0.6rem 0.8rem 0.6rem 0; vertical-align: top; border-bottom: 1px solid #263048; }
+  #beside td { font-size: 0.9rem; color: #b9b6ac; width: 38%; }
+  #beside td:first-of-type { color: #d9cfa6; }
+  #beside td:last-child { padding-right: 0; }
+  @media (max-width: 26rem) { #beside tbody th { white-space: normal; } #beside td { font-size: 0.8rem; } }
+  @media screen and (prefers-color-scheme: light) {
+    #beside h2 { color: #2f6f5e; }
+    #beside h2, #beside thead th, #beside tbody th, #beside td { border-color: #cfc8b6; }
+    #beside p, #beside thead th { color: #6a6f7d; }
+    #beside tbody th { color: #1d2433; }
+    #beside td { color: #3d4353; }
+    #beside td:first-of-type { color: #8a6a1f; }
+  }
+  @media print { #beside h2, #beside p, #beside th, #beside td { color: #000 !important; border-color: #000; } }
 </style>
 <meta name="description" content="A small world made of punctuation. It turns. There is a ship, a moon, and a forecast for shipping, of which there is none.">
 <!-- What the world sends ahead of itself when its address is passed along: a likeness, taken once, with the continent in. -->
@@ -527,6 +551,36 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   <li><b>7</b>Where sentences end, and how far down. <i>(4)</i></li>
 </ol>
 <small id="solved" aria-live="polite"></small>
+</section>
+<section id="beside">
+<h2>By comparison</h2>
+<p>You arrived from another world, and are sitting on it now. It seemed only fair to set the two side by side.
+   The figures for this one were taken from the world itself. The figures for yours are from memory and
+   have not been checked, yours being too large to bring in.</p>
+<table>
+  <caption hidden>This world compared with the visitor's own, line by line</caption>
+  <thead>
+    <tr><th scope="col"><span hidden>What</span></th><th scope="col">This one</th><th scope="col">Yours</th></tr>
+  </thead>
+  <tbody>
+    <tr><th scope="row">Across</th><td>Forty-four characters.</td><td>Rather more. It does not fit on a page, which is why you have never seen it turn.</td></tr>
+    <tr><th scope="row">A day</th><td>About nine seconds.</td><td>Twenty-four hours, most of them spoken for.</td></tr>
+    <tr><th scope="row">Moons</th><td>One, the At.</td><td>One, unlettered.</td></tr>
+    <tr><th scope="row">Shipping</th><td>The Caret.</td><td>A great many, nearly all of them going somewhere.</td></tr>
+    <tr><th scope="row">Ports</th><td>None.</td><td>Thousands. This is thought to be connected.</td></tr>
+    <tr><th scope="row">Inhabitants</th><td>The Commas, unconfirmed.</td><td>Some thousands of millions, confirmed repeatedly and by each other.</td></tr>
+    <tr><th scope="row">Flags</th><td>Nine at most. No disputes.</td><td>No limit. See previous column.</td></tr>
+    <tr><th scope="row">Stars</th><td>Seventy, all named.</td><td>More, mostly not.</td></tr>
+    <tr><th scope="row">Weather</th><td>From the west, in rows.</td><td>From wherever it likes. No rows.</td></tr>
+    <tr><th scope="row">Depth</th><td>One hole.</td><td>Depth throughout. A whole third direction, heavily used.</td></tr>
+    <tr><th scope="row">Made of</th><td>Punctuation.</td><td>The things punctuation goes between.</td></tr>
+    <tr><th scope="row">Can be dragged</th><td>Yes.</td><td>Not by you. The At's opposite number does a little of it, twice a day.</td></tr>
+    <tr><th scope="row">Visitors</th><td>You.</td><td>None recorded.</td></tr>
+    <tr><th scope="row">Greeting</th><td>Hello.</td><td>Still being drafted, in several thousand languages, with no agreed recipient.</td></tr>
+  </tbody>
+</table>
+<p>On points, yours has more of nearly everything. This one has the advantage in the last line only, and in
+   being finished looking at before the kettle boils. Neither has complained about the other. One of them has not been told.</p>
 </section>
 <section id="asked">
 <h2>Questions nobody has asked</h2>
