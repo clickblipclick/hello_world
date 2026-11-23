@@ -1,0 +1,32 @@
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//hello world//the caret//EN
+UID:caret@helloworldandthen.com
+FN:The Caret
+N:Caret;The;;;
+NICKNAME:the ship\,the only one\,^
+ORG:The Shipping\, of which there is none;All of it
+TITLE:Ship
+ROLE:Sailing until land is seen\, then turning away
+ADR;TYPE=WORK:;;No fixed berth;The Tilde Sea;or The Flats\, later in the a
+ fternoon;~~~;The world. Not yours\; the small one.
+LABEL;TYPE=WORK:The Caret\nNo fixed berth\nThe Tilde Sea\, or the Flats\, 
+ or the Deep\nEast of wherever it was\nThe world (the small one)
+TEL;TYPE=WORK,VOICE:^
+URL:https://helloworldandthen.com/departures.html
+BDAY:1970-01-01
+TZ:+00:00
+CATEGORIES:ships,punctuation,unreachable
+X-SOCIALPROFILE;TYPE=bottle:%
+NOTE:The only ship. It has no port\, there being no ports\, so it cannot b
+ e visited\; it has no line\, so it cannot be rung\; and the post goes by 
+ bottle\, which it has passed several times without stopping. This card is
+  therefore for keeping and not for use. File it under C. It will be the o
+ ne entry in your book that has never let a call go unanswered\, none havi
+ ng arrived.\n\nThe number given is the masthead\, which is one character 
+ high. The address is correct to the nearest sea. The birthday is the day 
+ counting began\, which is as close as anyone got to a launch. Do not expe
+ ct a card back. The Caret keeps no book\, knowing nobody\, and has never 
+ mislaid a friend as a result.
+REV:19700101T000000Z
+END:VCARD
