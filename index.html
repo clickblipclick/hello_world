@@ -199,6 +199,20 @@
     #twin p { color: #6a6f7d; }
     #other { color: #8a6a1f; }
   }
+  /* The colophon: what a printer puts on the last leaf, saying what the book was made of. */
+  #colophon { max-width: 24rem; padding: 0 1.5rem 7rem; width: 100%; box-sizing: border-box; text-align: center; }
+  #colophon h2 { font-size: 0.8rem; font-weight: normal; letter-spacing: 0.3em; text-transform: uppercase;
+                 color: #6b7388; border-top: 1px solid #263048; padding-top: 2.4rem; margin: 0 0 1.4rem; }
+  #colophon p { font-size: 0.9rem; letter-spacing: 0; line-height: 1.6; color: #6b7388; margin: 0 0 1rem; }
+  #colophon .end { font-style: italic; margin-top: 1.8rem; }
+  #colophon .end span { display: block; margin-top: 1.2rem; font: 12px/1 ui-monospace, Menlo, Consolas, monospace;
+                        font-style: normal; color: #7fb7a4; letter-spacing: 0.4em; }
+  @media screen and (prefers-color-scheme: light) {
+    #colophon h2 { border-color: #cfc8b6; }
+    #colophon h2, #colophon p { color: #6a6f7d; }
+    #colophon .end span { color: #2f6f5e; }
+  }
+  @media print { #colophon h2, #colophon p, #colophon .end span { color: #000; border-color: #000; } }
 </style>
 <meta name="description" content="A small world made of punctuation. It turns. There is a ship, a moon, and a forecast for shipping, of which there is none.">
 <!-- What the world sends ahead of itself when its address is passed along: a likeness, taken once, with the continent in. -->
@@ -568,6 +582,21 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   <p>To make ten. Nobody asked for ten.</p>
 </details>
 </section>
+<footer id="colophon">
+<h2>Colophon</h2>
+<p>The world is set in <span id="face">whatever monospace the machine had in the case</span>, twelve pixels
+   to the body and set solid, which is the printers' way of saying that nothing was put between the lines.
+   Nothing could be; the coast would have come apart. The words round it are in Georgia where Georgia was to
+   be had, and otherwise in the nearest serif that answered.</p>
+<p><span id="measure">It has not been measured, the rule being kept on the other side of the glass.</span>
+   <span id="stock">It is printed light on dark or dark on light, as the reader's own lamp dictates.</span></p>
+<p>No type was cast for it. Every sort was in your case already, on your side of the glass, before the world
+   was thought of. It was only a matter of putting them in order and then moving them sixty times a second,
+   which is where compositors of the old school would have asked for more money. The Apostrophes, being named
+   for the margin, are pleased to find themselves at last in a book that has one.</p>
+<p class="end">Printed nowhere. Published wherever it is looked at. This copy is yours and is the only one
+   that turned exactly like this.<span aria-hidden="true">~ ^ ~</span></p>
+</footer>
 <script>
 // The crossword. It knows nothing about the world above it except how the world is spelled.
 (function () {
@@ -1389,6 +1418,53 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   setInterval(function () { say(); look(); }, 1000);
   document.addEventListener('visibilitychange', function () { say(); });
   window.addEventListener('pagehide', function () { say(true); });
+})();
+</script>
+<script>
+// The colophon. The fixed part was written beforehand; the rest is found out by holding a rule up to this copy.
+(function () {
+  var globe = document.getElementById('globe'), face = document.getElementById('face');
+  var measure = document.getElementById('measure'), stock = document.getElementById('stock');
+  if (!globe || !face || !measure || !stock) return;
+  // A face is taken to be in the case if a line set in it comes out a different length from the same line set without.
+  function has(name) {
+    var probe = document.createElement('span'), w = [], backs = ['monospace', 'serif'], i;
+    probe.textContent = 'mmmmmmmmmmlli~#@';
+    probe.style.cssText = 'position:absolute;left:-999em;top:0;font-size:72px;white-space:nowrap;visibility:hidden';
+    document.body.appendChild(probe);
+    for (i = 0; i < 2; i++) {
+      probe.style.fontFamily = backs[i]; w.push(probe.offsetWidth);
+      probe.style.fontFamily = '"' + name + '", ' + backs[i]; w.push(probe.offsetWidth);
+    }
+    document.body.removeChild(probe);
+    return w[0] !== w[1] || w[2] !== w[3];
+  }
+  function words(n) { return String(n).replace(/\B(?=(\d{3})+$)/g, ','); }
+  function rule() {
+    var r = globe.getBoundingClientRect(), txt = globe.textContent || '', sorts = txt.replace(/\s/g, '').length;
+    if (!r.width || !sorts) return;
+    var mm = Math.round(r.width / 96 * 25.4), all = document.documentElement.outerHTML.length;
+    measure.textContent = 'In this copy it is ' + mm + ' millimetres across, if your screen is honest about its inches, and '
+      + sorts + ' sorts are standing in it at the moment. The whole forme, with everything written round it, runs to about '
+      + words(Math.round(all / 1000) * 1000) + ' characters, nearly all of them explanation.';
+  }
+  function paper() {
+    var light = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches;
+    stock.textContent = light
+      ? 'This is the paper edition, dark on light. The paper is your screen and was not charged for.'
+      : 'This is the night edition, light on dark, which is the only printing ever done entirely without ink.';
+  }
+  try {
+    face.textContent = has('Menlo') ? 'Menlo' : has('Consolas') ? 'Consolas'
+      : 'the machine\u2019s own monospace, which did the work and did not give its name';
+  } catch (e) {}
+  paper();
+  setTimeout(rule, 600);
+  window.addEventListener('resize', rule);
+  if (window.matchMedia) {
+    var q = matchMedia('(prefers-color-scheme: light)');
+    if (q.addEventListener) q.addEventListener('change', paper);
+  }
 })();
 </script>
 </body>
