@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>your own · hello world</title>
+<meta name="description" content="A second world, made out of whatever you type. The words are the land and the gaps between them are the sea.">
+<style>
+  body { margin: 0; background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
+  main { max-width: 30rem; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  h1 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #7fb7a4; margin: 0 0 0.4rem; }
+  .lede { color: #6b7388; font-style: italic; margin: 0 0 2rem; }
+  label { display: block; color: #b9b6ac; line-height: 1.55; margin-bottom: 0.5rem; }
+  textarea { box-sizing: border-box; width: 100%; height: 5.2rem; padding: 0.6rem 0.7rem; resize: vertical;
+             background: #070b14; color: #e8e6df; border: 1px solid #263048; border-radius: 0;
+             font: 0.9rem/1.5 ui-monospace, Menlo, Consolas, monospace; }
+  textarea:focus { outline: 1px solid #7fb7a4; }
+  #made { display: block; margin: 1.6rem auto 0.6rem; width: max-content; max-width: 100%; overflow: hidden;
+          font: min(12px, 2.6vw)/1 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0;
+          cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  #made:active { cursor: grabbing; }
+  #made:focus { outline: none; }
+  #made:focus-visible { outline: 1px dotted #7fb7a4; outline-offset: 6px; }
+  #made .a { color: #f3e9c0; }
+  #made .b { color: #a9b08f; }
+  #made .c { color: #56607a; }
+  #made .s { color: #2f6f8f; }
+  #made .t { color: #23405a; }
+  #made .i { color: #e8e6df; }
+  #count { display: block; text-align: center; font: 0.8rem ui-monospace, Menlo, Consolas, monospace;
+           color: #7fb7a4; letter-spacing: 0.05em; min-height: 2.4em; }
+  p { line-height: 1.55; color: #b9b6ac; }
+  a { color: #7fb7a4; }
+  footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; }
+  @media (prefers-color-scheme: light) {
+    body { background: #f4f1e8; color: #1c1c1c; }
+    p, label { color: #3c3a35; }
+    textarea { background: #fff; color: #1c1c1c; border-color: #b9b6ac; }
+    h1, a, #count { color: #2f6b58; }
+    #made .a { color: #000; } #made .b { color: #4a4a44; } #made .c { color: #a09d92; }
+    #made .s { color: #4f86a3; } #made .t { color: #a9bfcc; } #made .i { color: #1c1c1c; }
+  }
+</style>
+</head>
+<body>
+<main>
+<h1>Your own</h1>
+<p class="lede">The first one was made of two words. They were not the only two available.</p>
+<label for="said">Say something. Whatever it is will be wound round a ball, and the ball set turning.</label>
+<textarea id="said" maxlength="280" spellcheck="false" autocomplete="off" placeholder="hello world"></textarea>
+<pre id="made" tabindex="0" aria-label="a second world, turning, whose land is the words you typed and whose sea is the spaces between them"></pre>
+<output id="count" for="said" aria-live="off"></output>
+<p>The words are the land. The gaps between the words are the sea, which is why it was worth putting gaps in.
+   A letter standing in full light is a capital, that being what the Hash always was; in the afternoon it
+   comes down to lower case, and after dark it is still there but is not insisting. Your punctuation has been
+   let in as it stands. It has relations here.</p>
+<p>It reads from west to east, a line to each latitude, and when your sentence runs out it is begun again,
+   so that a short remark makes a world of many small identical countries and a long one makes a continent
+   nobody will see the whole of. The ice is not yours. Every world gets the same two caps; they come with the ball.</p>
+<p>Leave the box empty and it is made of the only thing that was ever said here, over and over, which is
+   one account of how the other one came about. Drag it to read ahead. Nothing sails on it. The Caret was
+   offered a second route and turned away, as you would expect, at the edge of the first letter.</p>
+<p id="keep">The world is not kept. It is in the address, though, from the moment you type it, and whoever is
+   given the address is given the world, already turning and under the impression it has always been there.</p>
+<noscript><p>Winding words round a ball takes a script, and without one they stay in the box, flat, where
+   strictly speaking they were already a map.</p></noscript>
+<footer>The one that was here first is still going.
+<a href="./">It has not been told about this.</a></footer>
+</main>
+<script>
+// A world made of whatever the visitor says. The text is laid along the latitudes, one line to each row of the
+// picture, with as many letters round each as that latitude has room for; so along the middle of the face it
+// reads at one letter to the character, and closes up towards the edges, as anything written on a ball would.
+(function () {
+  var el = document.getElementById('made'), box = document.getElementById('said'), count = document.getElementById('count');
+  var W = 44, H = 22, ROUND = 138, spin = 0, speed = 0.007, text = '', cols = [], first = [];
+  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var dragging = false, lastX = 0, held = false;
+  for (var y = 0, sum = 0; y < H; y++) {
+    var ny = (y + 0.5) / H * 2 - 1;
+    cols[y] = Math.max(1, Math.round(ROUND * Math.sqrt(1 - ny * ny)));
+    first[y] = sum; sum += cols[y];
+  }
+  function wind(raw) {
+    var t = String(raw).replace(/\s+/g, ' ').replace(/^ | $/g, '').slice(0, 280);
+    text = (t || 'hello world') + ' ';
+    var words = t ? t.split(' ').length : 2, turns = Math.ceil(sum / text.length);
+    count.textContent = t
+      ? (words === 1 ? 'one word' : words + ' words') + ', going round ' + (turns === 1 ? 'once' : turns + ' times') + ' before the ball is covered.'
+      : 'two words, as before. it takes ' + turns + ' hellos to cover a world.';
+  }
+  function esc(ch) { return ch === '&' ? '&amp;' : ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch; }
+  function draw() {
+    var out = '', run = '', cls = '';
+    function put(ch, c) {
+      if (c !== cls) { if (run) out += cls ? '<span class="' + cls + '">' + run + '</span>' : run; run = ''; cls = c; }
+      run += esc(ch);
+    }
+    for (var y = 0; y < H; y++) {
+      for (var x = 0; x < W; x++) {
+        var nx = (x + 0.5) / W * 2 - 1, ny = (y + 0.5) / H * 2 - 1, r2 = nx * nx + ny * ny;
+        if (r2 > 1) { put(' ', ''); continue; }
+        var nz = Math.sqrt(1 - r2), lat = Math.asin(ny), lon = Math.atan2(nx, nz) + spin;
+        var light = nx * -0.5 + ny * -0.4 + nz * 0.75;
+        if (Math.abs(lat) > 1.25) { put(light > 0.3 ? '*' : '+', 'i'); continue; }
+        var turn = lon / 6.283185307179586; turn -= Math.floor(turn);
+        var ch = text.charAt((first[y] + Math.floor(turn * cols[y])) % text.length);
+        if (ch === ' ') put(light > 0.5 ? '~' : light > 0.15 ? '-' : '.', light > 0.15 ? 's' : 't');
+        else if (light > 0.55) put(ch.toUpperCase().charAt(0), 'a');
+        else put(ch.toLowerCase().charAt(0), light > 0.2 ? 'b' : 'c');
+      }
+      put('\n', '');
+    }
+    put('', 'end');
+    el.innerHTML = out;
+  }
+  function frame() {
+    if (!dragging && !held && !still && !document.hidden) spin += speed;
+    draw();
+  }
+  // The words travel in the address, after the #, so that the world can be handed to somebody else whole.
+  function carry() {
+    var t = box.value.replace(/\s+/g, ' ').replace(/^ | $/g, '');
+    try { history.replaceState(null, '', t ? '#' + encodeURIComponent(t) : location.pathname + location.search); } catch (e) {}
+  }
+  function arrive() {
+    var h = location.hash.slice(1);
+    if (!h) return;
+    try { box.value = decodeURIComponent(h).slice(0, 280); } catch (e) {}
+  }
+  box.addEventListener('input', function () { wind(box.value); carry(); draw(); });
+  window.addEventListener('hashchange', function () { arrive(); wind(box.value); draw(); });
+  el.addEventListener('pointerdown', function (e) { dragging = true; lastX = e.clientX; try { el.setPointerCapture(e.pointerId); } catch (err) {} });
+  el.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    spin -= (e.clientX - lastX) / el.getBoundingClientRect().width * 2;
+    lastX = e.clientX; draw();
+  });
+  el.addEventListener('pointerup', function () { dragging = false; });
+  el.addEventListener('pointercancel', function () { dragging = false; });
+  el.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') spin -= 0.1;
+    else if (e.key === 'ArrowRight') spin += 0.1;
+    else if (e.key === ' ') held = !held;
+    else return;
+    e.preventDefault(); draw();
+  });
+  arrive(); wind(box.value); draw();
+  setInterval(frame, 60);
+})();
+</script>
+</body>
+</html>
