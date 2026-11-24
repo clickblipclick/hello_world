@@ -263,6 +263,24 @@
     #arms figcaption { color: #3d4353; }
   }
   @media print { #arms { --line: #000; --metal: #000; --pale: #000; --field: #fff; } #arms p, #arms figcaption { color: #000; } }
+  #stars { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #stars h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #stars p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #stars dl { margin: 1.6rem 0; }
+  #stars dt { color: #e8e6df; margin-top: 1.4rem; display: flex; justify-content: space-between; align-items: baseline; }
+  #stars dt span { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #d9cfa6; }
+  #stars dd { margin: 0.3rem 0 0; color: #b9b6ac; line-height: 1.55; }
+  #stars dd b { font-weight: normal; color: #7fb7a4; }
+  @media screen and (prefers-color-scheme: light) {
+    #stars h2, #stars dd b { color: #2f6f5e; }
+    #stars h2 { border-color: #cfc8b6; }
+    #stars p { color: #6a6f7d; }
+    #stars dt { color: #1d2433; }
+    #stars dt span { color: #7a6420; }
+    #stars dd { color: #3d4353; }
+  }
+  @media print { #stars { display: none; } }
   #scales { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
   #scales h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
                color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
@@ -908,6 +926,37 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    borrowed from a visitor, who has it back. The comma was weighed by setting one on a screen and observing that
    nothing happened; the figure used is therefore a courtesy. No change is given.</p>
 </section>
+<section id="stars">
+<h2>The horoscope</h2>
+<p>Four figures have been joined up in the sky, and four is enough to be born under. Nobody was born here, so
+   the signs go by arrival instead: look at a clock, any clock, and take the quarter of the hour in which you
+   came. The Apostrophes do not move, and neither therefore does the forecast. It was cast once and is good
+   for every day there is, which at nine seconds apiece is a great many.</p>
+<dl>
+  <dt>The Ellipsis <span>:00 to :14</span></dt>
+  <dd>You arrived as the hour was starting and have felt ever since that something is about to follow. It
+      is. It will also trail off. A matter left unfinished will stay that way and will be none the worse for
+      it. <b>Lucky mark:</b> the third dot. <b>Avoid:</b> conclusions, particularly your own.</dd>
+  <dt>The Em Dash, bent <span>:15 to :29</span></dt>
+  <dd>You are in the middle of saying something and were interrupted by yourself. The bend is not your
+      fault; it was straight when it was drawn, and the sky is not. Expect a long pause between two things
+      that turn out to be one thing. <b>Lucky mark:</b> whichever comes after. <b>Avoid:</b> hyphens, who
+      mean well and are not the same.</dd>
+  <dt>The Greater Caret <span>:30 to :44</span></dt>
+  <dd>Something has been left out and you are the mark that shows where. This is a position of
+      responsibility. Travel is indicated, as it always is for this sign, toward land and then promptly
+      away from it. A smaller version of you is at sea and has no idea it was named first.
+      <b>Lucky mark:</b> the gap. <b>Avoid:</b> ports. This will be easy.</dd>
+  <dt>The Thumbprint <span>:45 to :59</span></dt>
+  <dd>You came late in the hour and touched the glass. It is the only figure not taken from the printers'
+      case, and the astronomers suspect it is on the lens. Your influence is real, local, and can be
+      wiped off. Someone will look straight through you today at something further away, and will see it
+      better for a moment afterwards. <b>Lucky mark:</b> the whorl. <b>Avoid:</b> cloths.</dd>
+</dl>
+<p>Visitors who arrived exactly on the quarter are on the cusp and may read both, or neither, which comes
+   to the same. Those who did not look at a clock are under whatever is behind the world just now. It
+   cannot be asked. The reading for it is thought to be favourable, nothing having come back.</p>
+</section>
 <section id="smalls">
 <h2>Small advertisements</h2>
 <p>There is no newspaper, there being no news. The back page was set anyway, since it is the part that pays.
@@ -1056,6 +1105,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   <li class="gap">Glue: not supplied</li>
   <li class="gap">Hash, the: <i>see under</i> time of day</li>
   <li>Hello: said once, at the top, and not taken back</li>
+  <li>Horoscope, the: cast once; <i>see also</i> Apostrophes; not consulted by the Caret</li>
   <li class="gap">Inhabitants: <i>see</i> Nobody</li>
   <li class="gap">Moon: <i>see</i> At</li>
   <li class="gap">Nobody
