@@ -481,6 +481,37 @@
   @media print { #galley h2, #galley h3, #galley p, #galley a, #galley .yield, #galley ul, #galley ul b, #galley ol, #galley code,
                  #galley .card { color: #000; border-color: #000; } }
 </style>
+<style>
+  /* The board. One hash, taken off the high ground and enlarged until there is room in it for nine moves. */
+  #board { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #board h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #board p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #squares { display: grid; grid-template-columns: repeat(3, 3.6rem); width: 10.8rem; margin: 1.8rem auto 1.2rem; }
+  #squares button { height: 3.6rem; background: none; border: 0 solid #7fb7a4; border-radius: 0; padding: 0; cursor: pointer;
+                    font: 1.5rem/1 ui-monospace, Menlo, Consolas, monospace; color: #e8e6df; }
+  #squares button:nth-child(3n+2) { border-left-width: 2px; border-right-width: 2px; }
+  #squares button:nth-child(n+4):nth-child(-n+6) { border-top-width: 2px; border-bottom-width: 2px; }
+  #squares button:focus-visible { outline: 1px dashed #d9cfa6; outline-offset: -6px; }
+  #squares button[disabled] { cursor: default; }
+  #squares button.theirs { color: #d9cfa6; }
+  #squares button.row { background: #263048; }
+  #score { display: block; min-height: 2.6em; font-size: 0.85rem; font-style: italic; line-height: 1.5; color: #b9b6ac; text-align: center; }
+  #rematch { display: block; margin: 1rem auto 0; font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em;
+             color: #7fb7a4; background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #rematch:hover, #rematch:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  @media screen and (prefers-color-scheme: light) {
+    #board h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #board p { color: #6a6f7d; }
+    #squares button { border-color: #2f6f5e; color: #1d2433; }
+    #squares button.theirs, #squares button:focus-visible { color: #8a6a1f; outline-color: #8a6a1f; }
+    #squares button.row { background: #e2dccb; }
+    #score { color: #3d4353; }
+    #rematch { color: #2f6f5e; border-color: #2f6f5e; }
+    #rematch:hover, #rematch:focus-visible { background: #2f6f5e; color: #f1ecdf; }
+  }
+  @media print { #board { display: none; } }
+</style>
 <noscript><style>
   /* For visitors who arrive without scripts: the moving parts are put away, and what is left is the picture and the book. */
   #globe, #moon, #sky, main small, #fix, #post, #flotsam, #ear, #cal { display: none; }
@@ -493,6 +524,7 @@
   #tide { display: none; }
   #roll { display: none; }
   #signal { display: none; }
+  #board { display: none; }
 </style></noscript>
 <style>
   /* The pencil. This copy has had a reader before, who wrote in it, and one other who wrote back in ink.
@@ -1146,6 +1178,22 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    reviewed it. The players take this as they take everything, as a pause, and the house has been full each night
    in the sense that you were either there or there was no night. Latecomers are admitted at the next ebb and
    will have missed nothing that the cast did not also miss.</p>
+</section>
+<section id="board">
+<h2>A game</h2>
+<p>One hash was taken down off the high ground and enlarged, and at that size it turns out to have nine rooms
+   in it, which nobody had looked into. It makes a board. Oland supplied the noughts, having little else. The
+   crosses you will have to bring, there being no X on the surface; the indexer looked. You go first, as the
+   visitor. Nobody plays against you.</p>
+<div id="squares" role="group" aria-label="a board of nine squares, three by three, drawn as one large hash"></div>
+<small id="score" aria-live="polite">The board runs on the same current as the world. Without it, it is a hash, and nobody's move.</small>
+<button id="rematch" type="button" hidden>clear the hash</button>
+<p>Nobody has been playing since before there was a board and has had the time to think it through. Nobody is
+   gracious about it. Nobody will play again as often as you like, and second every time, and has never once
+   asked to be the crosses. Should you win, the result will be entered in the census under a heading of its own.
+   The heading has been ruled and is empty. The enumerator checks it about once a second, in case.</p>
+<aside class="pencil"><span>eleven games. nobody beat me. I said so to my sister and she congratulated me.</span></aside>
+<aside class="pencil left ink"><span>it was not meant as praise. play the corners; it changes nothing, but it takes longer.</span></aside>
 </section>
 <section id="galley">
 <h2>The kitchen</h2>
@@ -2279,6 +2327,87 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   draw('00');
   wave.addEventListener('click', send);
   wire.addEventListener('keydown', function (e) { if (e.key === 'Enter') send(); });
+})();
+</script>
+<script>
+// A game. Three in a row on a hash, against Nobody, who has looked at every game there is and plays the one that does not lose.
+(function () {
+  var grid = document.getElementById('squares'), score = document.getElementById('score'), again = document.getElementById('rematch');
+  if (!grid || !score || !again) return;
+  var where = ['the north-west', 'the north', 'the north-east', 'the west', 'the middle', 'the east',
+               'the south-west', 'the south', 'the south-east'];
+  var lines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+  var cells = [], b = [], over = false, played = 0, lost = 0, timer = 0, i;
+  function line(t) {
+    for (var k = 0; k < 8; k++) if (b[lines[k][0]] === t && b[lines[k][1]] === t && b[lines[k][2]] === t) return lines[k];
+    return null;
+  }
+  function full() { for (var k = 0; k < 9; k++) if (!b[k]) return false; return true; }
+  // What a square is worth to whoever is about to move: 1 a win, 0 a draw, -1 a loss. Sooner wins count for more.
+  function worth(t, depth) {
+    var other = t === 'o' ? 'x' : 'o', best = -2, k, v;
+    if (line(other)) return depth - 10;
+    if (full()) return 0;
+    for (k = 0; k < 9; k++) if (!b[k]) { b[k] = t; v = -worth(other, depth + 1); b[k] = ''; if (v > best) best = v; }
+    return best;
+  }
+  function choose() {
+    var best = -99, picks = [], k, v;
+    for (k = 0; k < 9; k++) if (!b[k]) {
+      b[k] = 'o'; v = -worth('x', 1); b[k] = '';
+      if (v > best) { best = v; picks = [k]; } else if (v === best) picks.push(k);
+    }
+    return picks[Math.floor(Math.random() * picks.length)];
+  }
+  function show() {
+    for (var k = 0; k < 9; k++) {
+      cells[k].textContent = b[k];
+      cells[k].className = b[k] === 'o' ? 'theirs' : '';
+      cells[k].disabled = over || !!b[k];
+      cells[k].setAttribute('aria-label', where[k].slice(4) + ': ' + (b[k] === 'x' ? 'yours' : b[k] === 'o' ? "Nobody's" : 'empty'));
+    }
+  }
+  function tally() {
+    return ' Played ' + played + '. Nobody has won ' + (lost || 'none') + '. You have won none'
+      + (played > 4 ? ', and are thought to be doing it on purpose.' : '.');
+  }
+  function end(row, text) {
+    over = true; played++; show();
+    if (row) { lost++; for (var k = 0; k < 3; k++) cells[row[k]].className = 'theirs row'; }
+    score.textContent = text + tally();
+    again.hidden = false;
+  }
+  function answer() {
+    var k = choose(), row;
+    b[k] = 'o'; row = line('o');
+    if (row) return end(row, 'Three noughts in a row. Nobody won.');
+    if (full()) return end(null, 'Full, with nothing in a row. Nobody won; neither did you. It is entered as drawn, which the board was to begin with.');
+    over = false; show();
+    score.textContent = 'Nobody has taken ' + where[k] + '. Yours.';
+  }
+  function move(k) {
+    if (over || b[k]) return;
+    b[k] = 'x';
+    if (line('x')) return end(null, 'Three crosses in a row. This cannot be entered, there being no X on the surface. Nobody is looking into it.');
+    if (full()) return end(null, 'Full, with nothing in a row. Nobody won; neither did you. It is entered as drawn, which the board was to begin with.');
+    over = true; show();
+    score.textContent = 'Nobody is thinking. It does not take long; it was all thought beforehand.';
+    timer = setTimeout(answer, 520);
+  }
+  function clear() {
+    clearTimeout(timer);
+    for (var k = 0; k < 9; k++) b[k] = '';
+    over = false; again.hidden = true; show();
+    score.textContent = played ? 'The hash is clear. Your move again. Nobody minds.' : 'Your move. Any room of the nine. Nobody is waiting.';
+  }
+  for (i = 0; i < 9; i++) (function (k) {
+    var c = document.createElement('button');
+    c.type = 'button';
+    c.addEventListener('click', function () { move(k); });
+    grid.appendChild(c); cells.push(c);
+  })(i);
+  again.addEventListener('click', function () { clear(); cells[4].focus(); });
+  clear();
 })();
 </script>
 </body>
