@@ -449,6 +449,38 @@
   @media print { #stage h2, #stage h3, #stage p, #stage .cast, #stage .cast b, #stage .play p, #stage .play b,
                  #stage .play i, #stage .play p.dir, #stage .play p.fall { color: #000; border-color: #000; } }
 </style>
+<style>
+  /* The kitchen. A recipe card: quantities down one side, and a method numbered so it can be lost track of. */
+  #galley { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #galley h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+               color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #galley p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #galley .card { border: 1px solid #263048; border-top: 3px double #d9cfa6; padding: 1.3rem 1.4rem 1rem; margin: 1.8rem 0; }
+  #galley h3 { font-size: 1.3rem; font-weight: normal; font-style: italic; letter-spacing: 0.05em; color: #e8e6df; margin: 0; }
+  #galley .yield { font: 0.7rem ui-monospace, Menlo, Consolas, monospace; font-style: normal; letter-spacing: 0.12em;
+                   text-transform: uppercase; color: #d9cfa6; margin: 0.5rem 0 1.2rem; }
+  #galley ul { list-style: none; margin: 0 0 1.3rem; padding: 0 0 1.1rem; border-bottom: 1px dashed #263048;
+               font-size: 0.9rem; line-height: 1.55; color: #b9b6ac; }
+  #galley li { margin: 0 0 0.25rem; }
+  #galley ul li { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.8rem; }
+  #galley ul b { font: 0.8rem/1.75 ui-monospace, Menlo, Consolas, monospace; font-weight: normal; color: #7fb7a4; text-align: right; }
+  #galley ol { margin: 0; padding: 0 0 0 1.3rem; font-size: 0.95rem; line-height: 1.55; color: #b9b6ac; }
+  #galley ol li { margin: 0 0 0.7rem; padding-left: 0.3rem; }
+  #galley ol li::marker { color: #d9cfa6; font-size: 0.8rem; }
+  #galley code { font: 0.85em ui-monospace, Menlo, Consolas, monospace; color: #e8e6df; }
+  #galley a { color: #7fb7a4; }
+  @media screen and (prefers-color-scheme: light) {
+    #galley h2, #galley ul b, #galley a { color: #2f6f5e; }
+    #galley h2, #galley .card, #galley ul { border-color: #cfc8b6; }
+    #galley .card { border-top-color: #8a6a1f; }
+    #galley p { color: #6a6f7d; }
+    #galley h3, #galley code { color: #1d2433; }
+    #galley .yield, #galley ol li::marker { color: #8a6a1f; }
+    #galley ul, #galley ol { color: #3d4353; }
+  }
+  @media print { #galley h2, #galley h3, #galley p, #galley a, #galley .yield, #galley ul, #galley ul b, #galley ol, #galley code,
+                 #galley .card { color: #000; border-color: #000; } }
+</style>
 <noscript><style>
   /* For visitors who arrive without scripts: the moving parts are put away, and what is left is the picture and the book. */
   #globe, #moon, #sky, main small, #fix, #post, #flotsam, #ear, #cal { display: none; }
@@ -1066,6 +1098,51 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    reviewed it. The players take this as they take everything, as a pause, and the house has been full each night
    in the sense that you were either there or there was no night. Latecomers are admitted at the next ebb and
    will have missed nothing that the cast did not also miss.</p>
+</section>
+<section id="galley">
+<h2>The kitchen</h2>
+<p>Nothing is eaten here, there being nobody to do it and, the Commas aside, nothing to eat. But visitors keep
+   asking how it was made, and the honest answer is that it was made the way anything is: from what was in the
+   house. The card is given as it was found. The stains are from tildes.</p>
+<div class="card">
+<h3>A world, plain</h3>
+<p class="yield">Makes one &middot; serves one &middot; ready in a day, which is nine seconds</p>
+<ul>
+  <li><b>2</b> <span>words, small, lower case. Do not capitalise; it goes tough.</span></li>
+  <li><b>1</b> <span>space, to go between them. This is the only ingredient that cannot be left out.</span></li>
+  <li><b>to cover</b> <span>tildes, for the sea. More than you think, and then about as many again.</span></li>
+  <li><b>a handful</b> <span>hashes, the brightest you can get.</span></li>
+  <li><b>1</b> <span>at, whole, for a moon. Do not chop.</span></li>
+  <li><b>1</b> <span>caret. It will not stay where it is put. Allow for this.</span></li>
+  <li><b>70</b> <span>apostrophes, loose, for the margin.</span></li>
+  <li><b>a few</b> <span>commas. Optional. They sink.</span></li>
+  <li><b>no</b> <span>salt. The sea has never been tasted and it would be a pity to start guessing.</span></li>
+</ul>
+<ol>
+  <li>Clear a dark surface. A light one will do, and gives the paper edition; do not attempt both at once.</li>
+  <li>Scatter the apostrophes first, from a height, and leave them exactly where they fall. They will not
+      be touched again and should be told so.</li>
+  <li>Say the two words, with the space. Nothing will happen. This is the proving, and cannot be hurried,
+      though it has only ever taken a moment.</li>
+  <li>Pour the tildes into a round, forty-four across at the widest. Do not use a tin. The edge should be
+      all edge.</li>
+  <li>Fold in the hashes from the upper left and stop when they stop being bright. What is left over
+      toward the lower right is night, and is meant to be there.</li>
+  <li>Drop the commas in. Do not look for them afterwards.</li>
+  <li>Set the caret on the sea, pointing at land. Turn your back. When you turn round it will be pointing
+      away. It is now done, as far as the caret goes.</li>
+  <li>Hang the at to one side and give it a push. It should go round the back and return by itself. If it
+      does not return, wait; it has never yet been a fault in the at.</li>
+  <li>Start it turning, eastward, and take your hands away. Do not stir. Anyone who stirs has made a
+      different world and must eat it themselves.</li>
+</ol>
+</div>
+<p>It does not keep, and does not need to; it is made fresh each time it is looked at, on the premises, from
+   the visitor's own sorts. It cannot be reheated. It can be doubled, but the second one will want its own
+   glass. Those who would rather start from different words have <a href="yours.html">somewhere to do it</a>,
+   and those with wool have <a href="pattern.txt">a slower method</a> that at least leaves something on the table.</p>
+<p>The weather is not in the recipe. It turned up during the first turning and has not been traced to any
+   ingredient. The cook suspects the tildes were damp.</p>
 </section>
 <section id="index">
 <h2>Index</h2>
