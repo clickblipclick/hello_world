@@ -486,6 +486,48 @@
                  #galley .card { color: #000; border-color: #000; } }
 </style>
 <style>
+  /* The optician. A test card on the wall, a pair of lenses that are one lens, and a prescription for the glass. */
+  #sight { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #sight h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #sight p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #sight ol { list-style: none; max-width: 19rem; margin: 1.8rem auto; padding: 1.6rem 1rem 1.1rem; background: #e6dfc9;
+              color: #1d2433; border-radius: 2px; box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.45); }
+  #sight ol li { display: grid; grid-template-columns: 1fr 3.2rem; align-items: center; margin: 0 0 0.5rem; }
+  #sight ol b { font: bold 1em/1.15 ui-monospace, Menlo, Consolas, monospace; text-align: center; padding-left: 3.2rem;
+                letter-spacing: 0.35em; margin-right: -0.35em; white-space: pre; }
+  #sight ol span { font: 0.6rem ui-monospace, Menlo, Consolas, monospace; color: #6d6a62; text-align: right; }
+  #sight ol li:nth-child(1) b { font-size: 4.2rem; }
+  #sight ol li:nth-child(2) b { font-size: 2.9rem; }
+  #sight ol li:nth-child(3) b { font-size: 2rem; }
+  #sight ol li:nth-child(4) b { font-size: 1.4rem; }
+  #sight ol li:nth-child(5) b { font-size: 1rem; }
+  #sight ol li:nth-child(6) b { font-size: 0.7rem; }
+  #sight ol li:nth-child(7) b { font-size: 0.45rem; }
+  #sight ol li:nth-child(8) b { font-size: 0.25rem; }
+  #sight ol li:nth-child(5) { border-top: 1px solid #9a3b2e; padding-top: 0.5rem; }
+  #sight ol.flick { opacity: 0.35; }
+  @media (prefers-reduced-motion: no-preference) { #sight ol { transition: opacity 0.18s; } }
+  #sight .lenses { display: flex; gap: 0.8rem; align-items: baseline; flex-wrap: wrap; }
+  #sight button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                  background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #sight button:hover, #sight button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #sight small { display: block; min-height: 2.6em; margin-top: 0.9rem; line-height: 1.5; }
+  #script { font: 0.8rem/1.7 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; margin: 1.4rem 0 0;
+            padding: 0.9rem 1.1rem; border: 1px dashed #263048; white-space: pre-wrap; }
+  @media screen and (prefers-color-scheme: light) {
+    #sight h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #sight p { color: #6a6f7d; }
+    #sight ol { background: #fffdf4; box-shadow: 0 0.3rem 0.9rem rgba(60, 50, 30, 0.25); }
+    #sight button { color: #2f6f5e; border-color: #2f6f5e; }
+    #sight button:hover, #sight button:focus-visible { background: #2f6f5e; color: #fffdf4; }
+    #script { color: #8a6a1f; border-color: #cfc8b6; }
+  }
+  @media print { #sight h2, #sight p, #sight small, #script { color: #000; border-color: #000; }
+                 #sight ol { background: none; box-shadow: none; border: 1px solid #000; color: #000; }
+                 #sight .lenses { display: none; } }
+</style>
+<style>
   /* The board. One hash, taken off the high ground and enlarged until there is room in it for nine moves. */
   #board { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
   #board h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
@@ -1219,6 +1261,35 @@ VI    VIII  X     XII   II    IV    VI
    borrowed from a visitor, who has it back. The comma was weighed by setting one on a screen and observing that
    nothing happened; the figure used is therefore a courtesy. No change is given.</p>
 </section>
+<section id="sight">
+<h2>The optician</h2>
+<p>Several visitors have said the world is too small to make out, and one that it was blurred, which it is not;
+   that was cloud. A test card was hung all the same, so that the fault could be put where it belongs. Stand
+   where you are standing. Read down until you stop. The red rule is where the world itself is set, at twelve
+   pixels; anything you can read below it is finer than there is.</p>
+<ol aria-label="a test card, each line smaller than the one above">
+  <li><b>h</b> <span>44/440</span></li>
+  <li><b>el</b> <span>44/264</span></li>
+  <li><b>low</b> <span>44/132</span></li>
+  <li><b>orld</b> <span>44/88</span></li>
+  <li><b>~~^~~</b> <span>44/44</span></li>
+  <li><b>#'@',#</b> <span>44/33</span></li>
+  <li><b>,~'.'~,</b> <span>44/22</span></li>
+  <li><b>and then</b> <span>44/11</span></li>
+</ol>
+<p>Now the lenses. The optician will put one in front of the card and then the other, and ask which is
+   clearer. There is no wrong answer, and you will be asked five times in case there is.</p>
+<div class="lenses">
+  <button id="lens1" type="button">one</button>
+  <button id="lens2" type="button">or two</button>
+</div>
+<small id="clearer" aria-live="polite">The optician is out, the lenses being kept on the same current as the world. The card may be read unaided, as everything here is.</small>
+<pre id="script" hidden></pre>
+<p>The figures down the side are in characters, forty-four being as far away as anything on the world can get
+   from anything else. Whoever reads the last line has not read it; they have remembered the top of the page
+   and guessed. This is allowed. It is how the Caret reads the coast, and it has not run aground yet. The space
+   between the two words was left off the card, it being the one sort that looks the same at every size.</p>
+</section>
 <section id="stars">
 <h2>The horoscope</h2>
 <p>Four figures have been joined up in the sky, and four is enough to be born under. Nobody was born here, so
@@ -1455,13 +1526,15 @@ VI    VIII  X     XII   II    IV    VI
   <li class="gap">East: where the water goes</li>
   <li>Edge: all of it</li>
   <li>Elsewhere: not indexed</li>
+  <li>Eyes: tested; found to be the visitor's</li>
   <li class="gap">Flags: nine; a tenth; nine</li>
   <li class="gap">Glue: not supplied</li>
   <li class="gap">Hash, the: <i>see under</i> time of day</li>
   <li>Hello: said once, at the top, and not taken back</li>
   <li>Horoscope, the: cast once; <i>see also</i> Apostrophes; not consulted by the Caret</li>
   <li class="gap">Inhabitants: <i>see</i> Nobody</li>
-  <li class="gap">Moon: <i>see</i> At</li>
+  <li class="gap">Lenses: two; the same one</li>
+  <li>Moon: <i>see</i> At</li>
   <li class="gap">Nobody
     <ul>
       <li>as granting authority</li>
@@ -2622,6 +2695,50 @@ VI    VIII  X     XII   II    IV    VI
   }
   draw();
   setInterval(draw, 30000);
+})();
+</script>
+<script>
+// The optician. Two lenses are offered and they are the same lens; the prescription is written for the glass, not the eye.
+(function () {
+  var card = document.querySelector('#sight ol'), said = document.getElementById('clearer');
+  var one = document.getElementById('lens1'), two = document.getElementById('lens2'), slip = document.getElementById('script');
+  if (!card || !said || !one || !two || !slip) return;
+  var picks = [], last = 0;
+  var asks = ['Better with one, or with two?', 'And again. One. Or two.', 'One more time, a little slower. One... or two.',
+              'Now with the other eye, if you brought it. One, or two?', 'Last one. One? Or two?'];
+  var notes = ['Noted.', 'Mm.', 'Interesting.', 'You are sure. Good.', 'Thank you.'];
+  function pad(t, n) { while (t.length < n) t += ' '; return t; }
+  function write() {
+    var a = 0, i, same = true, dots = window.devicePixelRatio || 1, wide = Math.round(window.innerWidth / 7.2);
+    for (i = 0; i < picks.length; i++) { if (picks[i] === 1) a++; if (picks[i] !== picks[0]) same = false; }
+    var b = picks.length - a;
+    slip.textContent = [
+      pad('sphere', 10) + '0.00, the world being one already',
+      pad('cylinder', 10) + 'none; it was tried and the poles objected',
+      pad('axis', 10) + 'north, up',
+      pad('glass', 10) + (dots > 1 ? (Math.round(dots * 100) / 100) + ' dots to the pixel; finer than the card' : 'one dot to the pixel; exactly as fine as the card'),
+      pad('distance', 10) + 'about ' + wide + ' characters across, where you stand',
+      pad('preferred', 10) + (same ? (a ? 'one' : 'two') + ', every time, with conviction' : (a > b ? 'one' : 'two') + ', by ' + Math.max(a, b) + ' to ' + Math.min(a, b)),
+      pad('remarks', 10) + 'one and two are the same lens. it is the only lens. it is your screen.'
+    ].join('\n');
+    slip.hidden = false;
+  }
+  function pick(n) {
+    if (picks.length >= 5) { picks = []; slip.hidden = true; said.textContent = 'A second opinion. Certainly. ' + asks[0]; return; }
+    picks.push(n);
+    card.className = 'flick';
+    setTimeout(function () { card.className = ''; }, 200);
+    if (picks.length === 5) {
+      write();
+      said.textContent = 'That is five. Nothing needs correcting; what you saw is what is there, at the size it is. The prescription is below and may be taken to any glass. Press either lens to be examined again.';
+    } else {
+      said.textContent = notes[picks.length - 1] + (n === last ? ' The same as before.' : '') + ' ' + asks[picks.length];
+    }
+    last = n;
+  }
+  one.addEventListener('click', function () { pick(1); });
+  two.addEventListener('click', function () { pick(2); });
+  said.textContent = 'The optician is in. ' + asks[0];
 })();
 </script>
 </body>
