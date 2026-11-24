@@ -1,0 +1,236 @@
+1
+00:00:02,000 --> 00:00:05,000
+[no picture]
+
+2
+00:00:07,000 --> 00:00:12,000
+<i>hello world</i>
+
+3
+00:00:14,000 --> 00:00:19,000
+[the world turns. it was doing so
+before the film started]
+
+4
+00:00:22,000 --> 00:00:27,000
+NARRATOR: This is the world.
+It is the small one.
+
+5
+00:00:29,000 --> 00:00:34,000
+It has not been filmed. The camera was
+sent for and is still on its way.
+
+6
+00:00:36,000 --> 00:00:42,000
+What you have instead are the subtitles,
+which arrived first, as they often do.
+
+7
+00:00:45,000 --> 00:00:50,000
+[sea, in full sun]
+
+8
+00:00:52,000 --> 00:00:58,000
+NARRATOR: The Tilde Sea. Every wave
+the same length as the one before.
+
+9
+00:01:00,000 --> 00:01:05,000
+[waves, all at once]
+
+10
+00:01:07,000 --> 00:01:12,000
+[the same waves]
+
+11
+00:01:16,000 --> 00:01:22,000
+NARRATOR: To the east, the Hash.
+High ground, brightly lit.
+
+12
+00:01:24,000 --> 00:01:29,000
+It will be somewhere else by the time
+this line has left the screen.
+
+13
+00:01:31,000 --> 00:01:35,000
+[light, moving west.
+or land, moving east]
+
+14
+00:01:39,000 --> 00:01:44,000
+[a small sound, possibly a ship]
+
+15
+00:01:46,000 --> 00:01:52,000
+NARRATOR: The Caret. The only ship,
+and so the best one.
+
+16
+00:01:54,000 --> 00:01:59,000
+CREW: (off) <i>...</i>
+
+17
+00:02:01,000 --> 00:02:06,000
+[the crew are singing.
+it is the even lines]
+
+18
+00:02:08,000 --> 00:02:13,000
+NARRATOR: It has seen land.
+
+19
+00:02:15,000 --> 00:02:19,000
+[the ship turns away]
+
+20
+00:02:21,000 --> 00:02:26,000
+NARRATOR: It has stopped seeing land.
+This is regarded as a successful voyage.
+
+21
+00:02:30,000 --> 00:02:35,000
+[cloud, in rows, from the west]
+
+22
+00:02:37,000 --> 00:02:42,000
+NARRATOR: The Dittos. Each one means
+the same as the one above it.
+
+23
+00:02:44,000 --> 00:02:48,000
+" " "
+
+24
+00:02:50,000 --> 00:02:55,000
+[the subtitles are briefly
+indistinguishable from the weather]
+
+25
+00:02:59,000 --> 00:03:04,000
+[dusk]
+
+26
+00:03:06,000 --> 00:03:12,000
+NARRATOR: The Colons. Everything here
+is about to be explained:
+
+27
+00:03:14,000 --> 00:03:18,000
+[the planet turns]
+
+28
+00:03:20,000 --> 00:03:24,000
+NARRATOR: It isn't.
+
+29
+00:03:28,000 --> 00:03:33,000
+[night ocean]
+
+30
+00:03:35,000 --> 00:03:40,000
+NARRATOR: Full Stop Deep.
+
+31
+00:03:42,000 --> 00:03:52,000
+[a long pause]
+
+32
+00:03:54,000 --> 00:03:58,000
+[it goes on]
+
+33
+00:04:00,000 --> 00:04:05,000
+NARRATOR: Sentences end here.
+That one did.
+
+34
+00:04:09,000 --> 00:04:14,000
+[the tide goes out,
+as far as it ever does]
+
+35
+00:04:16,000 --> 00:04:21,000
+COMMAS: <i>,</i>
+
+36
+00:04:23,000 --> 00:04:28,000
+[breath is drawn]
+
+37
+00:04:30,000 --> 00:04:35,000
+NARRATOR: They have not confirmed
+that this was speech.
+
+38
+00:04:37,000 --> 00:04:41,000
+[the tide comes back in.
+the sentence does not go on]
+
+39
+00:04:45,000 --> 00:04:50,000
+[the moon comes round the front]
+
+40
+00:04:52,000 --> 00:04:58,000
+NARRATOR: The At. One side,
+shown to everybody.
+
+41
+00:05:00,000 --> 00:05:05,000
+[a small round night
+crosses the day, west to east]
+
+42
+00:05:07,000 --> 00:05:12,000
+[on the Caret, a lamp is lit.
+it cannot be seen from here]
+
+43
+00:05:14,000 --> 00:05:18,000
+[it cannot be read from here either]
+
+44
+00:05:22,000 --> 00:05:27,000
+[a flag. it was not here
+at the start of the film]
+
+45
+00:05:29,000 --> 00:05:35,000
+NARRATOR: Somebody has been.
+Not us. We are only the words.
+
+46
+00:05:39,000 --> 00:05:44,000
+[morning, or land,
+whichever comes first]
+
+47
+00:05:46,000 --> 00:05:51,000
+[land]
+
+48
+00:05:53,000 --> 00:05:59,000
+NARRATOR: That is all of it. It will now
+be shown again, from further round.
+
+49
+00:06:01,000 --> 00:06:06,000
+[the world goes on turning.
+the film does not]
+
+50
+00:06:09,000 --> 00:06:13,000
+<i>hello world</i>
+
+51
+00:06:15,000 --> 00:06:21,000
+Subtitles by nobody.
+No punctuation was moved in the making of this film.
+
+52
+00:06:23,000 --> 00:06:28,000
+[the picture you are watching
+is somebody else's. it may carry on]
+
