@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the cloakroom · hello world</title>
+<meta name="description" content="Everything the world is holding for you, which is everything it knows about you, laid out on the counter.">
+<style>
+  body { margin: 0; background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
+  main { max-width: 30rem; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  h1 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #7fb7a4; margin: 0 0 0.4rem; }
+  h2 { font-variant: small-caps; font-weight: normal; font-size: 1.15rem; letter-spacing: 0.06em;
+       border-top: 1px solid #263048; padding-top: 1.4rem; margin: 2rem 0 0.4rem; }
+  p { line-height: 1.55; color: #b9b6ac; margin: 0 0 0.8rem; }
+  .lede, .hint, footer p { color: #6b7388; font-style: italic; }
+  .lede { margin-bottom: 2rem; }
+  ul { list-style: none; margin: 0.8rem 0; padding: 0; }
+  li { display: flex; justify-content: space-between; align-items: baseline; gap: 1em;
+       font: 0.8rem/2.2 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; }
+  li span { overflow-wrap: anywhere; }
+  .none { color: #6b7388; }
+  button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+           background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  li button { border: 0; padding: 0 0.4em; text-decoration: underline; white-space: nowrap; }
+  button:hover, button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #said { display: block; min-height: 3em; margin-top: 2rem; color: #7fb7a4;
+          font: 0.8rem/1.6 ui-monospace, Menlo, Consolas, monospace; }
+  a { color: #7fb7a4; }
+  footer { margin-top: 2.4rem; border-top: 1px solid #263048; padding-top: 1.4rem; }
+  @media (prefers-color-scheme: light) {
+    body { background: #f1ecdf; color: #23283a; }
+    h1, a, #said { color: #2f6f5e; }
+    h2, footer { border-color: #cfc8b4; }
+    p { color: #3d4353; }
+    li { color: #5b4a1c; }
+    .lede, .hint, footer p, .none { color: #6a6f7d; }
+    button { color: #2f6f5e; border-color: #2f6f5e; }
+    button:hover, button:focus-visible { background: #2f6f5e; color: #f1ecdf; }
+  }
+</style>
+</head>
+<body>
+<main>
+<h1>The cloakroom</h1>
+<p class="lede">The world keeps nothing about you. It has nowhere to put it, and nobody to ask for it back. What
+there is of you here is kept on your own machine, on your side of the glass, and this is the counter where it can be
+looked at and taken away again. Nothing below was sent anywhere to be shown to you. It was read off the shelf behind you.</p>
+<noscript><p class="lede">You have come without scripts, so the counter is shut. It hardly matters: without scripts
+nothing was ever handed in. No flags, no arrivals, no drawer. You are the only visitor about whom the world knows
+exactly as little as it says.</p></noscript>
+
+<h2>Flags</h2>
+<p class="hint">Planted by you, held for you, seen by nobody else. Until now one could only be got rid of by planting
+nine more on top of it.</p>
+<ul id="flags"></ul>
+
+<h2>Arrivals</h2>
+<p class="hint">How often you have come and when you last left, so that the world can say what you missed.</p>
+<ul id="seen"></ul>
+
+<h2>The drawer</h2>
+<p class="hint">The keeper&rsquo;s copies, for when the line is down. They are of the world and not of you, but it is
+your shelf they are taking up.</p>
+<ul id="drawer"></ul>
+
+<h2>Not held</h2>
+<p>Your name, though the desk asked for it; the desk forgets it when the permit is stamped. Your bottle, which
+travels in its own address and is no one&rsquo;s once thrown. What you sent by the arms. Your answers to the paper.
+Where you pointed. How long you looked. No count is kept of visitors. The census counts everything on the world, and you are not on it.</p>
+
+<output id="said" aria-live="polite"></output>
+
+<footer>
+<p>Taking everything leaves you a first sighting again, with an unclaimed world, which is how everybody started.
+The world will not notice, and will be exactly as pleased to see you.</p>
+<p><a href="./">Back to the world</a>, where it will all begin to accumulate again at once.</p>
+</footer>
+</main>
+<script>
+// The cloakroom. It reads the two things the main page writes, and the keeper's drawer, and can remove them.
+(function () {
+  var said = document.getElementById('said');
+  function say(s) { said.textContent = s; }
+  function row(list, text, verb, act) {
+    var li = document.createElement('li'), span = document.createElement('span');
+    span.textContent = text; li.appendChild(span);
+    if (verb) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.textContent = verb; b.addEventListener('click', act);
+      li.appendChild(b);
+    } else { li.className = 'none'; }
+    list.appendChild(li);
+  }
+  function read(key, otherwise) {
+    try { var v = JSON.parse(localStorage.getItem(key) || 'null'); return v === null ? otherwise : v; }
+    catch (e) { return otherwise; }
+  }
+  function where(f) {
+    var lat = Math.round(-f[0] * 180 / Math.PI), lon = Math.round(f[1] * 180 / Math.PI);
+    lon = ((lon + 180) % 360 + 360) % 360 - 180;
+    return Math.abs(lat) + '°' + (lat < 0 ? 'S' : 'N') + ' ' + Math.abs(lon) + '°' + (lon < 0 ? 'W' : 'E');
+  }
+  function ago(ms) {
+    var s = Math.max(0, (Date.now() - ms) / 1000);
+    if (s < 90) return 'a moment ago';
+    if (s < 5400) return Math.round(s / 60) + ' minutes ago';
+    if (s < 129600) return Math.round(s / 3600) + ' hours ago';
+    return Math.round(s / 86400) + ' days ago';
+  }
+
+  var flagList = document.getElementById('flags');
+  function flags() {
+    var kept = read('flags', []), i;
+    if (!Array.isArray(kept)) kept = [];
+    flagList.textContent = '';
+    if (!kept.length) { row(flagList, 'none. the world is unclaimed, by you at any rate.'); return; }
+    for (i = 0; i < kept.length; i++) (function (i) {
+      row(flagList, '! ' + where(kept[i]) + (i === 0 && kept.length === 9 ? '  (next to fall)' : ''), 'pull up', function () {
+        var now = read('flags', []);
+        if (!Array.isArray(now)) now = [];
+        var spot = where(kept[i]);
+        now.splice(i, 1);
+        try { localStorage.setItem('flags', JSON.stringify(now)); } catch (e) {}
+        say('pulled up, at ' + spot + '. the place is as it was, which is as it was while the flag was in it.');
+        flags();
+      });
+    })(i);
+    if (kept.length > 1) row(flagList, kept.length + ' of a possible nine', 'pull up all', function () {
+      try { localStorage.removeItem('flags'); } catch (e) {}
+      say('all of them. the world has been handed back to nobody, who had it before.');
+      flags();
+    });
+  }
+
+  var seenList = document.getElementById('seen');
+  function seen() {
+    var s = read('seen', null);
+    seenList.textContent = '';
+    if (!s || typeof s.times !== 'number') { row(seenList, 'nothing. you have not been, or not in this browser.'); return; }
+    row(seenList, s.times + (s.times === 1 ? ' arrival' : ' arrivals')
+        + (typeof s.last === 'number' ? ', last seen leaving ' + ago(s.last) : ''), 'forget', function () {
+      try { localStorage.removeItem('seen'); } catch (e) {}
+      say('forgotten. next time will be a first sighting. you may find you remember it anyway; that copy is not held here.');
+      seen();
+    });
+  }
+
+  var drawerList = document.getElementById('drawer');
+  function drawer() {
+    drawerList.textContent = '';
+    if (!window.caches) { row(drawerList, 'no drawer. this browser does not give the keeper one.'); return; }
+    caches.open('drawer').then(function (d) { return d.keys(); }).then(function (keys) {
+      drawerList.textContent = '';
+      if (!keys.length) { row(drawerList, 'empty. with the line down there would be no world at all.'); return; }
+      var names = keys.map(function (k) {
+        return k.url.replace(/^.*\//, '').replace(/[?#].*$/, '') || 'the world';
+      });
+      row(drawerList, keys.length + (keys.length === 1 ? ' copy: ' : ' copies: ') + names.join(', '), 'empty it', function () {
+        caches.delete('drawer').then(function () {
+          say('emptied. the keeper has not been dismissed and will start again with the next thing that goes by. '
+            + 'it does not take this personally, being a file.');
+          drawer();
+        });
+      });
+    }).catch(function () {
+      drawerList.textContent = '';
+      row(drawerList, 'the drawer would not open. it is thought to be shut from your side.');
+    });
+  }
+
+  try { localStorage.getItem('flags'); }
+  catch (e) { say('the shelf could not be reached. this browser is keeping its storage to itself, so nothing is held, and nothing was.'); }
+  flags(); seen(); drawer();
+  // Another window may be planting flags while this one counts them.
+  window.addEventListener('storage', function () { flags(); seen(); });
+})();
+</script>
+</body>
+</html>
