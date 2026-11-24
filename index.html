@@ -546,6 +546,28 @@
   }
   @media print { #beacon { display: none; } }
 </style>
+<style>
+  /* The braille edition. The preview is for the eye and says so; the file is for the hand. */
+  #touch { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #touch h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #touch p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #touch a { color: #7fb7a4; }
+  #touch pre { font: 0.8rem/1.25 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; margin: 1.6rem 0;
+               overflow-x: auto; }
+  #touch dl { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 1rem; margin: 0 0 1.6rem;
+              font-size: 0.95rem; color: #b9b6ac; }
+  #touch dt { font: 0.9rem/1.5 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; }
+  #touch dd { margin: 0; }
+  @media screen and (prefers-color-scheme: light) {
+    #touch h2, #touch a { color: #2f6f5e; }
+    #touch h2 { border-color: #cfc8b6; }
+    #touch p { color: #6a6f7d; }
+    #touch pre, #touch dt { color: #8a6a1f; }
+    #touch dl { color: #3d4353; }
+  }
+  @media print { #touch h2, #touch p, #touch a, #touch pre, #touch dl, #touch dt { color: #000; border-color: #000; } }
+</style>
 <noscript><style>
   /* For visitors who arrive without scripts: the moving parts are put away, and what is left is the picture and the book. */
   #globe, #moon, #sky, main small, #fix, #post, #flotsam, #ear, #cal { display: none; }
@@ -819,6 +841,52 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <p>Those with no such instrument may listen anyway. It begins quietly, at the western edge, and is loudest a
    third of the way in, which is the Hash going by. The short chatter at the end is the greeting. It is the
    only time it has been said aloud, and it took two seconds, and nobody caught it.</p>
+</section>
+<section id="touch">
+<h2>By touch</h2>
+<p>Everything so far has been for the eye, and one thing, unkindly, for the ear. There is now an edition for
+   the fingers. The world was held still, squeezed from forty-four columns to forty, that being all a sheet of
+   braille will take, and set in cells: one page of world and a page and a bit of explanation, which is the
+   usual proportion. It is <a href="world.brf" download>a file for an embosser</a>, the kind of printer that
+   pushes the paper up from behind and uses no ink at all.</p>
+<pre role="img" aria-label="the braille edition, shown as dots on the glass: a round world, forty cells across, the land in full cells, the sea in low pairs of dots, the night side in single ones">
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠕⠕⠕⠕⠕
+⠀⠀⠀⠀⠀⠀⠀⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠕⠕⠕⠕⠄
+⠀⠀⠀⠀⠀⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠐⠕⠕⠕⠄⠄
+⠀⠀⠀⠀⠒⠒⠒⠒⠒⠒⠒⠒⠿⠿⠿⠿⠿⠿⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠐⠐⠕⠕⠄⠄
+⠀⠀⠀⠒⠒⠒⠒⠒⠒⠒⠿⠿⠿⠿⠿⠿⠿⠿⠿⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠐⠐⠐⠐⠄⠄
+⠀⠀⠒⠒⠒⠒⠒⠒⠒⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠐⠐⠐⠐⠄⠄⠄
+⠀⠒⠒⠒⠒⠒⠒⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠐⠐⠐⠐⠄⠄⠄⠄
+⠀⠒⠒⠒⠒⠒⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠐⠐⠐⠐⠐⠄⠄⠄⠄
+⠒⠒⠒⠒⠒⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠐⠐⠐⠐⠐⠄⠄⠄⠄⠄
+⠒⠒⠒⠒⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠐⠐⠐⠐⠐⠐⠄⠄⠄⠄⠄
+⠒⠒⠒⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠐⠐⠐⠐⠐⠐⠐⠄⠄⠄⠄⠄
+⠒⠒⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠐⠐⠐⠐⠐⠐⠐⠄⠄⠄⠄⠄⠄
+⠀⠒⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠐⠐⠐⠐⠐⠐⠐⠄⠄⠄⠄⠄⠄
+⠀⠐⠒⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠐⠐⠐⠐⠐⠐⠐⠐⠄⠄⠄⠄⠄⠄⠄
+⠀⠀⠐⠒⠿⠿⠿⠿⠿⠿⠿⠿⠒⠒⠒⠒⠒⠒⠒⠒⠒⠐⠐⠐⠐⠐⠐⠐⠐⠐⠄⠄⠄⠄⠄⠄⠄⠄
+⠀⠀⠀⠐⠐⠕⠿⠿⠿⠿⠿⠒⠒⠒⠒⠒⠒⠒⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠄⠄⠄⠄⠄⠄⠄⠄⠄
+⠀⠀⠀⠀⠐⠐⠕⠕⠕⠕⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+⠀⠀⠀⠀⠀⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+⠀⠀⠀⠀⠀⠀⠀⠄⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠐⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶
+</pre>
+<dl>
+  <dt aria-hidden="true">&#x283F;</dt><dd>the Hash, in full cells, six dots each. It is the highest ground in either edition.</dd>
+  <dt aria-hidden="true">&#x2812;</dt><dd>the Tilde Sea, two low dots to the cell. They were meant to feel like water and feel like dots.</dd>
+  <dt aria-hidden="true">&#x2836;</dt><dd>the Asterisks, which are ice, and no colder than the rest of the page.</dd>
+  <dt aria-hidden="true">&#x2815;</dt><dd>Oland. Nothing was changed. That is the letter o; it was already in braille.</dd>
+  <dt aria-hidden="true">&#x2810; &#x2804;</dt><dd>dusk, and then night, one dot apiece, sinking.</dd>
+</dl>
+<p>What is shown above is a picture of the braille, which is flat, and so of no use to the people it is for;
+   it is put here for the others, who would not otherwise believe it. Night has been kept in for the sake of
+   the shape, though it makes no difference to a hand. There is no lamp in this edition and none is wanted.
+   It can be read in the dark, under a blanket, with the lights of the house out, which is more than can be
+   said for the one you are looking at.</p>
+<p>It does not turn. It is, on the other hand, the only copy of the world with any height to it: about half
+   a millimetre, all told, and the Hash has the most of it.</p>
 </section>
 <section id="tide">
 <h2>The tide</h2>
