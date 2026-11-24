@@ -516,6 +516,36 @@
   }
   @media print { #board { display: none; } }
 </style>
+<style>
+  /* The light. It is worked by this sheet and nothing else: 125 units to the round, a short flash one unit, a long one three. */
+  #beacon { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #beacon h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+               color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #beacon p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; line-height: 1.55; }
+  #tower { font: 14px/1.1 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 1.6rem 0 0; }
+  #tower b { font-weight: normal; color: #f4e9b8; text-shadow: 0 0 0.5em #f4e9b8, 0 0 1.4em #d9cfa6;
+             animation: lamp 37.5s step-end infinite; }
+  #tower i { font-style: normal; opacity: 0.55; }
+  #beacon .card2 { font: 0.8rem/1.7 ui-monospace, Menlo, Consolas, monospace; font-style: normal; letter-spacing: 0.12em;
+                   color: #d9cfa6; margin: 1.2rem 0 0; white-space: pre-wrap; }
+  @keyframes lamp {
+    0%, 1.6%, 3.2%, 4.8%, 8%, 11.2%, 12.8%, 16%, 17.6%, 20.8%, 22.4%, 25.6%, 27.2%, 30.4%, 33.6%, 36.8%,
+    44.8%, 46.4%, 49.6%, 54.4%, 57.6%, 60.8%, 65.6%, 67.2%, 70.4%, 73.6%, 75.2%, 78.4%, 80%, 83.2%,
+    86.4%, 88% { opacity: 1; }
+    0.8%, 2.4%, 4%, 5.6%, 8.8%, 12%, 15.2%, 16.8%, 18.4%, 21.6%, 24.8%, 26.4%, 28%, 32.8%, 36%, 39.2%,
+    45.6%, 48.8%, 52%, 56.8%, 60%, 63.2%, 66.4%, 69.6%, 71.2%, 74.4%, 77.6%, 79.2%, 80.8%, 85.6%, 87.2%,
+    88.8%, 100% { opacity: 0.12; }
+  }
+  @media (prefers-reduced-motion: reduce) { #tower b { animation: none; } }
+  @media screen and (prefers-color-scheme: light) {
+    #beacon h2, #tower { color: #2f6f5e; }
+    #beacon h2 { border-color: #cfc8b6; }
+    #beacon p { color: #6a6f7d; }
+    #tower b { color: #8a6a1f; text-shadow: 0 0 0.5em #e0b64a, 0 0 1.4em #e0b64a; }
+    #beacon .card2 { color: #8a6a1f; }
+  }
+  @media print { #beacon { display: none; } }
+</style>
 <noscript><style>
   /* For visitors who arrive without scripts: the moving parts are put away, and what is left is the picture and the book. */
   #globe, #moon, #sky, main small, #fix, #post, #flotsam, #ear, #cal { display: none; }
@@ -818,6 +848,41 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    where there is a fair chance of somebody waving back.</p>
 <aside class="pencil"><span>sent AHOY. nothing. sent it again, slower.</span></aside>
 <aside class="pencil left ink"><span>it saw you the first time.</span></aside>
+</section>
+<section id="beacon">
+<h2>The light</h2>
+<p>The gazetteer says of the Apostrophes that now and then one of them leaves, and that the count is not
+   affected. It does not say where they go. One of them went here. It was found low down and close in, which
+   for a star is a kind of retirement, and a tower was put under it so that it should look deliberate.</p>
+<pre id="tower" role="img" aria-label="a small lighthouse drawn in characters, with one apostrophe for a lamp, flashing">
+       <b>'</b>
+      /_\
+      |_|
+      | |
+      |=|
+      | |
+      |=|
+     /   \
+<i>~~~~~~~~~~~~~~~~~</i>
+</pre>
+<p>It is not on the world. Anywhere on the world is round the back for half of every day, and a light that is
+   out of sight four and a half seconds in nine is no help to shipping. So it stands in the margin, on nothing,
+   which has held. It has one message and has never been given another. The flashes are short and long, in the
+   code that was used on your world when there was only one wire and nobody could afford vowels, and the card
+   nailed inside the door reads:</p>
+<p class="card2">.... . .-.. .-.. ---
+.-- --- .-. .-.. -..</p>
+<p>Then a long dark, so that it can be told where the sentence begins. Each round takes a little over four
+   of the world's days. The Caret has therefore been greeted more often than anything afloat, and has not
+   altered course, the light marking no harbour and warning of no rock. It is a lighthouse in the strict sense
+   only: a house, with a light.</p>
+<p>No wire runs to it. The mast is worked from your chair and the board from the same current as the world,
+   but the lamp was a star and stars were never on the current. Those who arrive without scripts find the world
+   stopped, the tide post and the mast put away, and this still going, saying the two words to a sea that is not
+   moving. Those who have asked their own machine for less motion get it lit and steady, which is how it prefers
+   to be seen, and may read the card instead.</p>
+<aside class="pencil"><span>timed it against my watch. it is saying it. I do not know why that upset me.</span></aside>
+<aside class="pencil left ink"><span>because it started before you came and did not stop to see who it was.</span></aside>
 </section>
 <section id="above">
 <h2>From above</h2>
