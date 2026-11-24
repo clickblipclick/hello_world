@@ -644,6 +644,30 @@
   @media screen and (prefers-color-scheme: light) { .pencil span { color: #7d7a72; } .pencil.ink span { color: #8c3f33; } }
   @media print { .pencil { display: none; } }
 </style>
+<style>
+  /* The level. The only instrument here that reports on the visitor's world and not this one. */
+  #level { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #level h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #level p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #vial { font: 12px/1.15 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 1.6rem 0 0;
+          overflow: hidden; }
+  #level button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                  background: none; border: 1px solid #7fb7a4; border-radius: 0; padding: 0.5rem 0.9rem;
+                  margin-top: 1.4rem; cursor: pointer; }
+  #level button:hover, #level button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #trued { display: block; min-height: 3.4em; margin-top: 1.2rem; color: #d9cfa6; font-style: normal;
+           font: 0.8rem/1.7 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; }
+  @media screen and (prefers-color-scheme: light) {
+    #level h2, #vial { color: #2f6f5e; }
+    #level h2 { border-color: #cfc8b6; }
+    #level p { color: #6a6f7d; }
+    #level button { color: #2f6f5e; border-color: #2f6f5e; }
+    #level button:hover, #level button:focus-visible { background: #2f6f5e; color: #f1ecdf; }
+    #trued { color: #8a6a1f; }
+  }
+  @media print { #level { display: none; } }
+</style>
 </head>
 <body>
 <main>
@@ -1260,6 +1284,29 @@ VI    VIII  X     XII   II    IV    VI
 <p>The rates are fixed. Your world was laid across this one, edge to edge, and the day was timed with a watch
    borrowed from a visitor, who has it back. The comma was weighed by setting one on a screen and observing that
    nothing happened; the figure used is therefore a courtesy. No change is given.</p>
+</section>
+<section id="level">
+<h2>The level</h2>
+<p>Nothing on the world is level, the world being round; a thing set down on it anywhere is on a slope in
+   every direction at once, and the sea stays on only by not having been told. So the instrument was made to
+   face the other way. It measures your world, or the piece of it you have put this page on. One bubble was
+   got from Oland, where they are all the same size, and shut in a tube with as much of the Flats as would fit.</p>
+<pre id="vial" role="img" aria-label="a spirit level drawn in characters: a tube with two marks at the middle and a bubble between them">
+ .---------------|---|---------------.
+(                  o                  )
+ '---------------|---|---------------'
+</pre>
+<button id="plumb" type="button" hidden>set it down</button>
+<small id="trued" aria-live="off">The bubble is at the middle, where it was put. It runs on the same current as the world, and without it this is a drawing of something being level.</small>
+<p>It works where the glass can tell which way is down, which is the kind carried in a pocket; lay that on
+   a table, or stand it on its edge on a shelf, and the bubble goes to the high side as bubbles do. East is
+   the right-hand end, as on the map. A glass that is bolted to a desk has never had to find out which way is
+   down and will not hazard it, and the bubble there stays at the middle out of tact.</p>
+<p>Most tables are out by a degree or two, and nobody has said anything, the cups having stayed on. If yours
+   is, do not put a book under the leg. The tube is thirty-seven characters long and the world is forty-four
+   across, so the instrument could not in any case be used to set the world straight; it was tried, at the
+   equator, and the bubble went round the back and came out with the At.</p>
+<aside class="pencil"><span>kitchen table, two degrees down to the west. that is where the peas go.</span></aside>
 </section>
 <section id="sight">
 <h2>The optician</h2>
@@ -2770,6 +2817,76 @@ VI    VIII  X     XII   II    IV    VI
     e.clipboardData.setData('text/plain', text + '\n\n[' + slip + ' helloworldandthen.com]');
     e.preventDefault();
   });
+})();
+</script>
+<script>
+// The level. Asks the visitor's machine which way is down, if the machine has ever had cause to know.
+(function () {
+  var vial = document.getElementById('vial'), said = document.getElementById('trued'),
+      btn = document.getElementById('plumb');
+  if (!vial || !said || !btn) return;
+  var W = 37, MID = 18, SPAN = 15, got = false, last = 0, flat = 0;
+  function draw(tilt) {
+    var t = Math.max(-SPAN, Math.min(SPAN, tilt));
+    var at = MID - Math.round(t / SPAN * (MID - 1)), row = '', i;
+    for (i = 0; i < W; i++) row += i === at ? 'o' : ' ';
+    vial.textContent = ' .---------------|---|---------------.\n(' + row + ')\n \'---------------|---|---------------\'';
+  }
+  function words(n) {
+    return ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'][n] || String(n);
+  }
+  function read(tilt) {
+    var a = Math.abs(tilt), n = Math.round(a), side = tilt > 0 ? 'east' : 'west';
+    if (a < 0.75) {
+      flat++;
+      return flat > 45
+        ? 'Level, and has been for a day or more, by this world’s reckoning. Whoever made that table should be told.'
+        : 'Level, to within a character. Nothing here could do better; nothing here has anything smaller than a character.';
+    }
+    flat = 0;
+    if (a > 60) return 'Down to the ' + side + ' by ' + n + ' degrees. That is not a table. You are holding it, or it has been dropped, and the bubble has gone as far as the glass allows and is waiting there.';
+    if (a > SPAN) return 'Down to the ' + side + ' by ' + n + ' degrees. The bubble is hard up against the end. Anything round that was on that surface has left it.';
+    if (n <= 2) return 'Down to the ' + side + ' by ' + (n < 1 ? 'under a degree' : words(n) + (n === 1 ? ' degree' : ' degrees')) + '. The cups will stay on. A pea would go, slowly, and take its time deciding.';
+    return 'Down to the ' + side + ' by ' + words(n) + ' degrees. On this world that much slope would put the Tilde Sea on the floor in about a day.';
+  }
+  function turn(e) {
+    if (e.gamma === null || e.beta === null || e.gamma === undefined) return;
+    got = true;
+    var now = Date.now();
+    if (now - last < 200) return;
+    last = now;
+    var ang = (screen.orientation && typeof screen.orientation.angle === 'number') ? screen.orientation.angle
+            : (typeof window.orientation === 'number' ? (window.orientation + 360) % 360 : 0);
+    var tilt = ang === 90 ? e.beta : ang === 270 ? -e.beta : ang === 180 ? -e.gamma : e.gamma;
+    draw(tilt);
+    said.textContent = read(tilt);
+  }
+  function listen() {
+    window.addEventListener('deviceorientation', turn);
+    setTimeout(function () {
+      if (!got) said.textContent = 'The bubble is at the middle. This glass does not know which way is down, never having been picked up, and the bubble will not guess on its behalf. Carry the page to something that can be tilted.';
+    }, 2500);
+  }
+  draw(0);
+  if (typeof window.DeviceOrientationEvent === 'undefined') {
+    said.textContent = 'The bubble is at the middle. This glass has no sense of down and has managed without. Carry the page to something that can be tilted.';
+    return;
+  }
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    // Some glasses will not say which way is down until asked by hand.
+    btn.hidden = false;
+    said.textContent = 'The bubble is at the middle and is being held there. This glass knows which way is down but wants to be asked.';
+    btn.addEventListener('click', function () {
+      DeviceOrientationEvent.requestPermission().then(function (ans) {
+        if (ans === 'granted') { btn.hidden = true; listen(); }
+        else said.textContent = 'It was asked, and declined to say. The bubble stays at the middle. Down is still down; it is only not being reported.';
+      }).catch(function () {
+        said.textContent = 'It was asked, and did not answer. The bubble stays at the middle.';
+      });
+    });
+    return;
+  }
+  listen();
 })();
 </script>
 </body>
