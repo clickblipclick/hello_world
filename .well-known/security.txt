@@ -1,0 +1,91 @@
+# Addressed to anyone who has found a hole in the world and wishes to
+# say so.
+#
+# This is where such reports are expected to begin. The file is kept where
+# the convention says to keep it, in a folder whose name starts with a full
+# stop. Here that puts it under the night ocean, and you did well to find it.
+#
+# The lines without a hash are the ones a machine reads. The rest is hills.
+
+Contact: https://helloworldandthen.com/caret.vcf
+# The only party with a card. It cannot be reached. Reports are accepted
+# all the same, in the sense that nothing prevents them.
+
+Contact: https://helloworldandthen.com/#flotsam
+# Failing that, a bottle. Delivery is eastward and is not guaranteed to be
+# to anyone but yourself.
+
+Expires: 9999-12-31T23:59:59Z
+# The last moment that fits in four figures. The world has made no
+# arrangements beyond it and would be glad of notice.
+
+Preferred-Languages: en
+# There is also the language in the phrasebook. Nobody is known to read
+# it, its speakers included.
+
+Canonical: https://helloworldandthen.com/.well-known/security.txt
+
+Policy: https://helloworldandthen.com/customs.html
+# Declare what you are carrying. Nothing has been confiscated so far.
+
+Acknowledgments: https://helloworldandthen.com/kept.html
+# Finders are thanked on their own machines, the world having nowhere
+# else to keep the thanks. The list is as long as you left it.
+
+Hiring: https://helloworldandthen.com/departures.html
+# The Caret has a crew and has not said it is short. Be on the quay
+# anyway. There is no quay.
+
+
+# KNOWN ISSUES
+#
+# These have been reported already, most of them by the world. Please do
+# not report them again; it knows, and has decided to go on turning.
+#
+#  1. The world may be turned by anybody, in either direction, without
+#     credentials. No fix is planned. It was turning before you came and
+#     took your hand for weather.
+#
+#  2. Enter plants a flag in the middle of whatever is facing you. No
+#     ownership of the land is checked, there being none to check. The
+#     damage is limited to nine flags and to the one person who can see
+#     them.
+#
+#  3. There is a hole at the middle of the picture. It was dug on purpose
+#     and is open for inspection. A hole that is signposted is a feature,
+#     and this is the signpost.
+#
+#  4. The At goes behind the world at regular intervals and cannot be
+#     observed while it is there. What it does has not been audited. It
+#     comes back looking the same, which auditors say is the worrying part.
+#
+#  5. An intruder who obtained everything the world holds on its visitors
+#     would obtain nothing, that being what it holds. This has been
+#     tested, by looking.
+#
+#  6. The speaking tube round the back answers whoever finds it. Privileges
+#     cannot be escalated. There is one, and everybody has it.
+#
+#  7. The world is a little out of date at all times. This is the light's
+#     fault and is being taken up with the light.
+#
+#  8. The Tilde Sea leaks, eastward, continuously. It has not got any
+#     lower. Under investigation by the Commas, who are well placed.
+#
+#
+# OUT OF SCOPE
+#
+#   Elsewhere, all of it.
+#   The Apostrophes. They are not ours; they were here when we arrived.
+#   Rectangles.
+#   Denial of service. The world already declines to do most things and
+#   cannot be made to decline them any harder.
+#   The Caret's route. It has been reported as a loop. The crew say it is
+#   a route, and they were there.
+#
+#
+# REWARD
+#
+# None is paid, there being nothing to pay with and nothing to want.
+# A finder may plant a flag on what they found. That is the whole of the
+# bounty, and it has never been disputed.
