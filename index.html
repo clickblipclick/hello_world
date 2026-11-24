@@ -494,6 +494,26 @@
   #roll { display: none; }
   #signal { display: none; }
 </style></noscript>
+<style>
+  /* The pencil. This copy has had a reader before, who wrote in it, and one other who wrote back in ink.
+     Where the page is wide the notes are out in the margin; where it is not, they are squeezed in between the lines. */
+  .pencil { display: block; margin: 0.9rem 0 0; }
+  .pencil span { display: inline-block; font: italic 0.95rem/1.35 "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive;
+                 letter-spacing: 0; color: #8b90a0; transform: rotate(-1.5deg); }
+  .pencil span::before { content: "\2014\00a0"; }
+  .pencil.left span { transform: rotate(1.2deg); }
+  .pencil.ink span { color: #b0776a; }
+  @media (min-width: 62rem) {
+    .pencil { position: relative; height: 0; margin: 0; }
+    .pencil span { position: absolute; bottom: 1.4rem; left: calc(100% + 2.5rem); width: 11rem; }
+    .pencil span::before { content: none; }
+    .pencil.left span { left: auto; right: calc(100% + 2.5rem); text-align: right; }
+    .pencil + .pencil.ink span { bottom: 0.2rem; }
+    #colophon .pencil span { bottom: 3rem; }
+  }
+  @media screen and (prefers-color-scheme: light) { .pencil span { color: #7d7a72; } .pencil.ink span { color: #8c3f33; } }
+  @media print { .pencil { display: none; } }
+</style>
 </head>
 <body>
 <main>
@@ -546,6 +566,8 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <section id="gazetteer">
 <h2>A gazetteer</h2>
 <p class="lede">Nobody has been there, so the names are provisional.</p>
+<aside class="pencil"><span>who named them, then?</span></aside>
+<aside class="pencil left ink"><span>you did. just now, reading them.</span></aside>
 <dl>
   <dt>The Hash <span>###</span></dt>
   <dd>The bright uplands, wherever the light happens to fall. The Hash is not a place so much as a time of day;
@@ -620,6 +642,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <p class="wx">The Apostrophes have names. Point at one, anywhere that is not the world, and the telescope will give it:
    seventy in all, the same seventy for everyone, taken from the vocabulary of printers because the sky is mostly margin.
    Nobody has learned them. The ones standing behind the world cannot be asked, and are thought to prefer it.</p>
+<aside class="pencil left"><span>learned eleven. Gutter, Kern, Widow. stopped at Orphan, it did not seem right to go on.</span></aside>
 <p class="wx">For those who would sooner be told than point seventy times, the sky has been taken down and
    <a href="sky.svg">laid flat as a chart</a>, names and all. A few of the stars have been joined up into figures.
    The stars were not asked, and have not moved closer together as a result.</p>
@@ -697,6 +720,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <section id="post">
 <h2>Postcards</h2>
 <p>There is no post office, and nothing leaves. But the world will hold still for a picture.</p>
+<aside class="pencil"><span>took one for my mother. she asked where it was. I said I would find out.</span></aside>
 <button id="shutter" type="button">take a postcard</button>
 <pre id="card" aria-label="a postcard of the world as it was when you asked"></pre>
 <small id="sent" aria-live="polite"></small>
@@ -726,6 +750,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    was driven into the shallows at the place where longitude starts, and seven marks were cut in it. The sea
    heaps up underneath the At and again on the side farthest from it, so the post is wetted twice for every time
    the At comes over. Dragging the world drags the post through the tide, which the tide does not mind.</p>
+<aside class="pencil left"><span>twice. I stayed and counted.</span></aside>
 <pre id="gauge" aria-label="a post standing in the sea, with the water rising and falling against its marks"></pre>
 <small id="tidal" aria-live="off"></small>
 </section>
@@ -745,6 +770,8 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <p>Nobody stands at the foot of the mast; the arms are worked from where you are sitting, by a long wire. The
    code is the real one. A visitor who learns it here may use it on their own world, where it was invented, and
    where there is a fair chance of somebody waving back.</p>
+<aside class="pencil"><span>sent AHOY. nothing. sent it again, slower.</span></aside>
+<aside class="pencil left ink"><span>it saw you the first time.</span></aside>
 </section>
 <section id="above">
 <h2>From above</h2>
@@ -757,6 +784,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <p>You are at the bottom, marked, and have not moved. The At can be followed the whole way round from here,
    including the part where it used to vanish. Only the upper half of the world shows; whatever is in the lower
    half is underneath, where it is assumed to be carrying on.</p>
+<aside class="pencil"><span>I did move. went for tea. came back and was still marked.</span></aside>
 </section>
 <section id="roll">
 <h2>The census</h2>
@@ -770,6 +798,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <p>The At is not in the returns, being non-resident. Cloud is counted as cloud, and whatever is under it is
    not counted at all, on the principle that the enumerator did not see it. The figures are correct at the time
    of reading and at no other time. Drag the world and they are revised without complaint.</p>
+<aside class="pencil left"><span>added the column up myself. it comes out. I do not trust it any more for that.</span></aside>
 </section>
 <section id="cal">
 <h2>The calendar</h2>
@@ -777,6 +806,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    the At around the back and out again. The week has seven days, named for what the world is made of,
    and no weekend. Time began when you arrived. Dragging the world moves the date, in either direction;
    this is the only place where that works.</p>
+<aside class="pencil"><span>tried it on a Tuesday of my own. no.</span></aside>
 <output id="date" for="globe" aria-live="off"></output>
 <p class="diary">None of which fits in a diary, a day here being over before it can be written down. So the
    observances have been slowed to your pace and put in a form your own calendar will take:
@@ -1267,6 +1297,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    for the margin, are pleased to find themselves at last in a book that has one.</p>
 <p class="end">Printed nowhere. Published wherever it is looked at. This copy is yours and is the only one
    that turned exactly like this.<span aria-hidden="true">~ ^ ~</span></p>
+<aside class="pencil"><span>it was mine first. I have rubbed out what I could. look after it.</span></aside>
 </footer>
 <script>
 // The crossword. It knows nothing about the world above it except how the world is spelled.
