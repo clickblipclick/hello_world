@@ -1364,6 +1364,9 @@ VI    VIII  X     XII   II    IV    VI
    that time. It regrets nothing and has asked for that to be printed.</p>
 <p class="box"><b>Notice is given</b> that north remains up. Objections were invited at the show of hand.
    There was one hand. It was up.</p>
+<p class="box"><b>Export of characters.</b> Any part of this page may be carried off by copying it. Nothing
+   is charged and nothing is missed, the original staying where it was. A slip is put in with whatever you
+   take, so that it can say where it came from if asked. You will find it when you set the thing down.</p>
 </div>
 <p>Replies to box numbers should be addressed to the box. There are forty-four, one for each character across,
    and the post, as has been said, does not leave. A reply is therefore best read aloud, toward the picture,
@@ -2739,6 +2742,34 @@ VI    VIII  X     XII   II    IV    VI
   one.addEventListener('click', function () { pick(1); });
   two.addEventListener('click', function () { pick(2); });
   said.textContent = 'The optician is in. ' + asks[0];
+})();
+</script>
+<script>
+// The export slip. Whatever is copied off the page leaves with a line saying where it was taken and how much.
+(function () {
+  var taken = 0;
+  function words(n) { return n === 1 ? 'one character' : n + ' characters'; }
+  document.addEventListener('copy', function (e) {
+    var t = e.target, sel = window.getSelection && window.getSelection();
+    if (!sel || !e.clipboardData) return;
+    if (t && t.nodeType === 1 && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+    var text = String(sel);
+    if (!text.replace(/\s/g, '')) return;
+    var n = text.replace(/\s/g, '').length, slip;
+    taken++;
+    if (/^hello,? world$/i.test(text.replace(/\s+/g, ' ').trim())) {
+      slip = 'You have taken the top. It is still there. It was said once and can be carried any number of times.';
+    } else if (n === 1) {
+      slip = 'One character, taken from hello world. Nobody has asked for it back. If it is a comma, it weighs what you were told.';
+    } else if (taken > 1) {
+      slip = words(n) + ', taken from hello world, on your ' + (taken === 2 ? 'second' : taken === 3 ? 'third' : 'latest') +
+             ' visit to the counter. The original is where it was. So are the others.';
+    } else {
+      slip = words(n) + ', not counting the spaces, taken from hello world. The original is where it was. Nothing to pay.';
+    }
+    e.clipboardData.setData('text/plain', text + '\n\n[' + slip + ' helloworldandthen.com]');
+    e.preventDefault();
+  });
 })();
 </script>
 </body>
