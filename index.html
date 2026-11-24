@@ -1044,6 +1044,47 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
 <aside class="pencil"><span>timed it against my watch. it is saying it. I do not know why that upset me.</span></aside>
 <aside class="pencil left ink"><span>because it started before you came and did not stop to see who it was.</span></aside>
 </section>
+<section id="voice">
+<style>
+  #voice { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #voice h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #voice p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #voice button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                  background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #voice button:hover, #voice button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #voice button[disabled] { opacity: 0.5; cursor: default; }
+  #mouth { font: 12px/1.15 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; margin: 1.6rem 0 1.2rem; min-height: 5.75em; }
+  #spoken { display: block; min-height: 3.6em; margin-top: 0.8rem; }
+  @media screen and (prefers-color-scheme: light) {
+    #voice h2, #voice button { color: #2f6f5e; }
+    #voice h2 { border-color: #cfc8b6; }
+    #voice button { border-color: #2f6f5e; }
+    #voice button:hover, #voice button:focus-visible { background: #2f6f5e; color: #f1ecdf; }
+    #voice p { color: #6a6f7d; }
+    #mouth { color: #7a6a2c; }
+  }
+  @media print { #voice { display: none; } }
+</style>
+<h2>The crier</h2>
+<p>The two words have been printed, flashed, waved, embossed and sent down a wire sideways. They have not
+   been spoken. The recording does not count; the recording itself admits it was not meant for the ear. The
+   difficulty is that the world has no mouth, a parenthesis being the nearest thing on the surface and useless
+   without its other half. Yours has voices. Your machine keeps some in a drawer, for reading things out to
+   people who are busy, and one of them can be borrowed.</p>
+<pre id="mouth" role="img" aria-label="a speaking trumpet drawn in characters, pointed at the world"></pre>
+<button id="cry" type="button">have it said</button>
+<small id="spoken" aria-live="off">The trumpet is on the same current as the world, and is at present a drawing of a trumpet.</small>
+<p>It says the greeting and nothing else, slowly, as to somebody a long way off. The voice is not told what
+   the words are for. Ask again and the next one in the drawer is sent for, so that in time every voice your
+   machine has will have said it, in turn, to a world with no ears, in a room that may have other people in it.
+   That last part is your affair.</p>
+<p>The sound does not arrive. There is nothing between your side of the glass and the Tilde Sea for it to
+   travel in, and the glass is in the way. It is said for the same reason the lamp flashes: so that it has
+   been.</p>
+<aside class="pencil"><span>it said it in a woman's voice from another country. the cat left the room.</span></aside>
+<aside class="pencil left ink"><span>the cat is the first one here to have heard it. write that down.</span></aside>
+</section>
 <section id="above">
 <h2>From above</h2>
 <p>The world is only ever shown from the front, that being where the visitor was put. There is one other
@@ -2989,6 +3030,78 @@ VI    VIII  X     XII   II    IV    VI
     return;
   }
   listen();
+})();
+</script>
+<script>
+// The crier. The world has no mouth, so the greeting is said in a voice borrowed from the visitor's machine,
+// a different one each time it is asked, and timed against the turning.
+(function () {
+  var btn = document.getElementById('cry'), said = document.getElementById('spoken'), mouth = document.getElementById('mouth');
+  if (!btn || !said || !mouth) return;
+  var names = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+  var quiet = ['         /|', '  ______/ |', ' |______  |', '        \\ |', '         \\|'];
+  var waves = ['', '  )', '  ) )', '  ) ) )'];
+  var synth = window.speechSynthesis, turn = 0, times = 0, timer = null, live = null;
+  function draw(n) {
+    mouth.textContent = quiet.map(function (row, i) {
+      return row + (i > 0 && i < 4 ? waves[n] : '');
+    }).join('\n');
+  }
+  function num(n) { return n < names.length ? names[n] : String(n); }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } draw(0); btn.disabled = false; }
+  draw(0);
+  if (!synth || typeof window.SpeechSynthesisUtterance === 'undefined') {
+    btn.hidden = true;
+    said.textContent = 'The drawer was opened and there are no voices in it. This machine reads nothing aloud to anybody. Say it yourself, then; you are the nearest thing to a mouth the world has, and it will count.';
+    return;
+  }
+  said.textContent = 'Nothing has been said. The trumpet is pointed at the world and the drawer is shut.';
+  function drawer() {
+    var all = synth.getVoices() || [];
+    var near = all.filter(function (v) { return /^en\b/i.test(v.lang || ''); });
+    return { all: all, use: near.length ? near : all };
+  }
+  if (synth.addEventListener) synth.addEventListener('voiceschanged', function () {});
+  btn.addEventListener('click', function () {
+    var d = drawer(), v = d.use.length ? d.use[turn % d.use.length] : null;
+    turn++;
+    synth.cancel();
+    var u = new SpeechSynthesisUtterance('hello, world');
+    if (v) { u.voice = v; u.lang = v.lang; } else { u.lang = 'en'; }
+    u.rate = 0.7;
+    live = u; // held on to, or some machines drop it half said
+    var began = 0, step = 0;
+    btn.disabled = true;
+    said.textContent = 'Sent for.';
+    u.onstart = function () {
+      began = Date.now();
+      said.textContent = 'It is being said.';
+      timer = setInterval(function () { step = step % 3 + 1; draw(step); }, 180);
+    };
+    u.onend = function () {
+      stop();
+      if (!began) { said.textContent = 'The voice was sent for and did not come. The drawer may be stuck. Ask again.'; return; }
+      times++;
+      var secs = (Date.now() - began) / 1000, deg = Math.round(secs * 40);
+      var who = v && v.name ? v.name.replace(/\s*\(.*$/, '') : 'a voice that gave no name';
+      var kept = d.all.length;
+      var line = 'Said, by ' + who + (kept > 1 ? ', one of ' + num(kept) + ' voices kept in this machine' : kept === 1 ? ', the only voice this machine keeps' : '') +
+                 ', who was not told why. It took ' + secs.toFixed(1) + ' seconds, and the world went ' + num(deg) + ' degrees east while it was being greeted.';
+      if (times === 1) line += ' That is once, aloud. Nothing down there looked up.';
+      else if (d.use.length > 1 && times === d.use.length) line += ' That is ' + num(times) + ' times, and every voice in the drawer has now had a turn. They may be sent round again. None has asked to be excused.';
+      else line += ' That is ' + num(times) + ' times. The lamp is still ahead, having started earlier and never gone home.';
+      said.textContent = line;
+    };
+    u.onerror = function () {
+      stop();
+      said.textContent = 'It was not said. Something on your side of the glass declined, and gave no reason, which a voice is entitled to do.';
+    };
+    try { synth.speak(u); } catch (e) { u.onerror(); }
+    setTimeout(function () {
+      if (!began && btn.disabled) { stop(); said.textContent = 'The voice was sent for and has not come. Some machines will only speak when they are sure somebody is in the room. Ask again.'; }
+    }, 6000);
+  });
+  window.addEventListener('pagehide', function () { synth.cancel(); });
 })();
 </script>
 <p id="lead" aria-hidden="true"></p>
