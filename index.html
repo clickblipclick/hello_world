@@ -668,6 +668,21 @@
   }
   @media print { #level { display: none; } }
 </style>
+<style>
+  /* The lead. The one thing on the page that does not scroll, being what the scrolling is measured with. */
+  #lead { position: fixed; right: 0.9rem; bottom: 0.8rem; z-index: 5; margin: 0; padding: 0.35rem 0.6rem;
+          font: 0.7rem/1.5 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; text-align: right;
+          color: #7fb7a4; background: rgba(13, 19, 33, 0.88); border-left: 1px dashed #7fb7a4;
+          pointer-events: none; opacity: 0; white-space: pre-line; max-width: 15rem; }
+  #lead.over { opacity: 1; }
+  #lead.aground { color: #d9cfa6; border-left-style: solid; border-color: #d9cfa6; }
+  @media (prefers-reduced-motion: no-preference) { #lead { transition: opacity 0.6s; } }
+  @media screen and (prefers-color-scheme: light) {
+    #lead { color: #2f6f5e; background: rgba(241, 236, 223, 0.9); border-color: #2f6f5e; }
+    #lead.aground { color: #8a6a1f; border-color: #8a6a1f; }
+  }
+  @media print { #lead { display: none; } }
+</style>
 </head>
 <body>
 <main>
@@ -870,6 +885,12 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    your comings and goings, the keeper's copies, is on your own machine and nowhere else, and there is
    <a href="kept.html">a counter</a> where it is laid out to be counted and may be taken away again, a flag at a time
    or all at once. Nothing is charged. No ticket was issued, there having been no one to issue it to.</p>
+<p class="wx">The page is a good deal deeper than the world is wide, and nobody had said how deep. A lead has
+   been put over the side, low down on the right where the line runs out, and it calls the depth as you go, in
+   fathoms, the way it was called from the chains: by the mark where the line has a mark on it, by the deep where
+   it has none and the leadsman is going by feel. There are twenty fathoms of line. It stays dry until the world
+   is out of sight overhead, and at the very end it brings up a little of the bottom, to show it got there.</p>
+<aside class="pencil"><span>went down and up four times to hear it say seven. it says it the same.</span></aside>
 </section>
 <section id="post">
 <h2>Postcards</h2>
@@ -2887,6 +2908,49 @@ VI    VIII  X     XII   II    IV    VI
     return;
   }
   listen();
+})();
+</script>
+<p id="lead" aria-hidden="true"></p>
+<script>
+// The lead. Twenty fathoms of line from the top of the page to the bottom of it, called as a leadsman calls:
+// the line is marked at some fathoms and not at others, and the ones between are deeps and are judged.
+(function () {
+  var lead = document.getElementById('lead');
+  if (!lead) return;
+  var names = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve',
+               'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
+  var marks = { 2: 'two strips of leather', 3: 'three strips of leather', 5: 'white calico', 7: 'red bunting',
+                10: 'leather with a hole in it', 13: 'blue serge', 15: 'white calico', 17: 'red bunting',
+                20: 'a cord with two knots' };
+  var last = '', due = false;
+  function call() {
+    due = false;
+    var doc = document.documentElement;
+    var top = window.pageYOffset || doc.scrollTop || 0;
+    var room = doc.scrollHeight - window.innerHeight;
+    if (room <= 0 || top < window.innerHeight * 0.6) { lead.className = ''; return; }
+    var q = Math.round(Math.min(1, top / room) * 80), f = Math.floor(q / 4), r = q % 4, text;
+    var bottom = top >= room - 2;
+    if (bottom) {
+      text = 'by the mark twenty, and bottom.\nthe lead comes up with fine print on it,\nand one tilde.';
+    } else if (f === 0) {
+      text = r === 3 ? 'a quarter less one' : 'less than a fathom.\nthe world is still in sight.';
+    } else if (r === 0) {
+      text = marks[f] ? 'by the mark ' + names[f] + '\n' + marks[f] : 'by the deep ' + names[f] + '\nnothing on the line. by feel';
+    } else if (r === 1) {
+      text = 'and a quarter ' + names[f];
+    } else if (r === 2) {
+      text = 'and a half ' + names[f];
+    } else {
+      text = 'a quarter less ' + names[f + 1];
+    }
+    if (text !== last) { lead.textContent = text; last = text; }
+    lead.className = bottom ? 'over aground' : 'over';
+  }
+  function ask() { if (!due) { due = true; (window.requestAnimationFrame || setTimeout)(call); } }
+  window.addEventListener('scroll', ask, { passive: true });
+  window.addEventListener('resize', ask);
+  ask();
 })();
 </script>
 </body>
