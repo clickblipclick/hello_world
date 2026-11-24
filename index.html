@@ -1486,6 +1486,56 @@ VI    VIII  X     XII   II    IV    VI
    and the post, as has been said, does not leave. A reply is therefore best read aloud, toward the picture,
    at a moment when the advertiser is on the near side.</p>
 </section>
+<section id="mint">
+<style>
+  /* The mint. One coin, struck once, and good for nothing but being thrown up and caught. */
+  #mint { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #mint h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #mint p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #coin { font: 12px/1.15 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; margin: 1.6rem 0 0;
+          overflow: hidden; }
+  #mint button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                 background: none; border: 1px solid #7fb7a4; border-radius: 0; padding: 0.5rem 0.9rem;
+                 margin-top: 1.4rem; cursor: pointer; }
+  #mint button:hover, #mint button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #fell { display: block; min-height: 3.4em; margin-top: 1.2rem; color: #d9cfa6; font-style: normal;
+          font: 0.8rem/1.7 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; }
+  @media screen and (prefers-color-scheme: light) {
+    #mint h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #mint p { color: #6a6f7d; }
+    #coin, #fell { color: #8a6a1f; }
+    #mint button { color: #2f6f5e; border-color: #2f6f5e; }
+    #mint button:hover, #mint button:focus-visible { background: #2f6f5e; color: #f1ecdf; }
+  }
+  @media print { #mint { display: none; } }
+</style>
+<h2>The mint</h2>
+<p>Advertisements are charged in commas and none has been paid for, which was put down to the advertisers
+   until it was noticed that there was nothing to pay with. A coin has now been struck. There is one. The
+   comma was the only denomination proposed, being already a weight, and the coin is worth one of them. It
+   has the world on the front, from the side everybody knows, and on the back the comma it is worth, which is
+   also the comma it was made from. The currency is therefore perfectly sound and cannot be added to.</p>
+<pre id="coin" role="img" aria-label="a coin drawn in characters, showing the side with the world on it">
+       .-"""""""-.
+     .'  ~ ## ~   '.
+    /  ~ #####  ~   \
+   |  ~ ###### ~  #  |
+   |   ~ ####  ~ ##  |
+    \   ~ ##  ~  #  /
+     '.   ~  ~    .'
+       '-._____.-'
+</pre>
+<button id="toss" type="button">toss it</button>
+<small id="fell" aria-live="polite">It is lying world up, as struck. It runs on the same current as the world, and without it this is a picture of money.</small>
+<p>It cannot be spent. Whoever took it would hold the entire money supply and have to be asked for it back
+   before anything else could be bought, and the only things for sale are a view and a mast. It can be thrown
+   up and caught, which is the one use of a coin that needs no second party, and it will settle anything put
+   to it. Decide beforehand what the comma means. Nothing here has yet been settled this way; north was done
+   by a show of hand.</p>
+<p>The mint keeps count for as long as you stay, and forgets when you go, a mint with a memory being a bank.</p>
+<aside class="pencil"><span>comma, comma, comma, world. I had asked it whether to go to bed.</span></aside>
+</section>
 <section id="strip">
 <style>
   /* The strip. Four boxes ruled on the back page, and the same sorts drawn in them as everywhere else. */
@@ -3105,6 +3155,80 @@ VI    VIII  X     XII   II    IV    VI
 })();
 </script>
 <p id="lead" aria-hidden="true"></p>
+<script>
+// The mint. One coin, two faces, and now and then an edge. Nothing is kept; the count goes when the visitor does.
+(function () {
+  var coin = document.getElementById('coin'), said = document.getElementById('fell'),
+      btn = document.getElementById('toss');
+  if (!coin || !said || !btn) return;
+  var RIM = ['    .-"""""""-.    ', '  .\'           \'.  ', ' /               \\ ', '|                 |',
+             '|                 |', ' \\               / ', '  \'.           .\'  ', '    \'-._____.-\'    '];
+  var FACES = [['', '  ~ ## ~   ', '  ~ #####  ~   ', '  ~ ###### ~  #  ', '   ~ ####  ~ ##  ', '   ~ ##  ~  #  ', '   ~  ~    ', ''],
+               ['', '           ', '      ,,,      ', '      ,,,,,      ', '       ,,,,      ', '       ,,      ', '    ,,     ', '']];
+  var NAMES = ['world', 'comma'], up = 0, tally = [0, 0], edges = 0, busy = false;
+  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function row(side, r) {
+    var rim = RIM[r], body = rim.replace(/^ +| +$/g, ''), face = FACES[side][r];
+    if (!face) return body;
+    var a = body.length - face.length >> 1;
+    return body.slice(0, a) + face + body.slice(a + face.length);
+  }
+  // s is how much of the face is showing, from 1 (flat to the visitor) down to 0 (edge on).
+  function draw(side, s, lift) {
+    var out = '', r, i, src, n, line;
+    for (r = 0; r < lift; r++) out += '\n';
+    for (r = 0; r < 8; r++) {
+      src = row(side, r); n = Math.round(src.length * s); line = '';
+      if (n < 2) line = r === 0 || r === 7 ? ' ' : '|';
+      else for (i = 0; i < n; i++) line += src.charAt(Math.round(i * (src.length - 1) / (n - 1)));
+      out += new Array(3 + (19 - line.length >> 1) + 1).join(' ') + line + '\n';
+    }
+    coin.textContent = out;
+  }
+  function words(n) {
+    return ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'][n] || String(n);
+  }
+  function land(side, edge) {
+    busy = false;
+    if (edge) {
+      edges++;
+      draw(up, 0, 0);
+      coin.setAttribute('aria-label', 'a coin drawn in characters, standing on its edge');
+      said.textContent = 'On its edge. The mint was assured this could not happen and has entered it under neither. '
+        + 'Whatever you asked has been left open, which may have been the answer.';
+      return;
+    }
+    up = side; tally[side]++;
+    draw(up, 1, 0);
+    coin.setAttribute('aria-label', 'a coin drawn in characters, showing the side with the ' + NAMES[up] + ' on it');
+    var n = tally[0] + tally[1], run = tally[up] === n && n > 3;
+    said.textContent = NAMES[up].charAt(0).toUpperCase() + NAMES[up].slice(1) + '. That is '
+      + (words(tally[0]) + ' to the world and ' + words(tally[1]) + ' to the comma').replace(/\bno\b/, 'none')
+      + (edges ? ', and the one nobody mentions' : '') + '. '
+      + (run ? 'The coin has been examined and has two sides. It has been asked to use both.'
+        : up ? 'The whole money supply is face down.' : 'The world is the right way up, twice over.');
+  }
+  btn.addEventListener('click', function () {
+    if (busy) return;
+    var edge = Math.random() < 1 / 44, side = Math.random() < 0.5 ? 0 : 1;
+    if (still) { land(side, edge); return; }
+    busy = true;
+    // An even number of half turns brings back the face that went up; an odd number, the other.
+    var halves = 6 + (side === up ? 0 : 1), t0 = 0, DUR = 1500;
+    said.textContent = 'It is in the air. So, for the moment, is the economy.';
+    function frame(t) {
+      if (!t0) t0 = t;
+      var p = Math.min(1, (t - t0) / DUR), turn = p * halves * Math.PI;
+      if (edge && p > 0.93) { land(side, true); return; }
+      if (p >= 1) { land(side, false); return; }
+      var showing = Math.floor(turn / Math.PI + 0.5) % 2 ? 1 - up : up;
+      draw(showing, Math.abs(Math.cos(turn)), 0);
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  });
+})();
+</script>
 <script>
 // The lead. Twenty fathoms of line from the top of the page to the bottom of it, called as a leadsman calls:
 // the line is marked at some fathoms and not at others, and the ones between are deeps and are judged.
