@@ -14,7 +14,7 @@ var DRAWER = 'drawer';
 var KEPT = ['./', 'forecast.html', 'phrasebook.html', 'ashore.html', 'round.html', 'customs.html', 'below.html',
             'exam.html', 'search.html', 'departures.html', 'shanty.html', 'sky.svg', 'kit.svg',
             'pattern.txt', 'almanac.ics', 'voyage.gpx', 'world.sh', 'icon.svg', 'pocket.webmanifest', 'world.srt',
-            'world.obj'];
+            'world.obj', 'world.c'];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(DRAWER).then(function (drawer) {
