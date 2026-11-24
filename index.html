@@ -401,6 +401,36 @@
   @media print { #smalls h2, #smalls h3, #smalls p, #smalls .cols, #smalls .cols b, #smalls .cols i
                  { color: #000; border-color: #000; column-rule-color: #000; } }
 </style>
+<style>
+  /* The theatre. A script, set the way scripts are: names in capitals, directions leaning, and room to wait in. */
+  #stage { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #stage h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #stage p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #stage h3 { font-size: 1.3rem; font-weight: normal; font-style: italic; letter-spacing: 0.05em; text-align: center;
+              color: #e8e6df; margin: 2.4rem 0 0.2rem; }
+  #stage .sub { text-align: center; font-size: 0.8rem; margin: 0 0 1.6rem; }
+  #stage .cast { list-style: none; margin: 0 auto 1.8rem; padding: 0; max-width: 22rem; font-size: 0.85rem;
+                 line-height: 1.6; color: #b9b6ac; }
+  #stage .cast b, #stage .play b { font-weight: normal; font-variant: small-caps; letter-spacing: 0.1em; color: #d9cfa6; }
+  #stage .play p { font-style: normal; color: #b9b6ac; font-size: 0.95rem; margin: 0 0 0.5rem;
+                   padding-left: 1.5em; text-indent: -1.5em; }
+  #stage .play p.dir { font-style: italic; color: #6b7388; padding-left: 0; text-indent: 0; text-align: center;
+                       font-size: 0.85rem; margin: 1.1rem 2rem; }
+  #stage .play i { color: #6b7388; }
+  #stage .play p.fall { text-align: center; padding-left: 0; text-indent: 0; letter-spacing: 0.4em;
+                        font-size: 0.75rem; text-transform: uppercase; color: #7fb7a4; margin: 1.8rem 0 2rem; }
+  @media screen and (prefers-color-scheme: light) {
+    #stage h2, #stage .play p.fall { color: #2f6f5e; }
+    #stage h2 { border-color: #cfc8b6; }
+    #stage p, #stage .play p.dir, #stage .play i { color: #6a6f7d; }
+    #stage h3 { color: #1d2433; }
+    #stage .cast, #stage .play p { color: #3d4353; }
+    #stage .cast b, #stage .play b { color: #8a6a1f; }
+  }
+  @media print { #stage h2, #stage h3, #stage p, #stage .cast, #stage .cast b, #stage .play p, #stage .play b,
+                 #stage .play i, #stage .play p.dir, #stage .play p.fall { color: #000; border-color: #000; } }
+</style>
 <noscript><style>
   /* For visitors who arrive without scripts: the moving parts are put away, and what is left is the picture and the book. */
   #globe, #moon, #sky, main small, #fix, #post, #flotsam, #ear, #cal { display: none; }
@@ -922,6 +952,68 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    and the post, as has been said, does not leave. A reply is therefore best read aloud, toward the picture,
    at a moment when the advertiser is on the near side.</p>
 </section>
+<section id="stage">
+<h2>The theatre</h2>
+<p>There is no theatre, there being an audience of one and nowhere to seat them but where they already are.
+   A play was written for it all the same. It is set at the lowest of the ebb and lasts exactly as long as the
+   Commas are uncovered, which is a breath. It is given here at reading length, the way a map gives a coast.</p>
+<h3>The Pause</h3>
+<p class="sub">a play in one act, and not all of that</p>
+<ul class="cast">
+  <li><b>First Comma</b>, fastened to the bottom</li>
+  <li><b>Second Comma</b>, likewise, a little to the east</li>
+  <li><b>A Flag</b>, the tenth, advertised as lost</li>
+  <li><b>The Enumerator</b>, a voice, about once a second</li>
+  <li><b>The Caret</b>, which does not come on</li>
+  <li><b>The At</b>, overhead, with nothing to say</li>
+</ul>
+<div class="play">
+<p class="dir">The floor of the shallows, with the sea gone out of it. Light from the upper left. A post with seven
+   marks, dry to the last of them. Two Commas, curled. They have been under water since the previous performance.</p>
+<p><b>First Comma.</b> Well?</p>
+<p><b>Second Comma.</b> Well what.</p>
+<p><b>First Comma.</b> Does it go on?</p>
+<p><b>Second Comma.</b> It has always gone on.</p>
+<p><b>First Comma.</b> That is not the same as going on now.</p>
+<p class="dir">They wait. It is what they are for, and they are good at it.</p>
+<p><b>Second Comma.</b> What was it, before us? The sentence.</p>
+<p><b>First Comma.</b> I only caught the start. Two words. A greeting, I think, and then who it was to.</p>
+<p><b>Second Comma.</b> Was it to us?</p>
+<p><b>First Comma.</b> It was to everything. We were included without being mentioned.</p>
+<p><b>The Enumerator.</b> <i>(off)</i> Commas, two.</p>
+<p><b>Second Comma.</b> There. Did you hear? We have been confirmed.</p>
+<p><b>First Comma.</b> Counted. It is a different thing. He counts cloud.</p>
+<p><b>The Enumerator.</b> <i>(off)</i> Commas, two.</p>
+<p><b>First Comma.</b> And he will have forgotten by the time he says it again.</p>
+<p class="dir">A Flag is discovered, upright, a little way up the beach. It has been there throughout.</p>
+<p><b>A Flag.</b> Excuse me. I am told I fell over. Has either of you seen where?</p>
+<p><b>Second Comma.</b> You are standing up.</p>
+<p><b>A Flag.</b> To one person.</p>
+<p><b>Second Comma.</b> That is one more than we can say.</p>
+<p><b>A Flag.</b> I was put here to mean that somebody came. I should like it noted that I am still meaning it.</p>
+<p><b>The Enumerator.</b> <i>(off)</i> Flags, nine.</p>
+<p class="dir">The Flag says nothing further. Far out, where the water went, something points upward and goes along.</p>
+<p><b>Second Comma.</b> It is coming in. This time it is coming in.</p>
+<p><b>First Comma.</b> It has seen land. Watch what it does about it.</p>
+<p class="dir">It turns away.</p>
+<p><b>Second Comma.</b> Every time.</p>
+<p><b>First Comma.</b> Do not be hard on it. It is the only one of us that ever finishes anything, and
+   what it finishes is turning round.</p>
+<p class="dir">The At, which has been overhead, begins to be less overhead. The first mark on the post goes dark.</p>
+<p><b>Second Comma.</b> I felt something. I think it was the next word.</p>
+<p><b>First Comma.</b> That is the tide.</p>
+<p><b>Second Comma.</b> It could be both. Nobody has said the next word is not wet.</p>
+<p class="dir">The second mark. The third.</p>
+<p><b>First Comma.</b> Quickly, then. If it were left to you. If you had to say what comes after us.</p>
+<p><b>Second Comma.</b> And then</p>
+<p class="fall">The sea</p>
+</div>
+<p>There is no curtain; the water does it, and does not wait for the line. The play has been given twice for every
+   time the At has come over, since before there was a post to time it by, and has never run long. Nobody has
+   reviewed it. The players take this as they take everything, as a pause, and the house has been full each night
+   in the sense that you were either there or there was no night. Latecomers are admitted at the next ebb and
+   will have missed nothing that the cast did not also miss.</p>
+</section>
 <section id="index">
 <h2>Index</h2>
 <p>A book of any length is expected to have one. The world has no pages, so the references are to wherever
@@ -972,6 +1064,7 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
     </ul></li>
   <li>North: up, by a show of hands</li>
   <li class="gap">Percent, the: one at a time</li>
+  <li>Play, the: one act; no curtain; no notices</li>
   <li>Poetry, difficulty of: <i>see</i> Tilde Sea</li>
   <li>Ports: none</li>
   <li class="gap">Sentences: end of, <i>see</i> Full Stop Deep; continuation of, <i>see</i> Commas</li>
