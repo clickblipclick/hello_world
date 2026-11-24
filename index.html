@@ -924,6 +924,40 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    <a href="almanac.ics">the almanac</a>, eleven occasions, repeating. Subscribe and the Shade will cross your month
    as well, at noon on the fifteenth, for four minutes. You will be shown as free throughout. Everyone there is.</p>
 </section>
+<section id="dial">
+<style>
+  #dial { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #dial h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #dial p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #gnomon { font: 12px/1.15 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 1.6rem 0 0; }
+  #shadow { display: block; min-height: 2.4em; margin-top: 0.8rem; }
+  @media screen and (prefers-color-scheme: light) {
+    #dial h2, #gnomon { color: #2f6f5e; }
+    #dial h2 { border-color: #cfc8b6; }
+    #dial p { color: #6a6f7d; }
+  }
+  @media print { #dial { display: none; } }
+</style>
+<h2>The sundial</h2>
+<p>Everything else here keeps the world's time, which is of no use to anyone with a train to catch. So one
+   instrument was set up to keep yours. A sundial is ordinarily round, but so was the world, and it was
+   unrolled for the printer; the dial was put through with it and came out straight. It reads from six to six.
+   The shadow is made of colons, those being what the world uses for dusk, and a shadow being a small dusk
+   that a stick has arranged for itself.</p>
+<pre id="gnomon" aria-label="a sundial unrolled into a straight line, marked from six in the morning to six in the evening, with a shadow falling across it">
+VI    VIII  X     XII   II    IV    VI
+|  '  |  '  |  '  |  '  |  '  |  '  |
+</pre>
+<small id="shadow" aria-live="off">No shadow falls. The dial runs on your sun, but the stick runs on the same current as the world.</small>
+<p>It has no window and cannot see your sun, so it takes your clock's word for where the sun has got to and
+   draws the shadow there. This makes it the only sundial that works indoors and under cloud, and the only one
+   that is wrong whenever your clock is. The numerals are yours as well, lent for the purpose. Two of them
+   contain an X. The indexer was shown, and holds that a numeral is a number in a letter's coat, and has
+   entered nothing.</p>
+<aside class="pencil"><span>checked it against my watch. they agree. of course they agree.</span></aside>
+<aside class="pencil left ink"><span>take it outside at noon and see which one the sun backs.</span></aside>
+</section>
 <section id="absent" hidden>
 <h2>While you were out</h2>
 <p>The calendar starts when you arrive, which is flattering and not true. The world was turning before
@@ -2487,6 +2521,39 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   })(i);
   again.addEventListener('click', function () { clear(); cells[4].focus(); });
   clear();
+})();
+</script>
+<script>
+// The sundial. The one instrument that keeps the visitor's time and not the world's.
+(function () {
+  var pre = document.getElementById('gnomon'), said = document.getElementById('shadow');
+  if (!pre || !said) return;
+  var face = pre.textContent.replace(/^\n+|\n+$/g, '');
+  var num = ['XII', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI'];
+  function draw() {
+    var now = new Date(), h = now.getHours() + now.getMinutes() / 60;
+    if (h < 6 || h > 18) {
+      pre.textContent = face + '\n\n\n';
+      said.textContent = h < 6 && h >= 3
+        ? 'No shadow. Where you are it is not yet six, and the dial does not start before it is paid to.'
+        : 'No shadow. It is night where you are, and the dial has nothing to say. It is the only thing here that knows when to stop.';
+      return;
+    }
+    var col = Math.round((h - 6) * 3), pad = new Array(col + 1).join(' ');
+    var long = Math.abs(h - 12) > 4 ? 3 : Math.abs(h - 12) > 2 ? 2 : 1, rows = [], i;
+    for (i = 0; i < 3; i++) rows.push(i < long ? pad + ':' : '');
+    pre.textContent = face + '\n' + rows.join('\n');
+    var q = Math.round(now.getMinutes() / 15), hr = now.getHours() + (q > 2 ? 1 : 0);
+    var name = num[hr % 12];
+    var by = q === 0 || q === 4 ? 'just on ' + name : q === 1 ? 'a quarter past ' + name
+           : q === 2 ? 'half past ' + name : 'a quarter to ' + name;
+    said.textContent = 'By the dial it is ' + by + ', or near enough; the shadow has only three places to stand in any hour. ' +
+      (long === 3 ? 'The shadow is long, the sun being low, or the clock saying so.'
+       : long === 1 ? 'The shadow is short. Around noon a stick has very little to add.'
+       : 'Your clock will be more exact about it and no happier.');
+  }
+  draw();
+  setInterval(draw, 30000);
 })();
 </script>
 </body>
