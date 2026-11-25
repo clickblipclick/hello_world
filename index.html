@@ -1602,6 +1602,118 @@ VI    VIII  X     XII   II    IV    VI
    and guessed. This is allowed. It is how the Caret reads the coast, and it has not run aground yet. The space
    between the two words was left off the card, it being the one sort that looks the same at every size.</p>
 </section>
+<section id="pair">
+<style>
+  /* The stereoscope. Two small worlds side by side, a little way apart in angle, for the reader's eyes to put together. */
+  #pair { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #pair h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #pair p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #views { display: flex; justify-content: center; gap: 12px; margin: 1.8rem 0 1.2rem; }
+  #views pre { margin: 0; font: 9px/1 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; user-select: none; }
+  #views pre::before { content: "+\A\A"; display: block; text-align: center; white-space: pre; color: #d9cfa6; }
+  #eyes { display: block; margin: 0 auto; font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em;
+          color: #7fb7a4; background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #eyes:hover, #eyes:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #fused { display: block; min-height: 1.5em; margin: 0.8rem 0 1.4rem; font-size: 0.85rem; font-style: italic; line-height: 1.5;
+           color: #b9b6ac; text-align: center; }
+  @media screen and (prefers-color-scheme: light) {
+    #pair h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #pair p { color: #6a6f7d; }
+    #views pre { color: #2f6f5e; }
+    #views pre::before { color: #8a6a1f; }
+    #eyes { color: #2f6f5e; border-color: #2f6f5e; }
+    #eyes:hover, #eyes:focus-visible { background: #2f6f5e; color: #f1ecdf; }
+    #fused { color: #3d4353; }
+  }
+  @media print { #pair { display: none; } }
+</style>
+<h2>The stereoscope</h2>
+<p>The world has been called round on the strength of its outline and, lately, of a geometer. Nobody has seen
+   it be round, the glass being flat and everything on it the same distance off. The one instrument that gets
+   depth out of a flat thing is a pair of eyes. The page has none, so yours are borrowed, and two views are
+   supplied for them, taken from a short way apart: as far as your eyes would be, if they were the size for it.</p>
+<div id="views">
+<pre id="lefteye" role="img" aria-label="the world drawn small in characters, as the left eye would have it"></pre>
+<pre id="righteye" role="img" aria-label="the same world, from very slightly further round, as the right eye would have it"></pre>
+</div>
+<button id="eyes" type="button" aria-pressed="false" hidden>change eyes</button>
+<small id="fused" aria-live="polite">The two views are kept on the same current as the world. Without it there is nothing to put together, and the world is round on the geometer's word, as before.</small>
+<p>Look at the pair and then through it, as at something a long way behind the glass, until the two crosses
+   become three. Keep to the middle one. Under it is a third world that neither picture contains, and it is
+   the only round one: the continent stands out, the edges fall away, and the At comes forward off the glass
+   and goes in again behind. Those who can only manage it by crossing their eyes will get the world hollow,
+   like the inside of a bowl, with the At going round in it, and should change eyes first.</p>
+<p>It does not come for everybody, or at once, and it is harder the further apart the pictures are; a small
+   glass held at arm's length is the best case, for once. Whoever cannot get the third world has lost nothing
+   but the seeing of it. The two on either side stay where they are while you look and are to be ignored.
+   They are the real ones.</p>
+<aside class="pencil"><span>fourth go. the moon came right out at me and I spilt the tea.</span></aside>
+</section>
+<script>
+// The stereoscope. The same land as the world at the top, drawn twice, once for each eye, eight hundredths of a
+// radian either side of straight on. The depth is not in either picture. It is made by whoever looks at both.
+(function () {
+  var L = document.getElementById('lefteye'), R = document.getElementById('righteye'),
+      eyes = document.getElementById('eyes'), note = document.getElementById('fused');
+  if (!L || !R || !eyes || !note) return;
+  var W = 26, H = 10, RAD = 10, E = 0.08, spin = 2, ma = 1, crossed = false;
+  function land(lat, lon) {
+    return Math.sin(lon * 2 + 1) * Math.cos(lat * 3) + Math.sin(lon * 5 + lat * 2) * 0.5
+         + Math.cos(lon * 3 - lat * 4 + 2) * 0.4 > 0.35;
+  }
+  function view(e) {
+    var rows = [], x, y;
+    for (y = 0; y < H; y++) {
+      var row = [];
+      for (x = 0; x < W; x++) {
+        var nx = (x + 0.5 - W / 2) / RAD, ny = (y + 0.5 - H / 2) / (H / 2), r2 = nx * nx + ny * ny;
+        if (r2 > 1) { row.push(' '); continue; }
+        var nz = Math.sqrt(1 - r2), lat = Math.asin(ny), lon = Math.atan2(nx, nz) + spin - e;
+        var light = nx * -0.5 + ny * -0.4 + nz * 0.75;
+        if (Math.abs(lat) > 1.25) row.push(light > 0.3 ? '*' : '+');
+        else if (land(lat, lon)) row.push(light > 0.55 ? '#' : light > 0.2 ? 'o' : ':');
+        else row.push(light > 0.5 ? '~' : light > 0.15 ? '-' : '.');
+      }
+      rows.push(row);
+    }
+    // The At. Out in front it is nearer than the world and the two eyes disagree about it most.
+    var mx = Math.cos(ma) * 1.25, mz = Math.sin(ma) * 1.25, my = mx * 0.2 - mz * 0.12, px = mx + mz * Math.sin(e);
+    if (mz > 0 || px * px + my * my > 1) {
+      x = Math.max(0, Math.min(W - 1, Math.floor(px * RAD + W / 2)));
+      y = Math.max(0, Math.min(H - 1, Math.floor(my * H / 2 + H / 2)));
+      rows[y][x] = '@';
+    }
+    for (y = 0; y < H; y++) rows[y] = rows[y].join('');
+    return rows.join('\n');
+  }
+  function draw() {
+    L.textContent = view(crossed ? -E : E);
+    R.textContent = view(crossed ? E : -E);
+  }
+  function say() {
+    note.textContent = crossed
+      ? 'Set for crossed eyes: the left picture is now for the right eye. The crosses still have to make three.'
+      : 'Set for eyes looking through the glass, at something behind it. The left picture is for the left eye.';
+  }
+  eyes.hidden = false;
+  eyes.addEventListener('click', function () {
+    crossed = !crossed;
+    eyes.setAttribute('aria-pressed', crossed ? 'true' : 'false');
+    say(); draw();
+  });
+  say(); draw();
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // It turns slowly, a held gaze being easily lost, and only while it is somewhere it can be seen.
+  setInterval(function () {
+    if (document.hidden) return;
+    var r = L.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > (window.innerHeight || 0)) return;
+    spin += 0.008; ma += 0.006;
+    draw();
+  }, 100);
+})();
+</script>
 <section id="stars">
 <h2>The horoscope</h2>
 <p>Four figures have been joined up in the sky, and four is enough to be born under. Nobody was born here, so
@@ -2309,6 +2421,7 @@ VI    VIII  X     XII   II    IV    VI
   <li class="gap">Seismograph, the: one visitor recorded; no earthquakes; <i>see also</i> You</li>
   <li>Sentences: end of, <i>see</i> Full Stop Deep; continuation of, <i>see</i> Commas</li>
   <li>Somebody: no entry</li>
+  <li>Stereoscope, the: two worlds supplied; a third on loan from the visitor</li>
   <li>Strip, the: four boxes; the fourth unwitnessed</li>
   <li class="gap">Turning, the: not supplied; <i>but see</i> everything above</li>
   <li class="gap">Watch, borrowed: returned</li>
