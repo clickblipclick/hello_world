@@ -3117,6 +3117,93 @@ change .............. none due
   read();
 })();
 </script>
+<section id="beasts">
+<style>
+  #beasts { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #beasts h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+               color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #beasts p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #beasts article { margin: 2rem 0 0; overflow: hidden; }
+  #beasts h3 { margin: 0 0 0.3rem; font-size: 1.05rem; font-weight: normal; font-variant: small-caps;
+               letter-spacing: 0.06em; color: #e8e6df; }
+  #beasts .beast { float: left; width: 4.2rem; height: 4.2rem; margin: 0.2rem 1rem 0.3rem 0; box-sizing: border-box;
+                   border: 1px solid #b0776a; outline: 1px solid #263048; outline-offset: 2px;
+                   font: 2.4rem/4.1rem ui-monospace, Menlo, Consolas, monospace; text-align: center;
+                   color: #d9cfa6; background: rgba(176, 119, 106, 0.1); }
+  #beasts article p { margin: 0; font-style: normal; color: #b9b6ac; }
+  #beasts article + p { margin-top: 2rem; }
+  #beasts article p.moral { margin-top: 0.5rem; font-style: italic; color: #6b7388; }
+  #beasts article p.moral::before { content: "\261E\00a0"; font-style: normal; color: #b0776a; }
+  @media screen and (prefers-color-scheme: light) {
+    #beasts h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #beasts p, #beasts article p.moral { color: #6a6f7d; }
+    #beasts h3 { color: #1d2433; }
+    #beasts article p { color: #3d4353; }
+    #beasts .beast { color: #8a6a1f; border-color: #9a3b2e; outline-color: #cfc8b6; background: rgba(154, 59, 46, 0.06); }
+    #beasts article p.moral::before { color: #9a3b2e; }
+  }
+  @media print { #beasts h2, #beasts h3, #beasts p, #beasts article p, #beasts article p.moral, #beasts .beast
+                 { color: #000; border-color: #000; background: none; } }
+</style>
+<h2>The bestiary</h2>
+<p>The old books of beasts were written by people who had not seen the beasts, from the reports of people who
+   had not seen them either, and were trusted for centuries. This one is compiled on the same footing. No animal
+   has been observed on the world. Each is drawn from the life all the same, in its box, and each, as the form
+   requires, is made to stand for something.</p>
+<article>
+<h3>Of the Ampersand</h3>
+<span class="beast" aria-hidden="true">&amp;</span>
+<p>It is never found alone. It lives between two other things, which it holds together by the tail, and has
+   no opinion of either. Take the two away and the Ampersand is not left over; it was the gap between them,
+   and has gone with it. As the world has only one of each thing, none has yet been needed.</p>
+<p class="moral">It signifies company, and is the patron of everything that came second.</p>
+</article>
+<article>
+<h3>Of the Semicolon</h3>
+<span class="beast" aria-hidden="true">;</span>
+<p>A fish of the dusk line, taken where the Flats give out into the Deep. The upper part is a stop and the
+   lower part is a comma, and it cannot decide between them, which is how it is caught. It hangs in the water
+   as though finished; then it goes on.</p>
+<p class="moral">It signifies the second thought. Nobody has eaten one, there being no agreement on where to begin.</p>
+</article>
+<article>
+<h3>Of the Equals</h3>
+<span class="beast" aria-hidden="true">=</span>
+<p>Two eels that swim level, one above the other, and never touch. Whatever is to the left of them is the
+   same as whatever is to the right, and they will lie between the two for as long as that stays true. Told
+   otherwise, they do not argue. A third eel is sometimes reported. That is a different animal and much stricter.</p>
+<p class="moral">They signify justice, which is likewise seen from the side and assumed to go all the way through.</p>
+</article>
+<article>
+<h3>Of the Underscore</h3>
+<span class="beast" aria-hidden="true">_</span>
+<p>A flatfish. It lies on the bottom of whatever line it is in and is taken for the bottom. It comes up only
+   where a space was wanted and not allowed, and holds the place open with its whole length, and is not thanked.
+   Seen from above it is indistinguishable from the Flats, and several of the Flats may be it.</p>
+<p class="moral">It signifies patience, or else emphasis, according to an older book, in which it was put under a word and left there.</p>
+</article>
+<article>
+<h3>Of the Quotation Marks</h3>
+<span class="beast" aria-hidden="true">&quot;</span>
+<p>Small birds, always in two pairs. They settle on either side of anything that is said, the first pair
+   as it begins and the second when it is over, and between them the thing is kept exactly as it was, whoever
+   repeats it. They are related to the Apostrophes and have come down in the world, or up; it is the same
+   bird at a different height. Two words have been said here. No pairs came, and it is supposed they were
+   not yet hatched.</p>
+<p class="moral">They signify that somebody else is responsible.</p>
+</article>
+<article>
+<h3>Of the Braces</h3>
+<span class="beast" aria-hidden="true">{}</span>
+<p>They mate for life and face each other across a distance, which may be nothing or may be a great deal,
+   and everything between them belongs to them and to nobody outside. A Brace that has lost its fellow goes
+   on waiting, and nothing that comes after it makes sense until the other is found. The source of the
+   world is full of them. On the surface there are none, they having closed behind themselves when it was done.</p>
+<p class="moral">They signify the household. They are also the only beast here known to have built anything.</p>
+</article>
+<p>The compiler regrets that the Question Mark could not be included. It was looked for, and it is Elsewhere.</p>
+<aside class="pencil"><span>saw an equals once, off the Colons. only the top half. so, a hyphen.</span></aside>
+</section>
 <section id="cite">
 <style>
   #cite { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
@@ -3261,7 +3348,8 @@ change .............. none due
     </ul></li>
   <li>Arithmetic: <i>see</i> Asterisk Caps, dark side of</li>
   <li>At, the: in front; behind; in front again</li>
-  <li class="gap">Bottle: <i>see</i> Percent</li>
+  <li class="gap">Beasts: six; described; none sighted</li>
+  <li>Bottle: <i>see</i> Percent</li>
   <li>Breath, time taken to draw: <i>see</i> Commas</li>
   <li class="gap">Caret, the
     <ul>
