@@ -2786,6 +2786,119 @@ VI    VIII  X     XII   II    IV    VI
 </details>
 <aside class="pencil"><span>had it by Reading. the train went on to Swindon regardless.</span></aside>
 </section>
+<section id="rule">
+<style>
+  #rule { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #rule h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #rule p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #rule svg { display: block; width: 100%; height: auto; margin: 1.6rem 0 0.8rem; overflow: hidden; }
+  #rule .stock { fill: #e6dfc9; } #rule .slide { fill: #f1ecdf; stroke: #b3a888; stroke-width: 0.4; }
+  #rule .ticks { stroke: #33323a; stroke-width: 0.5; fill: none; }
+  #rule text { font: 6px ui-monospace, Menlo, Consolas, monospace; fill: #33323a; text-anchor: middle; }
+  #rule text.name { text-anchor: start; fill: #8a6a1f; }
+  #rule .gauge { stroke: #9a3b2e; stroke-width: 0.6; } #rule text.gauge { fill: #9a3b2e; stroke: none; font-size: 5px; }
+  #hair { stroke: #9a3b2e; stroke-width: 0.5; } #glass { fill: rgba(127, 183, 164, 0.18); stroke: #6b7388; stroke-width: 0.4; }
+  #rule label { display: block; margin-top: 0.7rem; font: 0.8rem ui-monospace, Menlo, Consolas, monospace;
+                letter-spacing: 0.05em; color: #7fb7a4; }
+  #rule input { display: block; width: 100%; margin: 0.3rem 0 0; accent-color: #7fb7a4; }
+  #reckon { display: block; min-height: 4.5em; margin-top: 1rem; font: 0.8rem/1.5 ui-monospace, Menlo, Consolas, monospace;
+            font-style: normal; letter-spacing: 0.04em; color: #d9cfa6; white-space: pre-line; }
+  @media screen and (prefers-color-scheme: light) {
+    #rule h2, #rule label { color: #2f6f5e; } #rule h2 { border-color: #cfc8b6; }
+    #rule p { color: #6a6f7d; } #reckon { color: #8a6a1f; }
+    #rule .stock { fill: #fffdf4; } #rule svg { box-shadow: 0 0.2rem 0.6rem rgba(60, 50, 30, 0.2); }
+    #rule input { accent-color: #2f6f5e; }
+  }
+  @media print { #rule h2, #rule p, #rule label, #reckon { color: #000; border-color: #000; } #rule input { display: none; } }
+</style>
+<h2>The slide rule</h2>
+<p>There is one of everything here, and nobody has ever needed to know what one of a thing comes to when
+   taken once. A rule for multiplying was made regardless, out of two strips of the same boxwood as the tide
+   post, on the grounds that visitors arrive with numbers of their own and should not have to hold them the
+   whole way down.</p>
+<p>It is the ordinary kind. The lower scale is fixed and the upper one slides. Put the 1 of the upper over
+   your first number, find your second on the upper, and the answer is underneath it, where it has been
+   since the scales were cut. The rule does not work anything out. It is two lengths laid end to end, and the
+   numbers were spaced so that this would do.</p>
+<svg viewBox="0 0 320 84" role="img" aria-labelledby="ruletitle">
+  <title id="ruletitle">A slide rule: a fixed lower scale and a sliding upper scale, both running from one to ten, with a hairline cursor across them</title>
+  <rect class="stock" x="0" y="8" width="320" height="68" rx="2"/>
+  <g id="slider"><rect class="slide" x="6" y="14" width="308" height="27"/><g id="cscale"></g></g>
+  <g id="dscale"></g>
+  <g id="cursor"><rect id="glass" x="-7" y="4" width="14" height="76" rx="1.5"/><path id="hair" d="M0 4V80"/></g>
+</svg>
+<label for="slideby">the slide <input id="slideby" type="range" min="0" max="1000" value="301" aria-describedby="reckon"></label>
+<label for="cursorby">the cursor <input id="cursorby" type="range" min="0" max="1000" value="778" aria-describedby="reckon"></label>
+<output id="reckon" for="slideby cursorby" aria-live="off">The rule runs on the same current as the world. Without it, it is two strips of boxwood, and still correct.</output>
+<p>It is good to three figures on a wide screen and to two on a narrow one, and will not say which of your
+   noughts it has dropped; that is for the visitor to carry. When the answer is past the right-hand end, it
+   is past the right-hand end. Run the slide back the other way and read it a size smaller. The world also
+   stops at its edge and has never apologised.</p>
+<p>Two marks are cut on the lower scale that an ordinary rule does not have. One is at 3.14, where everybody
+   else keeps pi. The other is a little to the right of it, at 382/121, where the world keeps its own, having
+   been drawn in squares. They are close enough to be covered by one thumb, and the geometry would rather
+   they were.</p>
+<aside class="pencil"><span>did one times one. it said one. left it there so the next person starts from something true.</span></aside>
+</section>
+<script>
+// The slide rule. Two logarithmic scales and a hairline; the sliders move them and the readout only reads.
+(function () {
+  var cs = document.getElementById('cscale'), ds = document.getElementById('dscale'),
+      slider = document.getElementById('slider'), cursor = document.getElementById('cursor'),
+      a = document.getElementById('slideby'), c = document.getElementById('cursorby'),
+      out = document.getElementById('reckon');
+  if (!cs || !ds || !slider || !cursor || !a || !c || !out || !document.createElementNS) return;
+  var NS = 'http://www.w3.org/2000/svg', X0 = 20, LEN = 280;
+  function log10(v) { return Math.log(v) / Math.LN10; }
+  function el(name, attrs, text) {
+    var e = document.createElementNS(NS, name), k;
+    for (k in attrs) e.setAttribute(k, attrs[k]);
+    if (text) e.textContent = text;
+    return e;
+  }
+  function cut(g, base, dir, name) {
+    var d = '', v, n, h, x;
+    for (n = 100; n <= 1000; n += (n < 200 ? 2 : n < 500 ? 5 : 10)) {
+      v = n / 100; x = X0 + LEN * log10(v);
+      h = n % 100 === 0 ? 9 : n % 50 === 0 ? 6.5 : n % 10 === 0 ? 4.5 : 2.5;
+      d += 'M' + x.toFixed(2) + ' ' + base + 'v' + (dir * h);
+      if (n % 100 === 0) g.appendChild(el('text', { x: x.toFixed(2), y: base + dir * 11 + (dir > 0 ? 4.5 : 0) }, n === 1000 ? '1' : String(v)));
+    }
+    g.appendChild(el('path', { 'class': 'ticks', d: d }));
+    g.appendChild(el('text', { 'class': 'name', x: 8, y: base + dir * 11 + (dir > 0 ? 4.5 : 0) }, name));
+  }
+  cut(cs, 41, -1, 'C');
+  cut(ds, 41, 1, 'D');
+  [[Math.PI, 'pi', -5], [382 / 121, 'ours', 6]].forEach(function (m) {
+    var x = X0 + LEN * log10(m[0]);
+    ds.appendChild(el('path', { 'class': 'gauge', d: 'M' + x.toFixed(2) + ' 41v13' }));
+    ds.appendChild(el('text', { 'class': 'gauge', x: (x + m[2]).toFixed(2), y: 72 }, m[1]));
+  });
+  function fig(v) { return v >= 9.995 ? '10.0' : v.toFixed(2); }
+  function read() {
+    var s = +a.value / 1000, k = +c.value / 1000, first = Math.pow(10, s), under = Math.pow(10, k),
+        second = under / first, text;
+    slider.setAttribute('transform', 'translate(' + (LEN * s).toFixed(2) + ',0)');
+    cursor.setAttribute('transform', 'translate(' + (X0 + LEN * k).toFixed(2) + ',0)');
+    text = 'The 1 of the slide stands over ' + fig(first) + '.\n';
+    if (k < s) {
+      text += 'The hairline is over ' + fig(under) + ' below and bare wood above. The slide has left. Nothing is multiplied by nothing here, and the answer is not given.';
+    } else {
+      text += 'Under the hairline: ' + fig(second) + ' on the slide, ' + fig(under) + ' below it.\n'
+            + fig(first) + ' × ' + fig(second) + ' = ' + fig(under) + ', near enough.';
+      if (s === 0 && k === 0) text += ' The one sum the world has always been able to do.';
+      else if (s === 0) text += ' The scales agree with each other. They are the same scale.';
+      else if (Math.abs(under - 382 / 121) < 0.012) text += ' The hairline is on the world’s own pi, or the other one. It covers both.';
+      else if (k === 1) text += ' That is the end of the rule. Past it there is a ten, and it is somebody else’s.';
+    }
+    out.textContent = text;
+  }
+  a.addEventListener('input', read);
+  c.addEventListener('input', read);
+  read();
+})();
+</script>
 <section id="index">
 <h2>Index</h2>
 <p>A book of any length is expected to have one. The world has no pages, so the references are to wherever
@@ -2848,6 +2961,7 @@ VI    VIII  X     XII   II    IV    VI
   <li>Ports: none</li>
   <li>Program, the: five lines; rather more; <i>see also</i> Rectangles</li>
   <li class="gap">Rectangles: the worst that can be said of</li>
+  <li>Rule, the slide: multiplies; holds two opinions of pi under one thumb</li>
   <li class="gap">Seismograph, the: one visitor recorded; no earthquakes; <i>see also</i> You</li>
   <li>Sentences: end of, <i>see</i> Full Stop Deep; continuation of, <i>see</i> Commas</li>
   <li>Somebody: no entry</li>
