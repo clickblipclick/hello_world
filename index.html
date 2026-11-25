@@ -2027,6 +2027,113 @@ VI    VIII  X     XII   II    IV    VI
 <aside class="pencil"><span>typed it in the library. nothing on the screen. felt it land anyway.</span></aside>
 </section>
 <p id="heardyou" role="status" aria-live="polite"></p>
+<section id="commonplace">
+<style>
+  #commonplace { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #commonplace h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+                    color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #commonplace p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #copied { list-style: none; margin: 1.6rem 0 0; padding: 0; min-height: 3rem; }
+  #copied li { margin: 0 0 1.1rem; padding-left: 0.9rem; border-left: 1px solid #d9cfa6; color: #e8e6df;
+               font-size: 1rem; line-height: 1.45; font-style: italic; overflow-wrap: anywhere; }
+  #copied li cite { display: block; margin-top: 0.25rem; font: 0.7rem ui-monospace, Menlo, Consolas, monospace;
+                    font-style: normal; letter-spacing: 0.08em; color: #6b7388; }
+  #copied li.blank { border-left-color: #263048; color: #6b7388; }
+  #ruled { display: block; min-height: 2.4em; margin-top: 0.4rem; }
+  @media screen and (prefers-color-scheme: light) {
+    #commonplace h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #commonplace p, #copied li cite, #copied li.blank { color: #6a6f7d; }
+    #copied li { color: #1d2433; border-left-color: #8a6a1f; }
+    #copied li.blank { border-left-color: #cfc8b6; }
+  }
+  @media print { #commonplace h2 { color: #000; border-color: #000; } #commonplace p, #copied li, #copied li cite { color: #000; } }
+</style>
+<h2>The commonplace book</h2>
+<p>Readers used to keep a book of their own beside the one they were reading, and copy into it whatever they
+   did not want to lose. It was called a commonplace book, and it was the only review most writing ever got.
+   One is kept here. It is yours, and it is empty, which is the usual condition of such a book on the day it is bought.</p>
+<p>Nothing needs to be written. Mark a passage anywhere on this page, the way you would to carry it off, and
+   it is entered below with a note of where it was found. The book has seven lines. An eighth passage costs
+   you the first, as it does with the other kind of memory.</p>
+<ol id="copied" aria-label="passages you have marked on this page">
+  <li class="blank">Nothing has been copied out.<cite>the flyleaf</cite></li>
+</ol>
+<small id="ruled" aria-live="polite">The book is ruled and ready, but the pen is on the same current as the world, and without it these are seven lines and a good intention.</small>
+<p>The world itself cannot be marked. It has been tried, by people with steady hands, and the mark slides off
+   the sea and takes hold of the nearest sentence instead. Whatever is copied here is therefore something
+   said about the world, never any of it, and the book goes when you do. It was a commonplace book. It was not the page's.</p>
+<aside class="pencil"><span>copied out the line about the eighth passage. it was the eighth.</span></aside>
+</section>
+<script>
+// The commonplace book. Whatever the visitor marks on the page is copied out, with the heading it was found
+// under. Seven lines, nothing stored: the book is in the page's head and goes when the page does.
+(function () {
+  var book = document.getElementById('copied'), said = document.getElementById('ruled'),
+      home = document.getElementById('commonplace');
+  if (!book || !said || !home || !window.getSelection) return;
+  var LINES = 7, LONG = 180, entries = [], lost = 0, timer = 0;
+  var COUNT = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven'];
+  said.textContent = 'The pen is in. Seven lines, none used. Mark something, anywhere above or below, and leave it marked for a moment.';
+
+  function within(node, el) { for (; node; node = node.parentNode) if (node === el) return true; return false; }
+  function where(node) {
+    for (; node && node !== document.body; node = node.parentNode) {
+      if (node.nodeType !== 1) continue;
+      var t = node.tagName;
+      if (t === 'MAIN') return 'the top';
+      if (t === 'SECTION' || t === 'FOOTER' || t === 'FIGURE') {
+        var h = node.querySelector('h2');
+        if (h) return h.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+      }
+    }
+    return 'between things';
+  }
+  function draw() {
+    while (book.firstChild) book.removeChild(book.firstChild);
+    entries.forEach(function (e) {
+      var li = document.createElement('li'), c = document.createElement('cite');
+      li.textContent = e.text;
+      c.textContent = e.from;
+      li.appendChild(c);
+      book.appendChild(li);
+    });
+    var n = entries.length, s = COUNT[n] + (n === 1 ? ' line' : ' lines') + ' of seven used.';
+    if (lost) s += ' ' + (lost === 1 ? 'One passage has' : lost + ' passages have') + ' been let go to make room, the oldest first.';
+    else if (n === LINES) s += ' The book is full. It will still take the next one.';
+    said.textContent = s;
+  }
+  function enter() {
+    var sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.rangeCount) return;
+    if (within(sel.anchorNode, home) || within(sel.focusNode, home)) {
+      if (within(sel.anchorNode, book)) said.textContent = 'That is the book. Copying the book into the book has been tried, and is how libraries get out of hand.';
+      return;
+    }
+    var raw = String(sel).replace(/\s+/g, ' ').trim();
+    if (raw.length < 2) return;
+    var e;
+    if (raw.length > 4000) {
+      e = { text: 'Everything.', from: 'the whole page, marked at one stroke', key: '*' };
+    } else {
+      var words = raw.split(' ').length;
+      e = { text: raw.length > LONG ? raw.slice(0, LONG).replace(/\s+\S*$/, '') + ' …' : raw,
+            from: where(sel.anchorNode) + (raw.length > LONG ? ' · ' + words + ' words, of which the book had room for these' : ''),
+            key: raw };
+    }
+    var last = entries[entries.length - 1];
+    if (last && last.key === e.key) return;
+    // A mark that is still being drawn out is the same passage, not a new one.
+    if (last && e.key !== '*' && last.key !== '*' && (e.key.indexOf(last.key) >= 0 || last.key.indexOf(e.key) >= 0)) entries.pop();
+    entries.push(e);
+    while (entries.length > LINES) { entries.shift(); lost++; }
+    draw();
+  }
+  document.addEventListener('selectionchange', function () {
+    clearTimeout(timer);
+    timer = setTimeout(enter, 900);
+  });
+})();
+</script>
 <section id="index">
 <h2>Index</h2>
 <p>A book of any length is expected to have one. The world has no pages, so the references are to wherever
