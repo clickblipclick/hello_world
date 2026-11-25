@@ -701,6 +701,33 @@
   }
   @media print { #lead { display: none; } }
 </style>
+<style>
+  /* The hoist. The same mast, and the only sorts here that were not in the case. */
+  #hoist { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #hoist h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #hoist figcaption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  #hoist p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #hoist figure { margin: 2rem 0; }
+  #hoist svg { display: block; width: 11rem; max-width: 100%; height: auto; margin: 0 auto; }
+  #hoist .line { fill: none; stroke: #6b7388; stroke-width: 1; }
+  #hoist .edge { fill: none; stroke: #6b7388; stroke-width: 0.6; }
+  #hoist { --r: #c23b3b; --b: #2c56a3; --y: #e3bd3a; --k: #14161c; --w: #f1ecdf; }
+  #hoist ol { list-style: none; margin: 1.6rem 0 0; padding: 0; columns: 2; column-gap: 2rem;
+              font-size: 0.95rem; line-height: 1.5; color: #b9b6ac; }
+  #hoist li { break-inside: avoid; margin: 0 0 0.5rem; padding-left: 1.6em; text-indent: -1.6em; }
+  #hoist li b { font: 0.85rem ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; display: inline-block;
+                width: 1.9em; text-indent: 0; }
+  #hoist li.mute { color: #6b7388; font-style: italic; }
+  @media (max-width: 30rem) { #hoist ol { columns: 1; } }
+  @media screen and (prefers-color-scheme: light) {
+    #hoist h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #hoist p, #hoist li.mute { color: #6a6f7d; }
+    #hoist ol { color: #3d4353; } #hoist li b { color: #8a6a1f; }
+    #hoist { --w: #fffdf4; }
+  }
+  @media print { #hoist p, #hoist ol, #hoist li b, #hoist li.mute { color: #000; } }
+</style>
 </head>
 <body>
 <main>
@@ -1033,6 +1060,63 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    where there is a fair chance of somebody waving back.</p>
 <aside class="pencil"><span>sent AHOY. nothing. sent it again, slower.</span></aside>
 <aside class="pencil left ink"><span>it saw you the first time.</span></aside>
+</section>
+<section id="hoist">
+<h2>The hoist</h2>
+<p>The mast has a halyard as well as arms, and a locker at its foot with a flag in it for every letter. These
+   are the flags ships use, on your world, when they would like to be understood by a stranger. The greeting
+   was run up on them, five to a line, the first word nearest the mast. It is the only thing on the page that
+   came in colours, and nobody here chose them.</p>
+<figure>
+<svg viewBox="0 0 150 222" role="img" aria-labelledby="hoisted">
+  <defs>
+    <symbol id="fh" viewBox="0 0 30 30"><path style="fill:var(--w)" d="M0 0h15v30H0z"/><path style="fill:var(--r)" d="M15 0h15v30H15z"/></symbol>
+    <symbol id="fe" viewBox="0 0 30 30"><path style="fill:var(--b)" d="M0 0h30v15H0z"/><path style="fill:var(--r)" d="M0 15h30v15H0z"/></symbol>
+    <symbol id="fl" viewBox="0 0 30 30"><path style="fill:var(--y)" d="M0 0h15v15H0zM15 15h15v15H15z"/><path style="fill:var(--k)" d="M15 0h15v15H15zM0 15h15v15H0z"/></symbol>
+    <symbol id="fo" viewBox="0 0 30 30"><path style="fill:var(--r)" d="M0 0h30v30z"/><path style="fill:var(--y)" d="M0 0v30h30z"/></symbol>
+    <symbol id="fw" viewBox="0 0 30 30"><path style="fill:var(--b)" d="M0 0h30v30H0z"/><path style="fill:var(--w)" d="M5 5h20v20H5z"/><path style="fill:var(--r)" d="M10 10h10v10H10z"/></symbol>
+    <symbol id="fr" viewBox="0 0 30 30"><path style="fill:var(--r)" d="M0 0h30v30H0z"/><path style="fill:var(--y)" d="M12 0h6v30h-6zM0 12h30v6H0z"/></symbol>
+    <symbol id="fd" viewBox="0 0 30 30"><path style="fill:var(--y)" d="M0 0h30v30H0z"/><path style="fill:var(--b)" d="M0 6h30v18H0z"/></symbol>
+  </defs>
+  <path class="line" d="M20 2V220M12 220H28M20 10H112M52 10V196M112 10V196"/>
+  <g transform="translate(52 20)">
+    <use href="#fh" width="30" height="30"/><use href="#fe" y="36" width="30" height="30"/>
+    <use href="#fl" y="72" width="30" height="30"/><use href="#fl" y="108" width="30" height="30"/>
+    <use href="#fo" y="144" width="30" height="30"/>
+    <path class="edge" d="M0 0h30v30H0zM0 36h30v30H0zM0 72h30v30H0zM0 108h30v30H0zM0 144h30v30H0z"/>
+  </g>
+  <g transform="translate(112 20)">
+    <use href="#fw" width="30" height="30"/><use href="#fo" y="36" width="30" height="30"/>
+    <use href="#fr" y="72" width="30" height="30"/><use href="#fl" y="108" width="30" height="30"/>
+    <use href="#fd" y="144" width="30" height="30"/>
+    <path class="edge" d="M0 0h30v30H0zM0 36h30v30H0zM0 72h30v30H0zM0 108h30v30H0zM0 144h30v30H0z"/>
+  </g>
+</svg>
+<figcaption id="hoisted">Two lines of five flags, read from the top: H, E, L, L, O on the inner halyard and
+   W, O, R, L, D on the outer.</figcaption>
+</figure>
+<p>Together they spell what they were meant to. But each of these flags also means something by itself, a
+   whole sentence, settled long ago so that two ships with no language in common could still be alarmed by one
+   another. A ship that came on the hoist and took it a flag at a time would read the following, in this order.</p>
+<ol>
+  <li><b>H</b> I have a pilot on board.</li>
+  <li><b>E</b> I am altering my course to starboard.</li>
+  <li><b>L</b> You should stop your vessel instantly.</li>
+  <li><b>L</b> You should stop your vessel instantly.</li>
+  <li><b>O</b> Man overboard.</li>
+  <li><b>W</b> I require medical assistance.</li>
+  <li><b>O</b> Man overboard.</li>
+  <li class="mute"><b>R</b> Nothing. It is the one flag of the twenty-six that says nothing when flown alone.</li>
+  <li><b>L</b> You should stop your vessel instantly.</li>
+  <li><b>D</b> Keep clear of me; I am manoeuvring with difficulty.</li>
+</ol>
+<p>None of it is true except the last, and the part about starboard, which is east, where everything here is
+   altering its course to. There is no pilot. Nobody has gone overboard, twice, there having been nobody on
+   board to go. The Caret has now been told to stop three times and has not, though it cannot be said to have
+   disobeyed, a signal being an order only to whoever reads it.</p>
+<p>The R is thought to be the world's own flag: red, a yellow cross, and no remark. It is flown in the middle
+   of the second word, where it holds the rest apart.</p>
+<aside class="pencil"><span>took them down at dusk, as you are meant to. they were up again in the morning. not by me.</span></aside>
 </section>
 <section id="beacon">
 <h2>The light</h2>
