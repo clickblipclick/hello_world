@@ -2359,6 +2359,114 @@ VI    VIII  X     XII   II    IV    VI
   requestAnimationFrame(tick);
 })();
 </script>
+<section id="dye">
+<style>
+  #dye { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #dye h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+            color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #dye p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #dye .vat { margin: 1.6rem 0 0.5rem; font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4; }
+  #dye .vat label { margin-right: 0.8rem; }
+  #pot { width: 4.5rem; height: 2rem; padding: 0; border: 1px solid #7fb7a4; border-radius: 0 0 1rem 1rem;
+         background: none; vertical-align: middle; cursor: pointer; }
+  #rinse { font: inherit; color: #7fb7a4; background: none; border: 1px solid #7fb7a4; padding: 0.4rem 0.9rem;
+           margin-left: 0.8rem; cursor: pointer; vertical-align: middle; }
+  #rinse:hover, #rinse:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #dyed { display: block; min-height: 4.5em; margin-top: 0.8rem; font: 0.8rem/1.5 ui-monospace, Menlo, Consolas, monospace;
+          font-style: normal; letter-spacing: 0.04em; color: #7fb7a4; }
+  @media screen and (prefers-color-scheme: light) {
+    #dye h2, #dye .vat, #dyed { color: #2f6f5e; }
+    #dye h2 { border-color: #cfc8b6; }
+    #dye p { color: #6a6f7d; }
+    #pot, #rinse { border-color: #2f6f5e; }
+    #rinse { color: #2f6f5e; }
+    #rinse:hover, #rinse:focus-visible { background: #2f6f5e; color: #f1ecdf; }
+  }
+  @media print { #dye { display: none; } }
+</style>
+<h2>The dye works</h2>
+<p>The world is one colour. This was not decided. It was the colour of the first ink that came to hand, a
+   green of the kind found on old instruments and the insides of hospitals, and the land, the sea and the ice
+   were all done out of the same pot, which is why they have had to be told apart by their shapes.</p>
+<p>There is now a vat. Choose a colour and the world goes through it whole, there being no way to dip a
+   continent without the water it is standing in. The At is not done; it is a different cloth, and was yellow
+   before anybody asked. The Caret goes in with the rest and comes out matching, which is no way to find a ship.</p>
+<div class="vat" hidden>
+  <label for="pot">the vat</label><input id="pot" type="color" value="#7fb7a4"><button id="rinse" type="button" hidden>wash it out</button>
+</div>
+<small id="dyed" aria-live="polite">The vat is cold. It is heated off the same current that turns the world, and without it the world stays the colour it came in, which has done so far.</small>
+<p>Nothing takes. The dye is in the glass and not in the world, and it goes when you do: come back and the
+   world is the green it was, with no memory of having been otherwise and no opinion about it. The map, the
+   postcards and the arms were all done from the original and will not match. Visitors who want a blue sea
+   with green land on it are reminded that this would be two colours, and that the world has managed
+   everything up to now on one.</p>
+<aside class="pencil"><span>tried red. it looked as if it had been told something. washed it out.</span></aside>
+</section>
+<script>
+// The dye works. One colour in, one colour out. The remarks are the dyer's and are free.
+(function () {
+  var globe = document.getElementById('globe'), pot = document.getElementById('pot'),
+      rinse = document.getElementById('rinse'), out = document.getElementById('dyed');
+  if (!globe || !pot || !rinse || !out || pot.type !== 'color' || !window.getComputedStyle) return;
+  function parts(css) {
+    var m = /(\d+)[^\d]+(\d+)[^\d]+(\d+)/.exec(css || '');
+    return m ? [+m[1], +m[2], +m[3]] : null;
+  }
+  function hex(c) {
+    var s = '#', i, h;
+    for (i = 0; i < 3; i++) { h = c[i].toString(16); s += h.length < 2 ? '0' + h : h; }
+    return s;
+  }
+  function unhex(s) { return [parseInt(s.substr(1, 2), 16), parseInt(s.substr(3, 2), 16), parseInt(s.substr(5, 2), 16)]; }
+  function light(c) {
+    var v = [], i, x;
+    for (i = 0; i < 3; i++) { x = c[i] / 255; v[i] = x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); }
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+  }
+  function far(a, b) { return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2]); }
+  function remark(c, was, ground) {
+    var r = c[0] / 255, g = c[1] / 255, b = c[2] / 255, hi = Math.max(r, g, b), lo = Math.min(r, g, b),
+        l = (hi + lo) / 2, d = hi - lo, s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1)), h = 0;
+    if (d) h = hi === r ? ((g - b) / d + 6) % 6 : hi === g ? (b - r) / d + 2 : (r - g) / d + 4;
+    h *= 60;
+    var la = light(c), lb = light(ground), ratio = (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+    if (far(c, was) < 24) return 'That is the colour it was, or near enough to be charged for. The world went in and came out and has not been told.';
+    if (ratio < 1.35) return 'You have dyed it the colour of what is behind it. It is still there. Point at it and it will say where you are pointing.';
+    if (s < 0.14 && l > 0.82) return 'White. The whole world is ice now. The ice that was there first had been special, and has gone quiet.';
+    if (l < 0.1 || (s < 0.14 && l < 0.2)) return 'Black. This is how it looks from the other side of the At, where nobody is standing to say so.';
+    if (s < 0.14) return 'Grey. It is now a moon with a sea on it. The At has been told and has not turned round.';
+    if (h < 18 || h >= 345) return 'Red. There is a world this colour already, further out. Nobody has been there either.';
+    if (h < 45) return l < 0.35 ? 'Brown. All land, at last, as far as the eye goes. The sea is the part that still moves.'
+                                : 'Orange. It looks warm. It is the temperature it was, which is none.';
+    if (h < 70) return 'Yellow. The At was yellow first and has gone round the back to think about it.';
+    if (h < 160) return 'Green, but another green. The Hash believes it has won something.';
+    if (h < 200) return 'Somewhere between the sea and the sky. The world has neither to hold it up against, and has taken it on trust.';
+    if (h < 256) return 'Blue. The sea is at last the colour seas are said to be. So are the hills, which had not asked.';
+    if (h < 292) return 'Purple. It was kept for emperors once. They had less sea, and more to say.';
+    return 'Pink. On the old maps this was the colour for the parts somebody had claimed. Nobody has claimed it. It is only pink.';
+  }
+  var was = parts(getComputedStyle(globe).color);
+  if (!was) return;
+  pot.value = hex(was);
+  pot.parentNode.hidden = false;
+  out.textContent = 'The vat is warm. The world is ' + hex(was) + ', as issued.';
+  function dip() {
+    var c = unhex(pot.value), ground = parts(getComputedStyle(document.body).backgroundColor) || [13, 19, 33];
+    globe.style.color = pot.value;
+    rinse.hidden = false;
+    out.textContent = pot.value + '. ' + remark(c, was, ground);
+  }
+  pot.addEventListener('input', dip);
+  pot.addEventListener('change', dip);
+  rinse.addEventListener('click', function () {
+    globe.style.color = '';
+    was = parts(getComputedStyle(globe).color) || was;
+    pot.value = hex(was);
+    rinse.hidden = true;
+    out.textContent = 'Washed out. It is ' + hex(was) + ' again. The water went east, where the water goes.';
+  });
+})();
+</script>
 <section id="index">
 <h2>Index</h2>
 <p>A book of any length is expected to have one. The world has no pages, so the references are to wherever
@@ -2390,6 +2498,7 @@ VI    VIII  X     XII   II    IV    VI
   <li>Commas, the: uncovered, briefly; unconfirmed, at length</li>
   <li>Continent: omitted from arms; would not keep still for index either</li>
   <li class="gap">Disputes, territorial: settled in advance</li>
+  <li>Dye: one colour at a time; does not take; <i>see also</i> East</li>
   <li class="gap">East: where the water goes</li>
   <li>Edge: all of it</li>
   <li>Elsewhere: not indexed</li>
