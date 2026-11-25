@@ -2134,6 +2134,119 @@ VI    VIII  X     XII   II    IV    VI
   });
 })();
 </script>
+<section id="drum">
+<style>
+  #drum { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #drum h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #drum p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #drum svg { display: block; width: 100%; height: auto; margin: 1.6rem 0 0.5rem; background: #e6dfc9; border-radius: 2px; }
+  #drum .rule { stroke: #c9c0a4; stroke-width: 0.5; }
+  #drum .hour { stroke: #b3a888; stroke-width: 0.5; }
+  #trace { fill: none; stroke: #33323a; stroke-width: 0.9; stroke-linejoin: round; }
+  #needle { fill: #9a3b2e; }
+  #shock { display: block; min-height: 3.6em; margin-top: 0.4rem; font: 0.8rem/1.5 ui-monospace, Menlo, Consolas, monospace;
+           font-style: normal; letter-spacing: 0.04em; color: #7fb7a4; }
+  @media screen and (prefers-color-scheme: light) {
+    #drum h2, #shock { color: #2f6f5e; }
+    #drum h2 { border-color: #cfc8b6; }
+    #drum p { color: #6a6f7d; }
+    #drum svg { background: #fffdf4; box-shadow: 0 0.2rem 0.6rem rgba(60, 50, 30, 0.2); }
+  }
+  @media print { #drum h2, #drum p, #shock { color: #000; border-color: #000; } #drum svg { background: none; border: 1px solid #000; } }
+</style>
+<h2>The seismograph</h2>
+<p>The ground here has never moved. There is nothing under it to move it, the world being hollow in the
+   strict sense of having no inside. An instrument was installed regardless, on the reasoning that a place
+   without earthquakes is exactly the place that will not be believed about it.</p>
+<p>It has been running since you came, and it has not been idle. The paper is below. Every mark on it was
+   made from your side of the glass: the page being pushed up and down, the pointer dragged across the sea,
+   keys struck. The instrument cannot tell these from a tremor and has not been told to try.</p>
+<svg viewBox="0 0 300 70" role="img" aria-labelledby="drumtitle">
+  <title id="drumtitle">A strip of ruled paper with a pen trace running left as it is drawn, flat when the visitor is still</title>
+  <path class="rule" d="M0 11.5H300M0 23.5H300M0 46.5H300M0 58.5H300"/>
+  <path class="hour" d="M0 35H300"/>
+  <polyline id="trace" points="0,35 300,35"/>
+  <path id="needle" d="M300 35l-5 -2.5v5z"/>
+</svg>
+<small id="shock" aria-live="off">The pen is down and the paper is not moving. The drum is turned by the same current as the world.</small>
+<p>The scale is the world's own and runs from nought, which is a visitor reading, to nine, which is a visitor
+   who has dropped something. It is not logarithmic. That was thought an unkind thing to do to a number.
+   Readings are given with their depth, which is how far down the page you were when you did it.</p>
+<p>Sit still for a while and the line goes flat, and that flat line is the only true record of the world
+   that the instrument has ever made. It is kept for one length of paper and then goes off the left-hand
+   edge, where there is a basket.</p>
+<aside class="pencil"><span>held my breath for a whole drum. got a nought. framed nothing, there being nothing to frame.</span></aside>
+</section>
+<script>
+// The seismograph. It measures the visitor and files the result under the world.
+(function () {
+  var trace = document.getElementById('trace'), needle = document.getElementById('needle'),
+      out = document.getElementById('shock');
+  if (!trace || !needle || !out || !window.requestAnimationFrame) return;
+  var N = 150, pts = [], i, energy = 0, level = 0, phase = 0, last = 0,
+      lastY = window.pageYOffset || 0, px = null, py = null,
+      worst = 0, worstDepth = 0, worstCause = '', count = 0, inShock = false, quiet = 0, peak = 0, cause = '',
+      slow = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      step = slow ? 400 : 66;
+  for (i = 0; i < N; i++) pts.push(0);
+  function jolt(amount, what) {
+    energy += amount;
+    if (amount > 0.5) cause = what;
+  }
+  window.addEventListener('scroll', function () {
+    var y = window.pageYOffset || 0;
+    jolt(Math.min(Math.abs(y - lastY) / 60, 6), 'the page was moved');
+    lastY = y;
+  }, { passive: true });
+  document.addEventListener('pointermove', function (e) {
+    if (px !== null) jolt(Math.min((Math.abs(e.clientX - px) + Math.abs(e.clientY - py)) / 400, 1.5), 'the pointer crossed');
+    px = e.clientX; py = e.clientY;
+  }, { passive: true });
+  document.addEventListener('keydown', function () { jolt(1.2, 'a key was struck'); });
+  document.addEventListener('pointerdown', function () { jolt(1.6, 'the glass was pressed'); });
+  function depth() {
+    var d = Math.round(window.pageYOffset || 0);
+    return d === 0 ? 'at the surface' : d + ' pixels down';
+  }
+  function report() {
+    var line = count === 0
+      ? 'No shocks recorded. This is the world’s doing and it would like that noted.'
+      : 'Shocks this sitting: ' + count + '. Strongest ' + worst.toFixed(1) + ', ' + worstDepth + '; cause, ' + worstCause + '.';
+    out.textContent = line + (quiet > 20 && count > 0 ? ' Quiet for ' + Math.round(quiet) + ' seconds, a figure the world can keep up indefinitely.' : '');
+  }
+  function tick(now) {
+    requestAnimationFrame(tick);
+    if (document.hidden || now - last < step) return;
+    var dt = Math.min((now - last) / 1000, 1), mag, s = '', x;
+    last = now;
+    level = level * 0.82 + Math.min(energy, 9) * 0.5;
+    energy = 0;
+    mag = Math.min(level, 9);
+    phase += 1.9;
+    pts.push(mag < 0.05 ? 0 : Math.sin(phase) * mag * 3.4 * (0.6 + 0.4 * Math.sin(phase * 0.37)));
+    pts.shift();
+    for (i = 0; i < N; i++) { x = i * 295 / (N - 1); s += x.toFixed(1) + ',' + (35 - pts[i]).toFixed(1) + ' '; }
+    trace.setAttribute('points', s);
+    needle.setAttribute('transform', 'translate(0,' + (-pts[N - 1]).toFixed(1) + ')');
+    if (mag >= 1) {
+      if (!inShock) { inShock = true; peak = 0; }
+      if (mag > peak) peak = mag;
+      quiet = 0;
+    } else {
+      if (inShock && mag < 0.3) {
+        inShock = false; count++;
+        if (peak > worst) { worst = peak; worstDepth = depth(); worstCause = cause || 'not established'; }
+        report();
+      }
+      quiet += dt;
+      if (!inShock && Math.round(quiet) % 15 === 0 && quiet > 20 && quiet - dt < Math.round(quiet)) report();
+    }
+  }
+  report();
+  requestAnimationFrame(tick);
+})();
+</script>
 <section id="index">
 <h2>Index</h2>
 <p>A book of any length is expected to have one. The world has no pages, so the references are to wherever
@@ -2193,7 +2306,8 @@ VI    VIII  X     XII   II    IV    VI
   <li>Ports: none</li>
   <li>Program, the: five lines; rather more; <i>see also</i> Rectangles</li>
   <li class="gap">Rectangles: the worst that can be said of</li>
-  <li class="gap">Sentences: end of, <i>see</i> Full Stop Deep; continuation of, <i>see</i> Commas</li>
+  <li class="gap">Seismograph, the: one visitor recorded; no earthquakes; <i>see also</i> You</li>
+  <li>Sentences: end of, <i>see</i> Full Stop Deep; continuation of, <i>see</i> Commas</li>
   <li>Somebody: no entry</li>
   <li>Strip, the: four boxes; the fourth unwitnessed</li>
   <li class="gap">Turning, the: not supplied; <i>but see</i> everything above</li>
