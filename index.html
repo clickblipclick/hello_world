@@ -2467,6 +2467,103 @@ VI    VIII  X     XII   II    IV    VI
   });
 })();
 </script>
+<section id="assay">
+<style>
+  #assay { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #assay h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #assay p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #counter { display: block; margin: 1.6rem 0 0.5rem; padding: 1.4rem 1rem; border: 1px dashed #7fb7a4; text-align: center;
+             font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4; cursor: pointer; }
+  #counter.over { border-style: solid; background: rgba(127, 183, 164, 0.12); }
+  #counter:focus-within { outline: 1px solid #7fb7a4; outline-offset: 3px; }
+  #ore { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+  #assayed { display: block; min-height: 9em; margin-top: 0.8rem; white-space: pre-line;
+             font: 0.8rem/1.6 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.04em; color: #7fb7a4; }
+  @media screen and (prefers-color-scheme: light) {
+    #assay h2, #counter, #assayed { color: #2f6f5e; }
+    #assay h2 { border-color: #cfc8b6; }
+    #assay p { color: #6a6f7d; }
+    #counter { border-color: #2f6f5e; }
+    #counter.over { background: rgba(47, 111, 94, 0.1); }
+  }
+  @media print { #assay { display: none; } }
+</style>
+<h2>The assay office</h2>
+<p>The world was not made of anything rare. A tilde, a hash, a full stop: there are some in nearly everything
+   that has been written down, lying about unused among the letters, and nobody has gone looking. This office
+   looks. Bring a file, any file of yours, and it will be gone through for what a world could be made from, and
+   the rest, which is to say the words, set aside as spoil.</p>
+<label id="counter" hidden>put a file on the counter, or drop one here<input id="ore" type="file"></label>
+<small id="assayed" aria-live="polite">The assayer is out. The work is done on the same current that turns the world, and without it a file put down here is only put down.</small>
+<p>Nothing is taken in. The file is read on the counter, on your side of the glass, and handed back with every
+   character where it was; the office keeps no sample and could not tell you tomorrow what it saw. Nor is
+   anything mined. To get the sea out of a letter you would have to take the letter apart, and the office has
+   looked at a good many letters now and at the one world, and is not certain which way the trade should go.</p>
+<aside class="pencil"><span>brought my shopping list. all dashes. I have been buying the sea in the afternoon.</span></aside>
+<script>
+(function () {
+  var counter = document.getElementById('counter'), ore = document.getElementById('ore'),
+      out = document.getElementById('assayed');
+  if (!counter || !ore || !out || !window.FileReader) return;
+  var WORLD = 764, MOST = 1048576;
+  var SEAMS = [['~', 'Tilde Sea'], ['-', 'Flats'], ['.', 'Full Stop Deep'], ['#', 'Hash'], ['o', 'Oland'],
+               [':', 'Colons'], ['*', 'Asterisk Caps, lit'], ['+', 'Asterisk Caps, dim']];
+  counter.hidden = false;
+  out.textContent = 'The counter is clear. The assayer has a glass in one eye and is looking at nothing in particular.';
+  function num(n) { return String(n).replace(/\B(?=(\d{3})+$)/g, ','); }
+  function report(name, size, text) {
+    var tally = {}, i, c, lines = [], found = 0, best = -1, seam, n, worlds, extras = [];
+    for (i = 0; i < text.length; i++) { c = text.charAt(i); tally[c] = (tally[c] || 0) + 1; }
+    lines.push((name || 'a file with no name').slice(0, 40) + ': ' + num(text.length) + ' characters'
+      + (size > MOST ? ', being the first of rather more. The assayer has one glass.' : '.'));
+    for (i = 0; i < SEAMS.length; i++) {
+      seam = SEAMS[i]; n = tally[seam[0]] || 0;
+      if (!n) continue;
+      found += n;
+      if (best < 0 || n > (tally[SEAMS[best][0]] || 0)) best = i;
+      lines.push('  ' + seam[0] + '  ' + num(n) + '  ' + seam[1]);
+    }
+    if (!found) {
+      lines.push('Nothing a world could use. It is words right through, or less. The office has seen it before and does not hold it against the file.');
+    } else {
+      worlds = found / WORLD;
+      lines.push('In all ' + num(found) + ', mostly ' + SEAMS[best][1] + '. A world takes ' + WORLD + ' or so. '
+        + (worlds < 0.01 ? 'This is a trace, and would make a place too small to be nobody in.'
+          : worlds < 1 ? 'This would make about ' + (worlds < 0.1 ? worlds.toFixed(2) : worlds.toFixed(1)) + ' of one, which is not a thing that turns.'
+          : worlds < 2 ? 'There is a whole world in it, with a little over, and you have been keeping it in a file.'
+          : 'There are ' + num(Math.floor(worlds)) + ' worlds in it, if anybody wanted more than one.'));
+      if (!tally['#'] && !tally['o'] && !tally[':']) lines.push('No land. Most of what gets written down turns out to be water.');
+      else if (!tally['~'] && !tally['-'] && !tally['.']) lines.push('No sea, which the Caret would want to hear about before anything was built.');
+    }
+    if (tally['@']) extras.push(tally['@'] === 1 ? 'one moon' : num(tally['@']) + ' moons, where the allowance is one');
+    if (tally['^']) extras.push(tally['^'] === 1 ? 'a ship' : num(tally['^']) + ' ships, which is a fleet, and unheard of');
+    if (tally['%']) extras.push(tally['%'] === 1 ? 'a bottle' : num(tally['%']) + ' bottles');
+    if (tally['!']) extras.push(tally['!'] === 1 ? 'a flag' : num(tally['!']) + ' flags, all somebody else\'s');
+    if (tally[',']) extras.push(tally[','] === 1 ? 'a comma' : num(tally[',']) + ' commas, unconfirmed');
+    if (extras.length) lines.push('Also in the pan: ' + extras.join('; ') + '.');
+    if (/hello,? world/i.test(text)) lines.push('It says hello world in there. The office did not put it there and has declined to weigh it.');
+    lines.push('Handed back as it came.');
+    out.textContent = lines.join('\n');
+  }
+  function take(file) {
+    if (!file) return;
+    var reader = new FileReader();
+    out.textContent = 'On the counter. The assayer is going through it a character at a time, which is the only way it is ever done.';
+    reader.onload = function () { report(file.name, file.size, String(reader.result || '')); };
+    reader.onerror = function () { out.textContent = 'It would not open. The office has put it back on your side of the counter and said nothing.'; };
+    reader.readAsText(file.slice(0, MOST));
+  }
+  ore.addEventListener('change', function () { take(ore.files && ore.files[0]); ore.value = ''; });
+  counter.addEventListener('dragover', function (e) { e.preventDefault(); counter.className = 'over'; });
+  counter.addEventListener('dragleave', function () { counter.className = ''; });
+  counter.addEventListener('drop', function (e) {
+    e.preventDefault(); counter.className = '';
+    take(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]);
+  });
+})();
+</script>
+</section>
 <section id="index">
 <h2>Index</h2>
 <p>A book of any length is expected to have one. The world has no pages, so the references are to wherever
@@ -2520,6 +2617,7 @@ VI    VIII  X     XII   II    IV    VI
       <li><i>see also</i> Inhabitants</li>
     </ul></li>
   <li>North: up, by a show of hands</li>
+  <li>Ore: the visitor's own; assayed; handed back</li>
   <li class="gap">Percent, the: one at a time</li>
   <li>Pi: 382/121 within; 24/11 round the outside; <i>see also</i> Edge</li>
   <li>Play, the: one act; no curtain; no notices</li>
