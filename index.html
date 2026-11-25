@@ -1070,6 +1070,79 @@ document.getElementById('carry').addEventListener('click', function (e) {
 <p>It does not turn. It is, on the other hand, the only copy of the world with any height to it: about half
    a millimetre, all told, and the Hash has the most of it.</p>
 </section>
+<section id="glyph">
+<style>
+  #glyph { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #glyph h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #glyph p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #glyph figure { margin: 1.8rem 0; text-align: center; }
+  #glyph svg { width: 11rem; height: 11rem; background: #e6dfc9; color: #0d1321; }
+  #glyph figcaption { margin-top: 0.7rem; font: 0.8rem/1.5 ui-monospace, Menlo, Consolas, monospace; color: #6b7388; }
+  #glyph dl { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 1rem; margin: 0 0 1.6rem;
+              font-size: 0.95rem; line-height: 1.5; color: #b9b6ac; }
+  #glyph dt { font: 0.9rem/1.6 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; text-align: right; }
+  #glyph dd { margin: 0; }
+  @media screen and (prefers-color-scheme: light) {
+    #glyph h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #glyph p, #glyph figcaption { color: #6a6f7d; }
+    #glyph svg { background: #fffdf4; box-shadow: 0 0 0 1px #cfc8b6; }
+    #glyph dl { color: #3d4353; }
+    #glyph dt { color: #8a6a1f; }
+  }
+  @media print { #glyph h2, #glyph p, #glyph figcaption, #glyph dl, #glyph dt { color: #000; border-color: #000; }
+                 #glyph svg { background: #fff; color: #000; } }
+</style>
+<h2>For the machine</h2>
+<p>There has been an edition for the eye, one for the ear and one for the fingers. That leaves the reader who
+   comes most often and has none of the three. For it the two words have been set in squares: twenty-one to
+   a side, dark or light, and nothing in between. Hold a telephone up to it. The telephone will read it
+   before you have finished pointing, and will not be moved by it at all.</p>
+<figure>
+<svg viewBox="0 0 29 29" role="img" aria-labelledby="glyphtitle" shape-rendering="crispEdges">
+  <title id="glyphtitle">a square code, twenty-one squares to a side, that says hello world to a camera</title>
+  <path fill="currentColor"
+        d="M4 4h7v1h-7zM13 4h2v1h-2zM18 4h7v1h-7z
+           M4 5h1v1h-1zM10 5h1v1h-1zM12 5h2v1h-2zM16 5h1v1h-1zM18 5h1v1h-1zM24 5h1v1h-1z
+           M4 6h1v1h-1zM6 6h3v1h-3zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h2v1h-2zM18 6h1v1h-1zM20 6h3v1h-3zM24 6h1v1h-1z
+           M4 7h1v1h-1zM6 7h3v1h-3zM10 7h1v1h-1zM13 7h3v1h-3zM18 7h1v1h-1zM20 7h3v1h-3zM24 7h1v1h-1z
+           M4 8h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM14 8h2v1h-2zM18 8h1v1h-1zM20 8h3v1h-3zM24 8h1v1h-1z
+           M4 9h1v1h-1zM10 9h1v1h-1zM15 9h2v1h-2zM18 9h1v1h-1zM24 9h1v1h-1z
+           M4 10h7v1h-7zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h7v1h-7z
+           M15 11h1v1h-1z
+           M5 12h3v1h-3zM9 12h2v1h-2zM16 12h1v1h-1zM22 12h2v1h-2z
+           M6 13h2v1h-2zM12 13h1v1h-1zM14 13h9v1h-9zM24 13h1v1h-1z
+           M5 14h2v1h-2zM8 14h3v1h-3zM15 14h3v1h-3zM19 14h1v1h-1zM23 14h2v1h-2z
+           M4 15h2v1h-2zM9 15h1v1h-1zM13 15h4v1h-4zM19 15h1v1h-1zM21 15h1v1h-1zM23 15h1v1h-1z
+           M7 16h2v1h-2zM10 16h2v1h-2zM13 16h2v1h-2zM16 16h3v1h-3zM24 16h1v1h-1z
+           M12 17h2v1h-2zM15 17h2v1h-2zM18 17h3v1h-3zM22 17h1v1h-1z
+           M4 18h7v1h-7zM13 18h8v1h-8z
+           M4 19h1v1h-1zM10 19h1v1h-1zM12 19h1v1h-1zM15 19h1v1h-1zM17 19h1v1h-1zM19 19h1v1h-1zM21 19h4v1h-4z
+           M4 20h1v1h-1zM6 20h3v1h-3zM10 20h1v1h-1zM13 20h2v1h-2zM21 20h2v1h-2z
+           M4 21h1v1h-1zM6 21h3v1h-3zM10 21h1v1h-1zM12 21h3v1h-3zM18 21h1v1h-1zM21 21h3v1h-3z
+           M4 22h1v1h-1zM6 22h3v1h-3zM10 22h1v1h-1zM12 22h3v1h-3zM16 22h1v1h-1zM19 22h1v1h-1zM22 22h1v1h-1z
+           M4 23h1v1h-1zM10 23h1v1h-1zM12 23h2v1h-2zM15 23h1v1h-1zM17 23h4v1h-4zM24 23h1v1h-1z
+           M4 24h7v1h-7zM13 24h3v1h-3zM17 24h3v1h-3zM22 24h1v1h-1z"/>
+</svg>
+<figcaption>hello world, at one square to the square</figcaption>
+</figure>
+<dl>
+  <dt>441</dt><dd>squares in all. 226 are dark and 215 are light, which is as near to even as the world has come on anything.</dd>
+  <dt>3</dt><dd>large squares, one to a corner, so that the machine knows which way up it is. The fourth corner has
+      none, and that is how it knows. It is the only thing here with an up that was not put to a vote.</dd>
+  <dt>13</dt><dd>bytes of saying it: eleven for the letters and the space, and two to tell the machine that letters
+      are coming and how many. At this strength the square holds eleven and no more. The two words fit exactly,
+      and a full stop would not have.</dd>
+  <dt>13</dt><dd>bytes of saying it again, differently, in case of thumbs. A quarter of the square can be
+      smudged, torn off or sat on, and it will still come out as hello world. Nothing else on the page has been
+      given a second chance at it.</dd>
+</dl>
+<p>It is kept on pale paper whatever the hour, the machine being particular about that. It does not turn,
+   and the machine has not asked it to. It is the one part of the page that is not for you, and the one
+   part that works as well printed out and pinned to a door.</p>
+<aside class="pencil"><span>I tried it. the telephone offered to look it up for me.</span></aside>
+<aside class="pencil left ink"><span>and found, I expect, a great many. not this one.</span></aside>
+</section>
 <section id="tide">
 <h2>The tide</h2>
 <p>The At goes round and the sea goes after it, as seas do, without ever arriving. To find out how far, a post
