@@ -2727,6 +2727,65 @@ VI    VIII  X     XII   II    IV    VI
 })();
 </script>
 </section>
+<section id="problem">
+<style>
+  #problem { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #problem h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+                color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #problem p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #board { font: 1rem/1.5 ui-monospace, Menlo, Consolas, monospace; color: #6b7388; margin: 1.6rem 0 0.4rem;
+           text-align: center; }
+  #board b { font-weight: normal; color: #e8e6df; }
+  #board i { font-style: normal; color: #d9cfa6; }
+  #problem .stip { text-align: center; font-style: normal; font-variant: small-caps; letter-spacing: 0.08em;
+                   color: #b9b6ac; margin: 0 0 1.6rem; }
+  #problem summary { cursor: pointer; color: #7fb7a4; font-style: italic; }
+  #problem details p { margin: 0.9rem 0 0; line-height: 1.5; }
+  #problem details p b { font: 0.9rem ui-monospace, Menlo, Consolas, monospace; font-style: normal; color: #e8e6df; }
+  @media screen and (prefers-color-scheme: light) {
+    #problem h2, #problem summary { color: #2f6f5e; }
+    #problem h2 { border-color: #cfc8b6; }
+    #problem p, #board { color: #6a6f7d; }
+    #board b, #problem details p b { color: #1d2433; }
+    #board i { color: #8a6a1f; }
+    #problem .stip { color: #4a4f5c; }
+  }
+  @media print { #problem h2 { color: #000; border-color: #000; } #problem p, #board, #board b, #board i { color: #000; } }
+</style>
+<h2>The problem</h2>
+<p>Any paper of standing keeps one of these in a corner, below the weather, for whoever has a train to sit
+   through. This one is set on the usual sixty-four squares and drawn, like everything else here, in characters.
+   Capitals are white. The small letter is black, and is all that black has.</p>
+<pre id="board" role="img" aria-label="a chessboard drawn in characters. The black king is on h8, in the top right corner. The white king is on g6 and a white rook is on a1, in the bottom left corner. Every other square is empty.">
+8  . . . . . . . <i>k</i>
+7  . . . . . . . .
+6  . . . . . . <b>K</b> .
+5  . . . . . . . .
+4  . . . . . . . .
+3  . . . . . . . .
+2  . . . . . . . .
+1  <b>R</b> . . . . . . .
+
+   a b c d e f g h
+</pre>
+<p class="stip">White to play and mate in one.</p>
+<p>Three pieces on sixty-four squares, the rest open water, which is near enough the proportion the world
+   keeps further up. Nothing on the board moves when pointed at. It is a problem, not a game; there is a game
+   elsewhere, and it is no harder.</p>
+<details>
+<summary>The solution, printed upside down in spirit</summary>
+<p><b>1. Ra8</b>, and mate. The rook goes the whole length of the board in one move, as far as anything here
+   has ever travelled, and stops level with the king. He cannot step to g8, which the rook is looking along,
+   nor to g7 or h7, which the other king is standing over. He cannot take anything, there being nothing near
+   enough to take.</p>
+<p>Composers call a problem this small a miniature, and one with a second answer cooked. This one has been
+   checked for a second answer by the only method available, which was looking at it for some time. Solvers
+   who found one are asked to look again before writing in.</p>
+<p>It will be noticed that the black king had the whole board and chose the corner. No reason is recorded.
+   It is the corner nearest the moon.</p>
+</details>
+<aside class="pencil"><span>had it by Reading. the train went on to Swindon regardless.</span></aside>
+</section>
 <section id="index">
 <h2>Index</h2>
 <p>A book of any length is expected to have one. The world has no pages, so the references are to wherever
