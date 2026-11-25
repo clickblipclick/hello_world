@@ -2564,6 +2564,153 @@ VI    VIII  X     XII   II    IV    VI
 })();
 </script>
 </section>
+<section id="hand">
+<style>
+  #hand { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #hand h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #hand p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #sheet { position: relative; height: 9rem; margin: 1.6rem 0 0.6rem; border: 1px solid #263048; color: #d9cfa6; }
+  #sheet canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+  #ink { touch-action: none; cursor: crosshair; }
+  #blot { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+          background: none; border: 1px solid #7fb7a4; padding: 0.4rem 0.9rem; cursor: pointer; }
+  #blot:hover, #blot:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #marked { display: block; min-height: 4.5em; margin-top: 0.8rem; font: 0.8rem/1.5 ui-monospace, Menlo, Consolas, monospace;
+            font-style: normal; letter-spacing: 0.04em; color: #7fb7a4; }
+  @media screen and (prefers-color-scheme: light) {
+    #hand h2, #marked { color: #2f6f5e; }
+    #hand h2, #sheet { border-color: #cfc8b6; }
+    #hand p { color: #6a6f7d; }
+    #sheet { color: #1d2433; }
+    #blot { color: #2f6f5e; border-color: #2f6f5e; }
+    #blot:hover, #blot:focus-visible { background: #2f6f5e; color: #f1ecdf; }
+  }
+  @media print { #hand { display: none; } }
+</style>
+<h2>The writing lesson</h2>
+<p>The two words at the top were set in type, and type is somebody else's handwriting, done once and lent
+   out to everyone. Nobody has ever written them here by hand. There being nobody, the job falls to the
+   visitor, as most jobs here do.</p>
+<p>A copybook has been ruled below, with the words pencilled in as a model. Go over them with whatever you
+   point with. A finger is the old instrument and still the best; a mouse is like writing with a bar of soap,
+   and is marked no more kindly for it. The marker looks at the sheet each time the pen is lifted and says
+   what it thinks. It learned its letters from one specimen, and the specimen was printed.</p>
+<div id="sheet" hidden>
+  <canvas id="model" aria-hidden="true"></canvas>
+  <canvas id="ink" role="img" aria-label="a ruled sheet with hello world pencilled faintly on it, to be gone over by hand"></canvas>
+</div>
+<button id="blot" type="button" hidden>a clean sheet</button>
+<small id="marked" aria-live="polite">The copybook is shut. The ink runs off the same current that turns the world, and without it the words stay in type, where they were legible in any case.</small>
+<p>Nothing is handed in. The ink is on your side of the glass, like everything else you have done here, and
+   the lesson forgets it when you leave. Those who came by the keys alone are excused; the marker has seen
+   typing and has nothing to add. The words at the top will go on being said in type, to everyone, first
+   thing. But they have now been written here once, by a hand, slowly, which is how a thing used to be meant.</p>
+<aside class="pencil"><span>did mine left-handed. it said original work. I am taking that as praise.</span></aside>
+<script>
+// The writing lesson. The marker cannot read. It lays the sheet over the model and looks for daylight.
+(function () {
+  var sheet = document.getElementById('sheet'), model = document.getElementById('model'),
+      ink = document.getElementById('ink'), blot = document.getElementById('blot'),
+      marked = document.getElementById('marked');
+  if (!sheet || !ink.getContext || !window.PointerEvent) return;
+  var mc = model.getContext('2d'), ic = ink.getContext('2d', { willReadFrequently: true });
+  var thin = null, fat = null, total = 0, W = 0, H = 0, pen = null, wet = false, lifts = 0;
+  var TENTHS = ['none', 'a tenth', 'two tenths', 'three tenths', 'four tenths', 'half', 'six tenths',
+                'seven tenths', 'eight tenths', 'nine tenths', 'all'];
+  function words(c, mode) {
+    var size = H * 0.5, at;
+    c.clearRect(0, 0, W, H);
+    c.font = 'italic ' + size + 'px Georgia, "Times New Roman", serif';
+    size *= Math.min(1, W * 0.86 / c.measureText('hello world').width);
+    c.font = 'italic ' + size + 'px Georgia, "Times New Roman", serif';
+    c.textAlign = 'center'; c.textBaseline = 'alphabetic';
+    c.lineJoin = 'round'; c.fillStyle = c.strokeStyle = '#000';
+    at = H * 0.66;
+    if (mode === 'fat') { c.lineWidth = H * 0.13; c.strokeText('hello world', W / 2, at); }
+    c.fillText('hello world', W / 2, at);
+    return { base: at, x: size * 0.46 };
+  }
+  function alpha(c) {
+    var d = c.getImageData(0, 0, W, H).data, out = new Uint8Array(W * H), i;
+    for (i = 0; i < out.length; i++) out[i] = d[i * 4 + 3] > 60 ? 1 : 0;
+    return out;
+  }
+  function rule() {
+    var box = sheet.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1), i, m, y;
+    if (Math.round(box.width * dpr) === W) return;
+    W = model.width = ink.width = Math.round(box.width * dpr);
+    H = model.height = ink.height = Math.round(box.height * dpr);
+    words(mc, 'fat'); fat = alpha(mc);
+    m = words(mc, 'thin'); thin = alpha(mc);
+    for (total = 0, i = 0; i < thin.length; i++) total += thin[i];
+    // The model as the visitor sees it: the same letters, faint, on three ruled lines.
+    mc.globalCompositeOperation = 'source-in';
+    mc.fillStyle = getComputedStyle(sheet).color; mc.globalAlpha = 0.22; mc.fillRect(0, 0, W, H);
+    mc.globalCompositeOperation = 'source-over'; mc.globalAlpha = 0.3;
+    for (i = 0; i < 3; i++) {
+      y = Math.round(m.base - [0, m.x, m.x * 1.75][i]) + 0.5;
+      mc.fillRect(0, y, W, i === 1 ? 0.5 * dpr : dpr);
+    }
+    mc.globalAlpha = 1;
+    wet = false; lifts = 0;
+  }
+  function spot(e) {
+    var box = ink.getBoundingClientRect();
+    return { x: (e.clientX - box.left) * W / box.width, y: (e.clientY - box.top) * H / box.height };
+  }
+  function mark() {
+    var mine = alpha(ic), on = 0, all = 0, astray = 0, i, cover, stray, said;
+    for (i = 0; i < mine.length; i++) {
+      if (!mine[i]) continue;
+      all++;
+      if (thin[i]) on++;
+      if (!fat[i]) astray++;
+    }
+    cover = total ? on / total : 0; stray = all ? astray / all : 0;
+    if (all < total * 0.15) said = 'A mark. The lesson is two words long, and the marker will wait.';
+    else if (cover > 0.8 && stray < 0.2) said = 'A fair copy. Every letter gone over and very little spilled. It is, the marker notes, exactly what was already there, which is the entire aim of a copybook and the reason nobody keeps one.';
+    else if (cover > 0.8) said = 'Every letter is under there somewhere. So is most of the sheet. The marker asked for the words gone over, not papered.';
+    else if (cover < 0.25 && stray > 0.5) said = 'This is not the model. It is your own hand, wherever it wanted to go, and it is marked as original work, which the lesson did not ask for and has no column to put it in.';
+    else if (stray > 0.45) said = 'About ' + TENTHS[Math.round(cover * 10)] + ' of the model gone over, and a good deal of ink gone to look at the margins. The lines are ruled for a reason, though the marker was not told it.';
+    else said = 'About ' + TENTHS[Math.round(cover * 10)] + ' of the model gone over, and kept between the lines.' + (lifts > 11 ? ' The pen has been lifted ' + lifts + ' times for eleven letters; somebody has been dotting things.' : ' Carry on. The world took longer.');
+    marked.textContent = said;
+  }
+  ink.addEventListener('pointerdown', function (e) {
+    if (e.button) return;
+    rule();
+    pen = spot(e);
+    if (ink.setPointerCapture) try { ink.setPointerCapture(e.pointerId); } catch (err) {}
+    ic.strokeStyle = ic.fillStyle = getComputedStyle(sheet).color;
+    ic.lineWidth = Math.max(2, H * 0.035); ic.lineCap = ic.lineJoin = 'round';
+    ic.beginPath(); ic.arc(pen.x, pen.y, ic.lineWidth / 2, 0, 7); ic.fill();
+    e.preventDefault();
+  });
+  ink.addEventListener('pointermove', function (e) {
+    if (!pen) return;
+    var to = spot(e);
+    ic.beginPath(); ic.moveTo(pen.x, pen.y); ic.lineTo(to.x, to.y); ic.stroke();
+    pen = to; wet = true;
+  });
+  function lift() {
+    if (!pen) return;
+    pen = null; lifts++; blot.hidden = false;
+    mark();
+  }
+  ink.addEventListener('pointerup', lift);
+  ink.addEventListener('pointercancel', lift);
+  blot.addEventListener('click', function () {
+    ic.clearRect(0, 0, W, H); lifts = 0; blot.hidden = true;
+    marked.textContent = wet ? 'A clean sheet. The last one has gone where the dye goes.' : 'It was clean.';
+    wet = false;
+  });
+  sheet.hidden = false;
+  marked.textContent = 'The sheet is ruled and the model is pencilled in. Nothing has been written.';
+  rule();
+  window.addEventListener('resize', function () { if (!pen) rule(); });
+})();
+</script>
+</section>
 <section id="index">
 <h2>Index</h2>
 <p>A book of any length is expected to have one. The world has no pages, so the references are to wherever
@@ -2602,7 +2749,8 @@ VI    VIII  X     XII   II    IV    VI
   <li>Eyes: tested; found to be the visitor's</li>
   <li class="gap">Flags: nine; a tenth; nine</li>
   <li class="gap">Glue: not supplied</li>
-  <li class="gap">Hash, the: <i>see under</i> time of day</li>
+  <li class="gap">Handwriting: the visitor's; marked; not kept</li>
+  <li>Hash, the: <i>see under</i> time of day</li>
   <li>Hello: said once, at the top, and not taken back</li>
   <li>Horoscope, the: cast once; <i>see also</i> Apostrophes; not consulted by the Caret</li>
   <li class="gap">Inhabitants: <i>see</i> Nobody</li>
