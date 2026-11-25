@@ -1895,6 +1895,54 @@ VI    VIII  X     XII   II    IV    VI
    world, is asked not to explain it. That is how the others got started.</p>
 <aside class="pencil"><span>told my sister to wait like a comma. she said, for what. so it works.</span></aside>
 </section>
+<section id="manners">
+<style>
+  #manners { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #manners h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+                color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #manners p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #manners kbd { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; font-style: normal; color: #d9cfa6;
+                 border: 1px solid #263048; border-bottom-width: 2px; border-radius: 3px; padding: 0.05em 0.4em; }
+  #manners input { display: block; width: 100%; box-sizing: border-box; background: none; border: 0;
+                   border-bottom: 1px solid #263048; color: #e8e6df; padding: 0.4em 0;
+                   font: 0.9rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; }
+  #manners input:focus { outline: none; border-bottom-color: #7fb7a4; }
+  #owed { display: block; min-height: 2.4em; margin-top: 0.8rem; }
+  #heardyou { position: fixed; left: 0.9rem; bottom: 0.8rem; z-index: 5; max-width: min(22rem, 60vw); margin: 0;
+              padding: 0.35rem 0.6rem; font: 0.75rem/1.5 ui-monospace, Menlo, Consolas, monospace;
+              letter-spacing: 0.04em; color: #d9cfa6; background: rgba(13, 19, 33, 0.9);
+              border-left: 1px solid #d9cfa6; opacity: 0; pointer-events: none; }
+  #heardyou.up { opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) { #heardyou { transition: opacity 0.6s; } }
+  @media screen and (prefers-color-scheme: light) {
+    #manners h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #manners p { color: #6a6f7d; }
+    #manners kbd { color: #8a6a1f; border-color: #cfc8b6; }
+    #manners input { color: #1d2433; border-bottom-color: #cfc8b6; }
+    #manners input:focus { border-bottom-color: #2f6f5e; }
+    #heardyou { color: #8a6a1f; background: rgba(241, 236, 223, 0.9); border-color: #8a6a1f; }
+  }
+  @media print { #manners, #heardyou { display: none; } }
+</style>
+<h2>Manners</h2>
+<p>The page has said hello to everyone who has come, first thing, before they had their coat off. It has been
+   pointed out that nobody has said it back. Visitors have dragged the world about, planted things on it,
+   had it weighed and flipped a coin over it, and not one has returned the greeting, which on most worlds
+   would be thought a poor start.</p>
+<p>This can be put right from wherever you are standing. Type <kbd>hello</kbd>. Not into anything: just type
+   it, at the page, the way it was said to you. There is nowhere for the letters to go and they will not show.
+   It is listening all the same, and has been since the top.</p>
+<p><label for="said">Those without keys to hand, or who would feel foolish typing at nothing, may use the line
+   below. It is the same ear with a rule drawn under it.</label></p>
+<input id="said" type="text" maxlength="40" autocomplete="off" autocapitalize="off" spellcheck="false"
+       placeholder="say it here">
+<small id="owed" aria-live="off">Greetings returned so far, on this copy: none. The world is not counting. This line is.</small>
+<p>It knows a few other words, none of them long, and will not say which. Anything it does not know it takes
+   for weather. A space typed at nothing moves the page down, as spaces do on your world; that is the space's
+   doing, and whoever wants both words will have to put up with the view changing between them.</p>
+<aside class="pencil"><span>typed it in the library. nothing on the screen. felt it land anyway.</span></aside>
+</section>
+<p id="heardyou" role="status" aria-live="polite"></p>
 <section id="index">
 <h2>Index</h2>
 <p>A book of any length is expected to have one. The world has no pages, so the references are to wherever
@@ -3431,6 +3479,79 @@ VI    VIII  X     XII   II    IV    VI
   window.addEventListener('scroll', ask, { passive: true });
   window.addEventListener('resize', ask);
   ask();
+})();
+</script>
+<script>
+// Manners. The page listens for a word typed at nothing in particular, and answers the few it knows.
+// Letters typed into a box belong to the box and are let alone, except the one box kept for the purpose.
+(function () {
+  var note = document.getElementById('heardyou'), box = document.getElementById('said'),
+      tally = document.getElementById('owed');
+  if (!note || !tally) return;
+  var typed = '', wait = null, fade = null, hellos = 0, counts = {};
+  var KNOWN = [
+    ['hello world', ['That is its own line, said back to it whole. Nothing here has ever been quoted before. It has gone round once more than it needed to.']],
+    ['hello', ['Heard. It said it first and has been waiting, on and off, since before you came. It has nothing further prepared.',
+               'Hello again. It only has the one, and you have now had it back twice. Yours are evidently cheaper.',
+               'Heard, and entered. You are well ahead. It is not a competition, and you are winning it.']],
+    ['goodbye', ['Noted. It will go on turning, toward where you were. Morning or land, whichever comes first.']],
+    ['good morning', ['It is morning somewhere on it, as a rule over the big continent. Taken as meant.']],
+    ['good night', ['It is night down the lower right and always has been. They will be told.']],
+    ['thank you', ['It did nothing, and is glad to have that acknowledged.']],
+    ['thanks', ['It did nothing, and is glad to have that acknowledged.']],
+    ['ahoy', ['Ahoy is for ships. The Caret has been informed and has turned away, which is how it takes everything.']],
+    ['sorry', ['Whatever it was, it was all sea at the time.']],
+    ['please', ['Granted, whatever it was. Nothing here was being withheld.']],
+    ['help', ['There is no enquiries desk. The answers were prepared anyway and are further up, under questions nobody has asked.']],
+    ['world', ['It answers to that, in the sense of not objecting.']],
+    ['bye', ['Short, but it counts. It will be here, or a fresh one exactly like it will.']]
+  ];
+  function show(text) {
+    note.textContent = text;
+    note.className = 'up';
+    clearTimeout(fade);
+    fade = setTimeout(function () { note.className = ''; }, 9000);
+  }
+  function words(n) {
+    return ['none', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'][n] || String(n);
+  }
+  function hear() {
+    var said = typed.replace(/\s+/g, ' ').replace(/^ | $/g, ''), i, w, lines, n;
+    typed = '';
+    for (i = 0; i < KNOWN.length; i++) {
+      w = KNOWN[i][0];
+      if (said.slice(-w.length) !== w) continue;
+      if (said.length > w.length && /[a-z]/.test(said.charAt(said.length - w.length - 1))) continue;
+      lines = KNOWN[i][1]; n = counts[w] = (counts[w] || 0) + 1;
+      show(lines[Math.min(n, lines.length) - 1]);
+      if (w.indexOf('hello') === 0) {
+        hellos++;
+        tally.textContent = 'Greetings returned so far, on this copy: ' + words(hellos)
+          + (hellos === 1 ? '. The account is square. It took a while.' : '. The page said it once. It now owes you ' + words(hellos - 1) + ', and has no way of paying.');
+      }
+      if (box && document.activeElement === box) box.value = '';
+      return;
+    }
+  }
+  function take(ch) {
+    typed = (typed + ch.toLowerCase()).slice(-40);
+    clearTimeout(wait);
+    wait = setTimeout(hear, 900);
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey || !e.key || e.key.length !== 1) return;
+    var t = e.target, tag = t && t.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+    if (/[a-z ]/i.test(e.key)) take(e.key);
+  });
+  if (box) {
+    box.addEventListener('input', function () {
+      typed = box.value.toLowerCase().replace(/[^a-z ]/g, '');
+      clearTimeout(wait);
+      wait = setTimeout(hear, 900);
+    });
+    box.addEventListener('keydown', function (e) { if (e.key === 'Enter') { clearTimeout(wait); hear(); } });
+  }
 })();
 </script>
 </body>
