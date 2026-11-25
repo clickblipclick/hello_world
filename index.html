@@ -791,14 +791,14 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
   <dt>The Colons <span>:::</span></dt>
   <dd>Land at dusk. Everything here is about to be explained, and then the planet turns and it isn't.</dd>
   <dt>The Tilde Sea <span>~~~</span></dt>
-  <dd>Open water in full sun. The waves are all one wavelength, which makes navigation easy and poetry difficult.</dd>
+  <dd>Open water in full sun. The waves are all one wavelength, which makes navigation easy and poetry difficult.<a class="fn" id="r2" href="#n2" aria-label="note, marked with a dagger">&dagger;</a></dd>
   <dt>The Flats <span>---</span></dt>
   <dd>The same sea, later in the afternoon, having given up on waves.</dd>
   <dt>Full Stop Deep <span>...</span></dt>
   <dd>The night ocean. Sentences end here. Ships crossing it report a long pause, then land, or morning,
       whichever comes first.</dd>
   <dt>The Asterisk Caps <span>***</span></dt>
-  <dd>Ice at both poles, each flake a footnote to something nobody wrote down. On the dark side they
+  <dd>Ice at both poles, each flake a footnote to something nobody wrote down.<a class="fn" id="r1" href="#n1" aria-label="note, marked with a star">*</a> On the dark side they
       dim to plus signs, which is the only arithmetic the planet does.</dd>
   <dt>The At <span>@</span></dt>
   <dd>The moon. It has one side and shows it to everybody. Goes around behind the world at regular
@@ -1348,7 +1348,7 @@ VI    VIII  X     XII   II    IV    VI
 <h2>By comparison</h2>
 <p>You arrived from another world, and are sitting on it now. It seemed only fair to set the two side by side.
    The figures for this one were taken from the world itself. The figures for yours are from memory and
-   have not been checked, yours being too large to bring in.</p>
+   have not been checked,<a class="fn" id="r3" href="#n3" aria-label="note, marked with a double dagger">&Dagger;</a> yours being too large to bring in.</p>
 <table>
   <caption hidden>This world compared with the visitor's own, line by line</caption>
   <thead>
@@ -2114,7 +2114,7 @@ VI    VIII  X     XII   II    IV    VI
 <p>One hash was taken down off the high ground and enlarged, and at that size it turns out to have nine rooms
    in it, which nobody had looked into. It makes a board. Oland supplied the noughts, having little else. The
    crosses you will have to bring, there being no X on the surface; the indexer looked. You go first, as the
-   visitor. Nobody plays against you.</p>
+   visitor. Nobody plays against you.<a class="fn" id="r5" href="#n5" aria-label="note, marked with parallels">&#8214;</a></p>
 <div id="squares" role="group" aria-label="a board of nine squares, three by three, drawn as one large hash"></div>
 <small id="score" aria-live="polite">The board runs on the same current as the world. Without it, it is a hash, and nobody's move.</small>
 <button id="rematch" type="button" hidden>clear the hash</button>
@@ -2890,7 +2890,7 @@ VI    VIII  X     XII   II    IV    VI
    enough to take.</p>
 <p>Composers call a problem this small a miniature, and one with a second answer cooked. This one has been
    checked for a second answer by the only method available, which was looking at it for some time. Solvers
-   who found one are asked to look again before writing in.</p>
+   who found one are asked to look again before writing in.<a class="fn" id="r4" href="#n4" aria-label="note, marked with a section mark">&sect;</a></p>
 <p>It will be noticed that the black king had the whole board and chose the corner. No reason is recorded.
    It is the corner nearest the moon.</p>
 </details>
@@ -3009,6 +3009,73 @@ VI    VIII  X     XII   II    IV    VI
   read();
 })();
 </script>
+<section id="foot">
+<style>
+  /* The notes. Six marks let into the text above, and the foot of the page they point to. The marks are small
+     and the colour of the moon, so that a reader who is not looking for them can go on not finding them. */
+  .fn { font: 0.8em/1 Georgia, serif; font-style: normal; font-variant: normal; letter-spacing: 0; color: #d9cfa6;
+        text-decoration: none; padding: 0 0.15em; vertical-align: 0.3em; }
+  .fn:hover, .fn:focus { color: #e8e6df; }
+  .fn:target, #foot li:target { outline: 1px dotted #d9cfa6; outline-offset: 0.25em; }
+  .fn, #foot li { scroll-margin-top: 5rem; }
+  #foot { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #foot h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #foot p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #foot ul { list-style: none; margin: 1.6rem 0; padding: 0; border-top: 1px solid #263048; width: 100%; }
+  #foot ul::before { content: ""; display: block; width: 6rem; margin-top: -1px; border-top: 1px solid #6b7388; }
+  #foot li { position: relative; margin: 1rem 0 0; padding-left: 1.8rem; font-size: 0.9rem; line-height: 1.5; color: #b9b6ac; }
+  #foot li > a:first-child { position: absolute; left: 0; top: 0; width: 1.2rem; text-align: center;
+                             color: #d9cfa6; text-decoration: none; font-style: normal; }
+  #foot li > a:first-child:hover, #foot li > a:first-child:focus { color: #e8e6df; }
+  #foot li code { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; white-space: nowrap; }
+  #foot li.last { color: #6b7388; font-style: italic; }
+  @media screen and (prefers-color-scheme: light) {
+    .fn, #foot li > a:first-child { color: #8a6a1f; } .fn:hover, .fn:focus { color: #33323a; }
+    .fn:target, #foot li:target { outline-color: #8a6a1f; }
+    #foot h2 { color: #2f6f5e; border-color: #cfc8b6; } #foot p, #foot li.last { color: #6a6f7d; }
+    #foot ul { border-color: #cfc8b6; } #foot ul::before { border-color: #6a6f7d; }
+    #foot li { color: #3d4353; } #foot li code { color: #2f6f5e; }
+  }
+  @media print { .fn, #foot h2, #foot p, #foot li, #foot li > a:first-child, #foot li code { color: #000; border-color: #000; } }
+</style>
+<h2>Notes</h2>
+<p>A page has a foot, and things that would have interrupted are sent down to it. This page has been a long
+   time arriving at its foot and has interrupted itself freely on the way, so there is not much left to send.
+   Six things were found. Each is marked above, in the place it would have interrupted, and the mark will
+   bring you here; the same mark, here, will take you back to the word you left.</p>
+<p>The marks are the printers' own and are used in the printers' order: star, dagger, double dagger, section,
+   parallels, pilcrow. Only the first was to be had locally. It is on loan from the Caps, who have several
+   hundred and have not so far counted them. Numbers would have been simpler, but the world does no arithmetic
+   beyond the plus signs, and it seemed wrong to begin at the bottom of the page.</p>
+<ul>
+  <li id="n1"><a href="#r1" aria-label="star: back to the Asterisk Caps">*</a> It has now been written down.
+      This is it. The flake concerned was told, and went on being ice, which is the most that could be asked
+      of it. The other flakes remain footnotes to nothing and are thought to prefer it.</li>
+  <li id="n2"><a href="#r2" aria-label="dagger: back to the Tilde Sea">&dagger;</a> Difficult, not impossible.
+      One poem is known. It is given here entire: <code>~ ~ ~ ~ ~ ~ ~</code> It scans. It has been said to
+      lose something on a second reading, and to get it back on the third.</li>
+  <li id="n3"><a href="#r3" aria-label="double dagger: back to the comparison">&Dagger;</a> They have since
+      been checked, by going to the window. It was dark and one street was visible. Nothing seen there
+      contradicts the table, and the column for your world is let stand on the evidence of one street.</li>
+  <li id="n4"><a href="#r4" aria-label="section mark: back to the problem">&sect;</a> No address is given for
+      writing in. This was noticed in proof and left as it was. Two solvers have written in regardless, to
+      nowhere, and are understood to have had the reply they expected.</li>
+  <li id="n5"><a href="#r5" aria-label="parallels: back to the game">&#8214;</a> Nobody was shown this sentence
+      before it went in and made no objection. Nobody has also read the other five notes, and this one, and
+      asked only that the mark be explained: it is two upright strokes and means nothing more than fifth. It
+      is not a pause, though it has been taken for one by readers who needed it.</li>
+  <li id="n6"><a href="#r6" aria-label="pilcrow: back to the colophon">&para;</a> They would not have got it.
+      Nobody was paid for any of this, in the ordinary sense and in the other.<a class="fn" id="r7" href="#n7"
+      aria-label="note on this note, marked with two stars">**</a> The pilcrow, which printers put where a
+      new thought begins, is used here where the last one ends. It was the only work going.</li>
+  <li id="n7" class="last"><a href="#r7" aria-label="two stars: back to the note above">**</a> A note on a
+      note. After the pilcrow the printers begin the marks again and double them, and would go on to three
+      of each, and four. The page declines to follow them. A second star has been borrowed and both go back
+      to the ice tonight.</li>
+</ul>
+<aside class="pencil"><span>I went down for the dagger and forgot what I had been reading. came back up. it was the sea.</span></aside>
+</section>
 <section id="index">
 <h2>Index</h2>
 <p>A book of any length is expected to have one. The world has no pages, so the references are to wherever
@@ -3063,6 +3130,7 @@ VI    VIII  X     XII   II    IV    VI
       <li><i>see also</i> Inhabitants</li>
     </ul></li>
   <li>North: up, by a show of hands</li>
+  <li>Notes: at the foot; six marks, one of them borrowed; a seventh, <i>see</i> the sixth</li>
   <li>Ore: the visitor's own; assayed; handed back</li>
   <li class="gap">Percent, the: one at a time</li>
   <li>Pi: 382/121 within; 24/11 round the outside; <i>see also</i> Edge</li>
@@ -3121,7 +3189,7 @@ VI    VIII  X     XII   II    IV    VI
    <span id="stock">It is printed light on dark or dark on light, as the reader's own lamp dictates.</span></p>
 <p>No type was cast for it. Every sort was in your case already, on your side of the glass, before the world
    was thought of. It was only a matter of putting them in order and then moving them sixty times a second,
-   which is where compositors of the old school would have asked for more money. The Apostrophes, being named
+   which is where compositors of the old school would have asked for more money.<a class="fn" id="r6" href="#n6" aria-label="note, marked with a pilcrow">&para;</a> The Apostrophes, being named
    for the margin, are pleased to find themselves at last in a book that has one.</p>
 <p class="end">Printed nowhere. Published wherever it is looked at. This copy is yours and is the only one
    that turned exactly like this.<span aria-hidden="true">~ ^ ~</span></p>
