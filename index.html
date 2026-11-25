@@ -3056,6 +3056,7 @@ VI    VIII  X     XII   II    IV    VI
   <li>Program, the: five lines; rather more; <i>see also</i> Rectangles</li>
   <li class="gap">Rectangles: the worst that can be said of</li>
   <li>Rule, the slide: multiplies; holds two opinions of pi under one thumb</li>
+  <li>Running head, the: follows the reader down; one name at a time; no folio to set beside it</li>
   <li class="gap">Seismograph, the: one visitor recorded; no earthquakes; <i>see also</i> You</li>
   <li>Sentences: end of, <i>see</i> Full Stop Deep; continuation of, <i>see</i> Commas</li>
   <li>Somebody: no entry</li>
@@ -4608,6 +4609,59 @@ VI    VIII  X     XII   II    IV    VI
     });
     box.addEventListener('keydown', function (e) { if (e.key === 'Enter') { clearTimeout(wait); hear(); } });
   }
+})();
+</script>
+<style>
+  /* The running head. A book prints its own name along the top of every page, and the chapter's opposite,
+     for readers who have opened it in the middle. This one has a single page and a great deal of middle. */
+  #head { position: fixed; top: 0; left: 0; right: 0; z-index: 4; margin: 0; padding: 0.55rem 1.5rem 1.1rem;
+          display: flex; justify-content: center; pointer-events: none; opacity: 0;
+          background: linear-gradient(#0d1321 45%, rgba(13, 19, 33, 0)); }
+  #head span { display: flex; justify-content: space-between; gap: 1.5rem; width: 100%; max-width: 30rem;
+               font: 0.72rem Georgia, serif; font-variant: small-caps; letter-spacing: 0.14em; color: #6b7388; }
+  #head i { font-style: normal; white-space: nowrap; }
+  #head i + i { color: #7fb7a4; overflow: hidden; text-overflow: ellipsis; }
+  #head.set { opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) { #head { transition: opacity 0.6s; } }
+  @media screen and (prefers-color-scheme: light) {
+    #head { background: linear-gradient(#f1ecdf 45%, rgba(241, 236, 223, 0)); }
+    #head span { color: #6a6f7d; } #head i + i { color: #2f6f5e; }
+  }
+  @media print { #head { display: none; } }
+</style>
+<p id="head" aria-hidden="true"><span><i>hello world</i><i id="chapter"></i></span></p>
+<script>
+// The running head. It reads whichever heading last went up past the top of the glass and says it again,
+// smaller, for as long as that part lasts. On the first screen it says nothing; the title is still in sight
+// there, at full size, and does not need repeating to its face. No page number is given. There is one page.
+(function () {
+  var head = document.getElementById('head'), chapter = document.getElementById('chapter');
+  if (!head || !chapter || !document.querySelectorAll) return;
+  var parts = [], found = document.querySelectorAll('section, footer'), due = false, last = null, i, h;
+  for (i = 0; i < found.length; i++) {
+    h = found[i].querySelector('h2');
+    if (h) parts.push([found[i], (h.textContent || '').replace(/\s+/g, ' ').replace(/^ | $/g, '').toLowerCase()]);
+  }
+  if (!parts.length) return;
+  function read() {
+    var line = Math.min(window.innerHeight * 0.3, 160), name = '', i, box;
+    due = false;
+    for (i = 0; i < parts.length; i++) {
+      if (!parts[i][0].getClientRects().length) continue;   // some parts are only there on some visits
+      box = parts[i][0].getBoundingClientRect();
+      if (box.top > line) break;
+      if (box.bottom > line) name = parts[i][1];
+    }
+    if (name !== last) {
+      if (name) chapter.textContent = name;   // the old name is left standing while it fades
+      head.className = name ? 'set' : '';
+      last = name;
+    }
+  }
+  function ask() { if (!due) { due = true; (window.requestAnimationFrame || setTimeout)(read); } }
+  window.addEventListener('scroll', ask, { passive: true });
+  window.addEventListener('resize', ask);
+  ask();
 })();
 </script>
 </body>
