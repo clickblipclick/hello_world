@@ -1978,6 +1978,108 @@ VI    VIII  X     XII   II    IV    VI
 <p>The mint keeps count for as long as you stay, and forgets when you go, a mint with a memory being a bank.</p>
 <aside class="pencil"><span>comma, comma, comma, world. I had asked it whether to go to bed.</span></aside>
 </section>
+<section id="till">
+<style>
+  /* The till. Thermal paper, which is white whatever the hour and goes grey in a drawer. */
+  #till { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #till h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #till p { font-size: 1rem; letter-spacing: 0; color: #6b7388; font-style: italic; }
+  #chit { font: 0.8rem/1.45 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0; width: 30ch;
+          max-width: 100%; box-sizing: content-box; margin: 1.8rem auto; padding: 1.3rem 1.1rem 1.6rem;
+          background: #efece4; color: #3a3940; overflow: hidden; box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.4);
+          clip-path: polygon(0 0, 100% 0, 100% calc(100% - 5px), 95% 100%, 90% calc(100% - 5px), 85% 100%,
+                     80% calc(100% - 5px), 75% 100%, 70% calc(100% - 5px), 65% 100%, 60% calc(100% - 5px),
+                     55% 100%, 50% calc(100% - 5px), 45% 100%, 40% calc(100% - 5px), 35% 100%,
+                     30% calc(100% - 5px), 25% 100%, 20% calc(100% - 5px), 15% 100%, 10% calc(100% - 5px),
+                     5% 100%, 0 calc(100% - 5px)); }
+  @media screen and (prefers-color-scheme: light) {
+    #till h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #till p { color: #6a6f7d; }
+    #chit { background: #fffdf4; color: #33323a; }
+  }
+  @media print { #till h2, #till p { color: #000; border-color: #000; }
+                 #chit { background: none; color: #000; box-shadow: none; clip-path: none; border: 1px dashed #000; } }
+</style>
+<h2>The till</h2>
+<p>A coin having been struck, it was only a matter of time before somebody rang something up. There is a
+   till by the door. Nobody stands at it. It has been adding up your visit since you came in, a line at a
+   time, and the slip is still coming out of the top.</p>
+<pre id="chit" aria-label="a till receipt for this visit, every line of it priced at nothing">
+         HELLO WORLD
+   the till, beside the mint
+
+1 world, turning ........... 0
+days of it, 0 .............. 0
+page, not yet gone down .... 0
+flags, 0, your own ......... 0
+sea, as much as wanted ..... 0
+moon, sight of ............. 0
+                        ------
+total, in commas ........... 0
+tendered ................... 0
+change .............. none due
+
+ | || ||| | || | ||| || | || |
+ no returns. it turns instead.
+</pre>
+<p>Everything is entered and nothing is charged, the price of each article being the whole currency or
+   none of it, and the mint having the whole currency. The till was asked to stop itemising on these
+   grounds and replied that an amount of nothing is still an amount. It counts in the world's days, of
+   which you will have had several by the end of this sentence. The flags are listed but were yours when
+   you came. The bars along the bottom mean something to a machine that has not been built.</p>
+<p>Keep the slip. It is proof that you were here, made out to nobody, and it is the only thing on the
+   page that says more the more slowly you read it. It goes back to a day of nothing when you leave.
+   Asked for a copy, a printer will give this one, stopped at whatever it said when the lid came down.</p>
+<aside class="pencil"><span>stayed for 400 days to see if it would round up. it does not round.</span></aside>
+<script>
+// The till. It adds up the visit and arrives, each second, at the same total.
+(function () {
+  var chit = document.getElementById('chit');
+  if (!chit || !window.setInterval) return;
+  var DAY = Math.PI * 2 / 0.012 / 60 * 1000, W = 30, came = Date.now(), deep = 0;
+  function row(what, sum) {
+    var gap = W - what.length - sum.length - 2, dots = '';
+    while (dots.length < gap) dots += '.';
+    return what + ' ' + dots + ' ' + sum;
+  }
+  function sound() {
+    var el = document.documentElement, room = el.scrollHeight - window.innerHeight;
+    if (room > 0) deep = Math.max(deep, Math.min(1, (window.pageYOffset || el.scrollTop || 0) / room));
+  }
+  function flags() {
+    try { return (JSON.parse(localStorage.getItem('flags') || '[]') || []).length || 0; } catch (e) { return 0; }
+  }
+  function ring() {
+    if (document.hidden) return;
+    sound();
+    var days = Math.floor((Date.now() - came) / DAY), part = Math.round(deep * 100);
+    var page = part >= 100 ? 'page, the whole of it' : part > 0 ? 'page, ' + part + ' parts in 100' : 'page, not yet gone down';
+    chit.textContent = [
+      '         HELLO WORLD',
+      '   the till, beside the mint',
+      '',
+      row('1 world, turning', '0'),
+      row('days of it, ' + days, '0'),
+      row(page, '0'),
+      row('flags, ' + flags() + ', your own', '0'),
+      row('sea, as much as wanted', '0'),
+      row('moon, sight of', '0'),
+      '                        ------',
+      row('total, in commas', '0'),
+      row('tendered', '0'),
+      row('change', 'none due'),
+      '',
+      ' | || ||| | || | ||| || | || |',
+      ' no returns. it turns instead.'
+    ].join('\n') + '\n';
+  }
+  window.addEventListener('scroll', sound, { passive: true });
+  setInterval(ring, 1000);
+  ring();
+})();
+</script>
+</section>
 <section id="strip">
 <style>
   /* The strip. Four boxes ruled on the back page, and the same sorts drawn in them as everywhere else. */
