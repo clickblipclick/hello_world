@@ -1,0 +1,98 @@
+%!PS-Adobe-3.0
+%%Title: hello world
+%%Pages: 1
+%%EndComments
+
+% world.ps -- the world, for a printer to work out by itself.
+%
+% Everything else that comes off a printer was finished somewhere else and only
+% carried there. This is not finished. It is the instructions, in the language
+% printers are spoken to in when it is thought nobody is listening, and the
+% printer does the making: sixty columns, twenty-four rows, one sine at a time,
+% inside the machine, with the lid shut. Send it and the world is made on the
+% spot, by an appliance, between a boarding pass and somebody's invoice.
+%
+%   lpr world.ps                  to a printer that still understands it
+%   gs world.ps                   to a screen, which will pretend to be paper
+%   gs -dturn=270 world.ps        the same, turned to the longitude given
+%   ps2pdf world.ps               for keeping, unturned, in a drawer of its own
+%
+% Unless it is told a longitude it asks the machine what time it is, takes the
+% answer by the thin end, and turns the world to that. No two copies agree.
+% This is the first version of the world with editions.
+%
+% The At is in it, when it is round the front, and the Shade under it when it
+% stands in the light. The Caret is in it. The weather was left off: it does
+% not keep on paper. So were the flags, which a printer has no right to plant.
+%
+% A printer that has forgotten the language will print this file instead, as
+% reading matter, comments and all, on about three sheets. That is also a way
+% of having it, and the only one in which you get this paragraph.
+
+/R 57.2958 def                          % a radian, in the degrees the machine prefers
+/rsin { R mul sin } bind def
+/rcos { R mul cos } bind def
+
+/t                                      % which way round it is, this once
+  /turn where
+    { pop turn R div }
+    { /realtime where { pop realtime } { usertime } ifelse abs 6283 mod 1000 div }
+  ifelse
+def
+
+/m t 2.97 div 1.05 add def              % where the At has got to
+/n m rsin 29 mul truncate cvi def
+/f m rcos 0 gt def                      % and whether it is round the front
+
+/one { 1 getinterval } bind def
+
+/cell {                                 % column row -> one character of world
+  /j exch def  /i exch def
+  /x i .5 add 22 div def
+  /y j .5 add 11 div def
+  /zz 1 x x mul sub y y mul sub def
+  zz 0 lt {
+    % not world. sky, and what little is in it
+    /s i i mul 7 mul  j j mul 13 mul add  i j mul 5 mul add  900 add  67 mod def
+    f  j -9 eq and  i n eq and { (@) } {
+      s 3 eq { (') } { s 9 eq { (.) } { s 31 eq { (`) } { ( ) } ifelse } ifelse } ifelse
+    } ifelse
+  } {
+    /z zz sqrt def
+    /l z .6 mul  x .5 mul sub  y .6 mul sub def             % the light, from the usual corner
+    /d x n 22 div sub dup mul  y y mul add def
+    /k f d .0289 lt and { 2 } { l .5 gt { 0 } { l .1 gt { 1 } { 2 } ifelse } ifelse } ifelse def
+    /a x z atan R div t add def
+    j 4 eq  a t 1.3 mul sub rcos .9998 gt and { (^) } {     % one ship
+      y abs .935 gt { (*++) k one } {                       % ice
+        a 2 mul y 3 mul add rsin  a y 2 mul sub 4 add rcos add  .8 gt
+          { (#o:) k one }                                   % land
+          { (~-.) k one }                                   % and the rest
+        ifelse
+      } ifelse
+    } ifelse
+  } ifelse
+} def
+
+%%Page: 1 1
+
+/Courier findfont 12 scalefont setfont  % seven and a fifth points wide, and no arguing
+-12 1 11 {
+  /row exch def
+  -30 1 29 {
+    /col exch def
+    col 30 add 7.2 mul 90 add  510 row 14.4 mul sub  moveto
+    col row cell show
+  } for
+} for
+
+90 300 moveto (hello world) show
+
+/Courier-Oblique findfont 7 scalefont setfont
+90 284 moveto
+(turned to ) show
+t R mul cvi 360 mod 4 string cvs show
+( degrees, by the machine that printed it, which was not asked to choose and did.) show
+
+showpage
+%%EOF
