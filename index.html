@@ -933,6 +933,12 @@ which is more than anyone has seen. A map has no time of day. North is up, by a 
    see it by night, lit from the side. Those who keep them light get it on paper, in ink, where the Hash is simply
    the part with the most ink on it and the Apostrophes are flaws in the stock. It is the same world. Changing
    your mind changes the edition at once, without a reprint, which is more than paper has managed before.</p>
+<p class="wx">The world is a globe, and sooner or later somebody shakes one. Take hold of it and work it quickly
+   to and fro; or tab to it and rattle the left and right arrows; or, if the whole thing is in your hand, shake that.
+   The Asterisk Caps come loose, having only ever been resting there, and it snows: on the Hash, on the Tilde Sea,
+   on the night side, which gets no other weather. It falls to the bottom, that being what the bottom of a globe
+   is for, and lies along it a while, and is gone. The caps are found to be the same size afterwards. Nobody has
+   explained this, and the ice has not been asked.</p>
 <p class="wx">The world cannot leave, but its address can, and when the address is handed on somewhere that shows
    pictures, <a href="card.png">a likeness</a> goes ahead of it. It was taken once, on a clear afternoon, and does not turn.
    The At is in it. The Caret is not, having been asked to hold still. People who have seen only the likeness
@@ -4693,6 +4699,137 @@ VI    VIII  X     XII   II    IV    VI
     });
     box.addEventListener('keydown', function (e) { if (e.key === 'Enter') { clearTimeout(wait); hear(); } });
   }
+})();
+</script>
+<style>
+  #flurry { position: absolute; z-index: 1; pointer-events: none; color: #e8e6df;
+            font: 12px/1 ui-monospace, Menlo, Consolas, monospace; }
+  #flurry i { position: absolute; left: 0; top: 0; font-style: normal; will-change: transform; }
+  #flurry.thaw { opacity: 0; }
+  @media (prefers-reduced-motion: no-preference) { #flurry { transition: opacity 2.5s; } }
+  @media screen and (prefers-color-scheme: light) { #flurry { color: #6a6f7d; } }
+  @media print { #flurry { display: none; } }
+</style>
+<script>
+// The snow. Every globe gets shaken in the end, and this one is ready for it. Four quick changes of direction,
+// by hand on the glass or by the arrow keys, or a few sharp jolts to a machine that can feel them, and the ice
+// comes off the caps and falls through the inside of the world to the bottom, where it lies and then is not.
+// The snow is laid over the world and is no part of it: the Caret sails on underneath and logs fair weather.
+(function () {
+  var el = document.getElementById('globe');
+  if (!el || !el.parentNode || !window.requestAnimationFrame) return;
+  var calm = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var box = null, flakes = [], running = false, thaw = 0, gone = 0, last = 0, w = 0, h = 0, R = 0.95;
+  function fit() {
+    var a = el.getBoundingClientRect(), b = el.parentNode.getBoundingClientRect();
+    w = a.width; h = a.height;
+    box.style.left = (a.left - b.left) + 'px'; box.style.top = (a.top - b.top) + 'px';
+    box.style.width = w + 'px'; box.style.height = h + 'px';
+  }
+  function put(f) {
+    f.el.style.transform = 'translate(' + ((f.x + 1) / 2 * w - 3.6).toFixed(1) + 'px,' + ((f.y + 1) / 2 * h - 6).toFixed(1) + 'px)';
+  }
+  function step(t) {
+    var dt = Math.min((t - last) / 1000 || 0, 0.05), busy = false, i, f, d;
+    last = t;
+    if (!box) { running = false; return; }
+    for (i = 0; i < flakes.length; i++) {
+      f = flakes[i];
+      if (f.down) continue;
+      busy = true;
+      f.vx += (Math.sin(t / 700 + f.k) * 0.12 - f.vx) * 2 * dt;   // the air inside is thick, and has opinions
+      f.vy += (f.fall - f.vy) * 2 * dt;
+      f.x += f.vx * dt; f.y += f.vy * dt;
+      d = Math.sqrt(f.x * f.x + f.y * f.y);
+      if (d > R) {
+        f.x *= R / d; f.y *= R / d;
+        if (f.y > 0.25 && f.vy > 0) f.down = true;          // the bottom of the glass
+        else { f.vx *= -0.4; f.vy = Math.abs(f.vy) * 0.4; }   // the top of it
+      }
+      put(f);
+    }
+    if (busy) requestAnimationFrame(step); else running = false;
+  }
+  function melt() {
+    if (!box) return;
+    box.className = 'thaw';
+    gone = setTimeout(function () {
+      if (box && box.parentNode) box.parentNode.removeChild(box);
+      box = null; flakes = [];
+    }, 2700);
+  }
+  function shake() {
+    var i, f, a, r;
+    if (el.getBoundingClientRect().bottom < 0) return;   // nobody is looking at it; let it lie
+    clearTimeout(thaw); clearTimeout(gone);
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'flurry'; box.setAttribute('aria-hidden', 'true');
+      for (i = 0; i < 70; i++) {
+        a = Math.random() * 6.283; r = Math.sqrt(Math.random()) * R;
+        f = { el: document.createElement('i'), x: Math.cos(a) * r, y: Math.sin(a) * r, vx: 0, vy: 0,
+              k: Math.random() * 6.283, fall: 0.12 + Math.random() * 0.16, down: false };
+        f.el.textContent = i % 5 ? '*' : '+';
+        box.appendChild(f.el); flakes.push(f);
+      }
+      el.parentNode.appendChild(box);
+    }
+    box.className = '';
+    fit();
+    for (i = 0; i < flakes.length; i++) {
+      f = flakes[i];
+      if (calm) {   // for those who asked for stillness: the snow as found a minute afterwards, already down
+        a = 0.35 + Math.random() * 2.44; r = R - Math.random() * Math.random() * 0.2;
+        f.x = Math.cos(a) * r; f.y = Math.sin(a) * r; f.down = true;
+        put(f);
+        continue;
+      }
+      f.down = false;
+      f.vx += (Math.random() - 0.5) * 3.2; f.vy -= 0.4 + Math.random() * 2.2;
+      put(f);
+    }
+    thaw = setTimeout(melt, calm ? 6000 : 16000);
+    if (!calm && !running) { running = true; last = 0; requestAnimationFrame(step); }
+  }
+  // Telling a shake from a turn. A turn goes one way. A shake cannot make up its mind.
+  var turns = [], dir = 0, run = 0, px = null;
+  function turn(d) {
+    var now = Date.now();
+    while (turns.length && now - turns[0] > 1600) turns.shift();
+    if (turns.length && d === dir) return;
+    dir = d; turns.push(now);
+    if (turns.length >= 5) { turns = []; shake(); }
+  }
+  el.addEventListener('pointerdown', function (e) { px = e.clientX; run = 0; });
+  window.addEventListener('pointerup', function () { px = null; });
+  window.addEventListener('pointercancel', function () { px = null; });
+  window.addEventListener('pointermove', function (e) {
+    if (px === null) return;
+    var dx = e.clientX - px;
+    px = e.clientX;
+    if (dx * run < 0) run = 0;
+    run += dx;
+    if (Math.abs(run) > 10) turn(run > 0 ? 1 : -1);
+  });
+  el.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') turn(-1); else if (e.key === 'ArrowRight') turn(1);
+  });
+  // And for a world held in the hand: three hard jolts inside a second.
+  var was = null, jolts = [];
+  window.addEventListener('devicemotion', function (e) {
+    var g = e.accelerationIncludingGravity, now, d;
+    if (!g || g.x === null || g.x === undefined) return;
+    if (was) {
+      d = Math.abs(g.x - was[0]) + Math.abs(g.y - was[1]) + Math.abs(g.z - was[2]);
+      if (d > 22) {
+        now = Date.now(); jolts.push(now);
+        while (jolts.length && now - jolts[0] > 1000) jolts.shift();
+        if (jolts.length >= 3) { jolts = []; shake(); }
+      }
+    }
+    was = [g.x, g.y, g.z];
+  });
+  window.addEventListener('resize', function () { if (box) { fit(); for (var i = 0; i < flakes.length; i++) put(flakes[i]); } });
 })();
 </script>
 <style>
