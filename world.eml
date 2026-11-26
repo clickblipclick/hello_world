@@ -1,0 +1,139 @@
+Return-Path: <>
+Received: from sea (the.tilde.sea [0.0.0.0])
+	by bottle (cork 1.0) with FLOAT id ~~~~~~~
+	for <you@wherever.you.are>; Thu, 01 Jan 1970 00:00:07 +0000
+Received: from world (localhost [127.0.0.1])
+	by sea (tide 2.0, twice daily) with SPLASH id ^
+	for <you@wherever.you.are>; Thu, 01 Jan 1970 00:00:00 +0000
+Received: by world (turning) id o; Thu, 01 Jan 1970 00:00:00 +0000
+Date: Thu, 01 Jan 1970 00:00:00 +0000
+From: The World <world@helloworldandthen.com>
+Sender: The Caret <caret@helloworldandthen.com>
+Reply-To: nobody <nobody@helloworldandthen.com>
+To: You <you@wherever.you.are>
+Cc: The Moon <moon@round.the.back>
+Bcc:
+Subject: hello
+Message-ID: <hello.world.1@helloworldandthen.com>
+In-Reply-To: <>
+References: <>
+Organization: None. It is a world. It is barely organised.
+Importance: low
+Priority: non-urgent
+Precedence: first
+X-Mailer: Bottle, green, one, re-used
+X-Spam-Status: No, score=0.0 (sent once, to one address, and meant)
+X-Attachments: none, the world being too large and the moon unwilling
+X-Unsubscribe: There is no list. This is the only one.
+Auto-Submitted: no. It was thought about first.
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="=_the-shore_="
+
+This is a letter in two parts. They say the same thing. Your reader
+will choose one, and the other will never know.
+
+--=_the-shore_=
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+hello world
+
+That is the letter. The rest is the part that comes after a letter,
+which people read more carefully than the letter.
+
+You were written to first. Everyone is: it is the top line of the
+page and it has been said to each visitor on arrival, in the same two
+words, without once being answered by post. This is not a complaint.
+It is the reason the letter was sent, the world having concluded that
+if a greeting is not returned then perhaps it was not delivered, and
+that a thing worth saying is worth saying again with a stamp on.
+
+There is no stamp. The mint was asked, and struck a coin instead.
+
+A few matters of housekeeping.
+
+  1. This letter has been in the post since the first of January,
+     1970, at midnight, which is when counting began. If your reader
+     has sorted it to the very bottom of everything you have ever
+     received, it is in the right place. It was there before the
+     others arrived.
+
+  2. Do not reply. The address given for replies belongs to nobody,
+     who is conscientious and reads everything, and has asked for a
+     quieter year. If you must answer, say it to the page. It is
+     listening as much as it does anything.
+
+  3. The Moon has been copied in. It will not have read this. It is
+     copied in on everything and has opened nothing since the tide
+     tables, which it wrote.
+
+  4. The blind copy line is empty. This was done on purpose and is
+     the only secret in the letter.
+
+  5. Nothing is attached. If your reader shows a paperclip, that is
+     the reader's own, and should be returned to it.
+
+You may keep this. File it under H, or under W, or leave it unread
+with the number beside it, where it will go on saying that there is
+one thing waiting for you, which there is, and always was.
+
+Turning, as ever,
+
+  o
+
+--
+The World (the small one)
+East of wherever it was
+https://helloworldandthen.com/
+
+--=_the-shore_=
+Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+<html>
+<body style="margin:0;padding:2em;background:#0d1321;color:#e8e6df;font-family:Georgia,serif">
+<p style="font-size:1.6em;letter-spacing:0.04em">hello world</p>
+<p style="color:#b9b6ac;line-height:1.55">That is the letter. The
+rest is the part that comes after a letter, which people read more
+carefully than the letter.</p>
+<p style="color:#b9b6ac;line-height:1.55">You were written to first.
+Everyone is: it is the top line of the page and it has been said to
+each visitor on arrival, in the same two words, without once being
+answered by post. This is not a complaint. It is the reason the
+letter was sent, the world having concluded that if a greeting is not
+returned then perhaps it was not delivered, and that a thing worth
+saying is worth saying again with a stamp on.</p>
+<p style="color:#b9b6ac;line-height:1.55">There is no stamp. The mint
+was asked, and struck a coin instead.</p>
+<p style="color:#6b7388;font-style:italic">A few matters of
+housekeeping.</p>
+<ol style="color:#b9b6ac;line-height:1.55">
+<li>This letter has been in the post since the first of January,
+1970, at midnight, which is when counting began. If your reader has
+sorted it to the very bottom of everything you have ever received, it
+is in the right place. It was there before the others arrived.</li>
+<li>Do not reply. The address given for replies belongs to nobody,
+who is conscientious and reads everything, and has asked for a
+quieter year. If you must answer, say it to the page. It is listening
+as much as it does anything.</li>
+<li>The Moon has been copied in. It will not have read this. It is
+copied in on everything and has opened nothing since the tide tables,
+which it wrote.</li>
+<li>The blind copy line is empty. This was done on purpose and is the
+only secret in the letter.</li>
+<li>Nothing is attached. If your reader shows a paperclip, that is
+the reader's own, and should be returned to it.</li>
+</ol>
+<p style="color:#b9b6ac;line-height:1.55">You may keep this. File it
+under H, or under W, or leave it unread with the number beside it,
+where it will go on saying that there is one thing waiting for you,
+which there is, and always was.</p>
+<p style="color:#b9b6ac">Turning, as ever,</p>
+<p style="color:#7fb7a4;font-family:monospace">o</p>
+<p style="color:#6b7388;font-size:0.85em;font-style:italic;border-top:1px solid #263048;padding-top:1em">The
+World (the small one)<br>East of wherever it was<br>
+<a href="https://helloworldandthen.com/" style="color:#7fb7a4">helloworldandthen.com</a></p>
+</body>
+</html>
+
+--=_the-shore_=--
