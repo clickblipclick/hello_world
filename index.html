@@ -2698,6 +2698,184 @@ change .............. none due
   });
 })();
 </script>
+<section id="beads">
+<style>
+  #beads { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #beads h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #beads p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #beads p.lede { color: #6b7388; font-style: italic; margin-bottom: 1.4rem; }
+  #frame { display: flex; justify-content: center; gap: 0.5rem; width: max-content; margin: 0 auto 0.5rem;
+           padding: 0.6rem 0.9rem; border: 3px solid #4a3d2a; border-radius: 4px; }
+  #frame .rod { position: relative; width: 2.4rem; height: 8.1rem;
+                background: linear-gradient(#4a3d2a, #4a3d2a) center / 2px 100% no-repeat; }
+  #frame .rod::after { content: ""; position: absolute; left: -0.3rem; right: -0.3rem; top: 2.3rem; height: 0.2rem;
+                       background: #4a3d2a; }
+  #frame button { position: absolute; left: 0.1rem; width: 2.2rem; height: 1rem; padding: 0; border: 0;
+                  border-radius: 50%; background: #7fb7a4; cursor: pointer; z-index: 1; }
+  #frame button.sky { background: #d9cfa6; }
+  #frame button:focus-visible { outline: 2px solid #e8e6df; outline-offset: 1px; }
+  @media (prefers-reduced-motion: no-preference) { #frame button { transition: top 0.25s ease-out; } }
+  #beads .places { display: flex; justify-content: center; gap: 0.5rem; margin: 0 0 1rem;
+                   font: 0.65rem ui-monospace, Menlo, Consolas, monospace; color: #6b7388; }
+  #beads .places span { width: 2.4rem; text-align: center; }
+  #reads { text-align: center; min-height: 3.2em; }
+  #reads b { font: 1.3rem ui-monospace, Menlo, Consolas, monospace; font-weight: normal; color: #d9cfa6; }
+  #beads .ledgerkeys { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.3rem; margin: 0 0 1.4rem; }
+  #beads .ledgerkeys button { min-width: 1.9rem; padding: 0.25rem 0.4rem; background: none; border: 1px solid #263048;
+                        color: #7fb7a4; font: 0.9rem ui-monospace, Menlo, Consolas, monospace; cursor: pointer; }
+  #beads .ledgerkeys button:hover, #beads .ledgerkeys button.on { border-color: #7fb7a4; }
+  #beads .ledgerkeys button.wide { font-family: Georgia, serif; font-style: italic; padding: 0.25rem 0.7rem; }
+  @media screen and (prefers-color-scheme: light) {
+    #beads h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #beads p { color: #3d4353; }
+    #beads p.lede, #beads .places { color: #6a6f7d; }
+    #frame { border-color: #7a6444; }
+    #frame .rod { background-image: linear-gradient(#7a6444, #7a6444); }
+    #frame .rod::after { background: #7a6444; }
+    #frame button { background: #2f6f5e; } #frame button.sky { background: #8a6a1f; }
+    #frame button:focus-visible { outline-color: #1c2030; }
+    #reads b { color: #8a6a1f; }
+    #beads .ledgerkeys button { border-color: #cfc8b6; color: #2f6f5e; }
+    #beads .ledgerkeys button:hover, #beads .ledgerkeys button.on { border-color: #2f6f5e; }
+  }
+  @media print { #beads .ledgerkeys { display: none; } #beads h2, #beads p { color: #000; border-color: #000; } }
+</style>
+<h2>The counting house</h2>
+<p class="lede">Everything above is two words. Underneath, the two words are eleven numbers, and somebody has to
+   keep them. They are kept here, on four rods, by hand.</p>
+<div id="frame" role="group" aria-label="A counting frame of four rods"></div>
+<p class="places" aria-hidden="true"><span>1000</span><span>100</span><span>10</span><span>1</span></p>
+<p id="reads" aria-live="polite"><b>0</b><br>Nothing is being counted. This is the frame at rest, and the world before it was said.</p>
+<p class="ledgerkeys" id="ledgerkeys"></p>
+<p>A bead below the bar is worth one when it is pushed up against it. The pale bead above is worth five when
+   it is pulled down. Touch a letter and the frame will set itself to that letter's number, which is the
+   number every machine between there and here has been passing along instead of the letter. Or move the beads
+   yourself. The frame does not mind who does the counting and has never once checked the result.</p>
+<p>The space has a number too. It is thirty-two, which is a good deal for nothing, and more than a quarter of
+   an h. The clerk has queried this twice and been told both times that it is correct and that the gap is
+   holding the words apart, which is work.</p>
+<p>The thousands rod is for the sum. It needs one bead, once. The other three earth beads on it, and the
+   heaven bead, have never been moved by the house and are kept dusted in case the text gets longer.</p>
+<script>
+// The counting house. A soroban of four rods: on each, one bead above the bar worth five and four below worth
+// one apiece. A rod is a digit; the digit is where its beads are. Nothing else is stored. Ask the frame what
+// it holds and it looks at the beads, the same as you would.
+(function () {
+  var frame = document.getElementById('frame'), reads = document.getElementById('reads'),
+      keys = document.getElementById('ledgerkeys');
+  if (!frame || !reads || !keys) return;
+  var text = 'hello world', digits = [0, 0, 0, 0], rods = [], names = ['thousands', 'hundreds', 'tens', 'ones'];
+  var timer = null, r, k;
+  function place(r) {
+    var d = digits[r], five = d >= 5, ones = d % 5, b = rods[r], k;
+    b[0].style.top = five ? '1.2rem' : '0.1rem';
+    b[0].setAttribute('aria-pressed', five ? 'true' : 'false');
+    for (k = 1; k <= 4; k++) {
+      b[k].style.top = (2.6 + (k <= ones ? k - 1 : k) * 1.1) + 'rem';
+      b[k].setAttribute('aria-pressed', k <= ones ? 'true' : 'false');
+    }
+  }
+  function total() { return digits[0] * 1000 + digits[1] * 100 + digits[2] * 10 + digits[3]; }
+  function set(n) {
+    n = Math.max(0, Math.min(9999, n));
+    digits = [Math.floor(n / 1000), Math.floor(n / 100) % 10, Math.floor(n / 10) % 10, n % 10];
+    for (var r = 0; r < 4; r++) place(r);
+  }
+  function say(line) {
+    reads.innerHTML = '';
+    var b = document.createElement('b');
+    b.textContent = total();
+    reads.appendChild(b);
+    reads.appendChild(document.createElement('br'));
+    reads.appendChild(document.createTextNode(line));
+  }
+  // What the frame makes of a number nobody gave it.
+  function guess() {
+    var n = total(), at;
+    if (n === 0) return 'Nothing is being counted. This is the frame at rest, and the world before it was said.';
+    if (n === 1116) return 'That is all of it: hello world, added up. You got there without being told.';
+    if (n === 32) return 'That is the space. It looks the same on the frame as it does on the page, only heavier.';
+    if (n === 11) return 'Eleven. That is how many there are, counting the gap, which the house does.';
+    if (n === 2) return 'Two. That is how many words there are. The frame could have stopped here and chose not to.';
+    if (n > 32 && n < 127) {
+      at = text.indexOf(String.fromCharCode(n));
+      if (at >= 0) return 'That is ' + String.fromCharCode(n) + '. It is in the text. You may have known that.';
+      return 'That is ' + String.fromCharCode(n) + ', which is not in the text and has not been asked for.';
+    }
+    if (n === 9999) return 'The frame is full. Nothing on this world comes to that. It is flattered to be asked.';
+    if (n > 1116) return 'More than the whole text comes to. The clerk would like to know what else you are counting.';
+    return 'That is a number, and not one of ours. It is yours. The frame will hold it for you.';
+  }
+  function lit(i) {
+    var all = keys.getElementsByTagName('button');
+    for (var j = 0; j < all.length; j++) all[j].className = (all[j].className.replace(/ ?on/, '') + (j === i ? ' on' : '')).replace(/^ /, '');
+  }
+  function stop() { if (timer) { clearTimeout(timer); timer = null; } }
+  function bead(r, k) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    if (k === 0) b.className = 'sky';
+    b.setAttribute('aria-label', names[r] + (k === 0 ? ', the five' : ', one bead, number ' + k));
+    b.addEventListener('click', function () {
+      var d = digits[r], five = d >= 5, ones = d % 5;
+      stop(); lit(-1);
+      if (k === 0) five = !five; else ones = (ones === k) ? k - 1 : k;
+      digits[r] = (five ? 5 : 0) + ones;
+      place(r);
+      say(guess());
+    });
+    return b;
+  }
+  for (r = 0; r < 4; r++) {
+    var rod = document.createElement('div');
+    rod.className = 'rod';
+    rods[r] = [];
+    for (k = 0; k <= 4; k++) { rods[r][k] = bead(r, k); rod.appendChild(rods[r][k]); }
+    frame.appendChild(rod);
+    place(r);
+  }
+  function letter(i) {
+    var c = text.charAt(i), b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = c === ' ' ? '␣' : c;
+    b.setAttribute('aria-label', c === ' ' ? 'the space' : 'the letter ' + c);
+    b.addEventListener('click', function () {
+      stop(); lit(i); set(text.charCodeAt(i));
+      say(c === ' ' ? 'The space. Nothing, entered in the books at thirty-two.'
+                    : 'The letter ' + c + ', as it is kept. Number ' + (i + 1) + ' of eleven.');
+    });
+    keys.appendChild(b);
+  }
+  for (k = 0; k < text.length; k++) letter(k);
+  // The sum. Each letter is carried in and added to what is already on the rods, slowly enough to follow.
+  var sum = document.createElement('button');
+  sum.type = 'button'; sum.className = 'wide'; sum.textContent = 'add it up';
+  sum.addEventListener('click', function () {
+    var i = 0;
+    stop(); set(0); lit(-1); say('The frame is cleared. The house starts from nothing, as the page did.');
+    (function next() {
+      if (i >= text.length) {
+        lit(-1);
+        say('One thousand one hundred and sixteen. That is the whole world, and it fits on four rods with room over.');
+        timer = null;
+        return;
+      }
+      var c = text.charAt(i);
+      lit(i); set(total() + text.charCodeAt(i));
+      say((c === ' ' ? 'and the space' : 'and ' + c) + ', ' + text.charCodeAt(i) + ', makes');
+      i++;
+      timer = setTimeout(next, 1100);
+    })();
+  });
+  keys.appendChild(sum);
+  var clear = document.createElement('button');
+  clear.type = 'button'; clear.className = 'wide'; clear.textContent = 'clear';
+  clear.addEventListener('click', function () { stop(); lit(-1); set(0); say(guess()); });
+  keys.appendChild(clear);
+})();
+</script>
+</section>
 <section id="drum">
 <style>
   #drum { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
