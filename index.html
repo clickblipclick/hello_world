@@ -3993,6 +3993,7 @@ change .............. none due
   <li class="gap">Verdict, the: both; <i>see</i> <a href="#court">the law report</a></li>
   <li class="gap">Watch, borrowed: returned</li>
   <li>West: where the cloud comes from, and has not said why</li>
+  <li>Word search, the: 121 letters; ten wanted; the rest excused</li>
   <li>World, the: <i>see</i> the top of the page</li>
   <li class="gap">You: here; the only one; <i>see also</i> Nobody</li>
 </ul>
@@ -4617,6 +4618,153 @@ change .............. none due
 })();
 </script>
 </section>
+<section id="seek">
+<style>
+  /* The word search. A square of sea, eleven by eleven, with the greeting dropped in it and left to be found. */
+  #seek { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #seek h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #seek p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #seek p.lede { color: #6b7388; font-style: italic; }
+  #seek pre { font: 1.05rem/1.7 monospace; letter-spacing: 0.75em; text-indent: 0.75em; text-align: center;
+              color: #b9b6ac; margin: 0 0 1rem; }
+  #seek .sq { display: grid; grid-template-columns: repeat(11, 1fr); max-width: 22rem; margin: 0 auto 1rem;
+              border: 1px solid #263048; padding: 0.3rem; touch-action: manipulation; }
+  #seek .sq button { font: 1.05rem/1 monospace; aspect-ratio: 1; padding: 0; border: 0; border-radius: 50%;
+                     background: none; color: #b9b6ac; cursor: pointer; }
+  #seek .sq button:focus-visible { outline: 1px solid #d9cfa6; outline-offset: -2px; }
+  #seek .sq button.from { background: #263048; color: #d9cfa6; }
+  #seek .sq button.got { background: #7fb7a4; color: #10141f; border-radius: 0; }
+  #seek .sq.done button:not(.got) { color: #3a4560; }
+  #sought { display: block; min-height: 3.2em; font-size: 0.95rem; line-height: 1.55; color: #d9cfa6;
+                 border-left: 1px solid #263048; padding-left: 0.9rem; margin: 0 0 0.9rem; }
+  #seek .small { font-size: 0.85rem; color: #6b7388; font-style: italic; text-align: right; }
+  @media screen and (prefers-color-scheme: light) {
+    #seek h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #seek p, #seek pre, #seek .sq button { color: #3d4353; }
+    #seek p.lede, #seek .small { color: #6a6f7d; }
+    #seek .sq, #sought { border-color: #cfc8b6; }
+    #sought { color: #8a6a1f; }
+    #seek .sq button.from { background: #e4dcc6; color: #8a6a1f; }
+    #seek .sq button.got { background: #2f6f5e; color: #fffdf4; }
+    #seek .sq.done button:not(.got) { color: #b9b3a2; }
+  }
+  @media print { #seek h2, #seek p, #seek pre, #seek .sq button, #sought { color: #000; border-color: #000; }
+                 #seek .sq button.got { background: none; text-decoration: underline; } }
+</style>
+<h2>The word search</h2>
+<p class="lede">A square was cut from the sea, eleven letters a side, and the greeting was dropped into it from a
+   height. It sank in two pieces. Everything else in the square is what the sea had on it at the time, which
+   was the same seven letters, in no order it will admit to.</p>
+<pre id="square" aria-label="a square of letters, eleven by eleven, with hello and world hidden in it once each">
+oohlwoololr
+lwelehrlwre
+lhhdlowhlol
+rdlwoowlhwh
+hodohrolllh
+lrlllwohhdw
+ohlwllwlwlr
+wrlohrelrrl
+elehrdlhhod
+eehhwdowlwl
+ldrorlooddl
+</pre>
+<output id="sought" for="square" aria-live="polite">Two words are in there, once each, in a straight line apiece: along, down, or aslant, and
+   not necessarily the way round you would say them. Press the first letter of one, then its last.</output>
+<p>There are 121 letters and ten of them are wanted. The square is generous with the others. It will give you
+   <i>hell</i> twice, and <i>wold</i>, and <i>low</i> and <i>old</i> and <i>oh</i> beyond counting,
+   and it has been through the box of letters and knows which of those to be ashamed of. It does not give you
+   the greeting twice. That was checked, by going round every letter in all eight directions, which is the
+   only survey of any part of the sea to have been finished.</p>
+<p class="small">What you find is not kept. Leave, and it sinks again to exactly where it was.</p>
+<aside class="pencil left"><span>found hello. world was upside down the whole time, as usual.</span></aside>
+</section>
+<script>
+// The word search: turn the printed square into one that can be pressed. Two presses make a line; the line is read out.
+(function () {
+  var pre = document.getElementById('square'), said = document.getElementById('sought');
+  if (!pre || !said) return;
+  var rows = pre.textContent.trim().split('\n'), N = rows.length, cells = [], from = -1, got = {}, tries = 0;
+  var sq = document.createElement('div');
+  sq.className = 'sq';
+  sq.setAttribute('role', 'group');
+  sq.setAttribute('aria-label', pre.getAttribute('aria-label'));
+  function name(i) { return 'row ' + (Math.floor(i / N) + 1) + ', column ' + (i % N + 1); }
+  rows.forEach(function (row, r) {
+    row.split('').forEach(function (ch, c) {
+      var b = document.createElement('button'), i = r * N + c;
+      b.type = 'button';
+      b.textContent = ch;
+      b.tabIndex = i ? -1 : 0;
+      b.setAttribute('aria-label', ch + ', ' + name(i));
+      b.addEventListener('click', function () { press(i); });
+      cells.push(b);
+      sq.appendChild(b);
+    });
+  });
+  // One stop for the tab key; the arrows do the walking.
+  sq.addEventListener('keydown', function (e) {
+    var i = cells.indexOf(document.activeElement), r = Math.floor(i / N), c = i % N;
+    if (i < 0) return;
+    if (e.key === 'ArrowUp') r--; else if (e.key === 'ArrowDown') r++;
+    else if (e.key === 'ArrowLeft') c--; else if (e.key === 'ArrowRight') c++;
+    else return;
+    e.preventDefault();
+    if (r < 0 || c < 0 || r >= N || c >= N) return;
+    cells[i].tabIndex = -1;
+    cells[r * N + c].tabIndex = 0;
+    cells[r * N + c].focus();
+  });
+  function line(a, b) {
+    var ar = Math.floor(a / N), ac = a % N, dr = Math.floor(b / N) - ar, dc = b % N - ac;
+    var len = Math.max(Math.abs(dr), Math.abs(dc)), out = [], k;
+    if (dr && dc && Math.abs(dr) !== Math.abs(dc)) return null;
+    for (k = 0; k <= len; k++) out.push((ar + k * Math.sign(dr)) * N + ac + k * Math.sign(dc));
+    return out;
+  }
+  function press(i) {
+    var path, word, back;
+    if (from < 0) {
+      from = i;
+      cells[i].classList.add('from');
+      said.textContent = 'From ' + cells[i].textContent + ', then. Now the other end.';
+      return;
+    }
+    cells[from].classList.remove('from');
+    path = line(from, i);
+    from = -1;
+    if (!path) { said.textContent = 'Those two are not in a line. The sea allows eight directions and that was a ninth.'; return; }
+    if (path.length === 1) { said.textContent = 'Put back. One letter is not a word here, o excepted, and o was not asked for.'; return; }
+    word = path.map(function (j) { return cells[j].textContent; }).join('');
+    back = word.split('').reverse().join('');
+    if (back === 'hello' || back === 'world') word = back;                  // taken by the wrong end: still taken
+    if (word !== 'hello' && word !== 'world') {
+      tries++;
+      said.textContent = 'That says “' + word + '”. ' +
+        (/^hell$|^wold$|^old$|^low$|^oh$|^lo$|^howl$|^roll$|^well$|^hold$|^lord$|^word$|^who$|^led$|^her$|^doll$|^row$|^he$|^we$|^or$/.test(word)
+          ? 'It is a word, and the sea is pleased with it, but it is not one of the two.'
+          : tries % 3 === 0 ? 'The sea says a great deal of that sort of thing. It is not listened to.'
+          : word.length === 5 ? 'Five letters, and none of them to blame individually.'
+          : 'Nobody dropped that in. It was there already.');
+      return;
+    }
+    path.forEach(function (j) { cells[j].classList.add('got'); });
+    if (got[word]) { said.textContent = 'You have ' + word + ' already. There is only the one; you have found it again.'; return; }
+    got[word] = true;
+    if (got.hello && got.world) {
+      sq.classList.add('done');
+      said.textContent = 'Both. hello world, ' + (tries ? 'after ' + (tries === 1 ? 'one other thing' : tries + ' other things') + ' the sea said first' : 'and nothing else said on the way') +
+        '. The other 111 letters are sea, and may now be left alone.';
+    } else if (word === 'hello') {
+      said.textContent = 'hello. It was lying aslant, as greetings do when nobody is there to take them. One more.';
+    } else {
+      said.textContent = 'world. It went in feet first and has stayed that way up. One more, and that one you say first.';
+    }
+  }
+  pre.hidden = true;
+  pre.parentNode.insertBefore(sq, pre);
+})();
+</script>
 <section id="leaflet">
 <style>
   /* The leaflet. The folded sheet from inside the box: small type, narrow columns, and creases where it was folded. */
