@@ -1568,6 +1568,112 @@ VI    VIII  X     XII   II    IV    VI
 </ol>
 <small id="solved" aria-live="polite"></small>
 </section>
+<section id="box">
+<style>
+  #box { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #box h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+            color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #box p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #box ol { list-style: none; margin: 1.6rem 0 0; padding: 0; line-height: 1.55; color: #b9b6ac; }
+  #box li { margin: 0 0 0.9rem; }
+  #box li b { display: block; font: 0.85rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.25em;
+              text-transform: uppercase; color: #d9cfa6; }
+  #tiles { display: none; position: relative; aspect-ratio: 11.5 / 1; margin: 2rem 0 1.4rem;
+           border-bottom: 1px solid #263048; padding-bottom: 0.5rem; box-sizing: content-box; }
+  #tiles span { position: absolute; top: 0; left: 0; width: calc(100% / 11.5 - 3px); aspect-ratio: 1;
+                display: grid; place-content: center; box-sizing: border-box; border: 1px solid #b0776a;
+                font: clamp(0.75rem, 3.6vw, 1.15rem)/1 ui-monospace, Menlo, Consolas, monospace;
+                text-transform: uppercase; color: #d9cfa6; background: rgba(176, 119, 106, 0.1); }
+  #box button { display: none; font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em;
+                color: #7fb7a4; background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #box button:hover, #box button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #spelt { display: none; min-height: 6.5em; margin-top: 1.2rem; line-height: 1.55; color: #b9b6ac; }
+  #spelt b { display: block; font: 0.85rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.25em;
+            text-transform: uppercase; color: #d9cfa6; }
+  #box.live ol { display: none; }
+  #box.live #tiles, #box.live #spelt { display: block; }
+  #box.live button { display: inline-block; }
+  @media (prefers-reduced-motion: no-preference) { #tiles span { transition: left 0.9s cubic-bezier(0.5, -0.3, 0.3, 1.3); } }
+  @media screen and (prefers-color-scheme: light) {
+    #box h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #box p { color: #6a6f7d; }
+    #box ol, #spelt { color: #3d4353; }
+    #box li b, #spelt b, #tiles span { color: #8a6a1f; }
+    #tiles { border-color: #cfc8b6; }
+    #tiles span { border-color: #9a3b2e; background: rgba(154, 59, 46, 0.06); }
+    #box button { color: #2f6f5e; border-color: #2f6f5e; }
+    #box button:hover, #box button:focus-visible { background: #2f6f5e; color: #f4f1e8; }
+  }
+  @media print {
+    #box.live ol { display: block; }
+    #box.live #tiles, #box.live #spelt, #box.live button { display: none; }
+    #box h2, #box p, #box ol, #box li b { color: #000; border-color: #000; }
+  }
+</style>
+<h2>The box of letters</h2>
+<p>The greeting came as ten letters and a gap, loose, in a box, and was put in order by somebody who is no
+   longer available to say why that order. The ten can lie 302,400 ways. All of them have been tried, there
+   being time. Ten say something. The other 302,390 are left in the sea, which is where the world keeps
+   whatever it could not pronounce.</p>
+<div id="tiles" aria-hidden="true"></div>
+<button type="button" id="shake">shake the box</button>
+<output id="spelt" for="shake" aria-live="polite"></output>
+<ol>
+  <li><b>hello world</b> As issued. Of all the ways the ten can lie this is the only one that was meant,
+      and it is a little unnerving how much it looks like one.</li>
+  <li><b>oh well, lord</b> Held by a small school to be the original, spoken on the first evening by whoever
+      stood back to look at it, and the greeting to be a tidying-up done afterwards for visitors.</li>
+  <li><b>hell or wold</b> The two destinations on offer. A wold is open upland, which the world has. Of the
+      other place no trace has been found, and the Deep has been asked.</li>
+  <li><b>howled, roll</b> The log of the only ship, in full, for one night of weather.</li>
+  <li><b>whorled lol</b> A fair account of the thing seen from above the pole: one turn, drawn tight, and
+      something about it faintly funny that nobody can point to.</li>
+  <li><b>who led roll</b> A question arising from the census. Nobody led. The roll was called by the roll,
+      and answered, and the minutes say it was quick.</li>
+  <li><b>well, hold or</b> An instruction, never finished. Hold, or what, was not said. The world went on
+      turning, and it has been supposed ever since that this was the alternative.</li>
+  <li><b>he&rsquo;ll row old</b> A forecast for whoever is aboard the only ship. Nobody is aboard, so it has
+      not yet been wrong. The apostrophe is on loan and is not one of the ten.</li>
+  <li><b>her low doll</b> The one arrangement nobody will explain. It goes back in the box first, face down.</li>
+  <li><b>world hello</b> The same, as said by somebody arriving from the other side.</li>
+</ol>
+<aside class="pencil"><span>I got &ldquo;droll he owl&rdquo; and was told it does not count. it counted with me.</span></aside>
+<script>
+(function () {
+  var box = document.getElementById('box'), tray = document.getElementById('tiles'),
+      said = document.getElementById("spelt"), btn = document.getElementById('shake');
+  if (!box || !tray || !said || !btn) return;
+  var items = box.querySelectorAll('ol li'), tiles = [], at = 0, UNIT = 100 / 11.5;
+  'helloworld'.split('').forEach(function (c) {
+    var s = document.createElement('span'); s.textContent = c; tray.appendChild(s); tiles.push(s);
+  });
+  function lay(n) {
+    var words = items[n].querySelector('b').textContent.toLowerCase().replace(/[^a-z ]/g, '');
+    var width = words.replace(/ /g, '').length + (words.split(' ').length - 1) * 0.5;
+    var x = (11.5 - width) / 2, used = [];
+    words.split('').forEach(function (c) {
+      if (c === ' ') { x += 0.5; return; }
+      // each place takes the nearest tile of its letter that is still free, so nothing travels further than it must
+      var best = -1, far = Infinity;
+      tiles.forEach(function (t, i) {
+        if (used[i] || t.textContent !== c) return;
+        var d = Math.abs((parseFloat(t.style.left) || 0) / UNIT - x);
+        if (d < far) { far = d; best = i; }
+      });
+      if (best < 0) return;
+      used[best] = true; tiles[best].style.left = (x * UNIT) + '%'; x += 1;
+    });
+    said.innerHTML = items[n].innerHTML;
+  }
+  box.className = 'live';
+  lay(0);
+  btn.addEventListener('click', function () {
+    at = (at + 1) % items.length; lay(at);
+    btn.textContent = at === items.length - 1 ? 'put them back' : 'shake the box';
+  });
+})();
+</script>
+</section>
 <section id="beside">
 <h2>By comparison</h2>
 <p>You arrived from another world, and are sitting on it now. It seemed only fair to set the two side by side.
