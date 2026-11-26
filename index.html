@@ -5510,6 +5510,167 @@ hello  light  turn   back   sea    world</p>
    the hedge, and only because it has so little else come through.</p>
 <aside class="pencil"><span>went round the outside. there is no outside. I was in it the whole time.</span></aside>
 </section>
+<section id="bell">
+<style>
+  #bell { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #bell h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #bell p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #bell p.lede { color: #6b7388; font-style: italic; }
+  #rope { font: 14px/1 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 1.4rem auto 0.8rem;
+          width: max-content; transform-origin: 50% 0; }
+  #rope b { font-weight: normal; color: #d9cfa6; }
+  #rope.rung { animation: swing 1.6s ease-out; }
+  @keyframes swing { 0% { transform: rotate(0); } 15% { transform: rotate(7deg); } 35% { transform: rotate(-5deg); }
+                     55% { transform: rotate(3deg); } 75% { transform: rotate(-1.5deg); } 100% { transform: rotate(0); } }
+  @media (prefers-reduced-motion: reduce) { #rope.rung { animation: none; } }
+  #bell .pull { text-align: center; margin: 0 0 0.9rem; }
+  #bell button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                 background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #bell button:hover, #bell button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #rang { display: block; min-height: 2.6em; margin: 0 0 1.2rem; text-align: center; color: #6b7388; font-style: italic; }
+  #hatch { max-width: 24rem; width: calc(100% - 3rem); box-sizing: border-box; padding: 1.4rem 1.5rem 1.2rem;
+           background: #0d1321; color: #e8e6df; border: 1px solid #7fb7a4; font-family: Georgia, serif; }
+  #hatch::backdrop { background: rgba(5, 8, 15, 0.82); }
+  #hatch h3 { font: 0.75rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #6b7388; margin: 0 0 0.9rem; }
+  #hatch p { margin: 0 0 0.9rem; }
+  #hatch p.said { color: #d9cfa6; }
+  #hatch p.stage { color: #6b7388; font-style: italic; font-size: 0.9rem; }
+  #hatch form { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.2rem 0 0; }
+  @media screen and (prefers-color-scheme: light) {
+    #bell h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #bell p { color: #3d4353; }
+    #bell p.lede, #rang, #hatch h3, #hatch p.stage { color: #6a6f7d; }
+    #rope { color: #2f6f5e; } #rope b, #hatch p.said { color: #8a6a1f; }
+    #bell button { color: #2f6f5e; border-color: #2f6f5e; }
+    #bell button:hover, #bell button:focus-visible { background: #2f6f5e; color: #f4f1e8; }
+    #hatch { background: #f4f1e8; color: #3d4353; border-color: #2f6f5e; }
+    #hatch::backdrop { background: rgba(244, 241, 232, 0.85); }
+  }
+  @media print {
+    #bell h2, #bell p, #rope, #rope b, #rang { color: #000; border-color: #000; }
+    #bell .pull, #hatch { display: none; }
+  }
+</style>
+<h2>The bell</h2>
+<p class="lede">There is a bell by the way out, on a bracket, with a rope. It was hung for calling whoever is in
+   charge. Whether anyone is has never been settled, the bell not having been rung by anybody who waited.</p>
+<pre id="rope" role="img" aria-label="a small bell hanging from a bracket, drawn in characters, with a rope ending in a knot">  ___________
+       |
+      _|_
+     /   \
+    /     \
+   (_______)
+       <b>o</b>
+       :
+       :
+       <b>*</b></pre>
+<p class="pull" hidden><button type="button" id="tug">pull the rope</button></p>
+<small id="rang" aria-live="polite">Without the current the rope is painted on, and the bell with it. You may
+   say <q>ding</q> yourself, quietly. It has been accepted before.</small>
+<p>Everything else on this world carries on whether you are looking or not. This is the one thing that stops
+   it. Ring, and a hatch opens in front of the page, and the page behind it goes dim and will not be touched
+   until the hatch is shut again. The sea keeps moving back there. You can see it. It is only that for as long
+   as somebody has come to the hatch, you are being attended to, and it would be rude to scroll.</p>
+<p>The knot at the bottom of the rope is an asterisk, which by day is the sign for ice. It is not cold. It was
+   the only sort in the case with enough arms to hold on to.</p>
+<dialog id="hatch" aria-labelledby="hatchhead">
+  <h3 id="hatchhead">The hatch</h3>
+  <p class="stage" id="hatchstage"></p>
+  <p class="said" id="hatchsaid"></p>
+  <form method="dialog">
+    <button type="submit" value="hello">say hello</button>
+    <button type="submit" value="nothing">say nothing</button>
+    <button type="submit" value="sorry">apologise and go</button>
+  </form>
+</dialog>
+<aside class="pencil"><span>rang it to see. somebody came. I had not prepared anything.</span></aside>
+</section>
+<script>
+// The bell: a rope, a struck note, and a hatch that holds the page still until it is shut.
+(function () {
+  var rope = document.getElementById('rope'), tug = document.getElementById('tug');
+  var rang = document.getElementById('rang'), hatch = document.getElementById('hatch');
+  var stage = document.getElementById('hatchstage'), said = document.getElementById('hatchsaid');
+  if (!rope || !tug || !rang || !hatch || typeof hatch.showModal !== 'function') return;
+  var rings = 0, hellos = 0, ctx = null;
+
+  // Two partials and a hum, struck together and left to die away, which is all a bell is.
+  function strike() {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      ctx = ctx || new AC();
+      if (ctx.state === 'suspended') ctx.resume();
+      var t = ctx.currentTime;
+      [[660, 0.16, 1.8], [1320, 0.07, 0.9], [1782, 0.04, 0.5], [330, 0.05, 2.4]].forEach(function (p) {
+        var o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = p[0];
+        g.gain.setValueAtTime(p[1], t);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + p[2]);
+        o.connect(g); g.connect(ctx.destination);
+        o.start(t); o.stop(t + p[2] + 0.05);
+      });
+    } catch (e) {}
+  }
+
+  function hour() {
+    var h = new Date().getHours();
+    return h < 5 ? 'It is the middle of the night where you are.'
+         : h < 12 ? 'It is morning where you are.'
+         : h < 18 ? 'It is afternoon where you are.'
+         : 'It is evening where you are.';
+  }
+
+  var answers = [
+    function () { return ['A square of the page slides back. Nobody is visible in it, but the nobody is at about head height.',
+      'Yes? ' + hour() + ' Here it is every time at once, so you have not disturbed anything. What was it?']; },
+    function () { return ['The hatch again. It opens a little quicker, as for a known face.',
+      'You rang before. Nothing has changed since. I say that as reassurance, not as a complaint.']; },
+    function () { return ['The hatch. There is the sound of something being put down first.',
+      'Three times is a pattern. If it is the world you want, it is behind me, and also behind you. It goes all the way round.']; },
+    function () { return ['The hatch opens before the bell has finished.',
+      'I was standing here. I will be honest, I have started to wait for it.']; }
+  ];
+  var later = [
+    'Still here. The bell is in good order, if that was the test.',
+    'You could ask me something. Nobody has. I have a number of answers put by and they are not improving with keeping.',
+    'The rope will fray. I mention it without urgency. It is a long rope.',
+    'I looked while you were gone. The moon is round the back, the ship is where it was, and the hello is still at the top. That is the report.',
+    'If you are ringing for the sound of it, I do not mind. It is a good sound. I only come because it is my job to.'
+  ];
+
+  tug.parentNode.hidden = false;
+  rang.textContent = 'Not yet rung. The dust on the knot is undisturbed, which here means nothing, there being no dust.';
+
+  tug.addEventListener('click', function () {
+    rings++;
+    rope.classList.remove('rung'); void rope.offsetWidth; rope.classList.add('rung');
+    strike();
+    var a = rings <= answers.length ? answers[rings - 1]() : ['The hatch.', later[(rings - answers.length - 1) % later.length]];
+    stage.textContent = a[0];
+    said.textContent = a[1];
+    hatch.returnValue = '';
+    setTimeout(function () { if (!hatch.open) hatch.showModal(); }, 450);
+  });
+
+  hatch.addEventListener('close', function () {
+    var v = hatch.returnValue, n = rings === 1 ? 'once' : rings === 2 ? 'twice' : rings + ' times';
+    if (v === 'hello') {
+      hellos++;
+      rang.textContent = 'Rung ' + n + '. You said hello, and it was said back with a small world after it, out of habit. ' +
+        (hellos > 1 ? 'That makes ' + hellos + ' of them through the hatch. They are being kept on the sill.' : 'The hatch shut gently.');
+    } else if (v === 'nothing') {
+      rang.textContent = 'Rung ' + n + '. You said nothing. It was taken down as said, and the hatch was shut on it with every courtesy.';
+    } else if (v === 'sorry') {
+      rang.textContent = 'Rung ' + n + '. You apologised. You were told there was no need, the bell being there to be rung, and then you were gone.';
+    } else {
+      rang.textContent = 'Rung ' + n + '. You left by the escape, without a word. The hatch was held open a moment longer in case, and then shut.';
+    }
+  });
+})();
+</script>
 <section id="leave">
 <style>
   #leave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; counter-reset: ticked; }
