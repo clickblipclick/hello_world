@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the trial · hello world</title>
+<style>
+  body { margin: 0; background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
+  main { max-width: 30rem; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  h1 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #7fb7a4; margin: 0 0 0.4rem; }
+  p { line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  .lede { color: #6b7388; font-style: italic; margin: 0 0 2rem; }
+  #run { margin: 0 0 1.6rem; padding: 0; list-style: none; min-height: 22rem;
+         font: 0.8rem/1.5 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.02em; }
+  #run li { margin: 0 0 0.55rem; padding-left: 4.6rem; text-indent: -4.6rem; color: #e8e6df; overflow-wrap: break-word; }
+  #run li b { font-weight: normal; color: #7fb7a4; }
+  #run li.bad b { color: #d98f7a; }
+  #run li.odd b { color: #d9cfa6; }
+  #run li.plan, #run li.sum { color: #6b7388; padding-left: 0; text-indent: 0; }
+  #run li i { font-style: normal; color: #6b7388; }
+  #verdict { min-height: 3.2em; color: #d9cfa6; border-left: 1px solid #263048; padding-left: 0.9rem; }
+  button { background: none; border: 1px solid #263048; color: #7fb7a4; padding: 0.5rem 0.9rem;
+           font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; cursor: pointer; }
+  button:hover { border-color: #7fb7a4; }
+  button:disabled { color: #6b7388; cursor: default; border-color: #263048; }
+  a { color: #7fb7a4; }
+  footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; line-height: 1.55; }
+  @media (prefers-color-scheme: light) {
+    body { background: #f1ecdf; color: #1f2430; }
+    h1, a, button, #run li b { color: #2f6f5e; }
+    p { color: #3d4353; }
+    .lede, footer, #run li.plan, #run li.sum, #run li i, button:disabled { color: #6a6f7d; }
+    #run li { color: #1f2430; }
+    #run li.bad b { color: #a3402a; }
+    #run li.odd b, #verdict { color: #8a6a1f; }
+    #verdict, button, button:disabled { border-color: #cfc8b6; }
+    button:hover { border-color: #2f6f5e; }
+  }
+</style>
+</head>
+<body>
+<main>
+<h1>The trial</h1>
+<p class="lede">A great deal has been said about the world, all of it by the world. This page does not take
+   its word. It goes and looks, each time it is opened, and writes down what it found.</p>
+<noscript><p>The trial is carried out by a script, and there is none running. Nothing has been tried.
+   The world is therefore neither passed nor failed, which is how it stood before anybody thought to ask.</p></noscript>
+<ol id="run" role="log" aria-live="polite" aria-label="the results, in the order they came in"></ol>
+<p id="verdict" role="status"></p>
+<button id="again" type="button" disabled>try it again</button>
+<footer>The results are in the form a machine expects, one line a test, so that the world could be tried by
+   something with no opinion of it. Nothing here is kept. The world was not told.
+   <a href="./">Back to the world.</a></footer>
+</main>
+<script>
+// The trial. Every test below is a real one: it fetches the thing itself and looks. If the world is
+// broken, or the line is down, or this page has been opened out of a drawer and not off a server,
+// tests fail, and it says so. Nothing is rigged but the moon, and that is declared.
+(function () {
+  var run = document.getElementById('run'), verdict = document.getElementById('verdict'),
+      again = document.getElementById('again');
+  if (!run || !window.Promise || !window.fetch) {
+    if (verdict) verdict.textContent = 'This glass is too old to go and look. The world is taken on trust here, as it was everywhere until lately.';
+    return;
+  }
+  var kept = {};
+  function get(path) {            // one copy of each file per sitting; the world should not be asked twice
+    if (!kept[path]) kept[path] = fetch(path, { cache: 'no-store' }).then(function (r) {
+      return r.text().then(function (t) { return { status: r.status, ok: r.ok, text: t }; });
+    });
+    return kept[path];
+  }
+  function page() { return get('./').then(function (r) { if (!r.ok) throw new Error('the world did not answer'); return r.text; }); }
+  function count(hay, needle) { return hay.split(needle).length - 1; }
+  var greeting = '<p>hello world</p>';
+  // Each: [what is claimed, how it is checked, a directive if any, a remark for when it holds].
+  var tests = [
+    ['the world says hello', function () {
+      return page().then(function (t) { return t.indexOf(greeting) >= 0; });
+    }, '', ''],
+    ['it says it before it says anything else', function () {
+      return page().then(function (t) { var at = t.indexOf(greeting); return at >= 0 && at === t.indexOf('<p'); });
+    }, '', ''],
+    ['it does not raise its voice', function () {
+      return page().then(function (t) { return count(t, greeting) > 0 && count(t, '<p>Hello') + count(t, '<p>HELLO') === 0; });
+    }, '', 'lower case, both words'],
+    ['two words, eleven characters, eight kinds', function () {
+      var s = 'hello world', seen = {}, kinds = 0, i;
+      for (i = 0; i < s.length; i++) if (!seen[s.charAt(i)]) { seen[s.charAt(i)] = 1; kinds++; }
+      return s.split(' ').length === 2 && s.length === 11 && kinds === 8;
+    }, '', 'the space counted, as it asked to be'],
+    ['there is one world', function () {
+      return page().then(function (t) { return count(t, 'id="globe"') === 1; });
+    }, '', 'counted; one'],
+    ['the source agrees with the page', function () {
+      return get('world.c').then(function (r) { return r.ok && r.text.indexOf('hello world') >= 0; });
+    }, '', ''],
+    ['there is an edge', function () {
+      return get('no-such-place-' + Math.floor(Math.random() * 1e9)).then(function (r) { return r.status === 404; });
+    }, '', 'went looking for somewhere else; was told no'],
+    ['the robots are let in', function () {
+      return get('robots.txt').then(function (r) { return r.ok && /^Allow: \/$/m.test(r.text) && !/^Disallow: \/./m.test(r.text); });
+    }, '', ''],
+    ['the Caret has a card', function () {
+      return get('caret.vcf').then(function (r) { return r.ok && r.text.indexOf('BEGIN:VCARD') === 0; });
+    }, '', 'this is not the same as its being in'],
+    ['time passes', function () {
+      var t0 = Date.now();
+      return new Promise(function (done) { setTimeout(function () { done(Date.now() > t0); }, 400); });
+    }, '', 'waited; it did'],
+    ['the moon is where it should be', null, 'SKIP', 'round the back, by the look of it. it does not like to be checked on'],
+    ['nothing leaves', function () {
+      return page().then(function () { return !document.querySelector('footer a[href="./"]') && !window.history; });
+    }, 'TODO', 'you can. there is a way out at the foot of this page, and the same one at the top of the glass']
+  ];
+  var tally;
+  function line(cls, mark, n, text, note) {
+    var li = document.createElement('li'), b, i;
+    if (cls) li.className = cls;
+    if (mark) { b = document.createElement('b'); b.textContent = mark; li.appendChild(b); li.appendChild(document.createTextNode(' ' + n + ' - ' + text)); }
+    else li.textContent = text;
+    if (note) { i = document.createElement('i'); i.textContent = ' # ' + note; li.appendChild(i); }
+    run.appendChild(li);
+  }
+  function settle(n, t, held, why) {
+    if (t[2] === 'TODO') {
+      // A test marked to-do is expected to fail, and is not held against anybody when it does.
+      if (held) { tally.pass++; line('', 'ok', n, t[0], 'TODO, and yet. nobody expected this'); }
+      else { tally.owed++; line('odd', 'not ok', n, t[0], 'TODO ' + t[3]); }
+    } else if (held) { tally.pass++; line('', 'ok', n, t[0], t[3]); }
+    else { tally.fail++; line('bad', 'not ok', n, t[0], why || 'looked; it was not so'); }
+  }
+  function next(n) {
+    if (n > tests.length) return finish();
+    var t = tests[n - 1], out;
+    if (t[2] === 'SKIP') { tally.skip++; line('odd', 'ok', n, t[0], 'SKIP ' + t[3]); return pause(n); }
+    try { out = Promise.resolve(t[1]()); } catch (e) { out = Promise.reject(e); }
+    out.then(function (held) { settle(n, t, !!held, ''); },
+             function (e) { settle(n, t, false, 'could not go and look' + (e && e.message ? ': ' + String(e.message).toLowerCase() : '')); })
+       .then(function () { pause(n); });
+  }
+  function pause(n) { setTimeout(function () { next(n + 1); }, 260); }
+  function words(n) { return ['none', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'][n] || String(n); }
+  function finish() {
+    line('sum', '', 0, '# tried ' + tests.length + ': held ' + tally.pass + ', failed ' + tally.fail +
+         ', skipped ' + tally.skip + ', owed ' + tally.owed);
+    if (tally.fail === 0) {
+      verdict.textContent = 'The world passes. ' + (tally.owed ? 'The one thing it got wrong it was expected to get wrong, and that is in your favour. ' : '') +
+        'It has not been told it was on trial, and need not be.';
+    } else if (tally.fail >= tests.length - 4) {
+      verdict.textContent = 'Nearly everything failed, which is more than a world this size can manage by itself. ' +
+        'More likely the trial could not reach it. Try from nearer.';
+    } else {
+      verdict.textContent = 'The world fails, on ' + words(tally.fail) + ' count' + (tally.fail === 1 ? '' : 's') +
+        '. This has been written down exactly as found. It will go on turning; it was not told about that either.';
+    }
+    again.disabled = false;
+  }
+  function begin() {
+    again.disabled = true;
+    kept = {};
+    tally = { pass: 0, fail: 0, skip: 0, owed: 0 };
+    while (run.firstChild) run.removeChild(run.firstChild);
+    verdict.textContent = '';
+    line('plan', '', 0, 'TAP version 14');
+    line('plan', '', 0, '1..' + tests.length);
+    pause(0);
+  }
+  again.addEventListener('click', begin);
+  begin();
+})();
+</script>
+</body>
+</html>
