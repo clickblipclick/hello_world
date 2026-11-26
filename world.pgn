@@ -1,0 +1,58 @@
+[Event "The problem, before it was one"]
+[Site "The usual sixty-four squares"]
+[Date "????.??.??"]
+[Round "1"]
+[White "Capitals"]
+[Black "Small letters"]
+[Result "1-0"]
+[Annotator "Whoever had the pencil"]
+[PlyCount "83"]
+
+{ The problem on the main page shows three pieces and says nothing of the
+other twenty-nine. They were asked after. This is where they went. Any
+program that plays chess will open the file and walk through it, one move at
+a time, and will not enjoy it. Neither player was trying to win. Both were
+trying to arrive, and had agreed beforehand where. }
+
+1. Nh3 g6 2. Nc3 f6 3. Ne4 Kf7
+{ The king leaves the house on the third move. No king should. This one has a
+whole board to see first, and means to see it. }
+4. Nxf6 Kxf6 5. f4 Ke6 6. d4 g5 7. Nxg5+ Kd5
+{ Check, and he goes forward. He has been told that kings go back. }
+8. Nxh7 Rxh7 9. Be3 Rxh2 10. Rxh2 Nh6 11. a4
+{ Note this one. A pawn takes two steps up the left-hand edge and nobody
+looks. It is thirty-one moves early for an appointment. }
+11... b5 12. Rxh6 Ke4
+{ The fourth rank, and past the middle. He is now nearer the other side's
+kitchen than his own. }
+13. axb5
+{ And the pawn steps off the file altogether. Behind it the rook in the
+corner can see daylight for the first time, a long way off. It does not
+move. It has not moved. Keep an eye on how much it does not move. }
+13... Kf5 14. Rh2 c6 15. bxc6 dxc6 16. b3 Qxd4 17. Qxd4 Bh6 18. Rxh6 a6
+19. Rxc6 Nxc6 20. c3 Kg6 21. Qc5 Kh7
+{ Home, or the next square to it. He has been to e4 and back and does not
+mention it. }
+22. Qxe7+
+{ The queen, for a pawn. An annotator elsewhere would give this two question
+marks. Here it gets none: she was on the list, and went when called. }
+22... Nxe7 23. Bb6 Be6 24. Bd4 Bxb3 25. f5 Nxf5 26. c4 Bxc4 27. Ba7 Bxe2
+28. Bxe2 Rxa7 29. Bxa6 Rb7 30. Bxb7
+{ The file is now open from one end to the other. Eight squares, seven of
+them empty. The rook has still not been told. }
+30... Nd4 31. Be4+ Kh6 32. Bf5 Nxf5 33. Kf1 Kg7 34. g3 Nxg3+ 35. Kg2 Nf1
+{ The last of black's men walks up to the white king and stands beside him.
+There is nothing else left for it to do, and it has been a long afternoon. }
+36. Kxf1
+{ Three pieces. From here on it is only two kings, walking, and one of them
+is walking to be polite. }
+36... Kh7 37. Kf2 Kg7 38. Kf3 Kh7 39. Kf4 Kg7 40. Kf5 Kg8 41. Kg6 Kh8
+{ This is the diagram. Everything above was to get here. He had the whole
+board, has stood on a fair part of it, and has chosen the corner, as the
+problem says. The reason is still not recorded. It is still the corner
+nearest the moon. }
+42. Ra8#
+{ The rook's first move of the game, and its last, and the whole length of
+the board. Forty-one moves it stood in the corner it was given. Solvers who
+had this by Reading may now check their answer against the record. }
+1-0
