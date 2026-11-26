@@ -3716,6 +3716,67 @@ change .............. none due
 <aside class="pencil"><span>I was the judge, it turns out. nobody stood up when I came in.</span></aside>
 <aside class="pencil left ink"><span>the Mast did. it had been standing since before you were appointed.</span></aside>
 </section>
+<section id="leave">
+<style>
+  #leave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; counter-reset: ticked; }
+  #leave h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #leave p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #leave p.lede { color: #6b7388; font-style: italic; }
+  #leave ul { list-style: none; margin: 0 0 1.2rem; padding: 0; }
+  #leave li { margin: 0 0 0.7rem; }
+  #leave label { display: block; position: relative; padding-left: 2rem; line-height: 1.55; color: #b9b6ac; cursor: pointer; }
+  #leave input { position: absolute; left: 0; top: 0.2em; width: 1.1rem; height: 1.1rem; margin: 0;
+                 accent-color: #7fb7a4; cursor: pointer; }
+  #leave input:checked { counter-increment: ticked; }
+  #leave input:checked + span { color: #6b7388; text-decoration: line-through; text-decoration-color: #3a4560; }
+  #leave label i { display: block; font-size: 0.85rem; color: #6b7388; text-decoration: none; }
+  #leave input:checked + span i { display: inline-block; text-decoration: none; }
+  #leave .tally { font-variant-numeric: tabular-nums; color: #d9cfa6; border-left: 1px solid #263048; padding-left: 0.9rem; }
+  #leave .tally::before { content: "Ticked: " counter(ticked) " of eight."; }
+  #leave .clear { display: none; }
+  #leave:has(input):not(:has(input:not(:checked))) .clear { display: block; }
+  #leave:has(input):not(:has(input:not(:checked))) .yet { display: none; }
+  #leave .small { font-size: 0.85rem; color: #6b7388; font-style: italic; text-align: right; }
+  @media screen and (prefers-color-scheme: light) {
+    #leave h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #leave p, #leave label { color: #3d4353; }
+    #leave p.lede, #leave label i, #leave .small, #leave input:checked + span { color: #6a6f7d; }
+    #leave input { accent-color: #2f6f5e; }
+    #leave input:checked + span { text-decoration-color: #cfc8b6; }
+    #leave .tally { color: #8a6a1f; border-color: #cfc8b6; }
+  }
+  @media print { #leave h2, #leave p, #leave label, #leave label i, #leave .tally { color: #000; border-color: #000; } }
+</style>
+<h2>Before you go</h2>
+<p class="lede">A list, to be gone through at the door. There is no door. The list was drawn up anyway, by someone
+   who has seen visitors leave in a hurry and wondered afterwards about the moon.</p>
+<ul>
+  <li><label><input type="checkbox"><span>You have said hello back.
+      <i>It need not have been aloud. It was said to you first, at the top, and has been waiting.</i></span></label></li>
+  <li><label><input type="checkbox"><span>The world is turning.
+      <i>If you held it still, let go. If you turned it backwards, that is between you and the errata.</i></span></label></li>
+  <li><label><input type="checkbox"><span>The moon is accounted for.
+      <i>Round the back counts. Do not go and look; it does not like to be checked on.</i></span></label></li>
+  <li><label><input type="checkbox"><span>Your flag is where you planted it.
+      <i>It will be. If you planted none, tick this one twice.</i></span></label></li>
+  <li><label><input type="checkbox"><span>You have taken nothing.
+      <i>There is one of everything here, and it would be missed by lunchtime.</i></span></label></li>
+  <li><label><input type="checkbox"><span>You have left nothing.
+      <i>Flags excepted, being allowed. Pencil excepted, being expected.</i></span></label></li>
+  <li><label><input type="checkbox"><span>The lamp is as you found it.
+      <i>Light on dark or dark on light. Whichever it was, it was yours, and goes with you.</i></span></label></li>
+  <li><label><input type="checkbox"><span>You know the way back.
+      <i>It is the way you came, the other way up.</i></span></label></li>
+</ul>
+<p class="tally" role="status"></p>
+<p class="yet">Nobody will stop you with items outstanding. Nobody is posted here. The list is the whole of the
+   staff, and it cannot see how far down it you have got.</p>
+<p class="clear">That is everything. You may go. You might have gone at any time, but now you would be going
+   properly, which on a world this size is most of what there is to do.</p>
+<p class="small">The ticks are not kept. Come back and the list is clean again, and so, it assumes, are you.</p>
+<aside class="pencil"><span>I ticked all eight and am still here. the list did not say when.</span></aside>
+</section>
 <footer id="colophon">
 <h2>Colophon</h2>
 <p>The world is set in <span id="face">whatever monospace the machine had in the case</span>, twelve pixels
