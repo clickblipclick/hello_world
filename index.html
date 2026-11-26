@@ -2201,6 +2201,90 @@ VI    VIII  X     XII   II    IV    VI
    to the same. Those who did not look at a clock are under whatever is behind the world just now. It
    cannot be asked. The reading for it is thought to be favourable, nothing having come back.</p>
 </section>
+<section id="comet">
+<style>
+  /* The comet. An exclamation mark on its side, a long way out, and the one clock here that everybody shares. */
+  #comet { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #comet h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #comet p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #comet p.lede { color: #6b7388; font-style: italic; }
+  #comet p.due { color: #d9cfa6; border-left: 1px solid #263048; padding-left: 0.9rem; font-variant-numeric: tabular-nums; }
+  #comet a { color: #7fb7a4; }
+  #bang { position: absolute; left: 0; top: 0; z-index: -1; pointer-events: none; visibility: hidden;
+          font: 1.6rem/1 Georgia, serif; color: #d9cfa6; will-change: transform; }
+  #bang.up { visibility: visible; }
+  @media (prefers-reduced-motion: no-preference) { #bang.up { transition: transform 1s linear; } }
+  @media screen and (prefers-color-scheme: light) {
+    #comet h2, #comet a { color: #2f6f5e; }
+    #comet h2, #comet p.due { border-color: #cfc8b6; }
+    #comet p { color: #3d4353; }
+    #comet p.lede { color: #6a6f7d; }
+    #comet p.due, #bang { color: #8a6a1f; }
+  }
+  @media print { #bang { display: none; } #comet h2, #comet p { color: #000; border-color: #000; } }
+</style>
+<h2>The comet</h2>
+<p class="lede">The greeting is by custom given with a comma in the middle and an exclamation mark on the end.
+   This one arrived with neither. The comma was accounted for long ago, hung low among the fixed stars. The
+   exclamation mark has now been found as well, and it is not coming down.</p>
+<p>It goes round a long way out, on its side, point first, and every seventy-six minutes it comes back past
+   the world, crosses the top of the sky from right to left in about two, and is gone. For those two minutes
+   the two words very nearly have it. It does not stop. A greeting that has got this far without raising its
+   voice is not thought to want it back, and the mark has seen more from out there than it ever would have
+   from the end of a line.</p>
+<p>It is the one thing here that keeps a time everybody shares. The world starts turning when you arrive, and
+   the sundial reads the clock you brought. The comet is reckoned from a midnight that all machines agree
+   about, so it is up for every visitor at once, wherever they are sitting, and absent for all of them at
+   once the rest of the time. Two people who will never meet can have watched the same return. Neither will
+   be told.</p>
+<p class="due" id="due" role="status">It is due on the seventy-sixth minute, and every seventy-sixth after. Without
+   scripts it cannot be said which that is from here, nor shown when it comes. It comes anyway.</p>
+<p>Nothing happens when it passes. No wish is granted, the horoscope having been cast already. It was asked
+   once whether it was an omen, and replied in the only way open to it, which was emphatically.</p>
+<aside class="pencil"><span>seventy-five minutes at the glass. went to put the kettle on.</span></aside>
+<aside class="pencil left ink"><span>it was a very good one, that one.</span></aside>
+<script>
+// The comet. Period and passage are counted from the same midnight on every machine, so nobody sees it alone.
+// It is hung in the first screen with the stars, behind the words, and is no part of the world or its weather.
+(function () {
+  var P = 76 * 60000, D = 2 * 60000;
+  var sky = document.querySelector('main'), due = document.getElementById('due');
+  if (!sky || !due) return;
+  var bang = document.createElement('span');
+  bang.id = 'bang'; bang.textContent = '!'; bang.setAttribute('aria-hidden', 'true');
+  sky.appendChild(bang);
+  function place(u) {
+    var w = sky.offsetWidth, h = sky.offsetHeight, k = 2 * u - 1;
+    var x = w + 20 - u * (w + 60), y = h * (0.07 + 0.11 * k * k);
+    bang.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) rotate(' + (90 - k * 14).toFixed(1) + 'deg)';
+  }
+  function span(ms) {
+    var m = Math.round(ms / 60000);
+    return m < 1 ? 'under a minute' : m === 1 ? 'a minute' : m + ' minutes';
+  }
+  var was = false;
+  function tick() {
+    var now = Date.now(), t = now % P, n = Math.floor(now / P), up = t < D;
+    if (up) {
+      if (!was) { place(t / D); bang.offsetWidth; }
+      bang.classList.add('up'); place(Math.min(1, (t + 1000) / D));
+      due.innerHTML = 'It is up now, at <a href="#globe">the top of the page</a>, on return number '
+        + n.toLocaleString() + ', and will be gone in ' + span(D - t) + '. Somebody else is looking at it. '
+        + 'This sentence will still be here when you get back.';
+    } else {
+      bang.classList.remove('up');
+      var at = new Date(now - t + P), clock = at.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      due.textContent = (t < D + 60000 ? 'It has just gone. ' : '') + 'It is next due at ' + clock
+        + ' by your clock, which is in ' + span(P - t) + '. That will be return number '
+        + (n + 1).toLocaleString() + '. It has not been late for any of the others.';
+    }
+    was = up;
+  }
+  tick(); setInterval(tick, 1000);
+})();
+</script>
+</section>
 <section id="smalls">
 <h2>Small advertisements</h2>
 <p>There is no newspaper, there being no news. The back page was set anyway, since it is the part that pays.
