@@ -5172,6 +5172,70 @@ The set is cold. It warms on the same current as the world, and without it this 
 })();
 </script>
 </section>
+<section id="surgery">
+<style>
+  #surgery { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #surgery h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+                color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #surgery p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #surgery p.lede { color: #6b7388; font-style: italic; }
+  #surgery dl { margin: 0 0 1.2rem; border-left: 1px solid #263048; padding-left: 0.9rem; }
+  #surgery dt { font: 0.7rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.15em; text-transform: uppercase;
+                color: #6b7388; margin: 0.9rem 0 0.2rem; }
+  #surgery dt:first-child { margin-top: 0; }
+  #surgery dd { margin: 0; line-height: 1.55; color: #d9cfa6; font-variant-numeric: tabular-nums; }
+  #surgery meter, #surgery progress { display: block; width: 100%; height: 0.6rem; margin: 0.4rem 0 0; accent-color: #7fb7a4; }
+  #surgery button { font: inherit; font-size: 0.9rem; color: #7fb7a4; background: none; border: 1px solid #263048;
+                    border-radius: 0.2rem; padding: 0.25rem 0.8rem; margin: 0.4rem 0 0; cursor: pointer; }
+  #surgery button:hover, #surgery button:focus-visible { border-color: #7fb7a4; outline: none; }
+  #surgery .rx { font-size: 0.85rem; color: #6b7388; font-style: italic; text-align: right; }
+  @media screen and (prefers-color-scheme: light) {
+    #surgery h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #surgery p { color: #3d4353; }
+    #surgery p.lede, #surgery dt, #surgery .rx { color: #6a6f7d; }
+    #surgery dl, #surgery button { border-color: #cfc8b6; }
+    #surgery dd { color: #8a6a1f; }
+    #surgery button { color: #2f6f5e; }
+    #surgery meter, #surgery progress { accent-color: #2f6f5e; }
+  }
+  @media print { #surgery h2, #surgery p, #surgery dt, #surgery dd { color: #000; border-color: #000; }
+                 #surgery meter, #surgery progress, #surgery button { display: none; } }
+</style>
+<h2>The surgery</h2>
+<p class="lede">The world is seen once a visit, whether or not it feels anything. It has never complained. This
+   is put down in the notes as a symptom.</p>
+<p>The doctor cannot come through the glass, and so the examination is done from your side, with your
+   instruments, on the copy of the world you happen to be holding. The findings are therefore yours as much as
+   its. They are entered below as they are taken and are not kept afterwards; a world that turned exactly like
+   this is not going to be seen again, and there is nobody to send the file on to.</p>
+<dl>
+  <dt>Pulse</dt>
+  <dd><span id="pulse">Not taken. It is counted against the same current as the world, and without it there is nothing at the wrist.</span>
+      <meter id="beat" min="0" max="150" low="24" high="125" optimum="60" value="0" aria-label="the pulse, in beats to the second" hidden></meter></dd>
+  <dt>Weight</dt>
+  <dd id="mass">Not weighed. The patient would not get on.</dd>
+  <dt>Height</dt>
+  <dd id="tall">Not measured. It was lying down at the time, as it always is.</dd>
+  <dt>Temperature</dt>
+  <dd>Not taken, and not for want of current. The thermometer is on your side and reads the glass, which is
+      warm, but that is you.</dd>
+  <dt>Reflexes</dt>
+  <dd><span id="jerk" aria-live="polite">Untried. The hammer is the button, and the knee is wherever you find it.</span><br>
+      <button id="hammer" type="button" hidden>tap below the knee</button></dd>
+  <dt>Prognosis</dt>
+  <dd>As shown.
+      <progress aria-label="the prognosis, which is indeterminate"></progress></dd>
+</dl>
+<p>A pulse of sixty is what was intended. More than that and the world is not excited, it has only been given a
+   quicker glass; it gets round no sooner. Less, and something else on your side is asking for attention and
+   getting it. Neither is treated. The weight is taken with everything on, the gazetteer included, since it
+   would not be parted from it, and has only ever gone one way. Nothing is advised about this either.</p>
+<p>Complaints noted on previous visits, none of them by the patient: a moon that goes round the back and is not
+   seen for some time; ice at both ends; a tendency, when held, to stay held. All are within the range for a
+   world of its size, the range having been drawn up from this one.</p>
+<p class="rx">Rx: one turn daily, as before. To be taken with or without anyone watching.</p>
+<aside class="pencil"><span>mine came out at a hundred and twenty. I did not know I had a quick glass. nobody tells you.</span></aside>
+</section>
 <section id="leave">
 <style>
   #leave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; counter-reset: ticked; }
@@ -6976,6 +7040,73 @@ The set is cold. It warms on the same current as the world, and without it this 
   window.addEventListener('scroll', ask, { passive: true });
   window.addEventListener('resize', ask);
   ask();
+})();
+</script>
+<script>
+// The surgery. Every figure is taken on the visitor's side of the glass and belongs to this visit only.
+(function () {
+  var pulse = document.getElementById('pulse'), beat = document.getElementById('beat'),
+      mass = document.getElementById('mass'), tall = document.getElementById('tall'),
+      jerk = document.getElementById('jerk'), hammer = document.getElementById('hammer');
+  if (!pulse || !window.requestAnimationFrame) return;
+  var small = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+  function now() { return window.performance && performance.now ? performance.now() : +new Date(); }
+  function commas(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+$)/g, ','); }
+
+  // Pulse: frames counted over a second, a second at a time, and only while the page is being looked at.
+  var count = 0, since = now();
+  function tick() {
+    var t = now(), rate;
+    count++;
+    if (t - since >= 1000) {
+      rate = Math.round(count * 1000 / (t - since));
+      if (!document.hidden) {
+        beat.hidden = false; beat.value = Math.min(rate, 150);
+        pulse.textContent = rate + ' to the second. ' +
+          (rate < 24 ? 'Faint. Something on your side is sitting on its chest.'
+           : rate < 50 ? 'Slow, for it. It is being kept waiting.'
+           : rate <= 70 ? 'Steady, and what was intended.'
+           : rate <= 125 ? 'Quick, but that is the glass and not the patient.'
+           : 'Very quick. It is the glass. The patient has not noticed.');
+      }
+      count = 0; since = t;
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+  document.addEventListener('visibilitychange', function () { count = 0; since = now(); });
+
+  // Weight and height, once everything has arrived.
+  function measure() {
+    var nav = window.performance && performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+    var bytes = nav && nav.decodedBodySize, h = document.documentElement.scrollHeight, w = window.innerHeight || 1;
+    var n = Math.round(h / w);
+    if (bytes) mass.textContent = commas(bytes) + ' characters, clothed. The world itself is ' + commas(44 * 22) +
+      ' of them at the outside; the rest is what has been said about it.';
+    else mass.textContent = 'The scale would not give a figure. It does this for some visitors and is not being difficult.';
+    tall.textContent = (n < 2 ? 'About one of your windows' : (small[n] ? small[n].charAt(0).toUpperCase() + small[n].slice(1) : commas(n)) +
+      ' of your windows') + ', head to foot, lying down. Seen through a taller window it would be shorter, and no better for it.';
+  }
+  if (document.readyState === 'complete') measure(); else window.addEventListener('load', measure);
+  window.addEventListener('resize', measure);
+
+  // Reflexes: from the tap to the next time the page is drawn.
+  var taps = 0;
+  hammer.hidden = false;
+  hammer.addEventListener('click', function () {
+    var struck = now();
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        var ms = Math.max(1, Math.round(now() - struck));
+        taps++;
+        jerk.textContent = ms + ' thousandths of a second from the tap to the twitch. ' +
+          (taps > 5 ? 'It is the same knee. It has stopped finding this informative.'
+           : ms <= 40 ? 'Brisk. Nothing moved that you could see, which is how it twitches.'
+           : ms <= 120 ? 'Present. It was thinking about something else.'
+           : 'Sluggish. Ask again when your side is less busy.');
+      });
+    });
+  });
 })();
 </script>
 </body>
