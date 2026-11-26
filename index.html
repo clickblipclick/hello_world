@@ -4333,6 +4333,135 @@ change .............. none due
   if (log.lastElementChild) log.lastElementChild.textContent = 'You are on foot. The line below is for saying what you do next.';
 })();
 </script>
+<section id="loom">
+<style>
+  #loom { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #loom h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #loom p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #loom p.lede { color: #6b7388; font-style: italic; margin-bottom: 1.4rem; }
+  #web { display: block; width: 100%; height: auto; margin: 0 0 0.8rem; border: 1px solid #263048;
+         box-sizing: border-box; }
+  #web .warp { fill: #7fb7a4; }
+  #web .weft { fill: #d9cfa6; }
+  #web .heddle { fill: #6b7388; }
+  #web text { font: 7px ui-monospace, Menlo, Consolas, monospace; fill: #6b7388; text-anchor: middle; }
+  #loom .treadles { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 0.9rem; }
+  #loom button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                 background: none; border: 1px solid #263048; border-radius: 0; padding: 0.4rem 0.7rem; cursor: pointer; }
+  #loom button:hover, #loom button:focus-visible { border-color: #7fb7a4; outline: none; }
+  #loom button[aria-pressed="true"] { color: #d9cfa6; border-color: #d9cfa6; }
+  #loom button:disabled { color: #6b7388; border-color: #263048; cursor: default; }
+  #loom .tally { font-variant-numeric: tabular-nums; color: #d9cfa6; border-left: 1px solid #263048; padding-left: 0.9rem; }
+  #loom .small { font-size: 0.85rem; color: #6b7388; font-style: italic; }
+  @media screen and (prefers-color-scheme: light) {
+    #loom h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #loom p { color: #3d4353; }
+    #loom p.lede, #loom .small { color: #6a6f7d; }
+    #web, #loom button { border-color: #cfc8b6; }
+    #web .warp { fill: #2f6f5e; }
+    #web .weft { fill: #b08a2e; }
+    #loom button { color: #2f6f5e; }
+    #loom button:hover, #loom button:focus-visible { border-color: #2f6f5e; }
+    #loom button[aria-pressed="true"], #loom .tally { color: #8a6a1f; border-color: #8a6a1f; }
+    #loom .tally { border-color: #cfc8b6; }
+  }
+  @media print { #loom .treadles { display: none; } #web { border-color: #000; }
+                 #web .warp, #web .heddle { fill: #000; } #web .weft { fill: #999; }
+                 #loom h2, #loom p, #loom .tally { color: #000; border-color: #000; } }
+</style>
+<h2>The loom</h2>
+<p class="lede">Everything above was written, drawn, sounded or counted. None of it could be worn. A loom
+   was brought in to see about that, and threaded the only way a loom here could be.</p>
+<p>Weavers have long known how to thread a name. Each letter is sent to one of four shafts by its place
+   in the alphabet, round and round: <i>e</i> to the first, <i>r</i> to the second, <i>o</i> and <i>w</i>
+   to the third, and <i>h</i>, <i>l</i> and <i>d</i> all to the fourth, which is overworked and has said so.
+   The space is threaded with nothing. A dent is left open in the reed, and the cloth has a seam of air
+   down it where the two words do not touch.</p>
+<svg id="web" viewBox="0 0 264 306" role="img" aria-label="a weaving draft: the threading of hello world across four shafts, and under it the cloth so far"></svg>
+<div class="treadles">
+  <button type="button" id="pick">throw a pick</button>
+  <button type="button" data-way="writ" aria-pressed="true">as written</button>
+  <button type="button" data-way="twill" aria-pressed="false">twill</button>
+  <button type="button" data-way="tabby" aria-pressed="false">plain</button>
+  <button type="button" id="cut">cut it off</button>
+</div>
+<p class="tally" id="ells" role="status">Without scripts the loom stands threaded and nothing is woven, which
+   is the state most looms are in most of the time.</p>
+<p>Treadled <i>as written</i>, the picks follow the letters too, so that the cloth says the phrase across
+   and down at once and can be read from either selvedge by anyone who reads cloth. The space, coming round
+   as a pick, opens no shed at all. The shuttle goes over the top of everything and the thread lies there,
+   holding nothing down, a pause you can see. A weaver would call it a float and unpick it. It has been left
+   in. It is the only part of the cloth that is not a letter, and somebody ought to be.</p>
+<p class="small">Forty-four picks fill the beam. The cloth is not kept; leave, and it is cut off and given
+   to nobody. It would have come to about a handkerchief, for a world with no nose.</p>
+<aside class="pencil"><span>I wove it plain to the end. two l's side by side make a stripe. so do I, apparently.</span></aside>
+<script>
+// The loom. A name draft: letters to shafts, shafts to treadles, treadles to cloth. Nothing else is consulted.
+(function () {
+  var web = document.getElementById('web'), ells = document.getElementById('ells');
+  var pick = document.getElementById('pick'), cut = document.getElementById('cut');
+  if (!web || !pick) return;
+  var NS = 'http://www.w3.org/2000/svg', phrase = 'hello world', U = 6, TOP = 42, FULL = 44;
+  // shaft 1 to 4 by place in the alphabet; 0 for the space, an empty dent
+  var draft = phrase.split('').map(function (c) { return c === ' ' ? 0 : (c.charCodeAt(0) - 97) % 4 + 1; });
+  var ends = [], i, r;
+  for (r = 0; r < 4; r++) for (i = 0; i < 11; i++) ends.push(r % 2 ? 10 - i : i);   // out and back, four times
+  var way = 'writ', picks = [];
+  function lifted(n) {                       // which shafts rise for pick n, as a set of four flags
+    var t;
+    if (way === 'tabby') return n % 2 ? [0, 1, 0, 1] : [1, 0, 1, 0];
+    t = way === 'twill' ? n % 4 + 1 : draft[n % 11];
+    if (!t) return [0, 0, 0, 0];
+    return [1, 2, 3, 4].map(function (s) { return s === t || s === t % 4 + 1 ? 1 : 0; });
+  }
+  function rect(cls, x, y, w, h) {
+    var e = document.createElementNS(NS, 'rect');
+    e.setAttribute('class', cls); e.setAttribute('x', x); e.setAttribute('y', y);
+    e.setAttribute('width', w); e.setAttribute('height', h);
+    web.appendChild(e);
+  }
+  function draw() {
+    var x, y, s, up, t;
+    while (web.firstChild) web.removeChild(web.firstChild);
+    for (x = 0; x < ends.length; x++) {
+      s = draft[ends[x]];
+      t = document.createElementNS(NS, 'text');
+      t.setAttribute('x', x * U + 3); t.setAttribute('y', 8);
+      t.textContent = phrase.charAt(ends[x]);
+      web.appendChild(t);
+      if (s) rect('heddle', x * U + 1, 12 + (4 - s) * U + 1, 4, 4);
+    }
+    for (y = 0; y < picks.length; y++) {
+      up = picks[y];
+      rect('weft', 0, TOP + y * U + 1, ends.length * U, 4);
+      for (x = 0; x < ends.length; x++) {
+        s = draft[ends[x]];
+        if (s && up[s - 1]) rect('warp', x * U + 1, TOP + y * U, 4, U);
+      }
+    }
+    pick.disabled = picks.length >= FULL;
+    ells.textContent = !picks.length ? 'Threaded, eighty ends in forty-four dents. Nothing woven yet.'
+      : picks.length >= FULL ? 'Forty-four picks. The beam is full and the cloth is as long as it is wide, which is the most a loom can say for anything.'
+      : picks.length + (picks.length === 1 ? ' pick' : ' picks') + ' thrown, ' + (FULL - picks.length) + ' to the beam.';
+  }
+  pick.addEventListener('click', function () {
+    if (picks.length < FULL) { picks.push(lifted(picks.length)); draw(); }
+  });
+  cut.addEventListener('click', function () { picks = []; draw(); });
+  [].forEach.call(document.querySelectorAll('#loom [data-way]'), function (b) {
+    b.addEventListener('click', function () {
+      way = b.getAttribute('data-way');
+      [].forEach.call(document.querySelectorAll('#loom [data-way]'), function (o) {
+        o.setAttribute('aria-pressed', o === b ? 'true' : 'false');
+      });
+    });
+  });
+  for (i = 0; i < 11; i++) picks.push(lifted(i));     // the first eleven are thrown for you: one phrase, down
+  draw();
+}());
+</script>
+</section>
 <section id="leave">
 <style>
   #leave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; counter-reset: ticked; }
