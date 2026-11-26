@@ -4760,6 +4760,9 @@ change .............. none due
 <p class="clear">That is everything. You may go. You might have gone at any time, but now you would be going
    properly, which on a world this size is most of what there is to do.</p>
 <p class="small">The ticks are not kept. Come back and the list is clean again, and so, it assumes, are you.</p>
+<p class="small">Anything set down on the way out is another matter. Paste at the page, at nothing in particular,
+   the way a pocket is emptied onto a hall table, and whatever it was is handed straight back. This is no
+   reflection on the article. The sixth item has to be true of somebody.</p>
 <aside class="pencil"><span>I ticked all eight and am still here. the list did not say when.</span></aside>
 </section>
 <footer id="colophon">
@@ -6276,6 +6279,39 @@ change .............. none due
     });
     box.addEventListener('keydown', function (e) { if (e.key === 'Enter') { clearTimeout(wait); hear(); } });
   }
+})();
+</script>
+<script>
+// Left luggage. Whatever is pasted at the page, and not into one of its boxes, is looked at once, from the
+// outside, and handed back by the same voice that returns greetings. Nothing is kept, copied on or sent
+// anywhere: it was in the visitor's hand before, and it is in the visitor's hand after. What goes into a box
+// is the box's business and is not looked at here at all.
+(function () {
+  var note = document.getElementById('heardyou');
+  if (!note) return;
+  var fade = null, times = 0;
+  function size(s) { return Array.from ? Array.from(s).length : s.length; }
+  function head(s) { return (Array.from ? Array.from(s).slice(0, 14).join('') : s.slice(0, 14)).replace(/ $/, ''); }
+  function weigh(text, other) {
+    var s = text.replace(/\s+/g, ' ').replace(/^ | $/g, ''), n = size(s);
+    if (!n && other) return 'That was not made of characters. Everything here is. It has been handed back unopened.';
+    if (!n) return 'You set down nothing, or only the spaces that go round it. It has been handed back all the same. There was room for it, but that is not the point.';
+    if (/^hello,? world[.!]?$/i.test(s)) return 'A hello world, set down beside the hello world. There is one of everything here and that one is spoken for. Yours has been handed back. They could not be told apart, so it may be the other one.';
+    if (n === 1) return 'One character, set down on a world that is made of them and was not short. It has been handed back. It was kind of you to think of it.';
+    if (times > 2) return 'Handed back, ' + n + ' characters, as before. The hall table is a drawing of a hall table.';
+    return 'You set down ' + n + ' characters, beginning \u201c' + head(s) + (n > 14 ? '\u2026' : '')
+      + '\u201d. Nothing may be left here but flags. They have been handed back in the order they came, and were not read past the start.';
+  }
+  document.addEventListener('paste', function (e) {
+    var t = e.target, tag = t && t.tagName, d = e.clipboardData, text = '', other = false;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+    try { text = (d && d.getData('text/plain')) || ''; other = !!(d && d.files && d.files.length); } catch (err) {}
+    times++;
+    note.textContent = weigh(text, other);
+    note.className = 'up';
+    clearTimeout(fade);
+    fade = setTimeout(function () { note.className = ''; }, 11000);
+  });
 })();
 </script>
 <style>
