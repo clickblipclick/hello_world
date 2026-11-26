@@ -1,0 +1,532 @@
+STARTFONT 2.1
+COMMENT
+COMMENT hello world: a fount of type
+COMMENT
+COMMENT The colophon says that no type was cast for the world, and at the time
+COMMENT none had been. Every sort was borrowed from the reader's own case, which
+COMMENT is why the coast has never looked quite the same on two machines.
+COMMENT
+COMMENT This is the type, cast afterwards. Twelve pixels to the body, as the
+COMMENT colophon has it; eight to the set; nine above the line and three below,
+COMMENT where only the comma and the semicolon go, the Commas being fastened to
+COMMENT the bottom. Each line under BITMAP is one row of a sort, top to bottom,
+COMMENT written as a number, which is how a machine holds a punch.
+COMMENT
+COMMENT There are twenty-five sorts and no more:
+COMMENT
+COMMENT     #   the Hash              ~   the Tilde Sea
+COMMENT     o   Oland                 -   the Flats
+COMMENT     :   the Colons            .   Full Stop Deep
+COMMENT     *   the Asterisk Caps     +   the same, after dark
+COMMENT     @   the At                !   an Exclamation, yours
+COMMENT     ^   the Caret             ?   Elsewhere
+COMMENT     %   the Percent           "   the Dittos
+COMMENT     ' ` the Apostrophes       , ; the Commas
+COMMENT
+COMMENT and h, e, l, w, r and d, which with the o of Oland are enough to set the
+COMMENT two words and nothing else; and the space, which printers count, it being
+COMMENT the sort they use most. The space was the easiest to cut. It was also the
+COMMENT only one that came out right the first time.
+COMMENT
+COMMENT There are no capitals. Nothing here has been proper enough to need one.
+COMMENT There are no figures. The plus sign is the only arithmetic the planet
+COMMENT does, and it does not write down the answer.
+COMMENT
+COMMENT To use it: most systems that still take bitmap type will take this file
+COMMENT as it stands. Set anything in it but the two words and the world's own
+COMMENT punctuation, and it will leave gaps where the rest of the language was.
+COMMENT That is not a fault in the fount. That is the fount's opinion.
+FONT -world-hello-medium-r-normal--12-120-75-75-c-80-iso10646-1
+SIZE 12 75 75
+FONTBOUNDINGBOX 8 12 0 -3
+STARTPROPERTIES 12
+FOUNDRY "world"
+FAMILY_NAME "hello"
+WEIGHT_NAME "medium"
+SLANT "r"
+SETWIDTH_NAME "normal"
+PIXEL_SIZE 12
+SPACING "c"
+CHARSET_REGISTRY "iso10646"
+CHARSET_ENCODING "1"
+FONT_ASCENT 9
+FONT_DESCENT 3
+DEFAULT_CHAR 32
+ENDPROPERTIES
+CHARS 25
+STARTCHAR space
+ENCODING 32
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+00
+00
+00
+00
+00
+00
+00
+00
+00
+00
+ENDCHAR
+STARTCHAR exclam
+ENCODING 33
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+18
+18
+18
+18
+18
+18
+00
+18
+00
+00
+00
+ENDCHAR
+STARTCHAR quotedbl
+ENCODING 34
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+6C
+6C
+6C
+00
+00
+00
+00
+00
+00
+00
+00
+ENDCHAR
+STARTCHAR numbersign
+ENCODING 35
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+24
+24
+7E
+24
+24
+7E
+24
+24
+00
+00
+00
+ENDCHAR
+STARTCHAR percent
+ENCODING 37
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+62
+64
+08
+10
+20
+46
+06
+00
+00
+00
+ENDCHAR
+STARTCHAR quotesingle
+ENCODING 39
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+18
+18
+10
+00
+00
+00
+00
+00
+00
+00
+00
+ENDCHAR
+STARTCHAR asterisk
+ENCODING 42
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+00
+10
+54
+38
+54
+10
+00
+00
+00
+00
+ENDCHAR
+STARTCHAR plus
+ENCODING 43
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+00
+10
+10
+7C
+10
+10
+00
+00
+00
+00
+ENDCHAR
+STARTCHAR comma
+ENCODING 44
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+00
+00
+00
+00
+00
+18
+18
+10
+20
+00
+ENDCHAR
+STARTCHAR hyphen
+ENCODING 45
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+00
+00
+00
+7E
+00
+00
+00
+00
+00
+00
+ENDCHAR
+STARTCHAR period
+ENCODING 46
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+00
+00
+00
+00
+00
+18
+18
+00
+00
+00
+ENDCHAR
+STARTCHAR colon
+ENCODING 58
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+00
+00
+18
+18
+00
+18
+18
+00
+00
+00
+ENDCHAR
+STARTCHAR semicolon
+ENCODING 59
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+00
+00
+18
+18
+00
+18
+18
+10
+20
+00
+ENDCHAR
+STARTCHAR question
+ENCODING 63
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+3C
+42
+02
+0C
+10
+10
+00
+10
+00
+00
+00
+ENDCHAR
+STARTCHAR at
+ENCODING 64
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+3C
+42
+5E
+52
+52
+5E
+40
+3C
+00
+00
+00
+ENDCHAR
+STARTCHAR asciicircum
+ENCODING 94
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+10
+28
+44
+00
+00
+00
+00
+00
+00
+00
+00
+ENDCHAR
+STARTCHAR grave
+ENCODING 96
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+20
+10
+00
+00
+00
+00
+00
+00
+00
+00
+00
+ENDCHAR
+STARTCHAR d
+ENCODING 100
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+02
+02
+02
+3E
+42
+42
+42
+3E
+00
+00
+00
+ENDCHAR
+STARTCHAR e
+ENCODING 101
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+00
+00
+3C
+42
+7E
+40
+3C
+00
+00
+00
+ENDCHAR
+STARTCHAR h
+ENCODING 104
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+40
+40
+40
+7C
+42
+42
+42
+42
+00
+00
+00
+ENDCHAR
+STARTCHAR l
+ENCODING 108
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+30
+10
+10
+10
+10
+10
+10
+38
+00
+00
+00
+ENDCHAR
+STARTCHAR o
+ENCODING 111
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+00
+00
+3C
+42
+42
+42
+3C
+00
+00
+00
+ENDCHAR
+STARTCHAR r
+ENCODING 114
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+00
+00
+5C
+62
+40
+40
+40
+00
+00
+00
+ENDCHAR
+STARTCHAR w
+ENCODING 119
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+00
+00
+44
+44
+54
+54
+28
+00
+00
+00
+ENDCHAR
+STARTCHAR asciitilde
+ENCODING 126
+SWIDTH 667 0
+DWIDTH 8 0
+BBX 8 12 0 -3
+BITMAP
+00
+00
+00
+00
+32
+4C
+00
+00
+00
+00
+00
+00
+ENDCHAR
+ENDFONT
