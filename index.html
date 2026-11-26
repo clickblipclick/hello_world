@@ -4849,6 +4849,119 @@ ldrorlooddl
    has kept the earlier ones. A leaflet that told you what it used to say would have to be folded twelve times.</p>
 <aside class="pencil"><span>section 4: I have had all of the common ones. is that common.</span></aside>
 </section>
+<section id="wireless">
+<style>
+  #wireless { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #wireless h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+                 color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #wireless p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #wireless p.lede { color: #6b7388; font-style: italic; }
+  #wireless .cabinet { border: 1px solid #263048; border-radius: 0.6rem 0.6rem 0.2rem 0.2rem; padding: 1rem 1rem 0.8rem; margin: 0 0 1.2rem; }
+  #wireless #grille { font: 0.8rem/1.5 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.02em; color: #d9cfa6;
+                      min-height: 7.5em; margin: 0 0 0.8rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+  #wireless #grille s { text-decoration: none; color: #3a4560; }
+  #wireless input { display: block; width: 100%; margin: 0; accent-color: #7fb7a4; cursor: ew-resize; }
+  #wireless .scale { display: flex; justify-content: space-between; font: 0.7rem ui-monospace, Menlo, Consolas, monospace;
+                     color: #6b7388; margin: 0.3rem 0 0.6rem; }
+  #wireless #band { display: block; min-height: 1.3em; margin: 0; color: #7fb7a4; font-style: normal;
+                    font: 0.8rem ui-monospace, Menlo, Consolas, monospace; }
+  @media screen and (prefers-color-scheme: light) {
+    #wireless h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #wireless p { color: #3d4353; }
+    #wireless p.lede, #wireless .scale { color: #6a6f7d; }
+    #wireless .cabinet { border-color: #cfc8b6; }
+    #wireless #grille { color: #8a6a1f; }
+    #wireless #grille s { color: #cfc8b6; }
+    #wireless #band { color: #2f6f5e; }
+    #wireless input { accent-color: #2f6f5e; }
+  }
+  @media print { #wireless h2, #wireless p, #wireless #grille, #wireless #band { color: #000; border-color: #000; }
+                 #wireless input { display: none; } }
+</style>
+<h2>The wireless</h2>
+<p class="lede">A set, for hearing what the world has to say when it is not saying hello. It has one knob.
+   The other knob was volume, and was taken off when it was found that the page had none.</p>
+<div class="cabinet">
+<p id="grille" aria-hidden="true">~ - . : ' ~ - . : ' ~ - . : ' ~ - . : ' ~ - . : ' ~ - . : '
+The set is cold. It warms on the same current as the world, and without it this is the sound of a wireless that has not been switched on, which is accurate at any wavelength.</p>
+<input id="knob" type="range" min="0" max="440" value="220" step="1" aria-label="tuning, in columns east of the left-hand edge" aria-describedby="band" disabled>
+<div class="scale" aria-hidden="true"><span>0</span><span>11</span><span>22</span><span>33</span><span>44</span></div>
+<small id="band" role="status">Not tuned to anything.</small>
+</div>
+<p>The dial is marked in columns, the world being forty-four of them across and nobody having thought of a
+   better unit. Six stations are known to keep to their places. Between them is the sea, which comes through
+   the set as itself: tildes by day, hyphens in the afternoon, full stops after dark. This is not interference.
+   It is the larger part of the programme, and the stations are the interruptions.</p>
+<p>Turn slowly. A station heard from one column off is mostly weather, and from half a column off is a voice
+   with a cold. Nothing is broadcast twice in the same static, so a thing half heard may be waited for, and
+   the missing letters will come round in their own time like everything else here.</p>
+<p>There is no licence. One was drafted, at so much a year, payable to the At; but the At could not be found
+   on the day, having gone round the back, and by the time it came out the listeners had all tuned to Elsewhere.</p>
+<aside class="pencil"><span>left it on the Flats all evening. very restful. missed nothing, I am told.</span></aside>
+<script>
+// The wireless. One knob, six stations, and the sea in between.
+(function () {
+  var knob = document.getElementById('knob'), grille = document.getElementById('grille'),
+      band = document.getElementById('band');
+  if (!knob || !grille || !band) return;
+  var stations = [
+    [38, 'The Hash, time signal',
+     'hello. hello. hello. hello. at the fourth hello it will be daytime in the Hash, as it is at the first three. hello. that was the time. it is now slightly further east.'],
+    [112, 'Oland Home Service',
+     'and now the hills, read in order. hill. hill. hill. hill. hill. that concludes the first row. listeners who have lost their place are advised that it does not matter. hill.'],
+    [186, 'The Flats',
+     'there is nothing to report from the Flats. this has been the report. the next report follows at once, and is the same, and listeners may prefer to keep this one.'],
+    [259, 'Full Stop Deep, night service',
+     'you are listening to Full Stop Deep. . . . . . . . . . . . . . . . . . that was a pause, by request. we go over now to another. . . . . . . . . . .'],
+    [331, 'The At, requests',
+     'a request, from a listener at the far end of the dial, for anything but static. here is some static, played slowly, with feeling: ~   -   .   :   ~   and that was for you @ home.'],
+    [407, 'Elsewhere',
+     '? ? ? this station is not on the world. it comes in best after dark and says hello in an accent nobody can place. the world says it back. neither has yet got further than that. ? ? ?']
+  ];
+  var sea = '~~~~----....::\'\'^*', seed = 1, timer = null;
+  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function noise(i) {                      // the same static for a given moment, different the next
+    var n = Math.sin(i * 12.9898 + seed * 78.233) * 43758.5453;
+    return n - Math.floor(n);
+  }
+  function tune() {
+    var at = +knob.value, best = null, far = 1e9, i, d;
+    for (i = 0; i < stations.length; i++) {
+      d = Math.abs(stations[i][0] - at);
+      if (d < far) { far = d; best = stations[i]; }
+    }
+    var clear = Math.max(0, 1 - far / 14);
+    clear = clear * clear * (3 - 2 * clear);
+    var words = best[2], out = '', run = '', c, r;
+    function flush() { if (run) { out += '<s>' + run + '</s>'; run = ''; } }
+    for (i = 0; i < words.length; i++) {
+      c = words.charAt(i); r = noise(i);
+      if (r < clear || (c === ' ' && r < 0.8)) { flush(); out += c; }
+      else run += sea.charAt(Math.floor(noise(i + 500 + Math.floor(at / 20)) * sea.length));
+    }
+    flush();
+    grille.innerHTML = out;
+    var col = (at / 10).toFixed(1), say;
+    if (clear > 0.97) say = 'Column ' + col + '. ' + best[1] + ', and clear.';
+    else if (clear > 0.4) say = 'Column ' + col + '. Something. ' + best[1].split(',')[0] + ', by the sound of it.';
+    else if (clear > 0) say = 'Column ' + col + '. A voice, under the water.';
+    else say = 'Column ' + col + '. Open sea.';
+    if (band.textContent !== say) band.textContent = say;
+    knob.setAttribute('aria-valuetext', say);
+  }
+  knob.disabled = false;
+  grille.removeAttribute('aria-hidden');
+  knob.addEventListener('input', function () { seed++; tune(); });
+  tune();
+  if (!still && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (seen) {
+      if (seen[0].isIntersecting && !timer) timer = setInterval(function () { seed++; tune(); }, 900);
+      else if (!seen[0].isIntersecting && timer) { clearInterval(timer); timer = null; }
+    }).observe(grille);
+  }
+})();
+</script>
+</section>
 <section id="leave">
 <style>
   #leave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; counter-reset: ticked; }
