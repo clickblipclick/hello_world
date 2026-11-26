@@ -4766,6 +4766,131 @@ ldrorlooddl
   pre.parentNode.insertBefore(sq, pre);
 })();
 </script>
+<section id="tube">
+<style>
+  /* The kaleidoscope. Three mirrors, eleven loose pieces, and one end to look in at. */
+  #tube { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #tube h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #tube p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #tube p.lede { color: #6b7388; font-style: italic; }
+  #tube canvas { display: block; width: 100%; max-width: 20rem; aspect-ratio: 1; margin: 0.4rem auto 1rem;
+                 border-radius: 50%; border: 1px solid #263048; cursor: pointer; touch-action: manipulation; }
+  #tube canvas:focus-visible { outline: 1px solid #d9cfa6; outline-offset: 3px; }
+  #tube .turn { display: block; margin: 0 auto 1rem; font: 0.8rem ui-monospace, Menlo, Consolas, monospace;
+                letter-spacing: 0.05em; color: #7fb7a4; background: none; border: 1px solid #263048;
+                padding: 0.45rem 1rem; cursor: pointer; }
+  #tube .turn:hover, #tube .turn:focus-visible { border-color: #7fb7a4; outline: none; }
+  #turned { display: block; min-height: 1.6em; font-size: 0.95rem; line-height: 1.55; color: #d9cfa6;
+            text-align: center; margin: 0 0 0.9rem; }
+  #tube .small { font-size: 0.85rem; color: #6b7388; font-style: italic; text-align: right; }
+  @media screen and (prefers-color-scheme: light) {
+    #tube h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #tube p { color: #3d4353; }
+    #tube p.lede, #tube .small { color: #6a6f7d; }
+    #tube canvas, #tube .turn { border-color: #cfc8b6; }
+    #tube .turn { color: #2f6f5e; }
+    #turned { color: #8a6a1f; }
+  }
+  @media print { #tube h2, #tube p, #turned { color: #000; border-color: #000; } #tube .turn { display: none; } }
+</style>
+<h2>The kaleidoscope</h2>
+<p class="lede">The greeting was taken apart and the pieces were put in the far end of a tube, loose, behind
+   glass. There are three mirrors in the tube. None of them has read it.</p>
+<canvas id="prism" width="320" height="320" tabindex="0" role="img"
+        aria-label="a round pattern in twelve matching wedges, made of the letters of hello world reflected in mirrors">
+  h e l l o &nbsp; w o r l d, twelve times over, six of them backwards.</canvas>
+<button class="turn" type="button" id="twist">turn the tube</button>
+<output id="turned" for="prism" aria-live="polite">It has not been turned yet. This is how it was packed.</output>
+<p>Eleven pieces went in: ten letters and the space, which is in there with the rest and is the one you
+   cannot find. The mirrors show each piece twelve times, six of them the wrong way round, so that at any
+   moment the tube holds thirty-six <i>l</i>s and admits to three. Nothing in it can be read. A kaleidoscope
+   is a device for making sure of that, and for making the result symmetrical, which is why nobody minds.</p>
+<p>The <i>o</i>s come through best. An <i>o</i> reflected is an <i>o</i>, and two of the pieces have
+   therefore never noticed the mirrors at all. The <i>d</i> spends half its time as a <i>b</i> and the
+   site has decided not to count those.</p>
+<p class="small">No pattern is kept, and none has come up twice. The second claim has not been checked and
+   cannot be.</p>
+<aside class="pencil left"><span>turned it forty times looking for the space. it was in the gap.</span></aside>
+</section>
+<script>
+// The kaleidoscope. One wedge of thirty degrees is drawn twelve times, every other one flipped. The pieces
+// lie in the wedge wherever the last turn left them; a turn sends each somewhere else and lets it slide there.
+(function () {
+  var glass = document.getElementById('prism'), twist = document.getElementById('twist'),
+      turned = document.getElementById('turned');
+  if (!glass || !glass.getContext || !twist || !turned) return;
+  var pen = glass.getContext('2d'), text = 'hello world', bits = [], turns = 0, began = 0, going = false, i;
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var dark = ['#7fb7a4', '#d9cfa6', '#e8e6df', '#c98b6b', '#8d94a8'],
+      pale = ['#2f6f5e', '#8a6a1f', '#3d4353', '#a2553a', '#6a6f7d'];
+  var words = ['once', 'twice', 'three times', 'four times', 'five times', 'six times', 'seven times',
+               'eight times', 'nine times', 'ten times', 'eleven times'];
+  function lot() { return { r: 0.12 + 0.8 * Math.sqrt(Math.random()), a: Math.random() * Math.PI / 6,
+                            s: Math.random() * Math.PI * 2 }; }
+  for (i = 0; i < text.length; i++) {
+    bits.push({ c: text.charAt(i), was: null, now: lot(), size: 0.2 + 0.16 * ((i * 7) % 5) / 4, ink: i % 5 });
+    bits[i].was = bits[i].now;
+  }
+  function fit() {
+    var w = Math.round(glass.clientWidth * (window.devicePixelRatio || 1)) || 320;
+    if (glass.width !== w) { glass.width = w; glass.height = w; }
+  }
+  function draw(k) {
+    var w = glass.width, R = w / 2, e = k * k * (3 - 2 * k), k6, flip, b, r, a, s;
+    var inks = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? pale : dark;
+    pen.setTransform(1, 0, 0, 1, 0, 0);
+    pen.clearRect(0, 0, w, w);
+    pen.textAlign = 'center'; pen.textBaseline = 'middle';
+    for (k6 = 0; k6 < 6; k6++) for (flip = 1; flip >= -1; flip -= 2) {
+      pen.setTransform(1, 0, 0, 1, R, R);
+      pen.rotate(k6 * Math.PI / 3 + (turns - 1 + e) * Math.PI / 12);
+      pen.scale(1, flip);
+      pen.save();
+      pen.beginPath(); pen.moveTo(0, 0); pen.arc(0, 0, R, 0, Math.PI / 6 + 0.002); pen.closePath(); pen.clip();
+      for (b = 0; b < bits.length; b++) {
+        r = (bits[b].was.r + (bits[b].now.r - bits[b].was.r) * e) * R;
+        a = bits[b].was.a + (bits[b].now.a - bits[b].was.a) * e;
+        s = bits[b].was.s + (bits[b].now.s - bits[b].was.s) * e;
+        pen.save();
+        pen.translate(r * Math.cos(a), r * Math.sin(a));
+        pen.rotate(s);
+        pen.globalAlpha = 0.85;
+        pen.fillStyle = inks[bits[b].ink];
+        pen.font = Math.round(bits[b].size * R) + 'px Georgia, serif';
+        pen.fillText(bits[b].c, 0, 0);
+        pen.restore();
+      }
+      pen.restore();
+    }
+  }
+  function step(t) {
+    if (!began) began = t;
+    var k = Math.min(1, (t - began) / 1100);
+    draw(k);
+    if (k < 1) window.requestAnimationFrame(step); else going = false;
+  }
+  function turn() {
+    if (going) return;
+    for (var i = 0; i < bits.length; i++) { bits[i].was = bits[i].now; bits[i].now = lot(); }
+    turns++;
+    turned.textContent = 'Turned ' + (words[turns - 1] || turns + ' times') + '. ' +
+      (turns === 1 ? 'It is no easier to read.' : turns < 6 ? 'Still twelve of everything.' :
+       turns < 12 ? 'The space has not turned up.' : 'It will go on doing this for as long as you do.');
+    fit();
+    if (still || !window.requestAnimationFrame) { draw(1); return; }
+    going = true; began = 0;
+    window.requestAnimationFrame(step);
+  }
+  twist.addEventListener('click', turn);
+  glass.addEventListener('click', turn);
+  glass.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); turn(); }
+  });
+  window.addEventListener('resize', function () { if (!going) { fit(); draw(1); } });
+  fit(); draw(1);
+})();
+</script>
 <section id="leaflet">
 <style>
   /* The leaflet. The folded sheet from inside the box: small type, narrow columns, and creases where it was folded. */
