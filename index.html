@@ -3795,6 +3795,256 @@ change .............. none due
 <aside class="pencil"><span>I was the judge, it turns out. nobody stood up when I came in.</span></aside>
 <aside class="pencil left ink"><span>the Mast did. it had been standing since before you were appointed.</span></aside>
 </section>
+<section id="afoot">
+<style>
+  #afoot { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #afoot h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #afoot p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #afoot p.lede { color: #6b7388; font-style: italic; margin-bottom: 1.4rem; }
+  #walk { height: 17rem; overflow-y: auto; margin: 0 0 0.6rem; padding: 0.9rem 1rem; border: 1px solid #263048;
+          font: 0.82rem/1.6 ui-monospace, Menlo, Consolas, monospace; color: #b9b6ac; }
+  #walk p { font: inherit; color: inherit; margin: 0 0 0.7rem; white-space: pre-wrap; }
+  #walk p.you { color: #7fb7a4; margin-bottom: 0.2rem; }
+  #walk p.where { color: #d9cfa6; margin-bottom: 0.2rem; letter-spacing: 0.08em; }
+  #afoot form { display: flex; align-items: baseline; gap: 0.6rem; margin: 0 0 1rem; padding: 0 1rem;
+               font: 0.82rem ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; }
+  #afoot form input { flex: 1; min-width: 0; font: inherit; color: #e8e6df; background: none; border: 0;
+                     border-bottom: 1px solid #263048; border-radius: 0; padding: 0.3rem 0; }
+  #afoot form input:focus { outline: none; border-bottom-color: #7fb7a4; }
+  #afoot .small { font-size: 0.85rem; color: #6b7388; font-style: italic; }
+  @media screen and (prefers-color-scheme: light) {
+    #afoot h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #afoot p, #walk { color: #3d4353; }
+    #afoot p.lede, #afoot .small { color: #6a6f7d; }
+    #walk, #afoot form input { border-color: #cfc8b6; }
+    #walk p.you, #afoot form { color: #2f6f5e; }
+    #walk p.where { color: #8a6a1f; }
+    #afoot form input { color: #1c2030; }
+    #afoot form input:focus { border-bottom-color: #2f6f5e; }
+  }
+  @media print { #afoot form { display: none; } #walk { height: auto; overflow: visible; border-color: #000; }
+                 #afoot h2, #afoot p, #walk, #walk p.you, #walk p.where { color: #000; border-color: #000; } }
+</style>
+<h2>On foot</h2>
+<p class="lede">Nobody has been there; the gazetteer is firm about it. You may go down all the same, in writing,
+   which is how everything else here got there. Say what you do, in a word or two, and it will be done or
+   it will be explained.</p>
+<div id="walk" role="log" aria-live="polite" aria-label="the world, on foot" tabindex="0">
+<p class="where">OLAND</p>
+<p>Middle country. Rounded hills, each the same size as every other, arranged in rows. You are standing between two of them, or on one. It is hard to say and makes no difference.</p>
+<p>The ground wants the machine's cooperation before it can be walked on. Without it, this is as far as anyone gets, and it is already further than anyone has been.</p>
+</div>
+<form id="step" autocomplete="off" hidden>
+  <label for="deed" aria-label="what you do">&gt;</label>
+  <input id="deed" type="text" maxlength="60" autocapitalize="off" autocorrect="off" spellcheck="false"
+         placeholder="look, east, wait, help">
+</form>
+<p class="small">Nothing done down there shows from up here. The world at the top goes on turning as though
+   nobody were on it, which until a moment ago was accurate.</p>
+<aside class="pencil"><span>walked east for an hour to keep the afternoon. got tired. it left without me.</span></aside>
+</section>
+<script>
+// On foot. The country is a time of day, as the gazetteer warned, so it comes and goes under whoever stands
+// still. Every deed that takes time lets the world turn one notch; a step east takes the notch back.
+(function () {
+  var log = document.getElementById('walk'), form = document.getElementById('step'),
+      box = document.getElementById('deed');
+  if (!log || !form || !box) return;
+  var lon = 4, lat = 0, t = 7, flag = null, had = true, laps = 0, begun = false, seen = {};
+  var LANDS = 9, DAY = 12;
+  function hour() { return (((t - lon) % DAY) + DAY) % DAY; }
+  function place() {
+    var h = hour();
+    if (Math.abs(lat) === 2) return h < 7 ? 'caps' : 'plus';
+    return h < 3 ? 'hash' : h < 5 ? 'oland' : h < 7 ? 'colons' : 'back';
+  }
+  var NAME = { hash: 'THE HASH', oland: 'OLAND', colons: 'THE COLONS', back: 'ROUND THE BACK',
+               caps: 'THE ASTERISK CAPS', plus: 'THE ASTERISK CAPS, DIMMED' };
+  var TEXT = {
+    hash: 'The bright uplands. The light is falling here at the moment, and that is the whole of what makes it the uplands. Nothing is higher than anything else. It is very well lit.',
+    oland: 'Middle country. Rounded hills, each the same size as every other, arranged in rows. You are standing between two of them, or on one. It is hard to say and makes no difference.',
+    colons: 'Land at dusk. Everything is in pairs, one above the other, and has the look of being about to be explained. You wait a moment. It is not.',
+    back: 'The world is only ever shown from the front, and this is not the front. Nothing has been drawn here. You are standing on it regardless, which speaks well of the ground.',
+    caps: 'Ice. Each flake is a footnote to something nobody wrote down. You read a few. They refer you to one another.',
+    plus: 'Ice, in the dark, dimmed to plus signs. It is the only arithmetic the planet does, and you are standing in the middle of the sum.'
+  };
+  function shore() {
+    var h = hour(), sea = h < 3 ? 'the Tilde Sea' : h < 5 ? 'the Flats'
+      : 'Full Stop Deep';
+    if (lat) return '';
+    if (lon === 0) return ' To the west the land stops and ' + sea + ' begins.';
+    if (lon === LANDS - 1) return ' To the east the land stops and ' + sea + ' begins.';
+    return '';
+  }
+  function say(text, kind) {
+    var p = document.createElement('p');
+    if (kind) p.className = kind;
+    p.textContent = text;
+    log.appendChild(p);
+  }
+  function look(full) {
+    var k = place(), extra = shore();
+    say(NAME[k], 'where');
+    if (flag && flag[0] === lon && flag[1] === lat) extra += ' Your flag is here (!). It has not moved. The country round it has.';
+    say((full || !seen[k] ? TEXT[k] : 'As before.') + extra);
+    seen[k] = true;
+  }
+  function turn() { t++; }
+  function go(dx, dy) {
+    var was = place(), now;
+    if (dy && Math.abs(lat + dy) > 2) {
+      say('There is no further ' + (dy > 0 ? 'north' : 'south') + '. You are standing on the last footnote. One more step and you would be coming back down the other side, which is a different walk and has not been written.');
+      return;
+    }
+    if (dx && lat === 0 && (lon + dx < 0 || lon + dx >= LANDS)) {
+      say('That is the sea, and there is one ship, and it is not a ferry. Far out, something small (^) sees you standing on the land, takes you for part of it, and turns away.');
+      return;
+    }
+    if (dx && lat !== 0 && (lon + dx < 0 || lon + dx >= LANDS)) {
+      say('The coast comes up to meet you even here. You stay on the dry side of it.');
+      return;
+    }
+    lon += dx; lat += dy; turn();
+    now = place();
+    if (dx > 0 && now === was) {
+      laps++;
+      say(laps === 1 ? 'You walk east. The world turns the other way by exactly as much. You have arrived where you were, a step further on.'
+        : laps === 4 ? 'East again. You are now an inhabitant, in the gazetteer’s sense: someone who would have to keep walking to stay. It did say "if any".'
+        : 'East. The same place comes with you.');
+      return;
+    } else if (dx < 0) {
+      say('You walk west, into the turning. The day goes past at twice the usual rate, like a page being skimmed.');
+    } else if (dy) {
+      say('You walk ' + (dy > 0 ? 'north' : 'south') + '. It gets no colder. Weather has not been provided, only a forecast.');
+    }
+    look(false);
+  }
+  var NOTHING = ['Time passes. That is to say, the world does. You stay exactly where you are and are somewhere else.',
+                 'You wait. The ground waits with you. The light does not.',
+                 'A notch goes by.'];
+  function deed(raw) {
+    var s = raw.toLowerCase().replace(/[^a-z ]/g, ' ').replace(/\b(the|a|an|at|to|go|walk|my|your|please)\b/g, ' ')
+               .replace(/\s+/g, ' ').replace(/^ | $/g, '');
+    var w = s.split(' ')[0], rest = s.slice(w.length + 1);
+    if (!s) { say('You do nothing, briefly. It is well within the rules.'); return; }
+    if (w === 'e' || w === 'east') return go(1, 0);
+    if (w === 'w' || w === 'west') return go(-1, 0);
+    if (w === 'n' || w === 'north') return go(0, 1);
+    if (w === 's' || w === 'south') return go(0, -1);
+    if (w === 'up' || w === 'u' || w === 'down' || w === 'd') {
+      say(w.charAt(0) === 'u' ? 'Up is the At and the Apostrophes, and neither is taking visitors.' : 'There is nothing under the ground for it to be on top of. This has been looked into, with a drum.');
+      return;
+    }
+    if (w === 'l' || w === 'look' || w === 'x' || w === 'examine' || w === 'read') {
+      if (/moon|sky|\bup\b/.test(raw.toLowerCase()) && !/stars|apostrophe/.test(rest)) {
+        say(place() === 'back' ? 'The At is not here either. It goes round behind the world at regular intervals, and you had rather hoped this was where it went.'
+          : 'The At (@). It has one side and is showing it to you. From down here it is the same size as from up there, which tells you something about one of the two distances.');
+      } else if (/star|apostrophe/.test(rest)) {
+        say('The Apostrophes. They do not turn with the world. One of them blinks, to show that it could have been otherwise, and then it is not otherwise.');
+      } else if (/ship|caret|sea|water/.test(rest)) {
+        say('Somewhere out there, the Caret (^), sailing until it sees land. It is hard to find. That is how you know it is small and not far away.');
+      } else if (/flag/.test(rest)) {
+        say(had ? 'One exclamation mark (!), brought from your own world, where they are common. It would stand up if planted.'
+          : flag[0] === lon && flag[1] === lat ? 'It says "!". It is the most that has ever been said here by a visitor, and the least.'
+          : 'It is where you planted it. You are not.');
+      } else if (/me|self|hands|feet/.test(rest)) {
+        say('You are not drawn. At twelve pixels to the body you would come out as a full stop, and the Deep has those spoken for.');
+      } else if (/ground|hill|hash|colon|ice|flake|footnote/.test(rest)) {
+        look(true);
+      } else if (rest) {
+        say('There is one of everything here, and that is not one of them.');
+      } else look(true);
+      return;
+    }
+    if (w === 'z' || w === 'wait' || w === 'stand' || w === 'sit' || w === 'rest') {
+      var was = place(); turn();
+      say(NOTHING[t % NOTHING.length]);
+      if (place() !== was) look(false);
+      return;
+    }
+    if (w === 'sleep') {
+      t += 5;
+      say('You sleep. Nights here are short, and so are days, and you get through the better part of one or the other.');
+      look(false);
+      return;
+    }
+    if (w === 'i' || w === 'inv' || w === 'inventory' || w === 'pockets') {
+      say(had ? 'You are carrying one exclamation mark (!), brought from home. Nothing of the world’s. That is as it should be.'
+              : 'You are carrying nothing. Customs will be pleased, if you can find them.');
+      return;
+    }
+    if (w === 'take' || w === 'get' || w === 'pick' || w === 'steal' || w === 'keep') {
+      if (/flag|exclamation/.test(rest) && flag && flag[0] === lon && flag[1] === lat) {
+        flag = null; had = true;
+        say('You pull it up. The ground closes over the place without comment. The claim lapses; nobody had contested it.');
+      } else if (/flag|exclamation/.test(rest) && flag) {
+        say('It is not here. It is where you planted it, which was the idea.');
+      } else {
+        say('There is one of everything here, and it would be missed by lunchtime. You leave it.');
+      }
+      return;
+    }
+    if (w === 'plant' || w === 'drop' || w === 'put' || w === 'claim' || w === 'leave' && /flag|exclamation/.test(rest)) {
+      if (!had) { say('You had one flag and have planted it. Territorial ambition, here, comes in units of one.'); return; }
+      had = false; flag = [lon, lat];
+      say('You plant the exclamation mark (!). It stands. This claim is known to you alone, and the dispute is therefore settled in advance. By evening this will be a different country with your flag in it.');
+      return;
+    }
+    if (w === 'hello' || w === 'hi' || w === 'say' || w === 'shout' || w === 'call' || w === 'wave' || w === 'greet') {
+      say(/hello|hi\b|wave|greet/.test(s) ? 'You say hello. Nothing answers, and then you remember that it spoke first, at the top, in letters larger than you are. You were replying.'
+        : 'You say it. There is no echo. An echo needs something to come back from, and everything here is going the same way you are.');
+      return;
+    }
+    if (w === 'swim' || w === 'sail' || w === 'wade' || w === 'drink') {
+      say('The sea is made of punctuation and you are not dressed for it.');
+      return;
+    }
+    if (w === 'dig') { say('The ground has never moved and declines to start. There is nothing under it in any case.'); return; }
+    if (w === 'jump' || w === 'fly' || w === 'climb') {
+      say('You leave the ground for a moment. The world turns underneath by less than you could measure. You land, technically, to the west.');
+      return;
+    }
+    if (w === 'sing') { say('You sing. The waves, being all one wavelength, cannot be made to take the tune. There is a shanty for this, kept elsewhere.'); return; }
+    if (w === 'eat') { say('Nothing is eaten here. The galley is clear on the point, and has recipes regardless.'); return; }
+    if (w === 'xyzzy' || w === 'plugh') { say('Nothing happens. This is the usual arrangement, and no word is needed for it.'); return; }
+    if (w === 'score' || w === 'points') { say('Nought, out of a possible nought. Full marks.'); return; }
+    if (w === 'where' || w === 'map') {
+      say('North is up, by a show of hands. Past that the map will not commit itself. It has no time of day, and the country here is nothing else.');
+      return;
+    }
+    if (w === 'leave' && !/flag|exclamation/.test(rest) || w === 'quit' || w === 'exit' || w === 'q' || w === 'home' || w === 'back') {
+      say('There is no door. There is a list to be gone through at it, a little further down the page. You are, as it happens, already back; you were reading the whole time.');
+      return;
+    }
+    if (w === 'help' || w === 'h' || w === 'what' || w === 'how') {
+      say('The world understands: look, north, south, east, west, wait, sleep, inventory, plant, take, hello. It understands a few other things and will not say which. Short words are enough; n, s, e, w, l, i and z will do.');
+      return;
+    }
+    say(['That has not been done here. Nothing has, so do not take it personally.',
+         'The world does not know the word. It knows about thirty and is made of nine.',
+         'You consider it. The moment passes, at the usual rate.'][raw.length % 3]);
+  }
+  form.hidden = false;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var raw = box.value.replace(/^\s+|\s+$/g, '');
+    box.value = '';
+    if (!begun) {   // the first deed clears away the apology and puts the walker down
+      begun = true;
+      while (log.firstChild) log.removeChild(log.firstChild);
+      seen.oland = true;
+      say('You are set down in the middle country, a little after noon, with one flag about you.');
+    }
+    say('> ' + raw, 'you');
+    deed(raw);
+    while (log.childNodes.length > 80) log.removeChild(log.firstChild);
+    log.scrollTop = log.scrollHeight;
+  });
+  // With the machine cooperating, the apology is not needed; the invitation is.
+  if (log.lastElementChild) log.lastElementChild.textContent = 'You are on foot. The line below is for saying what you do next.';
+})();
+</script>
 <section id="leave">
 <style>
   #leave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; counter-reset: ticked; }
