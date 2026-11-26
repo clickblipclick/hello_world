@@ -3929,6 +3929,7 @@ change .............. none due
   <li>Arithmetic: <i>see</i> Asterisk Caps, dark side of</li>
   <li>At, the: in front; behind; in front again</li>
   <li class="gap">Beasts: six; described; none sighted</li>
+  <li>Brass, the: underfoot; legible only by rubbing; <i>see also</i> Pencil, side of</li>
   <li>Bottle: <i>see</i> Percent</li>
   <li>Breath, time taken to draw: <i>see</i> Commas</li>
   <li class="gap">Caret, the
@@ -4460,6 +4461,158 @@ change .............. none due
   for (i = 0; i < 11; i++) picks.push(lifted(i));     // the first eleven are thrown for you: one phrase, down
   draw();
 }());
+</script>
+</section>
+<section id="rub">
+<style>
+  /* The brass. A plate let into the floor, and a sheet laid over it. The sheet is paper, and like the slip
+     it is paper-coloured whatever the hour. The plate is not drawn anywhere; it is only felt for. */
+  #rub { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #rub h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+            color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #rub p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #rub p.lede { color: #6b7388; font-style: italic; }
+  #rub canvas { display: block; width: 100%; height: 11rem; margin: 1.8rem 0 0.9rem; background: #e6dfc9;
+                box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.45); cursor: crosshair; touch-action: pan-y; }
+  #rub canvas:focus-visible { outline: 1px solid #7fb7a4; outline-offset: 3px; }
+  #rub .tools { display: none; gap: 0.6rem; flex-wrap: wrap; margin: 0 0 0.9rem; }
+  #rub.ready .tools { display: flex; }
+  #rub button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #rub button:hover, #rub button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #rub .taken { min-height: 1.55em; font-size: 0.85rem; font-style: italic; color: #d9cfa6; }
+  #rub .small { font-size: 0.85rem; color: #6b7388; font-style: italic; }
+  @media screen and (prefers-color-scheme: light) {
+    #rub h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #rub p { color: #3d4353; }
+    #rub p.lede, #rub .small { color: #6a6f7d; }
+    #rub canvas { background: #fffdf4; box-shadow: 0 0.3rem 0.9rem rgba(60, 50, 30, 0.25); }
+    #rub canvas:focus-visible { outline-color: #2f6f5e; }
+    #rub button { color: #2f6f5e; border-color: #2f6f5e; }
+    #rub button:hover, #rub button:focus-visible { background: #2f6f5e; color: #f1ecdf; }
+    #rub .taken { color: #8a6a1f; }
+  }
+  @media print { #rub h2, #rub p { color: #000; border-color: #000; } #rub .tools { display: none !important; }
+                 #rub canvas { box-shadow: none; border: 1px solid #000; } }
+</style>
+<h2>The brass</h2>
+<p class="lede">There is a plate let into the floor here. Nobody remembers it being laid, and it has been
+   walked over for so long that it cannot be read by looking. It can still be read the old way, with
+   a sheet of paper and the side of a pencil.</p>
+<canvas id="laid" tabindex="0" role="img"
+        aria-label="a blank sheet of paper laid over a brass plate; rubbing it brings up what the plate says">A
+  sheet of paper over a brass plate. The plate says hello world, and under that a small mark like a wave.</canvas>
+<p class="tools"><button type="button" id="rubbed">rub it for me</button><button type="button" id="fresh">a fresh sheet</button></p>
+<p class="taken" id="taken" role="status"></p>
+<p>Press and go back and forth. The pencil only catches where the brass stands up, so the ground comes up
+   dark and whatever was cut into it stays the colour of the paper. It is the one place here where
+   the words are made by leaving them out.</p>
+<p class="small">The sheet is not kept. The plate is. Take as many rubbings as you like; no two come up alike
+   and it has not worn any thinner for the last several hundred.</p>
+<aside class="pencil"><span>so THAT is where the side of my pencil went.</span></aside>
+<script>
+// The brass. The plate is drawn once, out of sight, and never shown. All the sheet ever gets is graphite,
+// a speck at a time, and each speck asks the plate one question: is there brass under me, or a cut.
+(function () {
+  var box = document.getElementById('rub'), sheet = document.getElementById('laid');
+  var said = document.getElementById('taken'), ctx = sheet.getContext && sheet.getContext('2d');
+  if (!ctx) return;
+  var W = 0, H = 0, dpr = 1, cut = null, seen = null, cols = 0, rows = 0, got = 0, CELL = 14;
+  var from = null, sweep = 0, told = -1;
+  var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function lay() {
+    var w = sheet.clientWidth, h = sheet.clientHeight, plate, p, size, data, i;
+    if (!w || !h) return;
+    if (sweep) { cancelAnimationFrame(sweep); sweep = 0; }
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = Math.round(w * dpr); H = Math.round(h * dpr);
+    sheet.width = W; sheet.height = H;   // which is also how a sheet is thrown away
+    plate = document.createElement('canvas'); plate.width = W; plate.height = H;
+    p = plate.getContext('2d');
+    p.strokeStyle = p.fillStyle = '#000'; p.textAlign = 'center'; p.textBaseline = 'middle';
+    p.lineWidth = 2.2 * dpr; p.strokeRect(11 * dpr, 11 * dpr, W - 22 * dpr, H - 22 * dpr);
+    p.lineWidth = 1 * dpr; p.strokeRect(17 * dpr, 17 * dpr, W - 34 * dpr, H - 34 * dpr);
+    size = 60 * dpr;
+    p.font = 'bold ' + size + 'px Georgia, serif';
+    size = size * Math.min(1, (W * 0.78) / p.measureText('hello world').width);
+    p.font = 'bold ' + size + 'px Georgia, serif';
+    p.fillText('hello world', W / 2, H * 0.44);
+    p.font = 'bold ' + (size * 0.5) + 'px ui-monospace, Menlo, Consolas, monospace';
+    p.fillText('~ ^ ~', W / 2, H * 0.74);
+    data = p.getImageData(0, 0, W, H).data;
+    cut = new Uint8Array(W * H);
+    for (i = 0; i < cut.length; i++) cut[i] = data[i * 4 + 3];
+    cols = Math.ceil(w / CELL); rows = Math.ceil(h / CELL);
+    seen = new Uint8Array(cols * rows); got = 0; told = -1; from = null;
+    said.textContent = '';
+  }
+  function tell() {
+    var part = got / (cols * rows), n = part > 0.9 ? 4 : part > 0.6 ? 3 : part > 0.3 ? 2 : part > 0.04 ? 1 : 0;
+    if (n === told) return;
+    told = n;
+    said.textContent = ['', 'Something is under there. It has edges.',
+      'A border, and the feet of some letters.', 'Most of it. The corners always get missed.',
+      'That is the whole plate. It says what everything else here says, and was here before any of it.'][n];
+  }
+  function dab(x, y, r) {   // in the sheet's own pixels
+    var n = 34, i, a, d, px, py, k, cx, cy;
+    for (i = 0; i < n; i++) {
+      a = Math.random() * 6.2832; d = Math.sqrt(Math.random()) * r;
+      px = Math.round(x + Math.cos(a) * d * 1.5); py = Math.round(y + Math.sin(a) * d);
+      if (px < 0 || py < 0 || px >= W || py >= H) continue;
+      k = cut[py * W + px];
+      ctx.globalAlpha = k > 96 ? (Math.random() < 0.05 ? 0.12 : 0) : 0.12 + Math.random() * 0.3;
+      if (ctx.globalAlpha) ctx.fillRect(px, py, dpr * (1 + Math.random()), dpr);
+    }
+    cx = Math.floor(x / dpr / CELL); cy = Math.floor(y / dpr / CELL);
+    if (cx >= 0 && cy >= 0 && cx < cols && cy < rows && seen[cy * cols + cx] < 3 && ++seen[cy * cols + cx] === 3) got++;
+  }
+  function stroke(x0, y0, x1, y1) {
+    var dist = Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)), steps = Math.max(1, Math.ceil(dist / (4 * dpr))), i;
+    ctx.fillStyle = '#33323a';
+    for (i = 1; i <= steps; i++) dab(x0 + (x1 - x0) * i / steps, y0 + (y1 - y0) * i / steps, 11 * dpr);
+    ctx.globalAlpha = 1;
+    tell();
+  }
+  function at(e) { var b = sheet.getBoundingClientRect(); return [(e.clientX - b.left) * dpr, (e.clientY - b.top) * dpr]; }
+  sheet.addEventListener('pointerdown', function (e) {
+    if (!cut) return;
+    from = at(e);
+    if (sheet.setPointerCapture) try { sheet.setPointerCapture(e.pointerId); } catch (err) {}
+    stroke(from[0], from[1], from[0], from[1]);
+  });
+  sheet.addEventListener('pointermove', function (e) {
+    if (!from) return;
+    var to = at(e); stroke(from[0], from[1], to[0], to[1]); from = to;
+  });
+  function lift() { from = null; }
+  sheet.addEventListener('pointerup', lift);
+  sheet.addEventListener('pointercancel', lift);
+  function whole() {   // back and forth, top to bottom, the way it is done by someone who has done it before
+    var y = 6 * dpr, x = 0, dir = 1, step = 9 * dpr;
+    function some(count) {
+      var i, nx;
+      for (i = 0; i < count && y < H; i++) {
+        nx = x + dir * 26 * dpr;
+        stroke(x, y + (Math.random() - 0.5) * step, nx, y + (Math.random() - 0.5) * step);
+        x = nx;
+        if (x > W || x < 0) { dir = -dir; y += step; }
+      }
+      return y < H;
+    }
+    if (!cut || sweep) return;
+    if (calm || !window.requestAnimationFrame) { while (some(400)) {} return; }
+    (function turn() { sweep = some(14) ? requestAnimationFrame(turn) : 0; })();
+  }
+  document.getElementById('rubbed').addEventListener('click', whole);
+  document.getElementById('fresh').addEventListener('click', lay);
+  sheet.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); whole(); }
+  });
+  window.addEventListener('resize', function () { if (sheet.clientWidth && Math.round(sheet.clientWidth * dpr) !== W) lay(); });
+  lay();
+  if (cut) box.className = 'ready';
+})();
 </script>
 </section>
 <section id="leave">
