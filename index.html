@@ -1379,6 +1379,147 @@ VI    VIII  X     XII   II    IV    VI
 <aside class="pencil"><span>checked it against my watch. they agree. of course they agree.</span></aside>
 <aside class="pencil left ink"><span>take it outside at noon and see which one the sun backs.</span></aside>
 </section>
+<section id="sand">
+<style>
+  #sand { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #sand h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #sand p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #6b7388; font-style: italic; }
+  #hourglass { font: 12px/1 ui-monospace, Menlo, Consolas, monospace; color: #6b7388; margin: 1.6rem auto 0;
+               width: 17ch; cursor: pointer; user-select: none; -webkit-user-select: none; }
+  #hourglass b { font-weight: normal; color: #d9cfa6; }
+  #sand button { display: block; margin: 1rem auto 0; padding: 0.3rem 0.9rem; background: none; cursor: pointer;
+                 border: 1px solid #263048; border-radius: 2px; color: #7fb7a4;
+                 font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; }
+  #sand button:hover, #sand button:focus-visible { border-color: #7fb7a4; }
+  #grains { display: block; min-height: 2.6em; margin-top: 0.9rem; text-align: center; }
+  @media screen and (prefers-color-scheme: light) {
+    #sand h2, #sand button { color: #2f6f5e; }
+    #sand h2, #sand button { border-color: #cfc8b6; }
+    #sand p, #hourglass { color: #6a6f7d; }
+    #hourglass b { color: #8a6a1f; }
+  }
+  @media print { #sand h2, #sand p, #hourglass, #hourglass b { color: #000; border-color: #000; } #sand button { display: none; } }
+</style>
+<h2>The sandglass</h2>
+<p>The sundial wants your clock and the tide wants the At. One instrument was asked for that wants nobody
+   and can be left running in an empty room. So sixty full stops were collected from the ends of sentences
+   elsewhere on this page, where they were doing nothing but stopping, and shut in a second glass behind the
+   first, with a waist one character wide. One gets through each second. The sixty take a minute of yours,
+   during which the world, if left alone, goes round between six and seven times and does not notice.</p>
+<pre id="hourglass" role="img" aria-label="a sandglass drawn in characters, two bulbs joined at a narrow waist. All sixty grains, which are full stops, lie level in the lower bulb.">
+=================
+\               /
+ \             /
+  \           /
+   \         /
+    \       /
+     \     /
+      \   /
+       \ /
+       / \
+      /   \
+     /<b>.....</b>\
+    /<b>.......</b>\
+   /<b>.........</b>\
+  /<b>...........</b>\
+ /<b>.............</b>\
+/<b>...............</b>\
+=================
+</pre>
+<button type="button" id="turn">turn it over</button>
+<small id="grains" aria-live="off">Run out. It was turned once before you came, to see that it worked.</small>
+<p>It does not know what time it is and has never said so. It knows how long, which is a different thing
+   and the only one it was asked for. When the last grain is down they lie level, in six rows, which sand
+   has never done, sand not having been set in type. Turn it and they go back through the way they came.
+   It may be turned before it has finished. It does not take this personally, but it does start again from
+   wherever it had got to, and whatever was being timed is then a matter between you and the egg.</p>
+<p>None of the sixty has been lost. They will be returned to their sentences when the glass is no longer
+   wanted, and until then a few lines on this page are getting by on a comma, or on nothing</p>
+<aside class="pencil"><span>boiled an egg by it. three turns. the egg was soft and the world was twenty days older.</span></aside>
+<script>
+// The sandglass. Sixteen rows of cells, fifteen across at the widest, one across at the waist. A grain goes
+// straight down if it can and aslant if it cannot, and the waist lets one by each second and no more.
+(function () {
+  var pre = document.getElementById('hourglass'), said = document.getElementById('grains');
+  var knob = document.getElementById('turn');
+  if (!pre || !said || !knob) return;
+  var R = 16, C = 15, mid = 7, cells = [], r, c, timer = null, turns = 0, began = 0, passed = 0;
+  var ends = ['A minute, and it was yours. Nothing was being timed.',
+              'Another. The world went round six times and most of a seventh. Nobody up there was counting either.',
+              'Down again. They are the same sixty. It has been checked.',
+              'That is a minute. It is offered without comment on what was done with it.'];
+  function half(r) { return r < 8 ? mid - r : r - 8; }   // how far a row reaches either side of the middle
+  function room(r, c) { return r >= 0 && r < R && Math.abs(c - mid) <= half(r); }
+  for (r = 0; r < R; r++) { cells[r] = []; for (c = 0; c < C; c++) cells[r][c] = r >= 10 && room(r, c); }
+  function count(from, to) {
+    var n = 0, r, c;
+    for (r = from; r < to; r++) for (c = 0; c < C; c++) if (cells[r][c]) n++;
+    return n;
+  }
+  function draw() {
+    var out = '=================\n', r, c, w, run;
+    for (r = 0; r < R; r++) {
+      w = half(r); run = '';
+      for (c = mid - w; c <= mid + w; c++) run += cells[r][c] ? '.' : ' ';
+      run = run.replace(/\.+/g, '<b>$&</b>');
+      out += r < 8 ? new Array(r + 1).join(' ') + '\\' + run + '/\n'
+                   : new Array(R - r).join(' ') + '/' + run + '\\\n';
+    }
+    pre.innerHTML = out + '=================\n';
+  }
+  function step() {
+    var moved = false, r, c, i, order, side, to, due;
+    due = Math.floor((Date.now() - began) / 1000) + 1;
+    for (r = R - 2; r >= 0; r--) {
+      order = [];
+      for (c = 0; c < C; c++) if (cells[r][c]) order.push(c);
+      if (Math.random() < 0.5) order.reverse();
+      for (i = 0; i < order.length; i++) {
+        c = order[i]; to = -1;
+        if (r === 7 && passed >= due) continue;               // the waist is keeping time
+        if (room(r + 1, c) && !cells[r + 1][c]) to = c;
+        else {
+          side = Math.random() < 0.5 ? 1 : -1;
+          if (room(r + 1, c + side) && !cells[r + 1][c + side]) to = c + side;
+          else if (room(r + 1, c - side) && !cells[r + 1][c - side]) to = c - side;
+        }
+        if (to < 0) {                                         // nothing below: shuffle along towards a gap by the wall
+          for (side = -1; side < 2 && to < 0; side += 2)
+            if (room(r, c + side) && !cells[r][c + side] && room(r + 1, c + 2 * side) && !cells[r + 1][c + 2 * side]) to = c + side;
+          if (to < 0) continue;
+          cells[r][c] = false; cells[r][to] = true; moved = true;
+          continue;
+        }
+        cells[r][c] = false; cells[r + 1][to] = true; moved = true;
+        if (r === 7) passed++;
+      }
+    }
+    draw();
+    var above = count(0, 8), below = 60 - above;
+    if (above) {
+      said.textContent = above + ' above, ' + below + ' below.';
+      pre.setAttribute('aria-label', 'a sandglass drawn in characters, running. ' + above +
+        ' grains are in the upper bulb and ' + below + ' in the lower.');
+    } else if (!moved) {
+      clearInterval(timer); timer = null;
+      said.textContent = ends[(turns - 1) % ends.length];
+      pre.setAttribute('aria-label', 'a sandglass drawn in characters. All sixty grains lie level in the lower bulb.');
+    }
+  }
+  function turn() {
+    var r, swap;
+    for (r = 0; r < R / 2; r++) { swap = cells[r]; cells[r] = cells[R - 1 - r]; cells[R - 1 - r] = swap; }
+    turns++; began = Date.now(); passed = 0;
+    draw();
+    said.textContent = 'Turned.';
+    if (!timer) timer = setInterval(step, 90);
+  }
+  knob.addEventListener('click', turn);
+  pre.addEventListener('click', turn);
+})();
+</script>
+</section>
 <section id="absent" hidden>
 <h2>While you were out</h2>
 <p>The calendar starts when you arrive, which is flattering and not true. The world was turning before
@@ -3444,6 +3585,7 @@ change .............. none due
   <li>Elsewhere: not indexed</li>
   <li>Eyes: tested; found to be the visitor's</li>
   <li class="gap">Flags: nine; a tenth; nine</li>
+  <li>Full stops: sixty; on loan; returned a second at a time</li>
   <li class="gap">Glue: not supplied</li>
   <li class="gap">Handwriting: the visitor's; marked; not kept</li>
   <li>Hash, the: <i>see under</i> time of day</li>
