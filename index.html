@@ -5439,6 +5439,68 @@ hello  light  turn   back   sea    world</p>
    the days it covers.</p>
 <aside class="pencil"><span>I made one at home from the claims. it is round and I have greeted it. I expect a letter.</span></aside>
 </section>
+<section id="maze">
+<style>
+  #maze { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #maze h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #maze p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #maze p.lede { color: #6b7388; font-style: italic; }
+  #hedge { font: 14px/1 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 1.4rem auto 0.8rem;
+           width: max-content; max-width: 100%; overflow-x: auto; padding: 0.5rem; border: 1px solid transparent; }
+  #hedge:focus-visible { outline: none; border-color: #7fb7a4; }
+  #hedge b { font-weight: normal; color: #d9cfa6; }
+  #hedge i { font-style: normal; color: #3a4560; }
+  #maze .ways { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin: 0 0 0.9rem; }
+  #maze button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                 background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #maze button:hover, #maze button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #trod { display: block; min-height: 2.6em; margin: 0 0 1.2rem; text-align: center; color: #6b7388; font-style: italic; }
+  @media screen and (prefers-color-scheme: light) {
+    #maze h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #maze p { color: #3d4353; }
+    #maze p.lede, #trod { color: #6a6f7d; }
+    #hedge { color: #2f6f5e; } #hedge:focus-visible { border-color: #2f6f5e; }
+    #hedge b { color: #8a6a1f; } #hedge i { color: #cfc8b6; }
+    #maze button { color: #2f6f5e; border-color: #2f6f5e; }
+    #maze button:hover, #maze button:focus-visible { background: #2f6f5e; color: #f4f1e8; }
+  }
+  @media print {
+    #maze h2, #maze p, #hedge, #hedge b, #hedge i, #trod { color: #000; border-color: #000; }
+    #maze .ways { display: none; }
+  }
+</style>
+<h2>The maze</h2>
+<p class="lede">A piece of the high ground was let grow, and then somebody went in with shears. There is one
+   way through it and a number of ways not. It is cut again for every visitor, overnight, by the same hand,
+   which does not remember the last one.</p>
+<pre id="hedge" tabindex="0" role="img" aria-label="a hedge maze cut in hashes, with a gate in the top left corner and a single tilde of sea somewhere inside">###################
+  #     #         #
+# # ### # ##### # #
+# #   #   #   # # #
+# ### ##### # # ###
+#   #       # #   #
+### ####### # ### #
+#         # #   ~ #
+###################</pre>
+<div class="ways" hidden>
+  <button type="button" data-way="0" aria-label="go north">north</button>
+  <button type="button" data-way="3" aria-label="go west">west</button>
+  <button type="button" data-way="1" aria-label="go east">east</button>
+  <button type="button" data-way="2" aria-label="go south">south</button>
+</div>
+<small id="trod" aria-live="polite">Without the current it is a drawing of a maze, and may be done with a finger.
+   The finger is the at sign. The gate is at the top left, where gates are.</small>
+<p>You are the at sign, which is the only character here that says where it is. What you are looking for is the
+   tilde: one square of sea that was hedged in when the planting was done and has been in there since, keeping
+   level. It is not lost. It knows exactly where it is. It has simply never been told the way out, and has
+   stopped asking.</p>
+<p>The dots are where you have been. They are left down on purpose, visitors having complained that every
+   hash looks like every other hash, which was the whole idea of the hash. Walk with the buttons, or put your
+   attention on the hedge itself and use the arrows. Nobody is timing you. The steps are counted, but only by
+   the hedge, and only because it has so little else come through.</p>
+<aside class="pencil"><span>went round the outside. there is no outside. I was in it the whole time.</span></aside>
+</section>
 <section id="leave">
 <style>
   #leave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; counter-reset: ticked; }
@@ -7309,6 +7371,96 @@ hello  light  turn   back   sea    world</p>
            : 'Sluggish. Ask again when your side is less busy.');
       });
     });
+  });
+})();
+</script>
+<script>
+// The maze: cut fresh each visit, walked with the buttons or the arrows.
+(function () {
+  var hedge = document.getElementById('hedge'), trod = document.getElementById('trod');
+  var ways = document.querySelector('#maze .ways');
+  if (!hedge || !trod || !ways) return;
+  var CW = 9, CH = 5, W = CW * 2 + 1, H = CH * 2 + 1;
+  var DX = [0, 1, 0, -1], DY = [-1, 0, 1, 0];
+  var grid, px, py, gx, gy, steps, bumps, found, cuts = 0;
+
+  function cut() {
+    var x, y, seen = [], stack = [[0, 0]], far = 0;
+    grid = [];
+    for (y = 0; y < H; y++) { grid.push([]); for (x = 0; x < W; x++) grid[y].push('#'); }
+    seen[0] = 1; grid[1][1] = ' ';
+    // Shears: go on while there is uncut hedge next door, back up when there is not.
+    while (stack.length) {
+      var c = stack[stack.length - 1], open = [], d;
+      for (d = 0; d < 4; d++) {
+        var nx = c[0] + DX[d], ny = c[1] + DY[d];
+        if (nx >= 0 && ny >= 0 && nx < CW && ny < CH && !seen[ny * CW + nx]) open.push(d);
+      }
+      if (!open.length) { stack.pop(); continue; }
+      d = open[Math.floor(Math.random() * open.length)];
+      var tx = c[0] + DX[d], ty = c[1] + DY[d];
+      grid[c[1] * 2 + 1 + DY[d]][c[0] * 2 + 1 + DX[d]] = ' ';
+      grid[ty * 2 + 1][tx * 2 + 1] = ' ';
+      seen[ty * CW + tx] = 1;
+      stack.push([tx, ty]);
+      // The sea goes at the far end of the longest walk the shears took.
+      if (stack.length > far) { far = stack.length; gx = tx * 2 + 1; gy = ty * 2 + 1; }
+    }
+    grid[1][0] = ' ';
+    px = 0; py = 1; steps = 0; bumps = 0; found = false; cuts++;
+  }
+
+  function draw() {
+    var out = '', x, y;
+    for (y = 0; y < H; y++) {
+      for (x = 0; x < W; x++) {
+        if (x === px && y === py) out += '<b>@</b>';
+        else if (x === gx && y === gy) out += '<b>~</b>';
+        else if (grid[y][x] === '.') out += '<i>.</i>';
+        else out += grid[y][x];
+      }
+      if (y < H - 1) out += '\n';
+    }
+    hedge.innerHTML = out;
+  }
+
+  function go(d) {
+    if (found) { cut(); draw(); trod.textContent = 'Cut again, and not the same. The gate is where it was; it is the one thing that is.'; return; }
+    var nx = px + DX[d], ny = py + DY[d];
+    if (nx < 0) { trod.textContent = 'That is the gate, and the way you came in. It will keep.'; return; }
+    if (grid[ny][nx] === '#') {
+      bumps++;
+      trod.textContent = bumps > 6 ? 'Hedge. It has been hedge each time, and is not going to be talked round.'
+        : bumps > 2 ? 'Hedge again. It is the same height all the way along.' : 'Hedge. It does not give.';
+      return;
+    }
+    grid[py][px] = '.';
+    px = nx; py = ny; steps++;
+    if (px === gx && py === gy) {
+      found = true;
+      trod.textContent = 'The sea, in ' + steps + ' steps, and ' +
+        (bumps ? bumps + (bumps === 1 ? ' hedge' : ' hedges') + ' walked into on the way. ' : 'no hedge touched, which is noted. ') +
+        'It says hello world. It has been waiting to say it to somebody. Any way you go from here cuts the maze again.';
+    } else {
+      trod.textContent = steps === 1 ? 'One step. The gate is behind you.' : steps + ' steps.';
+    }
+    draw();
+  }
+
+  cut(); draw();
+  ways.hidden = false;
+  hedge.setAttribute('role', 'application');
+  hedge.setAttribute('aria-label', 'a hedge maze cut in hashes. you are the at sign, at the gate in the top left. use the arrow keys, or the four buttons underneath, to find the tilde.');
+  trod.textContent = 'You are at the gate. Nothing has been trodden yet.';
+  ways.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('button') : null;
+    if (b) go(+b.getAttribute('data-way'));
+  });
+  hedge.addEventListener('keydown', function (e) {
+    var d = { ArrowUp: 0, ArrowRight: 1, ArrowDown: 2, ArrowLeft: 3 }[e.key];
+    if (d === undefined || e.altKey || e.ctrlKey || e.metaKey) return;
+    e.preventDefault();
+    go(d);
   });
 })();
 </script>
