@@ -6304,6 +6304,137 @@ ________:__|__________
   });
 })();
 </script>
+<section id="lost">
+<style>
+  #lost { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #lost h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #lost p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #lost p.lede { color: #6b7388; font-style: italic; }
+  #lost table { width: 100%; border-collapse: collapse; margin: 0 0 1.2rem; font-size: 0.9rem; line-height: 1.45; }
+  #lost caption { caption-side: bottom; text-align: right; font-size: 0.85rem; font-style: italic; color: #6b7388;
+                  padding-top: 0.6rem; }
+  #lost th { font: 0.7rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.15em; text-transform: uppercase;
+             text-align: left; color: #6b7388; padding: 0 0.6rem 0.4rem 0; border-bottom: 1px solid #263048; }
+  #lost td { vertical-align: top; padding: 0.55rem 0.6rem 0.55rem 0; border-bottom: 1px dotted #263048; color: #b9b6ac; }
+  #lost td:first-child { font: 0.8rem/1.6 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; white-space: nowrap; }
+  #lost td:last-child, #lost th:last-child { padding-right: 0; }
+  #lost td i { color: #6b7388; }
+  #lost tr.gone td { color: #6b7388; }
+  #lost tr.gone td:nth-child(2) { text-decoration: line-through; text-decoration-color: #3a4560; }
+  #lost form { display: flex; gap: 0.5rem; margin: 0 0 0.8rem; }
+  #lost input { flex: 1; min-width: 0; font: inherit; font-size: 0.9rem; color: #e8e6df; background: none;
+                border: 0; border-bottom: 1px solid #263048; border-radius: 0; padding: 0.25rem 0; }
+  #lost input::placeholder { color: #6b7388; font-style: italic; }
+  #lost input:focus { outline: none; border-color: #7fb7a4; }
+  #lost button { font: inherit; font-size: 0.9rem; color: #7fb7a4; background: none; border: 1px solid #263048;
+                 border-radius: 0.2rem; padding: 0.25rem 0.8rem; cursor: pointer; }
+  #lost button:hover, #lost button:focus-visible { border-color: #7fb7a4; outline: none; }
+  #lost output { display: block; min-height: 3.1em; line-height: 1.55; color: #d9cfa6; border-left: 1px solid #263048;
+                 padding-left: 0.9rem; margin: 0 0 1.2rem; }
+  #lost .small { font-size: 0.85rem; color: #6b7388; font-style: italic; text-align: right; }
+  @media screen and (prefers-color-scheme: light) {
+    #lost h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #lost p, #lost td { color: #3d4353; }
+    #lost p.lede, #lost caption, #lost th, #lost td i, #lost tr.gone td, #lost .small { color: #6a6f7d; }
+    #lost th, #lost td, #lost input, #lost button, #lost output { border-color: #cfc8b6; }
+    #lost td:first-child, #lost output { color: #8a6a1f; }
+    #lost input { color: #1c2030; }
+    #lost input:focus { border-color: #2f6f5e; }
+    #lost button { color: #2f6f5e; }
+    #lost tr.gone td:nth-child(2) { text-decoration-color: #cfc8b6; }
+  }
+  @media print { #lost h2, #lost p, #lost th, #lost td, #lost caption { color: #000; border-color: #000; }
+                 #lost form, #lost output { display: none; } }
+</style>
+<h2>Lost property</h2>
+<p class="lede">Things found on the world after visitors have gone, and handed in. Nobody is sure to whom. They
+   are on a shelf, which is the lowest one, there being only the one.</p>
+<p>Articles are ticketed as they come in and described as they were found, not as they are believed to be. The
+   office does not guess. An article is kept until it is called for, and since the office has no means of
+   throwing anything away, this has so far come to the same thing as for ever.</p>
+<table>
+  <caption>Not listed: the moon, which is not lost, and has been told so.</caption>
+  <thead>
+    <tr><th scope="col">Ticket</th><th scope="col">Article</th><th scope="col">Where found</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>001</td><td>Comma, one. Small, black, hooked at the bottom. <i>Has been asked after, but not by its owner.</i></td>
+        <td>Between the two words, where there was room for it and it was not.</td></tr>
+    <tr><td>002</td><td>Exclamation mark, upright. <i>Believed to go with 001. They do not speak.</i></td>
+        <td>East side, sticking out a little.</td></tr>
+    <tr><td>003</td><td>Capital H, hardly used.</td>
+        <td>At the very front, before anything had been said.</td></tr>
+    <tr><td>004</td><td>Glove, left. Damp.</td>
+        <td>On the ice at the top. The right one will be at the bottom, and nobody is going to look.</td></tr>
+    <tr class="gone"><td>005</td><td>Shadow, crescent-shaped.</td>
+        <td>Under the moon. Collected by the moon, the same night, without a word.</td></tr>
+    <tr><td>006</td><td>Umbrella. Opened once, indoors, to see.</td>
+        <td>The sea. It was floating handle up and making the best of it.</td></tr>
+    <tr><td>007</td><td>Half a minute. <i>The other half was not with it.</i></td>
+        <td>Somewhere in a turn that went round quicker than the others.</td></tr>
+    <tr><td>008</td><td>Train of thought, incomplete. Ends in "and then".</td>
+        <td>About two thirds of the way down, where they generally are.</td></tr>
+    <tr><td>009</td><td>Pencil, short, well chewed.</td>
+        <td>The margin. <i>The owner is known and comes in most days. It is never mentioned.</i></td></tr>
+    <tr><td>010</td><td>Sense of direction. Still pointing.</td>
+        <td>The hedge.</td></tr>
+  </tbody>
+</table>
+<p>To claim, describe the article at the hatch. The clerk will look on the shelf. A good description is one the
+   article would recognise.</p>
+<form id="wicket" hidden>
+  <input id="claim" type="text" maxlength="60" autocomplete="off" spellcheck="false"
+         placeholder="what you have lost" aria-label="describe what you have lost">
+  <button type="submit">ask at the hatch</button>
+</form>
+<output id="clerk" for="claim" aria-live="polite">The hatch is shut. It opens by the same current as the world, and
+   without it the shelf can be read through the glass but nothing can be handed across.</output>
+<p class="small">Found something? Leave it where it is. That is how it got here.</p>
+<aside class="pencil"><span>it is not chewed. it is shaped.</span></aside>
+<script>
+(function () {
+  var hatch = document.getElementById("wicket"), claim = document.getElementById('claim'),
+      clerk = document.getElementById('clerk');
+  if (!hatch || !claim || !clerk) return;
+  var asked = 0, last = '';
+  var shelf = [
+    [/comma|,/, 'Ticket 001. It is here. But the greeting has been said without it a great many times now and is used to the gap. The clerk will hold it a little longer, in case you change your mind about putting it back.'],
+    [/exclam|!|bang|shout/, 'Ticket 002. You may have it, though you will have to carry it upright, and it makes everything you say on the way home sound more certain than it is.'],
+    [/capital|\bh\b|letter/, 'Ticket 003. The clerk holds it up to the light. It is a good one. The greeting begins small on purpose, though, and you would have nowhere to put it.'],
+    [/glove|mitten|hand/, 'Ticket 004, the left. It is handed across. It will not be dry by the time you get home. About the right one the clerk can only say what is on the ticket.'],
+    [/shadow|shade|moon/, 'That was 005 and it has gone. The clerk remembers, because nothing else ever has. If it was yours as well, you will have to take it up with the moon.'],
+    [/umbrella|brolly|parasol/, 'Ticket 006. The clerk tips the sea out of it first. There is no weather here to use it against, which may be how it came to be left.'],
+    [/time|minute|hour|second|afternoon|morning|day|year|youth/, 'There is half a minute, ticket 007. If you lost more than that it was not here, or it has not been found yet. The clerk notes that people who ask for time rarely want the same piece back.'],
+    [/thought|idea|mind|plot|thread|point|what i was/, 'Ticket 008. The clerk reads it out as far as it goes: "and then". If that is where yours stopped, it is yours. Most people say it is.'],
+    [/pencil|pen\b|rubber|eraser/, 'Ticket 009 is spoken for, though it has never been claimed. The clerk suggests you look in the margin, quietly, and do not say who sent you.'],
+    [/direction|way|bearing|compass|map|north|myself|lost\b/, 'Ticket 010. It is put on the counter and turns to point at you, which the clerk takes as proof. Hold it level going out.'],
+    [/key|keys/, 'No keys. Nothing on the world locks. The clerk says this kindly; it is the commonest thing asked for and has never once been here.'],
+    [/hello|greeting|hi\b/, 'That is not lost. It is at the top, where it was left, saying itself. The clerk can see it from here.'],
+    [/world|earth|globe|planet/, 'The world has not been handed in. It would not go on the shelf. If you have lost it all the same, it is behind you, and a little above.'],
+    [/sock|hat|scarf|coat|shoe|wallet|purse|phone|glasses|ring|bag|ticket|book/, 'The clerk looks along the shelf, which does not take long, and then under it. Not here. An article like that would have been remembered. It has been written down in case.'],
+    [/nothing|none|no\b|not sure|dont know|don't know|\?/, 'Then it is all still with you, or it is something you have not missed yet. The clerk says either is usual, and to come back when you know which.'],
+    [/love|heart|hope|faith|nerve|temper|patience|marbles|touch|interest|sleep|wits|will/, 'The clerk does not laugh. Things of that kind are not handed in; whoever finds one tends to keep it. But a note is made, and yours would be known by the description if it came.']
+  ];
+  hatch.hidden = false;
+  clerk.textContent = 'The hatch is open. There is a bell, but the clerk is already there.';
+  hatch.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var said = claim.value.toLowerCase().replace(/\s+/g, ' ').trim(), i;
+    if (!said) { clerk.textContent = 'The clerk waits. You will have to say what it was; the shelf cannot be gone through on a feeling.'; return; }
+    asked++;
+    if (said === last) { clerk.textContent = 'The clerk looked a moment ago and has looked again, to be civil. The shelf is as it was.'; return; }
+    last = said;
+    for (i = 0; i < shelf.length; i++) {
+      if (shelf[i][0].test(said)) { clerk.textContent = shelf[i][1]; return; }
+    }
+    clerk.textContent = asked > 3
+      ? 'Not on the shelf. The clerk has begun a list of what you have asked for, and says, not unkindly, that it is getting to be a longer list than the shelf.'
+      : 'Not on the shelf. The clerk writes it down as you gave it, "' + said + '", and will know it if it comes in. Nothing has come in for some time.';
+  });
+})();
+</script>
+</section>
 <section id="leave">
 <style>
   #leave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; counter-reset: ticked; }
