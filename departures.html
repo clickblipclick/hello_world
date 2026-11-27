@@ -20,6 +20,13 @@
   a { color: #7fb7a4; }
   footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; }
   @media print { body { background: #fff; color: #000; } #board { background: #fff; color: #000; border-color: #000; } }
+  #arrivals { margin: 0; padding: 0.9rem 0.8rem; background: #070b14; border: 1px solid #263048; overflow: hidden;
+              font: min(13px, 2.9vw)/1.9 ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; letter-spacing: 0.04em; }
+  #arrivals .head { color: #6b7388; }
+  #arrivals .next { color: #e8e6df; }
+  h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #7fb7a4;
+       border-top: 1px solid #263048; padding-top: 2rem; margin: 2.6rem 0 0.4rem; }
+  @media print { #arrivals { background: #fff; color: #000; border-color: #000; } }
 </style>
 </head>
 <body>
@@ -39,6 +46,22 @@
    never left late. This is the whole of its reputation and it was not difficult to earn.</p>
 <noscript><p>The board is worked by script, and without one the flaps hang as they were left. The Caret
    has sailed regardless. It does not consult the board; nobody aboard has seen it.</p></noscript>
+<h2 id="in">Arrivals</h2>
+<p class="lede">A board for the other direction, hung on the back of the first to save a wall.</p>
+<pre id="arrivals" aria-label="an arrivals board, six sailings deep" aria-live="off">TIME   FROM                    REMARKS
+--:--  NOBODY HAS COME ROUND TO WIND THIS SIDE
+</pre>
+<p>It will be seen that the times are the same. The Caret arrives at the minute it leaves, there being
+   nowhere to lie alongside in between, and so each sailing is met, in the strict sense, by itself.
+   The harbourmaster, had there been a harbour, would have called this a turnaround of nil and asked
+   for it in writing.</p>
+<p>The column headed FROM gives wherever the sailing before was bound. Read the two sides against each
+   other and they agree: what is promised on the front at one sailing is reported on the back at the next,
+   four minutes on. Whether the ship went there in the meantime is not the board&rsquo;s business. It was
+   told a destination and has passed the message along, which is all a board can be asked.</p>
+<p>Persons meeting the ship are advised to wait where the arrivals hall would be. It is the same place as
+   the departure lounge, and as the quay, and the seating throughout is of the standing kind.</p>
+<noscript><p>This side is wound by the same script as the other, and hangs the same way without it.</p></noscript>
 <footer>The ship itself can be watched, when it can be found.
 <a href="./">It is on the world.</a></footer>
 </main>
@@ -108,6 +131,70 @@
   paint(); tick();
   setInterval(tick, 1000);
   setInterval(flap, 45);
+})();
+</script>
+<script>
+// The back of the board. It keeps the same slots as the front, and what it says a sailing has come FROM is
+// what the front said the sailing before it was going TO, so the two sides never contradict one another.
+(function () {
+  var board = document.getElementById('arrivals');
+  if (!board) return;
+  var SLOT = 240000, ROWS = 6, FLAPS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:,.-';
+  var from = ['NOT OLAND', 'AWAY FROM THE HASH', 'MORE SEA', 'THE FLATS, PRESUMABLY', 'FULL STOP DEEP',
+              'LAND, THEN NOT', 'EAST, BROADLY', 'THE TILDE SEA', 'WHERE IT WAS', 'ROUND THE BACK',
+              'THE COLONS, BRIEFLY', 'ANYWHERE COASTLESS', 'THE ICE, AND BACK'];
+  var notes = ['ON TIME', 'ON TIME', 'ON TIME', 'DID NOT STOP', 'NOT MET', 'NO BERTH', 'SAME SHIP',
+               'AS IT LEFT', 'NOBODY ASHORE', 'MET BY ITSELF', 'NOTHING TO LAND'];
+  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function mix(n) { n = (n ^ 61) ^ (n >>> 16); n = (n + (n << 3)) | 0; n ^= n >>> 4;
+                    n = Math.imul(n, 0x27d4eb2d); return (n ^ (n >>> 15)) >>> 0; }
+  function pad(s, w) { return (s + new Array(w + 1).join(' ')).slice(0, w); }
+  function two(n) { return (n < 10 ? '0' : '') + n; }
+  function wanted(now) {
+    var first = Math.floor(now / SLOT) + 1, lines = [];
+    for (var i = 0; i < ROWS; i++) {
+      var s = first + i, at = new Date(s * SLOT);
+      var note = notes[(mix(s) >>> 16) % notes.length];
+      if (i === 0 && s * SLOT - now < 30000) note = 'NOW ARRIVING';
+      lines.push(two(at.getHours()) + ':' + two(at.getMinutes()) + '  ' +
+                 pad(from[mix(s - 1) % from.length], 24) + pad(note, 15));
+    }
+    return lines;
+  }
+  var shown = [], goal = wanted(Date.now());
+  function paint() {
+    board.textContent = '';
+    var head = document.createElement('span');
+    head.className = 'head';
+    head.textContent = 'TIME   FROM                    REMARKS\n';
+    board.appendChild(head);
+    for (var i = 0; i < shown.length; i++) {
+      var row = document.createElement('span');
+      if (i === 0) row.className = 'next';
+      row.textContent = shown[i] + '\n';
+      board.appendChild(row);
+    }
+  }
+  // This side is wound from the far end, so its flaps settle right to left, a column at a time.
+  function flap() {
+    var moved = false;
+    for (var i = 0; i < goal.length; i++) {
+      var row = shown[i].split('');
+      for (var j = row.length - 1; j >= 0; j--) {
+        var g = goal[i].charAt(j);
+        if (row[j] === g) continue;
+        row[j] = still ? g : FLAPS.charAt((FLAPS.indexOf(row[j]) + 1) % FLAPS.length);
+        moved = true;
+        if (!still) break;
+      }
+      shown[i] = row.join('');
+    }
+    if (moved) paint();
+  }
+  for (var i = 0; i < ROWS; i++) shown.push(still ? goal[i] : pad('', goal[i].length));
+  paint();
+  setInterval(function () { goal = wanted(Date.now()); }, 1000);
+  setInterval(flap, still ? 1000 : 12);
 })();
 </script>
 </body>
