@@ -1012,6 +1012,122 @@ document.getElementById('carry').addEventListener('click', function (e) {
 <output id="corked" for="note"></output>
 <small id="found" aria-live="polite"></small>
 </section>
+<section id="stamps">
+<style>
+  /* Postage. Four stamps on gummed paper, perforated by punching the corners out of a grid. No script. */
+  #stamps { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #stamps h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+               color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #stamps p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; }
+  #stamps p.lede { color: #6b7388; font-style: italic; }
+  #stamps a { color: #7fb7a4; }
+  #stamps .sheet { list-style: none; margin: 1.8rem 0 1.4rem; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  #stamps .sheet li { position: relative; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45)); }
+  #stamps .stamp { box-sizing: border-box; width: 100px; height: 130px; padding: 8px; background: #ebe4d0;
+    -webkit-mask: linear-gradient(#000 0 0) center / calc(100% - 8px) calc(100% - 8px) no-repeat,
+                  radial-gradient(circle at 5px 5px, transparent 2.6px, #000 3.1px) -5px -5px / 10px 10px;
+            mask: linear-gradient(#000 0 0) center / calc(100% - 8px) calc(100% - 8px) no-repeat,
+                  radial-gradient(circle at 5px 5px, transparent 2.6px, #000 3.1px) -5px -5px / 10px 10px; }
+  #stamps .stamp svg { display: block; width: 84px; height: 114px; }
+  #stamps .stamp text { font-family: Georgia, serif; fill: currentColor; text-anchor: middle; }
+  #stamps .green { color: #2f6f5e; }
+  #stamps .indigo { color: #2b3a67; }
+  #stamps .carmine { color: #9a3b3b; }
+  #stamps .mark { position: absolute; right: -6px; top: 34px; width: 64px; height: 64px; color: #1d2433;
+                  transform: rotate(-14deg) scale(1.25); opacity: 0; pointer-events: none; }
+  #stamps li:nth-child(even) .mark { right: auto; left: -4px; top: 6px; transform: rotate(9deg); }
+  #stamps:has(.cancel input:checked) .mark { opacity: 0.8; transform: rotate(-14deg); transition: transform 0.12s ease-in, opacity 0.05s; }
+  #stamps:has(.cancel input:checked) li:nth-child(even) .mark { transform: rotate(9deg); }
+  #stamps .cancel { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4; font-style: normal; }
+  #stamps .cancel label { cursor: pointer; }
+  #stamps .cancel input { accent-color: #7fb7a4; margin: 0 0.6em 0 0; }
+  #stamps p.small { font-size: 0.9rem; color: #6b7388; font-style: italic; }
+  @media (prefers-reduced-motion: reduce) { #stamps .mark { transition: none !important; } }
+  @media screen and (prefers-color-scheme: light) {
+    #stamps h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #stamps p { color: #4a4f5c; }
+    #stamps p.lede, #stamps p.small { color: #6a6f7d; }
+    #stamps .sheet li { filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3)); }
+    #stamps .cancel, #stamps a { color: #2f6f5e; }
+    #stamps .cancel input { accent-color: #2f6f5e; }
+  }
+  @media print { #stamps h2, #stamps p, #stamps .cancel { color: #000; border-color: #000; } }
+</style>
+<h2>Postage</h2>
+<p class="lede">There is no post office. The postcards said so and the bottles did not argue. Stamps have been
+   issued all the same, it being felt that a world ought to have some, and that having no post was a poor
+   reason to be caught without postage.</p>
+<ul class="sheet">
+  <li><div class="stamp green">
+    <svg viewBox="0 0 104 134" role="img" aria-label="a green stamp of one comma, showing the world with its ice at the top">
+      <defs>
+        <g id="st-globe" fill="currentColor" stroke="currentColor">
+          <circle cx="52" cy="62" r="30" fill="none" stroke-width="1.5"/>
+          <path stroke="none" d="M44 35q8-4 16 0q-8 3-16 0z"/>
+          <path stroke="none" d="M38 44q8-6 16-2q6 4 2 10q-4 6-12 5q-8 2-10-5q-1-5 4-8z"/>
+          <path stroke="none" d="M56 66q8-2 12 4q2 8-4 12q-8 2-10-6q-2-6 2-10z"/>
+          <path fill="none" stroke-width="1" d="M25 64h9M29 74h12M33 82h8M64 48h10M68 56h11M44 88h14"/>
+        </g>
+        <g id="st-frame" fill="none" stroke="currentColor">
+          <rect x="2" y="2" width="100" height="130" stroke-width="2"/>
+          <rect x="6" y="6" width="92" height="122" stroke-width="0.6"/>
+          <path stroke-width="0.6" d="M6 22h92M6 106h92"/>
+        </g>
+        <g id="st-mark" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="30" cy="30" r="27"/>
+          <circle cx="30" cy="30" r="18" stroke-width="1"/>
+          <path stroke-width="1.2" d="M1 22q5-4 10 0M1 30q5-4 10 0M1 38q5-4 10 0M49 22q5-4 10 0M49 30q5-4 10 0M49 38q5-4 10 0"/>
+          <text x="30" y="29" font-size="7" letter-spacing="0.5" stroke="none" fill="currentColor" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, monospace">HELLO</text>
+          <text x="30" y="37" font-size="5" letter-spacing="0.5" stroke="none" fill="currentColor" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, monospace">NOWHERE</text>
+        </g>
+      </defs>
+      <use href="#st-frame"/>
+      <text x="52" y="17" font-size="8" letter-spacing="1.5">HELLO WORLD</text>
+      <use href="#st-globe" transform="translate(0 2)"/>
+      <text x="52" y="121" font-size="10" letter-spacing="1">1 COMMA</text>
+    </svg></div>
+    <svg class="mark" viewBox="0 0 60 60" aria-hidden="true"><use href="#st-mark"/></svg></li>
+  <li><div class="stamp indigo">
+    <svg viewBox="0 0 104 134" role="img" aria-label="an indigo stamp of two commas, showing the moon as a crescent among four stars">
+      <use href="#st-frame"/>
+      <text x="52" y="17" font-size="8" letter-spacing="1.5">HELLO WORLD</text>
+      <path fill="currentColor" d="M62 36a30 30 0 1 0 0 56a22 28 0 1 1 0-56z"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.2" d="M78 40v6M75 43h6M86 66v6M83 69h6M74 88v6M71 91h6M20 34v4M18 36h4"/>
+      <text x="52" y="121" font-size="10" letter-spacing="1">2 COMMAS</text>
+    </svg></div>
+    <svg class="mark" viewBox="0 0 60 60" aria-hidden="true"><use href="#st-mark"/></svg></li>
+  <li><div class="stamp carmine">
+    <svg viewBox="0 0 104 134" role="img" aria-label="a carmine stamp of three commas, showing the ship under two sails on a sea of drawn waves">
+      <use href="#st-frame"/>
+      <text x="52" y="17" font-size="8" letter-spacing="1.5">HELLO WORLD</text>
+      <path fill="currentColor" d="M30 76h44l-7 11h-30zM51 76v-42h2v42zM55 38l17 34h-17zM49 44l-13 28h13z"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.2" d="M14 94q5-5 10 0t10 0t10 0t10 0t10 0t10 0t10 0t6 0M18 101q5-5 10 0t10 0t10 0t10 0t10 0t10 0t8 0"/>
+      <text x="52" y="121" font-size="10" letter-spacing="1">3 COMMAS</text>
+    </svg></div>
+    <svg class="mark" viewBox="0 0 60 60" aria-hidden="true"><use href="#st-mark"/></svg></li>
+  <li><div class="stamp green">
+    <svg viewBox="0 0 104 134" role="img" aria-label="a green stamp of one comma again, with the world printed upside down inside a frame that is the right way up">
+      <use href="#st-frame"/>
+      <text x="52" y="17" font-size="8" letter-spacing="1.5">HELLO WORLD</text>
+      <use href="#st-globe" transform="translate(0 2) rotate(180 52 62)"/>
+      <text x="52" y="121" font-size="10" letter-spacing="1">1 COMMA</text>
+    </svg></div>
+    <svg class="mark" viewBox="0 0 60 60" aria-hidden="true"><use href="#st-mark"/></svg></li>
+</ul>
+<p>The issue is of four. They are perforated ten by thirteen, gummed in principle, and priced in commas, of
+   which <a href="#coin">the mint</a> has struck one. A full set comes to seven and so cannot be bought, by
+   anybody, at a counter that is in any case not there. Every known example is accordingly unused, and in the
+   state collectors call mint, for once with a reason.</p>
+<p>The fourth is the one comma over again with its middle the wrong way up. A sheet went through the press
+   backwards and was let stand, it being argued that from where the world sits nobody could say which sheet
+   that was. Anywhere else such a stamp is worth more than the album it is stuck in. Here it is worth one
+   comma, the same as its neighbour, there being no second comma to make up the difference.</p>
+<p class="cancel"><label><input type="checkbox">bring the handstamp down</label></p>
+<p class="small">The handstamp gives the place of posting, which is nowhere, and leaves out the date, which it
+   was not told. Lift it again and the ink comes up with it. No other postal authority offers this, and it is
+   thought to be why the others are solvent.</p>
+<aside class="pencil"><span>licked the third one. it tastes of glass.</span></aside>
+</section>
 <section id="ear">
 <h2>Listening</h2>
 <p>It makes no sound, there being nothing for it to make a sound in. But each kind of place has been
