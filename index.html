@@ -65,6 +65,9 @@
           letter-spacing: 0.05em; white-space: pre-line; }
   #cal .diary { margin-top: 1.6rem; }
   #cal .diary a { color: #7fb7a4; }
+  #cal .today { margin-top: 1.2rem; padding-left: 0.9rem; border-left: 1px solid #263048; }
+  #cal .today b { font-weight: normal; font-style: normal; color: #d9cfa6; }
+  @media screen and (prefers-color-scheme: light) { #cal .today { border-left-color: #cfc8b4; } #cal .today b { color: #7a6a2b; } }
   #chart { display: none; }
   #globe:focus { outline: none; }
   #globe:focus-visible { outline: 1px dotted #7fb7a4; outline-offset: 0.8rem; border-radius: 50%; }
@@ -1479,7 +1482,68 @@ document.getElementById('carry').addEventListener('click', function (e) {
    observances have been slowed to your pace and put in a form your own calendar will take:
    <a href="almanac.ics">the almanac</a>, eleven occasions, repeating. Subscribe and the Shade will cross your month
    as well, at noon on the fifteenth, for four minutes. You will be shown as free throughout. Everyone there is.</p>
+<p class="today" id="today">What the almanac holds for today cannot be said from this side, the date being kept
+   on yours, with the scripts. It is safe to assume that nothing is expected of you.</p>
+<aside class="pencil left"><span>it knew what day it was. I had not told it. I checked my pockets.</span></aside>
 </section>
+<script>
+// The almanac, read against the visitor's own date. The same eleven occasions as almanac.ics, by the same rules.
+(function () {
+  var slot = document.getElementById('today');
+  if (!slot) return;
+  var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  function held(d) {
+    var w = d.getDay(), n = d.getDate(), m = d.getMonth() + 1, out = [];
+    if (m === 1 && n === 1) out.push(['The beginning of time (observed)',
+      'Time on the world began when you arrived, which is not today, but it has to be kept on some day and this one was free.']);
+    if (m === 2 && n === 29) out.push(['A year, if there were years',
+      'There are none, the world having nothing to go round. You have waited four of your own for this and may feel what you like about it.']);
+    if (m === 3 && n === 9) out.push(['Flag Day!', 'For the Exclamations. Plant one today and it counts double, though nobody is counting.']);
+    if (m === 6 && n === 21) out.push(['Midwinter at the Asterisk Caps (south)',
+      'The world has no tilt and so no seasons. Midwinter is kept anyway, the ice being there and it seeming rude not to.']);
+    if (m === 10 && n === 1) out.push(['Cloud expected',
+      'The Dittos come over from the west in rows. This is true of every other day as well, but today it is official.']);
+    if (m === 12 && n === 21) out.push(['Midwinter at the Asterisk Caps (north)', 'See the other one. It is the same ice, the other way up.']);
+    if (m === 12 && n === 31) out.push(['Full Stop', 'Sentences end here. Expect a long pause, then land, or morning, whichever comes first.']);
+    if (n === 1) out.push(['The At goes round the back', 'For reasons of its own. No action is required, and none is possible.']);
+    if (n === 15) out.push(['The Shade', '']);
+    if (w === 2 && n > 7 && n < 15) out.push(['The Caret sights land', '']);
+    if (w === 0) out.push(['Starday', 'Observed by carrying on exactly as usual. If you were going to do something today, that is the observance.']);
+    return out;
+  }
+  function hour(name, now) {
+    var t = now.getHours() * 60 + now.getMinutes();
+    if (name === 'The Shade')
+      return t < 720 ? 'At noon, for four minutes, a small round night crosses the day. It has not happened yet. Nobody underneath will look up. You may.'
+        : t < 724 ? 'It is happening now, as you read: a small round night, crossing the day from west to east. You were shown as free for it and here you are.'
+        : 'At noon a small round night crossed the day, and took four minutes over it. That was earlier. Nobody underneath looked up, and it seems you were busy.';
+    return t < 180 ? 'At three this morning, which is still to come. Then it turns away. The crew regard this as a route.'
+      : t < 181 ? 'It is sighting it now. In a minute it will turn away. Say nothing; the hour was chosen so as not to disturb the land.'
+      : 'At three this morning, while you were not disturbed, and then it turned away. The crew regard this as a route.';
+  }
+  function tell() {
+    var now = new Date(), got = held(now), s = 'By your own calendar it is <b>' + DAYS[now.getDay()] + '</b>, and the almanac ', i, d, next;
+    if (got.length) {
+      s += 'has ' + (got.length === 1 ? 'this' : got.length === 2 ? 'two things' : 'a full page') + ' for it.';
+      for (i = 0; i < got.length; i++) s += ' <b>' + got[i][0] + '.</b> ' + (got[i][1] || hour(got[i][0], now));
+      if (got.length > 1) s += ' They do not clash. Nothing here takes up enough room to.';
+    } else {
+      for (i = 1; i < 8; i++) {
+        d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i, 12);
+        next = held(d);
+        if (next.length) break;
+      }
+      s += 'has nothing down for it. This is not an oversight. A day with nothing in it is the commonest kind there, ' +
+           'and they are rather proud of the run. The next thing is <b>' + next[0][0] + '</b>, ' +
+           (i === 1 ? 'tomorrow' : i === 2 ? 'the day after tomorrow' : 'on ' + DAYS[d.getDay()]) +
+           (next.length > 1 ? ', and it will not be alone' : '') + '. You need not prepare.';
+    }
+    slot.innerHTML = s;
+  }
+  tell();
+  setInterval(tell, 30000);
+})();
+</script>
 <section id="dial">
 <style>
   #dial { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
