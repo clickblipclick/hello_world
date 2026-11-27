@@ -6144,6 +6144,166 @@ ________:__|__________
   });
 })();
 </script>
+<section id="darkroom">
+<style>
+  #darkroom { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #darkroom h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+                 color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #darkroom p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #darkroom p.lede { color: #6b7388; font-style: italic; }
+  #tray { margin: 1.4rem auto 0.8rem; width: max-content; max-width: 100%; padding: 1rem; box-sizing: border-box;
+          background: #1c0808; border: 1px solid #5a1d1d; box-shadow: inset 0 0 1.5rem #000; transition: background 1.2s, border-color 1.2s; }
+  #tray.lamp { background: #2b2f3a; border-color: #6b7388; }
+  #bromide { font: 13px/1.15 ui-monospace, Menlo, Consolas, monospace; margin: 0; padding: 0.9rem 0.8rem;
+           background: #c9a394; color: #1a0b0b; transition: background 0.4s linear; overflow: hidden; }
+  #tray.lamp #bromide { transition: background 1.2s; }
+  #bromide b, #bromide i, #bromide u { font-weight: normal; font-style: normal; text-decoration: none; opacity: 0;
+                                 transition: opacity 0.4s linear; }
+  #darkroom .bath { text-align: center; margin: 0 0 0.9rem; }
+  #darkroom button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                     background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #darkroom button:hover, #darkroom button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #seconds { display: inline-block; min-width: 4em; margin-left: 0.8em; font: 0.8rem ui-monospace, Menlo, Consolas, monospace;
+             color: #b0776a; text-align: left; }
+  #devnote { display: block; min-height: 3.9em; margin: 0 0 1.2rem; text-align: center; color: #6b7388; font-style: italic; }
+  @media screen and (prefers-color-scheme: light) {
+    #darkroom h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #darkroom p { color: #3d4353; }
+    #darkroom p.lede, #devnote { color: #6a6f7d; }
+    #darkroom button { color: #2f6f5e; border-color: #2f6f5e; }
+    #darkroom button:hover, #darkroom button:focus-visible { background: #2f6f5e; color: #f4f1e8; }
+    #seconds { color: #8a4a3f; }
+  }
+  @media print {
+    #darkroom h2, #darkroom p, #devnote { color: #000; border-color: #000; }
+    #darkroom .bath { display: none; }
+    #tray { background: none; border-color: #000; box-shadow: none; }
+    #bromide { background: none !important; color: #000; }
+    #bromide b, #bromide i, #bromide u { opacity: 1 !important; }
+  }
+</style>
+<h2>The darkroom</h2>
+<p class="lede">Through the curtain, and mind the step. The lamp in here is red, the one colour the paper cannot
+   see. There is a sheet on the bench that has already been shown the world, for about as long as it takes to
+   say so, and does not yet know what it saw.</p>
+<div id="tray">
+<pre id="bromide" role="img" aria-label="a sheet of photographic paper, exposed and not yet developed. it is blank."><i>   .        *           .   </i>
+<i>        .         .      *  </i>
+<u>           _______          </u>
+<u>        .-'       '-.       </u>
+<u>       /             \      </u>
+<u>      |  </u><b>hello world</b><u>  |     </u>
+<u>       \             /      </u>
+<b>~~~~~~~~~~~~~~~~~~~~~~~~~~~~</b>
+<u>  ~    ~~      ~     ~~   ~ </u>
+<i>     ~      ~~     ~      ~ </i></pre>
+</div>
+<p class="bath" hidden><button type="button" id="dip">slide it into the tray</button><span id="seconds" aria-hidden="true"></span></p>
+<small id="devnote" aria-live="polite">Without the current the tray is dry and the sheet stays blank, which is how
+   paper is meant to look in the dark. The picture is on it all the same. Print the page and it will come up,
+   printing being the one process here that needs no chemistry.</small>
+<p>A picture arrives in order of darkness. The words come first, and the line of the sea, being the blackest
+   things on the negative. Then the rim of the world. The stars are last, and faint, and are what you are
+   waiting for. Lift the sheet too early and there is a greeting with no sky. Leave it lying and the developer,
+   having finished the picture, starts on the paper, and goes on until the two cannot be told apart.</p>
+<p>There is a clock, which counts and offers no opinion. Nobody in a darkroom has ever been told the right number.
+   They are told <q>when it looks right</q>, by someone standing behind them, and here there is nobody
+   behind you. The fixer is the second tray. It stops everything where it is, for good, and after it the white
+   lamp may go on and you can see what you have actually made, which is always a little darker than it looked
+   under the red.</p>
+<p>The developer does not stop because you have looked away. Go and read something else on this page and it
+   will carry on in here without you. If your own lamp is on, light on the page and dark on the letters, then
+   it is on in here as well, and the paper will take a grey from it that no fixer gets out. This is not
+   a fault. It is what the curtain was for.</p>
+<aside class="pencil"><span>eleven seconds. the stars were only just. kept it anyway.</span></aside>
+</section>
+<script>
+// The darkroom: a sheet that comes up in the developer by order of darkness, and is stopped by the fixer or not at all.
+(function () {
+  var tray = document.getElementById('tray'), sheet = document.getElementById('bromide');
+  var dip = document.getElementById('dip'), clock = document.getElementById('seconds');
+  var proof = document.getElementById('devnote');
+  if (!tray || !sheet || !dip || !clock || !proof) return;
+  var parts = [['b', 0, 7], ['u', 3, 8], ['i', 8, 7]];   // tag, second it starts to show, seconds it takes
+  var state = 'dry', began = 0, timer = null, lit = false, sheets = 0;
+
+  function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function mix(a, b, k) {
+    return 'rgb(' + a.map(function (v, n) { return Math.round(v + (b[n] - v) * k); }).join(',') + ')';
+  }
+  function fogAt(t) { return lit ? clamp(0.12 + t / 22) : clamp((t - 17) / 13); }
+
+  function show(t, lamp) {
+    parts.forEach(function (p) {
+      var o = clamp((t - p[1]) / p[2]);
+      [].forEach.call(sheet.getElementsByTagName(p[0]), function (el) { el.style.opacity = o; });
+    });
+    sheet.style.background = lamp ? mix([244, 241, 232], [17, 17, 17], fogAt(t)) : mix([201, 163, 148], [26, 11, 11], fogAt(t));
+  }
+
+  function verdict(t) {
+    var s = Math.round(t), head = 'Fixed at ' + s + (s === 1 ? ' second. ' : ' seconds. '), tail;
+    if (t < 2) tail = 'A white sheet, properly fixed. It will stay white for a hundred years. The picture is still in the first tray, as a rumour.';
+    else if (t < 6) tail = 'Thin. The words are there in grey, with a sea under them and nothing round them. It reads as a greeting from nowhere in particular.';
+    else if (t < 10) tail = 'There is a world now, with the words in it, and no sky. It looks like noon. It was not noon.';
+    else if (t < 18) tail = 'That is right. Stars and all. Nobody was standing behind you, so it will have to be said from here: that looks right.';
+    else if (t < 24) tail = 'Heavy. Everything is there and then some. It is the world as it would look on the evening of a long day.';
+    else if (t < 30) tail = 'Very nearly night. The words can be found by someone who knows they are there, which you do.';
+    else tail = 'Black. It is all on there, every star, under everything else. This is technically the most complete print it is possible to make.';
+    if (lit && t < 30) tail += ' Greyed by your lamp, as warned.';
+    return head + tail;
+  }
+
+  function label(text) { sheet.setAttribute('aria-label', text); }
+
+  function tick() {
+    var t = (Date.now() - began) / 1000;
+    show(t, false);
+    clock.textContent = Math.floor(t) + ' s';
+    if (t >= 32) fix();
+  }
+
+  function slide() {
+    var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
+    lit = !!(mq && mq.matches);
+    state = 'wet'; began = Date.now(); sheets++;
+    dip.textContent = 'lift it out and fix it';
+    proof.textContent = lit ? 'In the tray, with your lamp on. It is coming up, and so is the grey. Lift it when it looks right, or as near as it is going to.'
+      : 'In the tray. Rock it gently, or do not; it comes up either way. Lift it when it looks right.';
+    label('a sheet of photographic paper lying in the developer, under a red lamp. the picture is coming up: the words hello world first, then the world round them, then the stars.');
+    tick(); timer = setInterval(tick, 400);
+  }
+
+  function fix() {
+    var t = Math.min(32, (Date.now() - began) / 1000);
+    clearInterval(timer); timer = null; state = 'fixed';
+    tray.classList.add('lamp');
+    show(t, true);
+    clock.textContent = Math.round(t) + ' s';
+    dip.textContent = 'a fresh sheet';
+    proof.textContent = verdict(t);
+    label('a finished photograph under a white lamp, developed for ' + Math.round(t) + ' seconds. ' +
+      (t < 2 ? 'it is blank.' : t >= 30 ? 'it is black all over.' : 'it shows the words hello world on a small round world rising out of the sea' + (t >= 10 ? ', under a few stars.' : ', with no stars.')));
+  }
+
+  function fresh() {
+    state = 'dry';
+    tray.classList.remove('lamp');
+    show(-1, false); sheet.style.background = '';
+    clock.textContent = '';
+    dip.textContent = 'slide it into the tray';
+    proof.textContent = sheets > 3 ? 'Another sheet, exposed the same as the others. The box is not bottomless, but nobody has reached the bottom. The last print has gone on the line to dry.'
+      : 'A fresh sheet, exposed the same as the last. The last one has gone on the line to dry, where it will not be looked at again.';
+    label('a sheet of photographic paper, exposed and not yet developed. it is blank.');
+  }
+
+  dip.parentNode.hidden = false;
+  proof.textContent = 'The sheet is dry and blank. Slide it in when you are ready. The clock starts when the paper is wet.';
+  dip.addEventListener('click', function () {
+    if (state === 'dry') slide(); else if (state === 'wet') fix(); else fresh();
+  });
+})();
+</script>
 <section id="leave">
 <style>
   #leave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; counter-reset: ticked; }
