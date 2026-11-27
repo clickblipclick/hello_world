@@ -5631,6 +5631,123 @@ hello  light  turn   back   sea    world</p>
    the hedge, and only because it has so little else come through.</p>
 <aside class="pencil"><span>went round the outside. there is no outside. I was in it the whole time.</span></aside>
 </section>
+<section id="panorama">
+<style>
+  #panorama { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #panorama h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+                 color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #panorama p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #panorama p.lede { color: #6b7388; font-style: italic; }
+  #cloth { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+          margin: 1.4rem 0 0.4rem; border-top: 3px double #263048; border-bottom: 3px double #263048;
+          scrollbar-width: thin; scrollbar-color: #263048 transparent; }
+  #cloth:focus-visible { outline: none; border-color: #7fb7a4; }
+  #cloth figure { flex: 0 0 100%; margin: 0; padding: 1rem 0 0.9rem; box-sizing: border-box; scroll-snap-align: center;
+                 display: grid; justify-items: center; align-content: start; }
+  #cloth pre { font: 12px/1.15 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; margin: 0; }
+  #cloth figcaption { max-width: 17rem; margin-top: 0.9rem; font-size: 0.85rem; font-style: italic; line-height: 1.5;
+                     color: #6b7388; text-align: center; }
+  #cloth figcaption b { font-weight: normal; font-style: normal; font-variant: small-caps; letter-spacing: 0.06em; color: #d9cfa6; }
+  #panorama .handle { font: 0.75rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #6b7388;
+                      text-align: center; margin: 0 0 1.4rem; }
+  @media screen and (prefers-color-scheme: light) {
+    #panorama h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #panorama p { color: #3d4353; }
+    #panorama p.lede, #cloth figcaption, #panorama .handle { color: #6a6f7d; }
+    #cloth { border-color: #cfc8b6; scrollbar-color: #cfc8b6 transparent; } #cloth:focus-visible { border-color: #2f6f5e; }
+    #cloth pre { color: #2f6f5e; } #cloth figcaption b { color: #8a6a1f; }
+  }
+  @media print {
+    #panorama h2, #panorama p, #cloth, #cloth pre, #cloth figcaption, #cloth figcaption b { color: #000; border-color: #000; }
+    #cloth { display: block; overflow: visible; } #cloth figure { break-inside: avoid; }
+    #panorama .handle { display: none; }
+  }
+</style>
+<h2>The panorama</h2>
+<p class="lede">Before anyone could be sent a picture of a place, the place was painted on one long cloth, wound
+   on two rollers, and cranked past a paying audience from left to right. This world had one done. It goes
+   sideways, which nothing else here does.</p>
+<div id="cloth" tabindex="0" role="region" aria-label="the panorama: six painted views on one cloth, side by side. scroll sideways, or use the left and right arrows.">
+  <figure>
+    <pre role="img" aria-label="the quay, with the two words put up along the roof of the shed, and gulls">                  .                 
+     hello world         v          
+    _|_________|_     v             
+   |  _   _   _  |                  
+   | |_| |_| |_| |_____________     
+___|_____________|__|__|__|__|_\___ 
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ </pre>
+    <figcaption><b>The quay.</b> Seen from the water. The painter began here because the paint was here.</figcaption>
+  </figure>
+  <figure>
+    <pre role="img" aria-label="open water with one small boat under sail and two gulls">       v             |\             
+             v       | \            
+                     |  \           
+                  ___|___\__        
+                  \________/        
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ </pre>
+    <figcaption><b>Open water.</b> The boat is the painter's own, put in to show the scale, and too big.</figcaption>
+  </figure>
+  <figure>
+    <pre role="img" aria-label="the light on its rock at night, lit, with stars">   *    .        .     \ | /        
+                      -- * --       
+  .         *          /[_]\        
+                        | |         
+                .       | |         
+            ______      | |         
+  _________/      \_____|_|______   
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ </pre>
+    <figcaption><b>The light.</b> It was day when this was painted. The night was added so the light would have something to do.</figcaption>
+  </figure>
+  <figure>
+    <pre role="img" aria-label="hills, with the hedge maze drawn small on the slope">               /\                   
+          /\  /  \       /\         
+         /  \/    \   /\/  \        
+    /\  /    \     \_/      \       
+   /  \/   #########         \      
+  /        # #   # #          \     
+_/_________#########___________\__  
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ </pre>
+    <figcaption><b>The high ground.</b> The maze is on it, done from memory and so with fewer turnings than it has.</figcaption>
+  </figure>
+  <figure>
+    <pre role="img" aria-label="almost nothing: a line of sea, and a pencilled note where the land would be">                                    
+                                    
+        ( to be painted when        
+          somebody has been )       
+                                    
+                                    
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ </pre>
+    <figcaption><b>The far side.</b> Left as primed. The sea is put in, the sea being safe to assume.</figcaption>
+  </figure>
+  <figure>
+    <pre role="img" aria-label="a row of stitches down the canvas, and past it the corner of the quay again">        :         .                 
+        :    hello wor              
+        :   _|________              
+        :  |  _   _                 
+        :  | |_| |_| |              
+________:__|__________              
+~ ~ ~ ~ : ~ ~ ~ ~ ~ ~               
+  ~ ~ ~ : ~ ~ ~ ~ ~ ~               </pre>
+    <figcaption><b>The seam.</b> where the end was sewn to the beginning. It is the only part every visitor agrees is accurate.</figcaption>
+  </figure>
+</div>
+<p class="handle" aria-hidden="true">&larr; wind it by hand &rarr;</p>
+<p>There is no crank. The crank was the first thing lost, and the cloth has since been wound by whoever is
+   looking, with a finger or the arrows, at whatever speed they can stand. It stops of its own accord at each
+   view, the way the lecturer used to stop it, though the lecturer also said things, and was paid.</p>
+<p>It was meant to go all the way round. It goes most of the way. The painter worked from the deck of a boat
+   that would not hold still and from what could be recalled afterwards, and at the fifth view ran out of both.
+   The cloth had been bought by the yard and was already cut, so the fifth view was hung as it stood, and has
+   had more said about it than the other five together.</p>
+<p>It needs no current. It is the one show on this world that runs the same with the machine switched off,
+   being paint. Printed, it comes off the rollers altogether and is laid out flat down the page, which is
+   how the painter last saw it and did not much care for.</p>
+<aside class="pencil"><span>wound it to the end and kept winding. it does not go round. you have to wind it all the way back, like everyone.</span></aside>
+</section>
 <section id="bell">
 <style>
   #bell { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
