@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the sheet · hello world</title>
+<meta name="description" content="How the world goes together, in six pictures and no words, as it would have come in the box.">
+<style>
+  /* The sheet. It is the one page here printed on paper, because that is how such sheets come,
+     and the one page with nothing to read, because it has to do for every country at once. */
+  body { margin: 0; background: #f4f1e8; color: #1c2030; font-family: Georgia, serif; }
+  main { max-width: 44rem; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); margin: 0; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 0; border: 2px solid #1c2030; }
+  figure { margin: 0; position: relative; border: 1px solid #1c2030; }
+  figure.wide { grid-column: 1 / -1; }
+  figure svg { display: block; width: 100%; height: auto; }
+  figure b { position: absolute; left: 0.7rem; top: 0.4rem; font: bold 2rem/1 Helvetica, Arial, sans-serif; }
+  svg { fill: none; stroke: #1c2030; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  svg text { fill: #1c2030; stroke: none; font: 28px ui-monospace, Menlo, Consolas, monospace; text-anchor: middle; }
+  svg text.n { font: bold 13px Helvetica, Arial, sans-serif; }
+  svg text.s, svg .s text { font-size: 12px; }
+  svg .m text { font-size: 16px; }
+  svg .f text { font-size: 20px; }
+  .d { stroke-dasharray: 5 6; stroke-width: 1.5; }
+  .t { stroke-width: 1.2; }
+  .p { fill: #f4f1e8; }
+  .k { fill: #1c2030; }
+  .x { stroke: #b0402f; stroke-width: 5; }
+  .foot { display: flex; justify-content: space-between; align-items: baseline; margin: 0.7rem 0 0;
+          font: 0.7rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.08em; }
+  .foot a { color: inherit; text-decoration: none; font-size: 1.3rem; line-height: 1; padding: 0 0.3rem; }
+  .foot a:hover, .foot a:focus-visible { background: #1c2030; color: #f4f1e8; outline: none; }
+  @media (prefers-reduced-motion: no-preference) {
+    .turn { transform-box: fill-box; transform-origin: center; animation: turn 9s linear infinite; }
+    .wave { transform-box: fill-box; transform-origin: 0% 100%; animation: wave 1.6s ease-in-out infinite alternate; }
+  }
+  @keyframes turn { to { transform: rotate(360deg); } }
+  @keyframes wave { from { transform: rotate(-9deg); } to { transform: rotate(12deg); } }
+  @media print { body { background: #fff; } main { padding: 0; } .p { fill: #fff; } .foot a { display: none; } }
+</style>
+</head>
+<body>
+<main>
+<h1>How the world goes together</h1>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- the person who is on every such sheet, and has never once been given a face -->
+    <symbol id="body" viewBox="0 0 60 110" overflow="visible">
+      <circle class="p" cx="30" cy="16" r="14"/>
+      <path class="p" d="M18 38 Q30 30 42 38 L46 78 Q30 84 14 78 Z"/>
+      <path d="M22 80 L20 106 M38 80 L40 106 M15 106 H23 M37 106 H45"/>
+    </symbol>
+    <symbol id="globe" viewBox="0 0 100 100" overflow="visible">
+      <circle class="p" cx="50" cy="50" r="46"/>
+      <path class="t" d="M22 30 q8 -10 20 -6 q6 6 -2 14 q-12 6 -18 -8 Z M56 52 q14 -8 24 2 q2 14 -10 18 q-14 -2 -14 -20 Z M30 66 q8 -2 10 6 q-6 8 -12 2 Z"/>
+      <path class="t" d="M62 26 h10 M14 54 h10 M44 84 h12 M70 36 h8"/>
+    </symbol>
+    <symbol id="no" viewBox="0 0 60 60" overflow="visible">
+      <path class="x" d="M8 8 L52 52 M52 8 L8 52"/>
+    </symbol>
+    <marker id="tip" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="k" d="M0 0 L10 5 L0 10 Z" stroke="none"/>
+    </marker>
+  </defs>
+</svg>
+<div class="grid">
+
+<figure class="wide">
+<svg viewBox="0 0 640 210" role="img" aria-label="What is in the box. The box is drawn in dashes, there being none. One h, one e, three of l, two of o, one w, one r, one d, one blank the width of a letter, more hashes and tildes than are counted, and one comma, which is crossed out. No hammer and no screwdriver are wanted.">
+  <path class="d" d="M24 70 L84 46 L144 70 L144 150 L84 176 L24 150 Z M24 70 L84 96 L144 70 M84 96 V176"/>
+  <text class="s" x="84" y="198">× 0</text>
+  <g>
+    <text x="196" y="74">h</text><text class="n" x="196" y="98">× 1</text>
+    <text x="246" y="74">e</text><text class="n" x="246" y="98">× 1</text>
+    <text x="296" y="74">l</text><text class="n" x="296" y="98">× 3</text>
+    <text x="346" y="74">o</text><text class="n" x="346" y="98">× 2</text>
+    <text x="396" y="74">w</text><text class="n" x="396" y="98">× 1</text>
+    <text x="446" y="74">r</text><text class="n" x="446" y="98">× 1</text>
+    <text x="196" y="150">d</text><text class="n" x="196" y="174">× 1</text>
+    <rect class="d" x="236" y="126" width="20" height="30"/><text class="n" x="246" y="174">× 1</text>
+    <text x="296" y="150">#</text><text class="n" x="296" y="174">× ∞</text>
+    <text x="346" y="150">~</text><text class="n" x="346" y="174">× ∞</text>
+    <text x="396" y="146">,</text><use href="#no" x="381" y="122" width="30" height="30"/><text class="n" x="396" y="174">× 0</text>
+  </g>
+  <path class="t" d="M486 30 V190"/>
+  <!-- hammer, screwdriver: neither -->
+  <g transform="translate(520 52)">
+    <path class="p" d="M0 8 h34 v16 h-34 Z M14 24 v52 h8 v-52"/>
+    <use href="#no" x="-8" y="10" width="54" height="54"/>
+  </g>
+  <g transform="translate(582 48)">
+    <path class="p" d="M4 0 h12 v34 h-12 Z M10 34 v40 M6 74 h8"/>
+    <use href="#no" x="-17" y="14" width="54" height="54"/>
+  </g>
+  <text class="n" x="566" y="174">× 0</text>
+</svg>
+</figure>
+
+<figure>
+<b aria-hidden="true">1</b>
+<svg viewBox="0 0 320 220" role="img" aria-label="Step one. The five letters of hello are let down onto a line, in order, the two l's side by side.">
+  <path d="M40 170 H280"/>
+  <text x="80" y="76">h</text><text x="120" y="56">e</text><text x="160" y="84">l</text><text x="200" y="62">l</text><text x="240" y="90">o</text>
+  <path class="d" marker-end="url(#tip)" d="M80 88 V136"/>
+  <path class="d" marker-end="url(#tip)" d="M120 68 V136"/>
+  <path class="d" marker-end="url(#tip)" d="M160 96 V136"/>
+  <path class="d" marker-end="url(#tip)" d="M200 74 V136"/>
+  <path class="d" marker-end="url(#tip)" d="M240 102 V136"/>
+  <g opacity="0.28"><text x="80" y="164">h</text><text x="120" y="164">e</text><text x="160" y="164">l</text><text x="200" y="164">l</text><text x="240" y="164">o</text></g>
+  <text class="n" x="80" y="192">1</text><text class="n" x="120" y="192">2</text><text class="n" x="160" y="192">3</text><text class="n" x="200" y="192">4</text><text class="n" x="240" y="192">5</text>
+</svg>
+</figure>
+
+<figure>
+<b aria-hidden="true">2</b>
+<svg viewBox="0 0 320 220" role="img" aria-label="Step two. The blank goes in after hello, and world after the blank. In the corner, the comma is offered to the same gap and refused.">
+  <path d="M20 170 H300"/>
+  <text x="70" y="164" style="letter-spacing:4px">hello</text>
+  <rect class="d" x="124" y="84" width="20" height="30"/>
+  <path class="d" marker-end="url(#tip)" d="M134 118 V150"/>
+  <text x="220" y="118" style="letter-spacing:4px">world</text>
+  <path class="d" marker-end="url(#tip)" d="M220 126 C220 150 206 158 172 158"/>
+  <!-- the inset -->
+  <rect class="p t" x="214" y="14" width="92" height="62" rx="6"/>
+  <text class="s" x="240" y="56">o</text><text x="260" y="52">,</text><text class="s" x="280" y="56">w</text>
+  <use href="#no" x="238" y="22" width="44" height="44"/>
+</svg>
+</figure>
+
+<figure>
+<b aria-hidden="true">3</b>
+<svg viewBox="0 0 320 220" role="img" aria-label="Step three. A circle is drawn, and the hashes and tildes are tipped into it from above until it is full.">
+  <circle class="d" cx="160" cy="138" r="62"/>
+  <g class="f">
+    <text x="118" y="34">#</text><text x="150" y="26">~</text><text x="186" y="38">#</text><text x="214" y="28">~</text>
+    <text x="134" y="58">~</text><text x="166" y="62">#</text><text x="198" y="60">~</text>
+    <text x="150" y="86">#</text><text x="180" y="88">~</text>
+  </g>
+  <g class="m">
+    <text x="128" y="150">~</text><text x="146" y="150">#</text><text x="164" y="150">#</text><text x="182" y="150">~</text><text x="200" y="150">~</text>
+    <text x="120" y="168">~</text><text x="138" y="168">~</text><text x="156" y="168">#</text><text x="174" y="168">#</text><text x="192" y="168">#</text>
+    <text x="138" y="186">~</text><text x="156" y="186">~</text><text x="174" y="186">#</text><text x="192" y="186">~</text>
+  </g>
+  <path class="d" marker-end="url(#tip)" d="M252 40 C262 70 250 96 226 110"/>
+</svg>
+</figure>
+
+<figure>
+<b aria-hidden="true">4</b>
+<svg viewBox="0 0 320 220" role="img" aria-label="Step four. A lamp is set at the upper left. The world is given one push with a finger, to the right. It does not need a second.">
+  <g transform="translate(76 34)"><circle class="p" r="12"/><path d="M0 -22 V-17 M0 17 V22 M-22 0 H-17 M17 0 H22 M-15 -15 L-12 -12 M12 12 L15 15 M-15 15 L-12 12 M12 -12 L15 -15"/></g>
+  <path class="d" d="M92 50 L112 76"/>
+  <use class="turn" href="#globe" x="100" y="62" width="120" height="120"/>
+  <path marker-end="url(#tip)" d="M120 58 A76 76 0 0 1 228 80"/>
+  <!-- the finger -->
+  <path class="p" d="M300 150 H256 q-10 0 -10 -7 q0 -7 10 -7 H300 M300 164 H276 q-8 0 -8 -7 M300 178 H282 q-8 0 -8 -7 q0 -7 8 -7"/>
+  <text class="n" x="290" y="124">× 1</text>
+</svg>
+</figure>
+
+<figure>
+<b aria-hidden="true">5</b>
+<svg viewBox="0 0 320 220" role="img" aria-label="Step five. The moon is hung on a long loop round the world. It is shown going behind, which is allowed. Looking round the back for it is crossed out.">
+  <ellipse class="d" cx="150" cy="116" rx="124" ry="34"/>
+  <use href="#globe" x="100" y="66" width="100" height="100"/>
+  <path class="d" d="M52 137 A124 34 0 0 0 248 137"/>
+  <circle class="p" cx="262" cy="102" r="11"/>
+  <path class="t" d="M258 98 h3 M264 105 h3"/>
+  <path marker-end="url(#tip)" d="M276 84 C264 66 240 62 222 70"/>
+  <rect class="p t" x="8" y="150" width="96" height="62" rx="6"/>
+  <use href="#body" x="18" y="158" width="26" height="48"/>
+  <circle class="t" cx="78" cy="180" r="14"/><path class="t" marker-end="url(#tip)" d="M44 172 C56 152 86 152 98 176"/>
+  <use href="#no" x="34" y="159" width="44" height="44"/>
+</svg>
+</figure>
+
+<figure>
+<b aria-hidden="true">6</b>
+<svg viewBox="0 0 320 220" role="img" aria-label="Step six. Somebody stands in front of it with one arm up. The world says hello world. The somebody has a speech balloon of their own, drawn in dashes, with nothing in it yet.">
+  <use class="turn" href="#globe" x="24" y="92" width="104" height="104"/>
+  <path class="p" d="M52 20 h140 q8 0 8 8 v34 q0 8 -8 8 h-82 l-18 20 l2 -20 h-42 q-8 0 -8 -8 v-34 q0 -8 8 -8 Z"/>
+  <text x="122" y="52" style="font-size:19px">hello world</text>
+  <use href="#body" x="222" y="92" width="58" height="106"/>
+  <path d="M263 134 L284 150"/>
+  <path class="wave" d="M239 134 L216 106"/>
+  <path class="d p" d="M222 26 h72 q8 0 8 8 v26 q0 8 -8 8 h-22 l-10 16 l-4 -16 h-36 q-8 0 -8 -8 v-26 q0 -8 8 -8 Z"/>
+</svg>
+</figure>
+
+</div>
+<p class="foot"><span>HW/1 &middot; 1&ndash;6 &middot; × 1</span><a href="./" aria-label="back to the world, assembled">&#9675;</a></p>
+</main>
+</body>
+</html>
