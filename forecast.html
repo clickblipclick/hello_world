@@ -16,6 +16,15 @@
            font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; cursor: pointer; }
   button:hover { border-color: #7fb7a4; }
   a { color: #7fb7a4; }
+  #synopsis { margin: 1.2rem 0 0; line-height: 1.55; color: #b9b6ac; }
+  #warnings { margin: 0.6rem 0 0; line-height: 1.55; color: #d9cfa6; }
+  figure { margin: 2.4rem 0 0; }
+  #chart { margin: 0; font: 12px/1.15 ui-monospace, Menlo, Consolas, monospace; color: #3f5a66; overflow-x: auto;
+           border-top: 1px solid #263048; border-bottom: 1px solid #263048; padding: 0.8rem 0; }
+  #chart b { font-weight: normal; color: #d9cfa6; }
+  #chart i { font-style: normal; color: #7fb7a4; }
+  figcaption { margin-top: 0.6rem; font-size: 0.85rem; color: #6b7388; font-style: italic; line-height: 1.5; }
+  @media print { body { background: #fff; } h1, h2, p, #chart, #chart b, #chart i, figcaption, footer { color: #000 !important; } button { display: none; } }
   footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; }
 </style>
 </head>
@@ -24,7 +33,16 @@
 <h1>The forecast</h1>
 <p class="lede">For shipping, of which there is none. Reissued on the hour, in case some turns up.</p>
 <p id="issued"></p>
+<p id="synopsis"></p>
+<p id="warnings"></p>
 <div id="areas"></div>
+<figure id="plate" hidden>
+<pre id="chart" role="img" aria-label="a pressure chart of the whole world, drawn in full stops: rings of isobars round a low, marked L, and a high, marked H."></pre>
+<figcaption>The chart for the same hour. Isobars at intervals of four, drawn in full stops, since that is
+what the deep is made of and there was plenty. L is the low and H is the high. There is only ever one of each;
+the world is not large enough to keep two lows apart. The chart is flat and the world is not, and the
+difference has been left in the margins, where it does no harm.</figcaption>
+</figure>
 <button id="aloud" type="button" hidden>have it read out</button>
 <footer>Mariners are advised that the sea is made of punctuation.
 <a href="./">Back to the world.</a></footer>
@@ -85,6 +103,67 @@
     speechSynthesis.speak(u);
     btn.textContent = 'that will do';
   });
+})();
+</script>
+<script>
+// The synopsis and the chart. A second seed, so the forecast above is not disturbed by being explained.
+(function () {
+  var now = new Date();
+  var seed = (Math.floor(now.getTime() / 3600000) ^ 0x5f3759df) >>> 0;
+  function rnd() {
+    seed = (seed * 1664525 + 1013904223) >>> 0;
+    return seed / 4294967296;
+  }
+  function pick(list) { return list[Math.floor(rnd() * list.length)]; }
+  rnd(); rnd();
+  // Where each sea area falls on a flat chart, more or less. Nobody has surveyed it.
+  var places = [
+    ['Tilde Sea', 0.22, 0.34], ['The Flats', 0.52, 0.62], ['Full Stop Deep', 0.78, 0.42],
+    ['Coastal Oland', 0.36, 0.76], ['The Colons', 0.9, 0.72], ['Asterisk Caps', 0.6, 0.14]
+  ];
+  var li = Math.floor(rnd() * places.length);
+  var hi = (li + 1 + Math.floor(rnd() * (places.length - 1))) % places.length;
+  var ni = (li + 1 + Math.floor(rnd() * (places.length - 1))) % places.length;
+  var low = places[li], high = places[hi];
+  var deep = 12 + Math.floor(rnd() * 22), tall = 8 + Math.floor(rnd() * 14);
+  var lowP = 1013 - deep, highP = 1013 + tall;
+  var moves = ['moving slowly ' + pick(['east', 'west', 'north', 'south']), 'moving steadily, as if expected somewhere',
+               'going round', 'losing its identity', 'filling', 'deepening, though it will not say why',
+               'moving rather quickly for a low'];
+  var stays = ['stationary', 'slow moving', 'declining to move', 'stationary, and has been asked',
+               'building', 'holding, with a good view of the low'];
+  var text = 'The general synopsis. Low, ' + low[0] + ', ' + lowP + ', ' + pick(moves) +
+    ', expected ' + places[ni][0] + ' by the same time tomorrow' +
+    (rnd() < 0.4 ? ', which on a world this size is also the same place' : '') +
+    '. High, ' + high[0] + ', ' + highP + ', ' + pick(stays) + '.';
+  document.getElementById('synopsis').textContent = text;
+  var gale = deep > 26 ? 'There are warnings of gales in ' + low[0] + ' and all areas adjoining it, which is all areas.'
+    : deep > 19 ? 'There is a warning of gales in ' + low[0] + '. It has been issued to nobody, and acknowledged.'
+    : 'There are no warnings of gales. One is kept ready.';
+  document.getElementById('warnings').textContent = gale;
+
+  // The chart: pressure as two hills, one of them upside down, and a full stop wherever a four is crossed.
+  var W = 52, H = 17;
+  function p(x, y) {
+    var u = x / (W - 1), v = y / (H - 1);
+    var a = (u - low[1]) * 1.9, b = v - low[2], c = (u - high[1]) * 1.9, d = v - high[2];
+    return 1013 - deep * Math.exp(-(a * a + b * b) / 0.09) + tall * Math.exp(-(c * c + d * d) / 0.16)
+           + 1.5 * Math.sin(u * 7 + v * 3);
+  }
+  var lx = Math.round(low[1] * (W - 1)), ly = Math.round(low[2] * (H - 1));
+  var hx = Math.round(high[1] * (W - 1)), hy = Math.round(high[2] * (H - 1));
+  var out = '', x, y, k;
+  for (y = 0; y < H; y++) {
+    for (x = 0; x < W; x++) {
+      if (x === lx && y === ly) { out += '<b>L</b>'; continue; }
+      if (x === hx && y === hy) { out += '<i>H</i>'; continue; }
+      k = Math.floor(p(x, y) / 4);
+      out += (k !== Math.floor(p(x + 1, y) / 4) || k !== Math.floor(p(x, y + 1) / 4)) ? '.' : ' ';
+    }
+    if (y < H - 1) out += '\n';
+  }
+  document.getElementById('chart').innerHTML = out;
+  document.getElementById('plate').hidden = false;
 })();
 </script>
 </body>
