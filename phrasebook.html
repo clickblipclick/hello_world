@@ -22,6 +22,12 @@
   #said { display: block; min-height: 1.6em; margin-top: 1rem; font: 1.1rem/1.6 ui-monospace, Menlo, Consolas, monospace;
           color: #d9cfa6; white-space: pre-wrap; word-break: break-all; }
   #loss { color: #6b7388; font-style: italic; min-height: 3em; line-height: 1.55; }
+  button { background: none; border: 1px solid #263048; color: #7fb7a4; font: italic 1rem Georgia, serif;
+           padding: 0.4rem 0.9rem; margin-top: 1rem; cursor: pointer; }
+  button:hover, button:focus-visible { border-color: #7fb7a4; outline: none; }
+  #back { display: block; min-height: 1.6em; margin-top: 0.4rem; font-size: 1.25rem; line-height: 1.5; color: #e8e6df; }
+  #back i { font: 0.9rem ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; }
+  #doubt { color: #6b7388; font-style: italic; min-height: 3em; line-height: 1.55; }
   a { color: #7fb7a4; }
   footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; line-height: 1.55; }
 </style>
@@ -52,6 +58,14 @@ characters the place is made of, which saves on type but means that every senten
 <input id="say" type="text" autocomplete="off" spellcheck="false" maxlength="120" placeholder="hello world">
 <output id="said" for="say" aria-live="polite"></output>
 <p id="loss"></p>
+
+<h2>Getting it back out</h2>
+<p class="lede">This is the other matter. Whatever stands in the box above is shown to a local, in the local
+language, and the local reads it back to you in yours. Nobody here has been taught your language. They have
+only heard it said, by visitors, over water.</p>
+<output id="back" for="say" aria-live="polite"></output>
+<p id="doubt"></p>
+<button id="again" type="button">Ask another local</button>
 
 <footer>The language has no word for "elsewhere", though it has a character for it.
 <a href="./">Back to the world.</a></footer>
@@ -96,6 +110,59 @@ characters the place is made of, which saves on type but means that every senten
       + (/!/.test(say.value) ? ' The exclamation mark goes through untranslated. It is a flag; mind where you plant it.' : '')
       + (r.glyphs.replace(/ /g, '').length > 3 && /^([^!])\1*$/.test(r.glyphs.replace(/ /g, '')) ? ' You have described open country.' : '');
   }
+  // The other matter. Every word a local has overheard, filed under how it is written here. Words that are
+  // written alike are, as far as anyone on the spot can tell, the same word.
+  var heard = ('hello cello world good book gong morning evening where whale is it if the she sea see far tea that way may ' +
+    'also this your flag how much i am an lost lots rust so to everyone thank shank you ion goodbye ' +
+    'east last left less rest mark need walk weed week fall feel tell tree shall shell there three come home hour ' +
+    'bay day dry call hear here made make wake me or we near well were nor one our sun too two than them then ' +
+    'mast nest west hard head held life live rise and end all are as at but dot do go down know few ten find sing ' +
+    'from slow door gone has hat deep keep light right long look mind wind moon noon most must never water no on ' +
+    'not out now own of us fair sail same true sand send side tide snow soon four some was wet want went mile will ' +
+    'wish with word work yes yet back deck boat gulf cold hold dark glad bell dear eye lie full sure half hers ' +
+    'kind king leaf reef lose love low run mean warm mine nine pass past pole pull seem seen').split(' ');
+  var lex = {};
+  for (var h = 0; h < heard.length; h++) {
+    var key = put(heard[h]).glyphs;
+    if (!lex[key]) lex[key] = [];
+    if (lex[key].indexOf(heard[h]) < 0) lex[key].push(heard[h]);
+  }
+  var back = document.getElementById('back'), doubt = document.getElementById('doubt'), asked = 0;
+  function readBack() {
+    var words = (say.value || say.placeholder).toLowerCase().split(/\s+/), total = 0, moved = 0, hummed = 0;
+    back.textContent = '';
+    for (var w = 0; w < words.length; w++) {
+      var bare = words[w].replace(/[^a-z0-9]/g, ''), r, n = 0, i;
+      if (!bare) continue;
+      for (i = 0; i < bare.length; i++) n = (n * 31 + bare.charCodeAt(i)) % 9973;
+      var key = put(bare).glyphs, el = null;
+      if (/^[0-9]+$/.test(bare)) {
+        // All numbers are written alike, so any number will do, provided it is a different one.
+        for (r = '', i = 0; i < bare.length; i++) r += (+bare.charAt(i) + 1 + (n + asked + i) % 9) % 10;
+      } else if (lex[key]) {
+        var others = lex[key].filter(function (x) { return x !== bare; });
+        r = others.length ? others[(n + asked) % others.length] : bare;
+      } else {
+        r = key; hummed++; el = document.createElement('i');
+      }
+      if (!el && r !== bare) moved++;
+      if (total++) back.appendChild(document.createTextNode(' '));
+      if (el) { el.textContent = r; back.appendChild(el); } else back.appendChild(document.createTextNode(r));
+      if (/!/.test(words[w])) back.appendChild(document.createTextNode('!'));
+    }
+    if (!total) { doubt.textContent = 'The local looks at the blank and then at you, and waits. It is a perfect translation.'; return; }
+    doubt.textContent = (moved === 0 && hummed === 0 ? 'It came back exactly as it went. This happens, and is put down to luck. '
+      : moved === 0 ? 'Nothing came back changed, because nothing came back. '
+      : moved === 1 ? 'One word came back as another. Both are written the same, so nobody was wrong. '
+      : moved + ' words came back as others. They are written the same, so nobody was wrong. ')
+      + (hummed ? 'Where the local had never heard the word, the characters were read out as they stand, with a nod, '
+        + 'which is how most conversations here are brought to a close. ' : '')
+      + (asked ? (asked === 1 ? 'That is a second opinion.' : 'That is opinion number ' + (asked + 1) + '. They are all held sincerely.')
+        : 'A different local may see it differently.');
+  }
+  say.addEventListener('input', readBack);
+  document.getElementById('again').addEventListener('click', function () { asked++; readBack(); });
+  readBack();
   say.addEventListener('input', speak);
   speak();
 })();
