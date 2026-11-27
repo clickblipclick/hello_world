@@ -1,0 +1,125 @@
+; world.zone -- the world, as a place to be looked up.
+;
+; Everything else here is the world, or a picture of it, or the means of making
+; one. This is only where it is: the sheet a name server keeps, so that when
+; somebody asks after a name it has something to read out. Give it to one,
+;
+;   named-checkzone world.invalid world.zone
+;
+; and it is gone over a line at a time. Expect one objection: that the two
+; servers named below have no addresses. That is not a slip in the sheet. It
+; is a fact about the servers, and the checker is the first to have noticed.
+; Nothing is served. Checking is as far as this goes.
+;
+; Every line from a semicolon to its end is not read. That is the rule of the
+; form, and it is the rule on the sea bed as well, where the semicolon sits
+; between two commas and is uncovered for about as long as it takes to draw
+; breath. Most of this file is therefore under water. The servers pass over
+; it without slowing. You are the only one who has been down.
+;
+; Three of the world's marks are spoken for in here already, and mean what
+; they mean, not what the gazetteer says:
+;
+;   @   is the name of the whole zone. Anywhere else it is the moon. Here it
+;       is the world, and the moon has had to be spelled out in letters, like
+;       a number on a cheque. It has not been told.
+;   *   is every name that nobody thought to write down. The ice answers for
+;       all of them, which is what a footnote was for.
+;   .   is the root, which is under everything, and every full name ends in
+;       it. The Deep was always where the sentences stopped. It turns out the
+;       names stop there too.
+;
+; The zone is world.invalid. The ending was chosen with care: it is the one
+; set aside, by people with the standing to do it, on the promise that nothing
+; under it will ever be found. No server will be asked. The world cannot be
+; looked up, and now has it in writing, from both sides.
+
+$ORIGIN world.invalid.
+$TTL 3600               ; believe any of this for an hour, and then ask again
+
+; The start of authority: who answers for the zone, and who is to be written
+; to about it. The second name is an address with its at taken out and a full
+; stop put in, as the form requires. So the one place the At was owed a
+; mention, it has been replaced by the Deep.
+
+@       IN  SOA   caret.world.invalid. nobody.world.invalid. (
+                  1         ; serial. it has been written once
+                  3600      ; refresh. come back in an hour; there may be more
+                  524       ; retry. no answer? wait one whole turn and try again
+                  2419200   ; expire. after four weeks of silence, stop saying it
+                  1 )       ; how long to believe that a thing is not here: a second
+
+; Two servers, as is required, so that one may fail. The first is a ship and
+; has never had a line. The second goes round behind the world at regular
+; intervals. Between them the zone is answered for at all times by nobody.
+
+        IN  NS    caret
+        IN  NS    at
+
+; Where the world is. The first address is the one every machine keeps for
+; itself, and the second is the same again for machines that count higher.
+; Ask where the world is and you are sent home. It is not wrong.
+
+        IN  A     127.0.0.1
+        IN  AAAA  ::1
+
+; Where on the surface of your own planet, to the nearest anything: nought
+; north, nought east, at sea level, and a metre across, give or take ten
+; thousand kilometres either way. There is a buoy there. It is not a flag.
+
+        IN  LOC   0 0 0.000 N 0 0 0.000 E 0m 1m 10000000m 10m
+
+; Post. Preference nought, and delivered to the root. That is the proper way
+; of saying that no mail is taken here and none should be tried. A letter was
+; sent out once. This is why nothing came back.
+
+        IN  MX    0 .
+
+; The machine, and what it runs.
+
+        IN  HINFO "ball" "turning"
+
+; Who is responsible, and where to read more about them. Both were filled in.
+
+        IN  RP    nobody.world.invalid. who.world.invalid.
+
+; What it says. Anything may be kept in a record of this kind and usually it
+; is proof of ownership. This is the nearest thing to that.
+
+        IN  TXT   "hello world"
+
+; The same world, for visitors who say the long way round.
+
+www     IN  CNAME @
+
+; The ship. It answers for the zone and has no address of its own, only
+; somewhere it was: the record holds ten minutes, and by then it has seen
+; land and turned away. It is given as text because a position that will not
+; keep is not a location, whatever the form calls it.
+
+caret   600 IN  TXT   "under way. not here. try east of this."
+
+; The moon, spelled out. One side, one record, and it goes on a long time:
+; the full four weeks, being punctual. It is joined to nothing, and so there
+; is no line below that points it anywhere.
+
+at      2419200 IN  TXT   "@"
+
+; The bright uplands, which are a time of day. Good for one turn.
+
+hash    524 IN  TXT   "here for now. keep walking east."
+
+; The person to write to. Reads everything.
+
+who     IN  TXT   "nobody"
+
+; Everything that is not the world. Ask for it and you are referred to
+; Elsewhere, where you ask again, and are referred to Elsewhere. A server
+; will follow this eight times or so and then give up, which is the way back.
+
+elsewhere IN  CNAME elsewhere
+
+; And every name not written above, which is nearly all of them. They get
+; the same answer, at once, from the ice.
+
+*       IN  TXT   "not on the map."
