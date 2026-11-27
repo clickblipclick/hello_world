@@ -4203,6 +4203,7 @@ change .............. none due
   <li>Stereoscope, the: two worlds supplied; a third on loan from the visitor</li>
   <li>Strip, the: four boxes; the fourth unwitnessed</li>
   <li class="gap">Text, the: two words; edited; left alone</li>
+  <li>Telephone, the: six numbers listed; two unlisted; the rest not yet thought of</li>
   <li>Turning, the: not supplied; <i>but see</i> everything above</li>
   <li>Type: none cast; then cast, twenty-five sorts; <i>see</i> <a href="#colophon">the colophon</a>, which has had to eat its words</li>
   <li class="gap">Verdict, the: both; <i>see</i> <a href="#court">the law report</a></li>
@@ -5747,6 +5748,235 @@ ________:__|__________
    being paint. Printed, it comes off the rollers altogether and is laid out flat down the page, which is
    how the painter last saw it and did not much care for.</p>
 <aside class="pencil"><span>wound it to the end and kept winding. it does not go round. you have to wind it all the way back, like everyone.</span></aside>
+</section>
+<section id="phone">
+<style>
+  #phone { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #phone h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #phone p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #phone p.lede { color: #6b7388; font-style: italic; }
+  #phone .set { width: 13.5rem; max-width: 100%; margin: 1.4rem auto 1.2rem; padding: 0.9rem; box-sizing: border-box;
+                border: 1px solid #263048; border-radius: 0.9rem 0.9rem 0.3rem 0.3rem; }
+  #dialled { display: block; min-height: 1.6em; margin: 0 0 0.7rem; padding: 0.3em 0.5em; border-bottom: 1px solid #263048;
+             font: 1rem/1.6 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.25em; color: #d9cfa6;
+             text-align: right; overflow-wrap: anywhere; }
+  #pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; margin: 0 0 0.4rem; }
+  #phone button { font: 1rem/1.1 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; background: none;
+                  border: 1px solid #7fb7a4; padding: 0.5em 0; cursor: pointer; }
+  #pad button { border-radius: 0.4rem; }
+  #pad button i { display: block; min-height: 1.1em; font-size: 0.6rem; font-style: normal; letter-spacing: 0.15em; color: #6b7388; }
+  #phone .hook { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+  #phone .hook button { font-size: 0.8rem; letter-spacing: 0.05em; padding: 0.6em 0; }
+  #phone button:hover:enabled, #phone button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #phone button:hover:enabled i, #phone button:focus-visible i { color: #0d1321; }
+  #phone button:disabled { color: #3a4560; border-color: #263048; cursor: default; }
+  #line { display: block; min-height: 6.5em; margin: 0 0 1.2rem; color: #d9cfa6; font-size: 1rem; line-height: 1.55;
+          border-left: 1px solid #263048; padding-left: 0.9rem; }
+  #line.idle { color: #6b7388; font-style: italic; }
+  #phone dl { margin: 0 0 1.2rem; display: grid; grid-template-columns: max-content 1fr; gap: 0.3rem 1.1rem; }
+  #phone dt { font: 0.9rem/1.7 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.15em; color: #d9cfa6; }
+  #phone dd { margin: 0; line-height: 1.55; color: #b9b6ac; }
+  #phone dd i { color: #6b7388; }
+  @media screen and (prefers-color-scheme: light) {
+    #phone h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #phone p, #phone dd { color: #3d4353; }
+    #phone p.lede, #line.idle, #phone dd i, #pad button i { color: #6a6f7d; }
+    #phone .set, #dialled, #line { border-color: #cfc8b6; }
+    #dialled, #line, #phone dt { color: #8a6a1f; }
+    #phone button { color: #2f6f5e; border-color: #2f6f5e; }
+    #phone button:hover:enabled, #phone button:focus-visible { background: #2f6f5e; color: #f4f1e8; }
+    #phone button:hover:enabled i, #phone button:focus-visible i { color: #f4f1e8; }
+    #phone button:disabled { color: #b5ae9c; border-color: #cfc8b6; }
+  }
+  @media print {
+    #phone h2, #phone p, #phone dt, #phone dd, #phone dd i { color: #000; border-color: #000; }
+    #phone .set, #line { display: none; }
+  }
+</style>
+<h2>The telephone</h2>
+<p class="lede">The world is on the telephone. It had to be, sooner or later, two of its places having been on
+   the keys of every telephone since before there was a world to ring: the Hash at the bottom right, and the
+   ice at the bottom left.</p>
+<div class="set">
+<output id="dialled" for="pad" aria-label="the number so far"></output>
+<div id="pad" role="group" aria-label="the keys">
+  <button type="button" data-k="1" disabled>1<i></i></button>
+  <button type="button" data-k="2" disabled>2<i>abc</i></button>
+  <button type="button" data-k="3" disabled>3<i>def</i></button>
+  <button type="button" data-k="4" disabled>4<i>ghi</i></button>
+  <button type="button" data-k="5" disabled>5<i>jkl</i></button>
+  <button type="button" data-k="6" disabled>6<i>mno</i></button>
+  <button type="button" data-k="7" disabled>7<i>pqrs</i></button>
+  <button type="button" data-k="8" disabled>8<i>tuv</i></button>
+  <button type="button" data-k="9" disabled>9<i>wxyz</i></button>
+  <button type="button" data-k="*" aria-label="star" disabled>*<i></i></button>
+  <button type="button" data-k="0" disabled>0<i></i></button>
+  <button type="button" data-k="#" aria-label="hash" disabled>#<i></i></button>
+</div>
+<div class="hook">
+  <button type="button" id="ring" disabled>call</button>
+  <button type="button" id="cradle" disabled>hang up</button>
+</div>
+</div>
+<small id="line" class="idle" role="status">The line is dead. It runs on the same current as the world, and
+   without it the keys are a drawing of keys. Callers are advised to shout; the world is not large.</small>
+<p>There is a directory. It is short, and it is in the order the numbers were given out.</p>
+<dl>
+  <dt>###</dt><dd>The Hash. <i>Day line. There is no night line.</i></dd>
+  <dt>000</dt><dd>Oland. <i>Any hill.</i></dd>
+  <dt>***</dt><dd>The Asterisk Caps. <i>Both ends; say which.</i></dd>
+  <dt>100</dt><dd>The operator.</dd>
+  <dt>123</dt><dd>The time, spoken.</dd>
+  <dt>999</dt><dd>Emergencies. <i>None so far.</i></dd>
+</dl>
+<p>The Tilde Sea is not listed, a telephone needing something to stand on. The Caret is not listed either:
+   ship to shore wants a shore that will stay for the length of a call. The At had a number and has let it
+   lapse. It was only ever in for half of each month and spent the other half round the back, where the wire
+   would not reach, and it said that anybody who wanted it could look up.</p>
+<p>Numbers not in the directory may be tried. Most have not been thought of, and the exchange will say so,
+   politely, each time. One or two have been thought of and not written down. The letters under the keys
+   are there for a reason, as they are on any telephone, and it is the usual reason.</p>
+<aside class="pencil"><span>rang Oland to ask the way. was put on to a hill. it was very sure of itself.</span></aside>
+<script>
+// The telephone. Twelve keys, a short directory, and an exchange that knows the directory and two numbers besides.
+(function () {
+  var pad = document.getElementById('pad'), shown = document.getElementById('dialled'),
+      line = document.getElementById('line'), ring = document.getElementById('ring'),
+      cradle = document.getElementById('cradle');
+  if (!pad || !shown || !line || !ring || !cradle) return;
+  var number = '', busy = false, stale = false, timers = [], ctx = null, bus = null, calls = {};
+  var rows = [697, 770, 852, 941], cols = [1209, 1336, 1477], keys = '123456789*0#';
+
+  function audio() {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      ctx = ctx || new AC();
+      if (ctx.state === 'suspended') ctx.resume();
+      if (!bus) { bus = ctx.createGain(); bus.connect(ctx.destination); }
+      return ctx;
+    } catch (e) { return null; }
+  }
+  // Every sound a telephone makes is one or two plain notes, switched on and off.
+  function tone(freqs, after, lasts, loud) {
+    if (!audio()) return;
+    try {
+      var t = ctx.currentTime + after;
+      freqs.forEach(function (f) {
+        var o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = f;
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(loud, t + 0.01);
+        g.gain.setValueAtTime(loud, t + lasts - 0.02);
+        g.gain.linearRampToValueAtTime(0, t + lasts);
+        o.connect(g); g.connect(bus);
+        o.start(t); o.stop(t + lasts + 0.05);
+      });
+    } catch (e) {}
+  }
+  function silence() {
+    while (timers.length) clearTimeout(timers.pop());
+    if (bus) { try { bus.disconnect(); } catch (e) {} bus = null; }
+  }
+  function say(text, idle) {
+    line.textContent = text;
+    line.className = idle ? 'idle' : '';
+  }
+  function later(ms, fn) { timers.push(setTimeout(fn, ms)); }
+  function show() { shown.textContent = number; }
+
+  function clock() {
+    var d = new Date(), h = d.getHours(), m = d.getMinutes();
+    return '“At the third hello it will be ' + (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m +
+      ', precisely, on your side of the glass. hello. hello. hello.” It does not give the time on the world’s side. ' +
+      'There it is every time at once, in a band, and the clock would never get to the end of the sentence.';
+  }
+  // What happens at the far end: how many rings, and then what is heard. A number rung twice may answer differently.
+  var book = {
+    '###': [3, ['No answer. It is daytime in the Hash, as it always is there, and everybody who might be in is out in it. ' +
+                'The bell can be heard right across the uplands, by nobody.',
+                'No answer again. The Hash has gone a little east since you last tried and has taken the telephone with it. ' +
+                'It is ringing in a different place, to the same effect.']],
+    '000': [1, ['“Hill.” Which hill? “Hill.” Is anyone else there? A pause, while it looks. “Hill,” it says, “and hill.” ' +
+                'The line is very clear. It is reputed to be pleasant there and the voice does nothing to contradict it.',
+                '“Hill.” The same hill as before? “It is hard to say.” It is. They are all the same size and they take the telephone in turns, by rows.']],
+    '***': [2, ['Answered, from a long way up, by a crackle. Each crackle is a footnote. Under it a voice says that the Caps are ' +
+                'shut for the night at one end and for the day at the other, and would the caller try the middle.',
+                'The crackle again, and under it a sum being done: one flake and one flake. The answer has not been reached. ' +
+                'It is the only arithmetic the planet does and nobody likes to interrupt.']],
+    '100': [1, ['“Operator. Nobody speaking.” Nobody has run the exchange since it opened, and has never once connected a ' +
+                'wrong number. “Putting you through,” says Nobody, and there is a click, and you are back on the page, which is through.',
+                '“Operator.” You ask who you are speaking to. “Nobody.” You ask who else is there. “Nobody else.” ' +
+                'Both answers are entered in the book as helpful.']],
+    '123': [1, [clock]],
+    '999': [1, ['“Emergency. Which service?” There is one service. It is the Caret, and it is on its way; it was on its way ' +
+                'before you rang, and will be on its way afterwards. Keep the line clear and stay where you are, which on this world is the easy part.']],
+    '43556': [1, ['It rings once and is picked up at once, as if somebody had been standing by it since the beginning. ' +
+                  '“world,” says the other end, and waits. You had spelled hello, on the letters under the keys. ' +
+                  'That is the whole call. It was all there ever was to say, and it has always taken two to say it.']]
+  };
+  function ringing(n, then) {
+    var i;
+    for (i = 0; i < n; i++) { tone([400, 450], i * 2, 0.4, 0.05); tone([400, 450], i * 2 + 0.6, 0.4, 0.05); }
+    say(n > 1 ? 'Ringing. And ringing.' : 'Ringing.', true);
+    later(n * 2000 - 700, then);
+  }
+  function done() { busy = false; stale = true; ring.disabled = false; }
+
+  function call() {
+    if (busy) return;
+    silence(); busy = true; ring.disabled = true;
+    var n = number, entry = book[n], i;
+    calls[n] = (calls[n] || 0) + 1;
+    if (!n) {
+      tone([350, 450], 0, 1.6, 0.04);
+      say('You have rung no number, and have been put through to it at once. It is the best-connected line on the ' +
+          'world. What you can hear is the sound of a telephone waiting to be told something.');
+      later(400, done);
+    } else if (n === '96753') {
+      for (i = 0; i < 5; i++) tone([400], i * 0.75, 0.375, 0.05);
+      say('Engaged. You have spelled world, and the world is on the line already: to you, at the top of the page, ' +
+          'where it has been saying the one thing since you arrived and has not yet rung off.');
+      later(400, done);
+    } else if (entry) {
+      ringing(entry[0], function () {
+        var said = entry[1][(calls[n] - 1) % entry[1].length];
+        say(typeof said === 'function' ? said() : said);
+        done();
+      });
+    } else {
+      tone([400], 0, 1.4, 0.05);
+      say(n.length > 7
+        ? 'That is more figures than the world has telephones. There are, at the last count, about six. The number has been kept, in case.'
+        : calls[n] > 1
+          ? 'The number you have dialled has still not been thought of. Thank you for asking again. It is how they get thought of.'
+          : 'The number you have dialled has not been thought of. Please check the directory, which is short, and try again. Or wait.');
+      later(400, done);
+    }
+  }
+  function hangup() {
+    silence(); busy = false; stale = false; ring.disabled = false;
+    number = ''; show();
+    say('The receiver is down. The line hums to itself, on one note, which is the note it knows.', true);
+  }
+
+  pad.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('button') : null;
+    if (!b || busy) return;
+    var k = b.getAttribute('data-k'), at = keys.indexOf(k);
+    if (at < 0) return;
+    if (stale) { silence(); number = ''; stale = false; }   // a new number begins where the last call ended
+    if (number.length >= 12) return;
+    number += k; show();
+    tone([rows[Math.floor(at / 3)], cols[at % 3]], 0, 0.12, 0.05);
+  });
+  ring.addEventListener('click', call);
+  cradle.addEventListener('click', hangup);
+  [].forEach.call(document.querySelectorAll('#phone button'), function (b) { b.disabled = false; });
+  say('The receiver is down. Press the figures, then call. Nothing is connected until you ask.', true);
+})();
+</script>
 </section>
 <section id="bell">
 <style>
