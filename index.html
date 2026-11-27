@@ -7251,10 +7251,85 @@ ________:__|__________
    width of whatever you meant, and waits.</p>
 <p>The space is in there too, counted as a sort, as printers count it. It is twelve rows of nothing, written
    out in full. It was the first one finished, and remains the one most used, here as everywhere.</p>
+<style>
+  /* The proof. The fount, poured into the form a browser takes, and a line or two pulled from it. */
+  @font-face { font-family: "hello world"; src: url(world.ttf) format("truetype"); font-display: swap; }
+  #colophon .proof { margin: 1.6rem 0 1.4rem; padding: 1.3rem 0 1.1rem; border-top: 1px solid #263048;
+                     border-bottom: 1px solid #263048; color: #d9cfa6; overflow: hidden; }
+  #colophon .proof p { font: 36px/1 "hello world", ui-monospace, Menlo, Consolas, monospace; color: inherit;
+                       letter-spacing: 0; margin: 0 0 0.9rem; white-space: pre; }
+  #colophon .proof p.sorts { font-size: 12px; line-height: 2; color: #7fb7a4; margin: 0; }
+  #colophon .proof p.two { font-size: 24px; }
+  #stick { display: block; margin: 0 0 1.4rem; font-size: 0.85rem; font-style: italic; color: #6b7388; }
+  #stick input { display: block; width: 100%; box-sizing: border-box; margin: 0.4rem 0 0.9rem; padding: 0.3rem 0;
+                 font: inherit; font-style: normal; text-align: center; color: #e8e6df; background: none;
+                 border: 0; border-bottom: 1px solid #263048; border-radius: 0; }
+  #stick input:focus { outline: none; border-color: #7fb7a4; }
+  #stick output { display: block; min-height: 24px; font: 24px/1 "hello world", ui-monospace, Menlo, Consolas, monospace;
+                  font-style: normal; color: #d9cfa6; white-space: pre; overflow: hidden; }
+  #stick small { display: block; min-height: 1.3em; margin-top: 0.7rem; }
+  @media screen and (prefers-color-scheme: light) {
+    #colophon .proof { border-color: #cfc8b6; color: #8a6a1f; }
+    #colophon .proof p.sorts { color: #2f6f5e; }
+    #stick { color: #6a6f7d; }
+    #stick input { color: #1b2233; border-color: #cfc8b6; }
+    #stick input:focus { border-color: #2f6f5e; }
+    #stick output { color: #8a6a1f; }
+  }
+  @media print {
+    #colophon .proof, #colophon .proof p.sorts { color: #000; border-color: #000; }
+    #stick { display: none; }
+  }
+</style>
+<p>And now it has been poured. A list of numbers is a punch, and a punch prints nothing until metal has
+   been run into what it struck, so the twenty-five were squared up, a hundred units to the pixel and every
+   pixel a small brick, and run into <a href="world.ttf">the form a page can be set in</a>. This is the first
+   proof pulled from it. Nothing below was borrowed from your case.</p>
+<div class="proof" role="img" aria-label="the two words, hello world, set large in a type made of square pixels, and under them the eighteen marks of punctuation the world is made from">
+<p aria-hidden="true">hello</p>
+<p aria-hidden="true">world</p>
+<p class="sorts" aria-hidden="true"># o : * @ ^ % ' ` ~ - . + ! ? " , ;</p>
+</div>
+<p>If the lines above are in some other face, the metal did not reach you, and your own case has stepped in
+   again without being asked, as it did for years. No harm is done. It is how the world was read before.</p>
+<label id="stick" for="set" hidden>the composing stick: set a line of your own
+  <input id="set" type="text" maxlength="14" autocomplete="off" autocapitalize="off" spellcheck="false"
+         placeholder="hello" aria-describedby="gaps">
+  <output id="pull" for="set" aria-hidden="true"></output>
+  <small id="gaps" role="status"></small></label>
 <p class="end">Printed nowhere. Published wherever it is looked at. This copy is yours and is the only one
    that turned exactly like this.<span aria-hidden="true">~ ^ ~</span></p>
 <aside class="pencil"><span>it was mine first. I have rubbed out what I could. look after it.</span></aside>
 </footer>
+<script>
+// The composing stick. It sets what the fount has and leaves a gap for what it has not.
+(function () {
+  var stick = document.getElementById('stick'), set = document.getElementById('set');
+  var pull = document.getElementById('pull'), gaps = document.getElementById('gaps');
+  if (!stick || !set || !pull || !gaps) return;
+  var SORTS = ' #o:*@^%\'`~-.+!?",;helwrd';
+  stick.hidden = false;
+  set.addEventListener('input', function () {
+    var line = set.value, out = '', missing = 0, capitals = 0, figures = 0, i, c;
+    for (i = 0; i < line.length; i++) {
+      c = line.charAt(i);
+      if (SORTS.indexOf(c) >= 0) { out += c; continue; }
+      out += ' '; missing++;
+      if (c >= '0' && c <= '9') figures++;
+      else if (c !== c.toLowerCase()) capitals++;
+    }
+    pull.textContent = out;
+    gaps.textContent = !line ? ''
+      : out === 'hello world' ? 'Set clean. It is the line the fount was cut for, and it knows.'
+      : !missing ? 'Set clean, with nothing left out. You have been reading the box.'
+      : missing === line.length ? 'All gaps. It is the right length, at least, and the gaps are well cut.'
+      : figures === missing ? 'No figures. The planet does not write down the answer.'
+      : capitals === missing ? 'No capitals. Nothing here has been proper enough to need one.'
+      : missing === 1 ? 'One gap, the width of what you meant.'
+      : missing + ' gaps, each the width of what you meant. The fount is waiting.';
+  });
+})();
+</script>
 <script>
 // The crossword. It knows nothing about the world above it except how the world is spelled.
 (function () {
