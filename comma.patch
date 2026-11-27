@@ -1,0 +1,70 @@
+To:       whoever keeps the world
+Subject:  [PATCH] say it the customary way
+
+The greeting is by custom given with a comma in the middle and an
+exclamation mark on the end. The program gives it with neither. I took
+this for an oversight, of the kind that gets through when a thing is
+five lines long and nobody thinks to read it twice.
+
+The change is to one line. The two marks make the line two characters
+longer. I took a space off the front to pay for one of them. It was
+only sea, and at the edge, where there is plenty. The other sticks out
+a little on the east side, where I do not think it will be noticed.
+
+    patch < comma.patch
+    make world
+
+I have tried it. It builds without complaint and says the whole thing,
+with the pause and the raised voice, and then stops as before.
+
+Not signed. I was only passing.
+
+--- a/world.c
++++ b/world.c
+@@ -48,5 +48,5 @@
+     ?-y:y)>.935?"*++"[k] :sin(a*2+y*3)+
+       cos(a-y*2+4)>.8?"#o:"[k]:"~-."[k
+         ] ) ;} } puts ( "" ); puts (
+-           "hello world") ;return
++          "hello, world!") ;return
+                     0;}
+
+Disposition: not applied.
+
+It was read, which is more than most post here can say, and it does
+what it claims. It is declined on four counts and kept on a fifth.
+
+1. The comma is spoken for. It hangs low among the fixed stars, and it
+   is also the coin, of which there is one. A second comma in the
+   greeting would be a second coin, and the currency is sound only
+   because it cannot be added to. The patch is, in the strict sense,
+   a forgery, though a civil one.
+
+2. The exclamation mark is not available either. It goes round a long
+   way out and comes past every seventy-six minutes. It has been asked
+   down before and did not answer. A copy of it set at the end of the
+   line would be seen from up there, and it is not known how that
+   would be taken.
+
+3. There is no sea at the edge that is not doing anything. The space
+   removed was the eleventh of eleven on that line and had held its
+   place since the source was put into shape. With it gone the bottom
+   of the world leans a character to the west and stands a character
+   proud to the east, where it was noticed. Nobody lives there, but
+   it is visible from the pole.
+
+4. The greeting has got this far without the pause and without raising
+   its voice. It was asked whether it wanted them. It said hello world.
+
+5. It is kept all the same, as the only change anybody has ever
+   proposed to the two words, and because the sender went to the
+   trouble of counting the spaces. Any visitor may apply it at home.
+   The world will then say it the customary way, on that machine and
+   no other, and lean slightly, and nothing further will be said about
+   it from here.
+
+To put it back:
+
+    patch -R < comma.patch
+
+The space returns to where it was. It does not appear to have minded.
