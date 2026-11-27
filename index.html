@@ -7220,6 +7220,156 @@ ________:__|__________
 })();
 </script>
 </section>
+<section id="shelf">
+<style>
+  #shelf { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #shelf h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #shelf p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #shelf p.lede { color: #6b7388; font-style: italic; }
+  #shelf .row { display: flex; align-items: flex-end; gap: 2px; height: 15.5rem; margin: 1.8rem 0 0; padding: 0 0.6rem;
+                border-bottom: 0.5rem solid #3b3226; overflow-x: auto; }
+  #shelf .row button { flex: none; height: var(--h); width: var(--w, 2.1rem); padding: 0.7rem 0; margin: 0; cursor: pointer;
+                       background: var(--c); color: var(--t, #d9cfa6); border: 0; border-radius: 2px 2px 0 0;
+                       border-top: 3px double var(--t, #d9cfa6); border-bottom: 3px double var(--t, #d9cfa6);
+                       font: 0.72rem Georgia, serif; letter-spacing: 0.06em; transition: transform 0.15s; }
+  #shelf .row button span { writing-mode: vertical-rl; text-orientation: sideways; white-space: nowrap; }
+  #shelf .row button:hover, #shelf .row button:focus-visible { transform: translateY(-0.5rem); outline: none; }
+  #shelf .row button:focus-visible { box-shadow: 0 0 0 1px #7fb7a4; }
+  #shelf .row .lean { transform: rotate(-9deg); transform-origin: bottom right; margin-left: 0.9rem; }
+  #shelf .row .lean:hover, #shelf .row .lean:focus-visible { transform: rotate(-4deg); }
+  #shelf .row .gap { flex: none; width: 2.4rem; height: 6rem; display: grid; place-items: end center; }
+  #shelf .row .gap i { writing-mode: vertical-rl; font-size: 0.7rem; color: #6b7388; padding-bottom: 0.4rem; }
+  #shelf .under { font-size: 0.85rem; color: #6b7388; font-style: italic; margin-top: 0.7rem; }
+  #shelf [popover] { width: min(20rem, 80vw); box-sizing: border-box; padding: 2.2rem 1.8rem 1.6rem; text-align: center;
+                     background: #efe9d8; color: #2a2a2a; border: 1px solid #b9b09a; box-shadow: 0.4rem 0.4rem 0 #0008; }
+  #shelf [popover]::backdrop { background: #0d1321cc; }
+  #shelf [popover] h3 { font-size: 1.25rem; font-weight: normal; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 0.3rem; }
+  #shelf [popover] p.by { font-size: 0.85rem; font-style: italic; text-align: center; color: #6a6252; margin: 0 0 1.4rem; }
+  #shelf [popover] .by::after { content: ""; display: block; width: 3rem; border-top: 1px solid #b9b09a; margin: 1.2rem auto 0; }
+  #shelf [popover] p { color: #2a2a2a; text-align: left; font-size: 0.95rem; }
+  #shelf [popover] p.imprint { font-size: 0.75rem; text-align: center; color: #6a6252; letter-spacing: 0.06em; margin: 1.4rem 0 1rem; }
+  #shelf [popover] button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #2f6f5e;
+                            background: none; border: 1px solid #2f6f5e; padding: 0.5em 1em; cursor: pointer; }
+  #shelf [popover] button:hover, #shelf [popover] button:focus-visible { background: #2f6f5e; color: #efe9d8; outline: none; }
+  @media (prefers-reduced-motion: reduce) { #shelf .row button { transition: none; } }
+  @media screen and (prefers-color-scheme: light) {
+    #shelf h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #shelf p { color: #3d4353; }
+    #shelf p.lede, #shelf .under, #shelf .row .gap i { color: #6a6f7d; }
+    #shelf .row { border-bottom-color: #8a7658; }
+    #shelf [popover]::backdrop { background: #3d4353aa; }
+  }
+  @media print {
+    #shelf h2, #shelf p { color: #000; border-color: #000; }
+    #shelf .row button { background: none; color: #000; border: 1px solid #000; }
+    #shelf [popover] { display: none; }
+  }
+</style>
+<h2>The shelf</h2>
+<p class="lede">One shelf, put up at reading height, though whose was not recorded. The books stand on it as
+   books do, with their names running down their backs, so that the reader must tilt their head to the right.
+   This is the only exercise the world provides.</p>
+<p>Any of them may be taken down. None may be taken away; the list at the door has an item about that.</p>
+<div class="row" role="group" aria-label="a shelf of nine books, standing, and one gap">
+  <button type="button" popovertarget="vol-hello" style="--h:14rem;--w:2.6rem;--c:#2f5a4c"><span>Hello World</span></button>
+  <button type="button" popovertarget="vol-flora" style="--h:13.2rem;--c:#5a2f33"><span>A Flora of the High Ground</span></button>
+  <button type="button" popovertarget="vol-tides" style="--h:11.6rem;--w:1.7rem;--c:#2b3a55"><span>Tide Tables, All Years</span></button>
+  <button type="button" popovertarget="vol-caret" style="--h:12.6rem;--w:2.4rem;--c:#4d4326"><span>The Caret: A Life</span></button>
+  <button type="button" popovertarget="vol-tilde" style="--h:10.8rem;--c:#d9cfa6;--t:#2b3a55"><span>Teach Yourself Tilde</span></button>
+  <div class="gap"><i>out on loan</i></div>
+  <button type="button" popovertarget="vol-rail" style="--h:12rem;--w:1.5rem;--c:#3f2f5a"><span>Railways of the World</span></button>
+  <button type="button" popovertarget="vol-who" style="--h:13.6rem;--w:2.8rem;--c:#6b2a2a"><span>Who&rsquo;s Who</span></button>
+  <button type="button" popovertarget="vol-moon" style="--h:11.9rem;--c:#263048"><span>The Far Side of the At</span></button>
+  <button type="button" class="lean" popovertarget="vol-then" style="--h:12.4rem;--w:2.3rem;--c:#2f5a4c"><span>Hello World, vol. 2</span></button>
+</div>
+<p class="under">The gap is where a book was. It went out before the shelf was put up, which the librarian, had
+   there been one, would have liked explained.</p>
+
+<div popover id="vol-hello">
+  <h3>Hello World</h3>
+  <p class="by">Anon.</p>
+  <p>The whole text is on the first page and is two words long. The remaining three hundred and eighteen pages
+     are flyleaf, put in so that the book would stand up by itself, which the text, for all that has been
+     said for it, could not.</p>
+  <p class="imprint">First edition &middot; no second was needed</p>
+  <button type="button" popovertarget="vol-hello" popovertargetaction="hide">put it back</button>
+</div>
+<div popover id="vol-flora">
+  <h3>A Flora of the High Ground</h3>
+  <p class="by">by one who looked from the front</p>
+  <p>One species is described, the hash, at length and from every side it has. There are forty plates. They
+     are the same plate. The author defends this in a preface as the only honest course, and the binder is
+     thanked for not saying anything.</p>
+  <p class="imprint">With a key to the species, which is short</p>
+  <button type="button" popovertarget="vol-flora" popovertargetaction="hide">put it back</button>
+</div>
+<div popover id="vol-tides">
+  <h3>Tide Tables, All Years</h3>
+  <p class="by">computed for the post</p>
+  <p>High water follows the At and low water is what is left. That is the table. It was meant to come out
+     yearly, and after the first year nobody could find anything to alter except the number on the front, so
+     the number was taken off.</p>
+  <p class="imprint">Not to be used for navigation, there being one ship and it knows</p>
+  <button type="button" popovertarget="vol-tides" popovertargetaction="hide">put it back</button>
+</div>
+<div popover id="vol-caret">
+  <h3>The Caret: A Life</h3>
+  <p class="by">unauthorised</p>
+  <p>The subject could not be reached, and declined in that way to be interviewed. The biographer has made do
+     with what could be seen from shore: that it sails, that it points upward while doing so, and that it has
+     never once put in. Chapter nine, &ldquo;Ashore,&rdquo; is blank and is the best thing in the book.</p>
+  <p class="imprint">The index gives &ldquo;sea, the&rdquo; and then every page</p>
+  <button type="button" popovertarget="vol-caret" popovertargetaction="hide">put it back</button>
+</div>
+<div popover id="vol-tilde">
+  <h3>Teach Yourself Tilde</h3>
+  <p class="by">in one lesson</p>
+  <p>The language of the sea has a single word, and the word is the letter. Lesson one teaches it. The
+     exercises ask the student to say it again, further along, a little after the last one. Students who
+     finish are fluent and report that they have nothing to add.</p>
+  <p class="imprint">Answers at the back, where they are also the questions</p>
+  <button type="button" popovertarget="vol-tilde" popovertargetaction="hide">put it back</button>
+</div>
+<div popover id="vol-rail">
+  <h3>Railways of the World</h3>
+  <p class="by">illustrated</p>
+  <p>There are none. The author establishes this in the first sentence and spends the rest on where the
+     stations would have gone, with gradients. The illustrations are of the places as they are, captioned
+     &ldquo;site of.&rdquo; It is the thinnest book on the shelf and the only one with a fold-out map.</p>
+  <p class="imprint">The map folds out to the size of the world, and is the world</p>
+  <button type="button" popovertarget="vol-rail" popovertargetaction="hide">put it back</button>
+</div>
+<div popover id="vol-who">
+  <h3>Who&rsquo;s Who</h3>
+  <p class="by">this year&rsquo;s</p>
+  <p><b>VISITOR, The.</b> Arrived lately, from another world, by the usual way. <i>Education:</i> has read
+     this far. <i>Publications:</i> a flag, possibly; some pencil. <i>Recreations:</i> scrolling; taking books
+     down. <i>Address:</i> the other side of the glass.</p>
+  <p>It is a thick book for one entry. The entry is printed on every page, so that it may be found.</p>
+  <p class="imprint">Corrections should be sent to the subject</p>
+  <button type="button" popovertarget="vol-who" popovertargetaction="hide">put it back</button>
+</div>
+<div popover id="vol-moon">
+  <h3>The Far Side of the At</h3>
+  <p class="by">a romance</p>
+  <p>A work of fiction, the far side never having been seen by anybody who then came round to say. In it the
+     back of the At is the same as the front. Readers have called this a failure of imagination. The author
+     calls it a twist, and points out that nobody saw it coming.</p>
+  <p class="imprint">The cover is the same on both sides</p>
+  <button type="button" popovertarget="vol-moon" popovertargetaction="hide">put it back</button>
+</div>
+<div popover id="vol-then">
+  <h3>Hello World, vol. 2</h3>
+  <p class="by">the same Anon.</p>
+  <p>The sequel, <i>And Then</i>. It leans because it has not been finished and so has not been pressed. The
+     pages that are in it are in no order anyone has owned up to, and the author, asked how it ends, has so
+     far answered by adding to the middle.</p>
+  <p class="imprint">Handle with care &middot; some of it is still wet</p>
+  <button type="button" popovertarget="vol-then" popovertargetaction="hide">put it back</button>
+</div>
+<aside class="pencil"><span>tilted my head for all nine. it stays tilted a little.</span></aside>
+</section>
 <section id="leave">
 <style>
   #leave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; counter-reset: ticked; }
