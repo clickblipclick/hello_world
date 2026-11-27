@@ -6369,6 +6369,132 @@ ________:__|__________
   });
 })();
 </script>
+<section id="zoetrope">
+<style>
+  #zoetrope { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #zoetrope h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+                 color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #zoetrope p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #zoetrope p.lede { color: #6b7388; font-style: italic; }
+  #zoetrope .slit { width: 7ch; height: 64px; overflow: hidden; margin: 1.4rem auto 0; padding: 0 1.6rem;
+                    font: 14px/16px ui-monospace, Menlo, Consolas, monospace;
+                    border: 1px solid #263048; border-bottom: 0; border-radius: 0.4rem 0.4rem 0 0; }
+  #zoetrope .ground { width: 7ch; margin: 0 auto 1.2rem; padding: 0 1.6rem; border-top: 1px solid #7fb7a4;
+                      font: 14px/16px ui-monospace, Menlo, Consolas, monospace; }
+  #zoetrope pre { margin: 0; font: inherit; color: #d9cfa6; }
+  #reel { animation: zoetrope 1s steps(8) infinite; }
+  @keyframes zoetrope { to { transform: translateY(-512px); } }
+  #zoetrope .band { overflow-x: auto; margin: 0 0 1.2rem; padding: 0.5rem 0; border-top: 1px dashed #263048;
+                    border-bottom: 1px dashed #263048; font: 11px/13px ui-monospace, Menlo, Consolas, monospace; }
+  #zoetrope .band pre { color: #6b7388; width: max-content; margin: 0 auto; }
+  #zoetrope label { display: block; font-size: 0.85rem; font-style: italic; color: #6b7388; margin: 0 0 0.6rem; }
+  #zoetrope input { display: block; width: 100%; margin: 0.3rem 0 0; accent-color: #7fb7a4; }
+  #persist { font-variant-numeric: tabular-nums; color: #d9cfa6; border-left: 1px solid #263048; padding-left: 0.9rem; }
+  #zoetrope .still { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    #reel { animation: none; }
+    #zoetrope .still { display: block; }
+    #zoetrope label, #persist { display: none; }
+  }
+  @media screen and (prefers-color-scheme: light) {
+    #zoetrope h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #zoetrope p { color: #3d4353; }
+    #zoetrope p.lede, #zoetrope label, #zoetrope .band pre { color: #6a6f7d; }
+    #zoetrope pre, #persist { color: #8a6a1f; }
+    #zoetrope .slit, #zoetrope .band, #persist { border-color: #cfc8b6; }
+    #zoetrope .ground { border-color: #2f6f5e; }
+    #zoetrope input { accent-color: #2f6f5e; }
+  }
+  @media print {
+    #zoetrope h2, #zoetrope p, #zoetrope pre { color: #000; border-color: #000; }
+    #reel { animation: none; }
+    #zoetrope label, #persist { display: none; }
+  }
+</style>
+<h2>The zoetrope</h2>
+<p class="lede">A drum with a slot in it and a strip of paper round the inside. There are eight drawings on the
+   strip and nobody in any of them is moving.</p>
+<div class="slit" role="img" aria-label="a figure of five characters, seen through a slot, raising one arm and waving it">
+<pre id="reel" aria-hidden="true">
+       
+   o   
+  /|\  
+  / \  
+       
+   o_  
+  /|   
+  / \  
+     ' 
+   o/  
+  /|   
+  / \  
+    '  
+   o|  
+  /|   
+  / \  
+     ' 
+   o/  
+  /|   
+  / \  
+    '  
+   o|  
+  /|   
+  / \  
+     ' 
+   o/  
+  /|   
+  / \  
+       
+   o_  
+  /|   
+  / \  
+</pre>
+</div>
+<div class="ground" aria-hidden="true"></div>
+<label id="crank" for="turns" hidden>the handle, in drawings to the second
+  <input id="turns" type="range" min="1" max="30" value="8" aria-describedby="persist"></label>
+<p id="persist" role="status" hidden></p>
+<p class="still">The drum is stopped, since you asked for stillness before you came in. Nothing is lost by
+   it. The strip is laid out underneath, and can be read at any pace, which is how it was drawn.</p>
+<p>It is waving. It began before you scrolled this far and has not been told whether anyone arrived. The
+   first of the two words is the wave. The second is the line it is standing on, which is all of the world
+   that would fit in the drum.</p>
+<p>This is the strip, taken out and laid flat:</p>
+<div class="band" role="img" aria-label="the same eight drawings side by side: standing, arm half raised, arm up, arm straight up, up, straight up, up, half lowered">
+<pre aria-hidden="true">
+       |       |     ' |    '  |     ' |    '  |     ' |       
+   o   |   o_  |   o/  |   o|  |   o/  |   o|  |   o/  |   o_  
+  /|\  |  /|   |  /|   |  /|   |  /|   |  /|   |  /|   |  /|   
+  / \  |  / \  |  / \  |  / \  |  / \  |  / \  |  / \  |  / \  
+</pre>
+</div>
+<p>Eight drawings, though only four were ever drawn and the rest are those used again, there being a
+   limit to what an arm can do. Laid flat, they are a queue of people who cannot agree about a bus. Nothing on the paper moves at
+   any speed. The waving is done on your side of the glass, in the gap between one drawing and the next,
+   where you fill in what you were not shown. You have been doing it all the way down the page.</p>
+<aside class="pencil"><span>waved back. it did not change. turned the handle faster and felt it was my fault.</span></aside>
+</section>
+<script>
+// The zoetrope: one strip, one slot, and a handle that only changes how long each drawing is held.
+(function () {
+  var reel = document.getElementById('reel'), crank = document.getElementById('crank');
+  var turns = document.getElementById('turns'), persist = document.getElementById('persist');
+  if (!reel || !crank || !turns || !persist) return;
+  function turn() {
+    var n = +turns.value || 8;
+    reel.style.animationDuration = (8 / n) + 's';
+    persist.textContent = n + (n === 1 ? ' drawing' : ' drawings') + ' to the second. ' +
+      (n <= 2 ? 'You can see each one arrive and stand there. This is the whole secret, and it is not much of one.'
+       : n <= 5 ? 'It is thinking about waving. The arm goes up in instalments.'
+       : n <= 12 ? 'It is waving. Somewhere about here the drawings stop being eight and start being one.'
+       : n <= 22 ? 'It is waving at something behind you, and would like you to turn round.'
+       : 'An arm, mostly. The rest of it is keeping still so as to be believed.');
+  }
+  crank.hidden = false; persist.hidden = false;
+  turns.addEventListener('input', turn);
+  turn();
+})();
+</script>
 <section id="lost">
 <style>
   #lost { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
