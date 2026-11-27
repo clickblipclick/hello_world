@@ -6580,6 +6580,114 @@ ________:__|__________
   turn();
 })();
 </script>
+<section id="registry">
+<style>
+  #registry { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #registry h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+                 color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #registry p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #registry p.lede { color: #6b7388; font-style: italic; }
+  #registry .desk { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6rem 0.9rem; margin: 1.4rem 0 1rem; }
+  #registry label { font-size: 0.9rem; font-style: italic; color: #6b7388; }
+  #born { font: 0.85rem ui-monospace, Menlo, Consolas, monospace; color: #e8e6df; background: transparent;
+          border: 0; border-bottom: 1px solid #263048; padding: 0.3rem 0.2rem; color-scheme: dark; }
+  #born:focus { outline: none; border-bottom-color: #7fb7a4; }
+  #entry { display: block; min-height: 9em; margin: 0; padding: 1rem 1.1rem; border: 1px solid #263048;
+           font: 0.8rem/1.7 ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; white-space: pre-wrap; }
+  #entry b { font-weight: normal; color: #d9cfa6; }
+  #entered { display: block; margin-top: 0.9rem; font-size: 0.85rem; }
+  @media (prefers-color-scheme: light) {
+    #registry h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #registry p { color: #3d4353; }
+    #registry p.lede, #registry label { color: #6a6f7d; }
+    #born { color: #22252e; border-bottom-color: #cfc8b6; color-scheme: light; }
+    #born:focus { border-bottom-color: #2f6f5e; }
+    #entry { color: #2f6f5e; border-color: #cfc8b6; }
+    #entry b { color: #8a6a1f; }
+  }
+  @media print {
+    #registry h2, #registry p, #entry, #entry b { color: #000; border-color: #000; }
+    #registry .desk { display: none; }
+  }
+</style>
+<h2>The registrar</h2>
+<p class="lede">Open during the hours of daylight, of which there is always one somewhere.</p>
+<p>Nobody was born here, and the register of births is accordingly a clean book with a ribbon in it. The
+   registrar has kept the pen wet all the same. Visitors may have their own birth entered, late, on the
+   understanding that it took place elsewhere and that the dates will have to be converted. A day here is one
+   turn. People arrive having had rather more of them than they were expecting.</p>
+<div class="desk">
+  <label for="born">Born, by your own reckoning, on</label>
+  <input id="born" type="date" min="1880-01-01" autocomplete="off">
+</div>
+<output id="entry" for="born" aria-live="polite">The book is open at the first page. The first page is blank, and has been admired.</output>
+<small id="entered" aria-live="off">The registrar works on the same current as the world, and without it can only look up when you come in.</small>
+<aside class="pencil"><span>gave my real date. it did the sum without looking up. I am not at all the age I thought.</span></aside>
+</section>
+<script>
+// The registrar. Takes a date of birth in the visitor's days and gives it back in the world's.
+(function () {
+  var born = document.getElementById('born'), entry = document.getElementById('entry'),
+      said = document.getElementById('entered');
+  if (!born || !entry || !said) return;
+  var DAY = Math.PI * 2 / 0.012 / 60, MONTH = Math.PI * 2 / 0.0045 / 60;   // seconds, as the calendar has them
+  var WEEK = ['Hashday', 'Oday', 'Colonday', 'Tildeday', 'Flatday', 'Stopday', 'Starday'];
+  var entries = 0;
+  function fig(n) { return Math.floor(n).toLocaleString('en'); }
+  function row(k, v) { return (k + '                    ').slice(0, 20) + '<b>' + v + '</b>\n'; }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  function when(ms) {
+    try {
+      return new Date(ms).toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric',
+                                                      hour: 'numeric', minute: '2-digit' });
+    } catch (e) { return new Date(ms).toString(); }
+  }
+  function enter() {
+    var parts = /^(\d{4})-(\d{2})-(\d{2})$/.exec(born.value);
+    if (!parts) {
+      entry.textContent = 'The book is open at the first page. The first page is blank, and has been admired.';
+      said.textContent = 'That is not yet a date. The registrar can wait; it is most of the post.';
+      return;
+    }
+    var then = new Date(+parts[1], +parts[2] - 1, +parts[3]).getTime(), now = Date.now();
+    var secs = (now - then) / 1000;
+    if (isNaN(then)) return;
+    if (secs < 0) {
+      entry.textContent = 'No entry made. The register is not kept in advance.';
+      said.textContent = 'You have given a date that has not happened. Come back when it has, and bring whoever it is.';
+      return;
+    }
+    if (+parts[1] < 1880) {
+      entry.textContent = 'No entry made. The column is not wide enough.';
+      said.textContent = 'The registrar congratulates you, and would like to see some paperwork.';
+      return;
+    }
+    var days = secs / DAY, months = secs / MONTH;
+    var step = days < 2e6 ? 1e5 : 1e6;
+    var next = Math.floor(days / step) * step + step;
+    var due = now + (next - days) * DAY * 1000;
+    entries++;
+    entry.innerHTML =
+      row('No.', '1 (' + (entries === 1 ? 'the first' : 'amended, ' + (entries === 2 ? 'once' : entries - 1 + ' times')) + ')') +
+      row('Born', 'elsewhere') +
+      row('On', WEEK[((Math.floor(then / 1000 / DAY) % 7) + 7) % 7] + ', near enough') +
+      row('Age in days', fig(days)) +
+      row('Age in months', fig(months)) +
+      row('Times round', 'the same, entered twice') +
+      row('Next occasion', 'day ' + next.toLocaleString('en')) +
+      row('Which falls', esc(when(due)) + ', your time') +
+      row('Arranged', 'nothing');
+    said.textContent = days < 1 ? 'Not one whole turn. You are the youngest person ever entered, and also the oldest.'
+      : days < 4e6 ? 'Entered. It is a small number as these go. The registrar wrote it larger, to be kind.'
+      : days < 2e8 ? 'Entered, and blotted. You have been through ' + fig(days) + ' days and are asked how many of them you remember. It is not on the form. The registrar only wondered.'
+      : 'Entered, and blotted. The Caret, told the figure, went round again to think about it.';
+  }
+  entry.textContent = 'The book is open at the first page. The first page is blank, and has been admired.';
+  said.textContent = 'Give a date and it is entered at once. Nothing is kept; the book is shut when you leave and opens clean.';
+  born.addEventListener('input', enter);
+  if (born.value) enter();
+})();
+</script>
 <section id="lost">
 <style>
   #lost { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
