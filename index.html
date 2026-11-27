@@ -770,6 +770,7 @@ a world that will be exactly where they left it.</p>
 <small>it turns on its own. drag it if you are impatient.</small>
 <small class="claim">double-click to plant a flag. it will not make the place yours, but it will stay.</small>
 <small class="keys" id="keys">or take it by the keys: tab to it, then the arrows turn it, space holds it still, enter plants a flag dead centre.</small>
+<small class="claim" id="stick" role="status" hidden></small>
 <output id="fix" for="globe" aria-live="off">point at it and it will tell you where you are pointing.</output>
 </main>
 <figure id="chart">
@@ -6768,6 +6769,7 @@ ________:__|__________
   function tick() {
     if (!dragging) spin += speed;
     wx += 0.0011;
+    thumbs();
     draw();
     orbit();
     report();
@@ -6780,6 +6782,46 @@ ________:__|__________
   });
   el.addEventListener('pointerup', function () { dragging = false; });
   el.addEventListener('pointercancel', function () { dragging = false; });
+  // The pad: for visitors who come holding one. Nothing is said about it until one is plugged in,
+  // and most machines will not admit to a pad until a button on it has been pressed.
+  var stick = document.getElementById('stick'), padHeld = false, padWas = false, padSeen = false, padTurned = false;
+  function thumbs() {
+    var pads, g = null, i;
+    try { pads = navigator.getGamepads ? navigator.getGamepads() : []; } catch (e) { return; }
+    for (i = 0; pads && i < pads.length; i++) if (pads[i] && pads[i].connected) { g = pads[i]; break; }
+    if (!g) {
+      if (padSeen) {
+        padSeen = false; padWas = false;
+        if (padHeld) { padHeld = false; dragging = false; }
+        stick.textContent = 'the pad has gone. it turns on its own again, as it did before anyone brought one.';
+      }
+      return;
+    }
+    if (!padSeen) {
+      padSeen = true; padTurned = false;
+      stick.hidden = false;
+      stick.textContent = 'you have brought a pad. the left stick turns it, and the first button holds it still. ' +
+        'there are a great many other buttons. they have been told, and are taking it well.';
+    }
+    var b = g.buttons || [], ax = (g.axes && g.axes[0]) || 0;
+    if (b[14] && b[14].pressed) ax = -0.6;
+    if (b[15] && b[15].pressed) ax = 0.6;
+    // A stick at rest is never quite at rest, so the middle of it is ignored.
+    if (Math.abs(ax) > 0.15) {
+      spin += ax * 0.05;
+      if (!padTurned) {
+        padTurned = true;
+        stick.textContent = 'turned by the thumb. it is the smallest effort the world has yet been moved by, and it has noticed.';
+      }
+    }
+    var a = !!(b[0] && b[0].pressed);
+    if (a && !padWas) {
+      padHeld = !padHeld; dragging = padHeld;
+      stick.textContent = padHeld ? 'held, by one button. it is waiting to hear what the game is.'
+                                  : 'let go. there was no game. it would like that understood.';
+    }
+    padWas = a;
+  }
   // The keys: for visitors who come without a pointer. The world is taken hold of by tabbing to it.
   // While it is held this way the report is of whatever is dead centre, that being where such a visitor is looking.
   var held = false, cx0 = W / 2, cy0 = H / 2;
