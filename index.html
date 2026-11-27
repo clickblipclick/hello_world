@@ -6688,6 +6688,177 @@ ________:__|__________
   if (born.value) enter();
 })();
 </script>
+<section id="reels">
+<style>
+  /* The fruit machine. Three reels, one arm, no slot for money and no tray for it to come back out of. */
+  #reels { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #reels h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #reels p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #reels p.lede { color: #6b7388; font-style: italic; }
+  #cabinet { font: 16px/1.25 ui-monospace, Menlo, Consolas, monospace; color: #6b7388; margin: 1.4rem auto 0.8rem;
+             width: max-content; }
+  #cabinet b { font-weight: normal; color: #d9cfa6; }
+  #cabinet i { font-style: normal; color: #7fb7a4; }
+  #reels .arm { text-align: center; margin: 0 0 0.9rem; }
+  #reels button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                  background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #reels button:hover, #reels button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #reels button[disabled] { opacity: 0.4; cursor: default; }
+  #paid { display: block; min-height: 3.9em; margin: 0 0 0.4rem; text-align: center; color: #d9cfa6; font-style: italic; }
+  #pulls { display: block; min-height: 1.3em; margin: 0 0 1.2rem; text-align: center; color: #6b7388; }
+  #reels table { border-collapse: collapse; margin: 0 auto 1.2rem; font-size: 0.9rem; color: #b9b6ac; }
+  #reels th, #reels td { padding: 0.25em 0.7em; text-align: left; font-weight: normal; border-bottom: 1px solid #263048; }
+  #reels th { font-family: ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; white-space: nowrap; }
+  #reels td.odds { text-align: right; color: #6b7388; white-space: nowrap; }
+  #reels caption { caption-side: bottom; font-size: 0.8rem; font-style: italic; color: #6b7388; padding-top: 0.5em; }
+  @media screen and (prefers-color-scheme: light) {
+    #reels h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #reels p, #reels table { color: #3d4353; }
+    #reels p.lede, #cabinet, #pulls, #reels td.odds, #reels caption { color: #6a6f7d; }
+    #cabinet b, #paid, #reels th { color: #8a6a1f; } #cabinet i { color: #2f6f5e; }
+    #reels th, #reels td { border-color: #cfc8b6; }
+    #reels button { color: #2f6f5e; border-color: #2f6f5e; }
+    #reels button:hover, #reels button:focus-visible { background: #2f6f5e; color: #f4f1e8; }
+  }
+  @media print {
+    #reels h2, #reels p, #cabinet, #cabinet b, #cabinet i, #paid, #reels table, #reels th, #reels td.odds,
+    #reels caption { color: #000; border-color: #000; }
+    #reels .arm, #pulls { display: none; }
+  }
+</style>
+<h2>The fruit machine</h2>
+<p class="lede">It stands in the corner by the lost property, where it was left by a fair that did not come back
+   for it. The fruit had gone off. The reels were done over with what there was.</p>
+<pre id="cabinet" role="img" aria-label="a machine with three reels in a window and an arm at the side, drawn in characters. the middle row reads sea, land, night.">  .-----------.
+  | ~ | ~ | ~ |  <i>(o)</i>
+ &gt;| <b>~</b> | <b>#</b> | <b>.</b> |&lt;  <i>|</i>
+  | # | . | # |   <i>|</i>
+  '-----------'---<i>'</i>
+  |           |
+  '-----------'</pre>
+<p class="arm" hidden><button type="button" id="arm">pull the arm</button></p>
+<small id="paid" aria-live="polite">Without the current the arm is painted on, and the reels with it. They show sea,
+   land and night, which pays nothing. It is, however, exactly what is outside.</small>
+<small id="pulls"></small>
+<p>There is no slot. It takes nothing, and a machine that takes nothing was thought to have no business paying
+   in coin, so it pays in kind. Each reel has twelve stops and the same share of each thing as the world has, near
+   enough: five of sea, three of land, two of night, one of ice. That leaves one stop over on each reel. The first
+   has the Caret on it, the second the At, and the third a flag.</p>
+<table>
+  <caption>The card on the front. The odds are printed, there being nobody they would discourage.</caption>
+  <tr><th>~ ~ ~</th><td>nothing; it is only the sea</td><td class="odds">125 in 1,728</td></tr>
+  <tr><th># # #</th><td>somewhere to stand</td><td class="odds">27 in 1,728</td></tr>
+  <tr><th>. . .</th><td>a night, payable in the morning</td><td class="odds">8 in 1,728</td></tr>
+  <tr><th>* * *</th><td>cold</td><td class="odds">1 in 1,728</td></tr>
+  <tr><th>^ @ !</th><td>everything in the machine</td><td class="odds">1 in 1,728</td></tr>
+</table>
+<p>Three moons have been asked for. There is one moon, and it is on the middle reel, and the request was passed
+   to the reel, which turned. Everything else that comes up is not a win and not quite a loss either. It is three
+   things in a row that are in the world, and the machine will say what they amount to, as a view.</p>
+<aside class="pencil"><span>eleven pulls. I am up one night and somewhere to stand.</span></aside>
+</section>
+<script>
+(function () {
+  var cab = document.getElementById('cabinet'), arm = document.getElementById('arm');
+  var paid = document.getElementById('paid'), pulls = document.getElementById('pulls');
+  if (!cab || !arm || !paid || !pulls) return;
+
+  var STRIPS = ['~#~.~#~*~#.^', '~~#.~#*~.#~@', '#~~.#~*~#.~!'];
+  var NAMES = { '~': 'sea', '#': 'land', '.': 'night', '*': 'ice', '^': 'the Caret', '@': 'the moon', '!': 'a flag' };
+  var pos = [1, 2, 3], turning = [false, false, false], count = 0, timer = null;
+  var won = { stand: 0, night: 0, cold: 0, sea: 0 };
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function at(r, off) { var s = STRIPS[r]; return s.charAt((pos[r] + off + s.length) % s.length); }
+
+  function draw(down) {
+    var rows = [-1, 0, 1].map(function (off) {
+      var cells = [0, 1, 2].map(function (r) {
+        var c = at(r, off);
+        return off === 0 && !turning[r] ? '<b>' + c + '</b>' : c;
+      });
+      return (off === 0 ? ' &gt;| ' : '  | ') + cells.join(' | ') + (off === 0 ? ' |&lt;' : ' |');
+    });
+    var knob = down ? ['', '  <i>|</i>', '  <i>(o)</i>'] : ['  <i>(o)</i>', '  <i>|</i>', '   <i>|</i>'];
+    cab.innerHTML = '  .-----------.\n' + rows[0] + knob[0] + '\n' + rows[1] + knob[1] + '\n' + rows[2] + knob[2] +
+      "\n  '-----------'---<i>'</i>\n  |           |\n  '-----------'";
+  }
+
+  function list(a) { return a.length === 1 ? a[0] : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1]; }
+
+  function verdict() {
+    var a = at(0, 0), b = at(1, 0), c = at(2, 0), line = a + b + c;
+    if (line === '^@!') return 'The Caret, the moon and a flag, in that order. One in 1,728. The machine pays out everything it has. It has two words: hello world.';
+    if (line === '~~~') { won.sea++; return 'Three of sea. It pays nothing, there being so much of it already. You may look at it for as long as you like.'; }
+    if (line === '###') { won.stand++; return 'Land all the way across. It pays somewhere to stand. You are probably standing on it; the machine is not always ahead of events.'; }
+    if (line === '...') { won.night++; return 'Night on all three. It pays one night, to be collected in the morning, by which time it will have been spent.'; }
+    if (line === '***') { won.cold++; return 'Ice, ice and ice. One in 1,728. It pays cold, and is sorry, and has nothing else at that end of the reel.'; }
+    var out = [];
+    if (a === '^') out.push('The Caret is in the window. It was passing, and has not been told it is on a reel.');
+    if (b === '@') out.push('The moon is up in the middle. It pays nothing by itself, and always is.');
+    if (c === '!') out.push('Somebody has planted a flag on the third reel. The claim is not recognised by the other two.');
+    if (out.length) return out.join(' ');
+    if (a === c && a !== b) {
+      if (a === '~' && b === '#') return 'Sea, land, sea: an island. Not a win. It is small, and you would have to share it with the hash.';
+      if (a === '#' && b === '~') return 'Land, sea, land: a strait. Not a win. Ships are charged for these; you have been let through.';
+      return NAMES[a] + ', ' + NAMES[b] + ', ' + NAMES[a] + '. The same thing either side of something else. Most of the world is arranged like that.';
+    }
+    if (a === b || b === c) {
+      var two = a === b ? a : c, one = a === b ? c : a;
+      if (two + one === '~#' || two + one === '#~') return 'Two of ' + NAMES[two] + ' and one of ' + NAMES[one] + ': a coast. Coasts are not paid on. They are ordinary and go all the way round.';
+      if (one === '.' || two === '.') return 'Two of ' + NAMES[two] + ' and one of ' + NAMES[one] + ': the edge of the evening. Nothing is owed. It was going that way regardless.';
+      return 'Two of ' + NAMES[two] + ' and one of ' + NAMES[one] + '. Near, and the machine does not pay on near. Nor, it points out, does the sea.';
+    }
+    return list([NAMES[a], NAMES[b], NAMES[c]]).replace(/^./, function (m) { return m.toUpperCase(); }) +
+      '. Nothing, but a fair description of somewhere, and there is a place on the map above that looks just like it.';
+  }
+
+  function tally() {
+    var got = [];
+    if (won.stand) got.push(won.stand === 1 ? 'somewhere to stand' : won.stand + ' places to stand');
+    if (won.night) got.push(won.night === 1 ? 'one night' : won.night + ' nights');
+    if (won.cold) got.push('cold');
+    pulls.textContent = (count === 1 ? 'One pull.' : count + ' pulls.') +
+      (got.length ? ' You are up ' + list(got) + '.' : ' You are up nothing, and down the same.') +
+      (won.sea > 1 ? ' The sea has come up ' + won.sea + ' times and is not counted.' : '');
+  }
+
+  function settle() {
+    arm.disabled = false;
+    draw(false);
+    paid.textContent = verdict();
+    tally();
+  }
+
+  function pull() {
+    if (timer) return;
+    count++;
+    var stops = STRIPS.map(function (s) { return Math.floor(Math.random() * s.length); });
+    if (still) { pos = stops; settle(); return; }
+    arm.disabled = true;
+    turning = [true, true, true];
+    paid.textContent = '';
+    var tick = 0, ends = [14, 24, 36];
+    timer = setInterval(function () {
+      tick++;
+      for (var r = 0; r < 3; r++) {
+        if (!turning[r]) continue;
+        if (tick >= ends[r]) { pos[r] = stops[r]; turning[r] = false; }
+        else pos[r] = (pos[r] + 1) % STRIPS[r].length;
+      }
+      if (!turning[2]) { clearInterval(timer); timer = null; settle(); }
+      else draw(tick < 5);
+    }, 70);
+  }
+
+  draw(false);
+  cab.setAttribute('aria-label', 'a machine with three reels in a window and an arm at the side, drawn in characters. the result of each pull is read out underneath.');
+  arm.parentNode.hidden = false;
+  paid.textContent = 'The reels are where the last visitor left them. Nobody collected.';
+  arm.addEventListener('click', pull);
+})();
+</script>
 <section id="lost">
 <style>
   #lost { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
