@@ -30,7 +30,25 @@
          border-top: 3px double #23262e; margin-top: 2.6rem; padding-top: 1.2rem; }
   .back { display: block; text-align: center; margin-top: 2.4rem; color: #6b7388; font-style: italic; font-size: 0.9rem; }
   .back a { color: #7fb7a4; }
+  .verso { margin-top: 3.5rem; transform: rotate(0.5deg); color: #4a4f5c; }
+  .verso .blank { text-align: center; font-variant: small-caps; letter-spacing: 0.12em; color: #23262e;
+                  border-bottom: 1px solid #b9b6ac; padding-bottom: 1rem; margin: 0 0 1.6rem; }
+  .verso p, .verso li { font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive; line-height: 1.5; }
+  .verso .rough { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 2rem; }
+  .verso .rough > * { margin: 0 0 1rem; }
+  .verso .tilt { transform: rotate(-3deg); }
+  .verso .lean { transform: rotate(2deg); }
+  .verso .side { writing-mode: vertical-rl; justify-self: end; font-size: 0.85rem; }
+  .verso s { text-decoration-thickness: 2px; }
+  .verso u { text-decoration-style: double; }
+  .verso pre { color: #4a4f5c; }
+  .verso ul { list-style: none; padding: 0; }
+  .verso .office { font-family: Georgia, serif; font-style: italic; font-size: 0.85rem; color: #8a2f2a;
+                   border: 1px solid #8a2f2a; padding: 0.5rem 0.8rem; width: fit-content; margin: 1.6rem 0 0 auto;
+                   transform: rotate(-2deg); }
+  @media (max-width: 30rem) { .verso .rough { grid-template-columns: 1fr; } .verso .side { writing-mode: horizontal-tb; justify-self: start; } }
   @media print {
+    .verso { break-before: page; margin-top: 0; }
     body { background: #fff; padding: 0; }
     article { box-shadow: none; transform: none; background: #fff; padding: 0; }
     .back { display: none; }
@@ -133,6 +151,44 @@
 </ol>
 
 <p class="end">End of paper<br>turn over only if you are the world</p>
+</article>
+<article class="verso" aria-label="the back of the paper, which a candidate has used for rough work">
+<p class="blank">This side is for rough work. It will not be marked. It will be read.</p>
+<div class="rough">
+  <p>Q8.<br>70 &minus; 1 = 69<br>69 to the nearest 70 = 70<br><s>so it came back</s><br><s>so it never left</s><br>
+     so nobody was counting. <u>70</u></p>
+  <p class="tilt">Q11.<br>* + * = <s>**</s><br>+ + + = <s>++</s><br>only have the one sign.<br>the sum is all pluses and no numbers.<br>
+     ans: <u>+</u> &nbsp;(dark side)<br>ans: can&rsquo;t say (light side)</p>
+  <p>Q2.<br>10 planted. 9 standing.<br>the other one: <s>fell off</s> <s>taken by the Caret</s><br>
+     was the first. it made room.</p>
+<pre aria-label="a drawing of the world from memory, with the moon on the wrong side and an arrow">
+      .-~~~-.
+    .~~##""~~.      @ ?
+   (~~###oo~~~)
+   (~~~##o!~~^)  &lt;-- me
+    `~~~~~---'
+      `-----'
+</pre>
+  <p class="lean">Q9. profit<br>cargo 0 &times; price 0 = 0<br>less port dues at no port = 0<br>= <u>0</u><br>
+     crew&rsquo;s way: went round. still have the ship.<br>= <u>one ship</u>, carried forward</p>
+  <p class="side">is the hall at Elsewhere or am I</p>
+  <ul>
+    <li>days so far: <span aria-label="twenty-three, in tally marks">|||| |||| |||| |||| |||</span></li>
+    <li>the invigilator has not moved</li>
+    <li>the invigilator is a semicolon</li>
+    <li><s>ask for more paper</s> ask who to ask</li>
+  </ul>
+<pre aria-label="a game of noughts and crosses played against nobody, in os and hashes. the hashes won.">
+  o | # | o
+ ---+---+---
+  # | # | #
+ ---+---+---
+  o |   | o
+</pre>
+  <p class="tilt">Q12(c). the poem<br>~<br><s>~ ~</s><br>~<br>(it scans)</p>
+  <p>Q6(a). north is up.<br><s>north is up from here.</s><br>north is where the stars would be if you took the land off. show of hands: 1</p>
+</div>
+<p class="office">Received face down, as directed. Rough work not marked.<br>Q12(c) removed and pinned up in the office.</p>
 </article>
 <p class="back">There is nowhere to hand it in. Leave it on the desk, face down, and <a href="./">go back out to the world</a>;
 it has been turning the whole time and you have missed about eight hundred days.</p>
