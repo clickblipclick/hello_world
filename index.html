@@ -6688,6 +6688,182 @@ ________:__|__________
   if (born.value) enter();
 })();
 </script>
+<section id="jigsaw">
+<style>
+  #jigsaw { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #jigsaw h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+               color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #jigsaw p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #jigsaw p.lede { color: #6b7388; font-style: italic; }
+  #pieces { display: grid; grid-template-columns: repeat(4, max-content); gap: 3px; width: max-content;
+            margin: 1.4rem auto 0.9rem; touch-action: manipulation; }
+  #pieces:empty { display: none; }
+  #pieces div { font: 13px/1.3 ui-monospace, Menlo, Consolas, monospace; white-space: pre; color: #d9cfa6;
+                border: 1px solid #263048; border-radius: 3px; padding: 2px 1px; cursor: grab; user-select: none; }
+  #pieces div:hover { border-color: #6b7388; }
+  #pieces div:focus-visible { outline: 1px dashed #7fb7a4; outline-offset: 1px; }
+  #pieces div.held { border-color: #7fb7a4; background: rgba(127, 183, 164, 0.12); }
+  #pieces.done { gap: 0; }
+  #pieces.done div { border-color: transparent; border-radius: 0; padding: 0; cursor: default; }
+  #fitted { display: block; min-height: 4.6em; margin: 0 0 0.6rem; text-align: center; color: #d9cfa6; font-style: italic;
+            line-height: 1.55; }
+  #jigsaw .arm { text-align: center; }
+  #jigsaw button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                   background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #jigsaw button:hover, #jigsaw button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #jigsaw summary { color: #6b7388; font-style: italic; cursor: pointer; }
+  #lid { font: 13px/1.3 ui-monospace, Menlo, Consolas, monospace; color: #6b7388; width: max-content;
+         margin: 0.9rem auto 0; border: 1px solid #263048; padding: 0.5rem 0.6rem; }
+  @media screen and (prefers-color-scheme: light) {
+    #jigsaw h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #jigsaw p { color: #3d4353; }
+    #jigsaw p.lede, #jigsaw summary, #lid { color: #6a6f7d; }
+    #pieces div, #fitted { color: #8a6a1f; }
+    #pieces div, #lid { border-color: #cfc8b6; }
+    #pieces div.held { border-color: #2f6f5e; background: rgba(47, 111, 94, 0.1); }
+    #jigsaw button { color: #2f6f5e; border-color: #2f6f5e; }
+    #jigsaw button:hover, #jigsaw button:focus-visible { background: #2f6f5e; color: #f4f1e8; }
+  }
+  @media print {
+    #jigsaw h2, #jigsaw p, #jigsaw summary, #lid, #pieces div { color: #000; border-color: #000; }
+    #fitted, #jigsaw .arm { display: none; }
+  }
+</style>
+<h2>The jigsaw</h2>
+<p class="lede">Twelve pieces, in a box whose lid has gone soft at the corners. It came in with a house
+   clearance. All twelve are here, which in a second-hand jigsaw is the one thing never to be expected,
+   and they were counted twice.</p>
+<p>Put a piece down on another and the two change places. Dragging does it. So does pressing one and
+   then the other, for anyone whose table is a small one.</p>
+<div id="pieces"></div>
+<output id="fitted" aria-live="polite"></output>
+<p class="arm" hidden><button type="button" id="tip">tip it out again</button></p>
+<details>
+<summary>The lid, for those who look at the lid</summary>
+<pre id="lid" aria-label="the picture on the lid: a night sea under a few stars and a small moon, with the words hello world across the middle of it">
+  .        *          .   _
+       .        .       ( )
+  *                .     `
+     .                   .
+     h e l l o   w o r l d
+           .
+ ~   ~~    ~     ~~    ~  ~
+   ~~    ~    ~~     ~   ~~
+ ~     ~~   ~     ~    ~~
+</pre>
+</details>
+<script>
+(function () {
+  var lid = document.getElementById('lid'), tray = document.getElementById('pieces'),
+      said = document.getElementById('fitted'), tip = document.getElementById('tip');
+  if (!lid || !tray || !said || !tip) return;
+  var C = 4, R = 3, PW = 7, PH = 3, N = C * R;
+  var rows = lid.textContent.replace(/^\n/, '').split('\n'), want = [], have = [], cells = [];
+  var held = -1, from = -1, moves = 0, done = false, i, j, k, s;
+  var NUM = ['None', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven'];
+
+  for (k = 0; k < R * PH; k++) {
+    rows[k] = rows[k] || '';
+    while (rows[k].length < C * PW) rows[k] += ' ';
+  }
+  for (j = 0; j < R; j++) for (i = 0; i < C; i++) {
+    s = [];
+    for (k = 0; k < PH; k++) s.push(rows[j * PH + k].substr(i * PW, PW));
+    want.push(s.join('\n'));
+  }
+
+  function right() {
+    var n = 0, i;
+    for (i = 0; i < N; i++) if (have[i] === want[i]) n++;
+    return n;
+  }
+
+  function draw() {
+    var i;
+    for (i = 0; i < N; i++) {
+      cells[i].textContent = have[i];
+      cells[i].className = i === held ? 'held' : '';
+      cells[i].setAttribute('aria-pressed', i === held ? 'true' : 'false');
+      cells[i].draggable = !done;
+    }
+    tray.className = done ? 'done' : '';
+    tip.parentNode.hidden = !done;
+  }
+
+  function tipOut() {
+    var i, j, t;
+    have = want.slice();
+    do {
+      for (i = N - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        t = have[i]; have[i] = have[j]; have[j] = t;
+      }
+    } while (right() > 3);
+    held = -1; moves = 0; done = false;
+    t = right();
+    said.textContent = 'Tipped out on the table. ' + (t === 0 ? 'None of the twelve has landed where it belongs.'
+      : NUM[t] + ' of the twelve ' + (t === 1 ? 'has' : 'have') + ' landed where ' + (t === 1 ? 'it belongs' : 'they belong') + ', by accident.');
+    draw();
+  }
+
+  function swap(a, b) {
+    var before = right(), t = have[a], now;
+    held = -1;
+    if (done || a === b || a < 0) { draw(); return; }
+    if (have[a] === have[b]) { said.textContent = 'Those two are the same piece of dark. Changing them over changes nothing, and has been done.'; draw(); return; }
+    have[a] = have[b]; have[b] = t; moves++;
+    now = right();
+    if (now === N) {
+      done = true;
+      said.textContent = 'All twelve, in ' + moves + (moves === 1 ? ' move' : ' moves') + '. It is a night sea with a small moon over it ' +
+        'and two words across the middle, exactly as the lid said. Nobody has ever been surprised by a finished jigsaw, and they go on being finished.';
+    } else {
+      said.textContent = NUM[now] + ' of twelve in place, after ' + moves + (moves === 1 ? ' move.' : ' moves.') +
+        (now < before ? ' It was better a moment ago.' : now === before ? ' No better and no worse.' : now === N - 2 ? ' The last two always know where they go.' : '');
+    }
+    draw();
+  }
+
+  function press(i) {
+    if (done) return;
+    if (held < 0) { held = i; draw(); }
+    else swap(held, i);
+  }
+
+  function make(i) {
+    var d = document.createElement('div');
+    d.tabIndex = 0;
+    d.setAttribute('role', 'button');
+    d.setAttribute('aria-label', 'place ' + (i + 1) + ' of twelve, row ' + (Math.floor(i / C) + 1) + ', column ' + (i % C + 1));
+    d.addEventListener('click', function () { press(i); });
+    d.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      e.preventDefault(); press(i);
+    });
+    d.addEventListener('dragstart', function (e) {
+      if (done) { e.preventDefault(); return; }
+      from = i; held = i; draw();
+      if (e.dataTransfer) { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', 'a piece of jigsaw'); }
+    });
+    d.addEventListener('dragover', function (e) { if (from >= 0) e.preventDefault(); });
+    d.addEventListener('drop', function (e) {
+      var a = from;
+      e.preventDefault(); from = -1;
+      swap(a, i);
+    });
+    d.addEventListener('dragend', function () { from = -1; if (held >= 0) { held = -1; draw(); } });
+    tray.appendChild(d);
+    cells.push(d);
+  }
+
+  for (i = 0; i < N; i++) make(i);
+  tray.setAttribute('role', 'group');
+  tray.setAttribute('aria-label', 'a jigsaw of twelve pieces in three rows of four, each piece a small block of characters. press one piece and then another to change them over.');
+  tip.addEventListener('click', tipOut);
+  tipOut();
+})();
+</script>
+</section>
 <section id="reels">
 <style>
   /* The fruit machine. Three reels, one arm, no slot for money and no tray for it to come back out of. */
