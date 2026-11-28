@@ -7648,6 +7648,104 @@ ________:__|__________
 </div>
 <aside class="pencil"><span>tilted my head for all nine. it stays tilted a little.</span></aside>
 </section>
+<section id="anagram">
+<style>
+  #anagram { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #anagram h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+                color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #anagram p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #anagram p.lede { color: #6b7388; font-style: italic; }
+  #anagram .tray { font: 1.1rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.5em; color: #d9cfa6;
+                   text-align: center; margin: 1.2rem 0; }
+  #anagram dl { margin: 0 0 1.4rem; }
+  #anagram dt { font-variant: small-caps; font-size: 1.15rem; letter-spacing: 0.06em; color: #e8e6df; margin-top: 1.1rem; }
+  #anagram dd { margin: 0.2rem 0 0; line-height: 1.55; color: #b9b6ac; }
+  #anagram input { display: block; width: 100%; box-sizing: border-box; font: inherit; font-size: 1rem; color: #e8e6df;
+                   background: none; border: 0; border-bottom: 1px solid #263048; border-radius: 0;
+                   padding: 0.25rem 0; margin: 0 0 0.8rem; }
+  #anagram input::placeholder { color: #6b7388; font-style: italic; }
+  #anagram input:focus { outline: none; border-color: #7fb7a4; }
+  #anagram output { display: block; min-height: 3.1em; line-height: 1.55; color: #d9cfa6; border-left: 1px solid #263048;
+                    padding-left: 0.9rem; margin: 0 0 1.2rem; }
+  #anagram .small { font-size: 0.85rem; color: #6b7388; font-style: italic; text-align: right; }
+  @media screen and (prefers-color-scheme: light) {
+    #anagram h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #anagram p, #anagram dd { color: #3d4353; }
+    #anagram p.lede, #anagram .small { color: #6a6f7d; }
+    #anagram dt, #anagram input { color: #1c2030; }
+    #anagram .tray, #anagram output { color: #8a6a1f; }
+    #anagram input, #anagram output { border-color: #cfc8b6; }
+    #anagram input:focus { border-color: #2f6f5e; }
+  }
+  @media print { #anagram h2, #anagram p, #anagram dt, #anagram dd, #anagram .tray { color: #000; border-color: #000; }
+                 #anagram input, #anagram output { display: none; } }
+</style>
+<h2>The anagrammist</h2>
+<p class="lede">The same ten letters, taken out of the order they came in and put back in another. Nothing is
+   added and nothing is left over. The anagrammist is strict about this and about little else.</p>
+<p class="tray" aria-label="d, e, h, l, l, l, o, o, r, w">d e h l l l o o r w</p>
+<p>That is the whole stock: three of one letter, two of another, and five that have to manage alone. There is no
+   a, no i and no s, which rules out most of what anybody wants to say. What can be said is below, and every one of
+   them has been counted twice.</p>
+<dl>
+  <dt>Oh, well, Lord</dt>
+  <dd>The greeting, as heard from the other side of it. Thought to be the oldest rearrangement, and the one
+      arrived at by people who were not trying.</dd>
+  <dt>Hold well, or</dt>
+  <dd>An instruction that stops before the consequence. The letters ran out. Whatever follows the <i>or</i> has
+      never happened, the world having so far held.</dd>
+  <dt>Roll, we hold</dt>
+  <dd>Said by the visitors to the globe, or by the globe to the visitors. It works both ways round, as it should.</dd>
+  <dt>Who&rsquo;ll older</dt>
+  <dd>Not grammar, quite. A question about which of the two, the hello or the world, is ageing faster. The
+      apostrophe was supplied free; apostrophes are not letters and the anagrammist keeps a jar of them.</dd>
+  <dt>Howled, roll</dt>
+  <dd>A weather report. See the forecast, which puts it more gently.</dd>
+  <dt>Whorled lol</dt>
+  <dd>Entered under protest. It is a fair description of a small round thing somebody found funny, and all ten
+      letters are present, and the anagrammist would rather not discuss it.</dd>
+</dl>
+<p>Try one of your own. The letters are weighed as you set them down, and you are told what is over and what is
+   still in the tray. Spaces and punctuation go through unweighed.</p>
+<input type="text" aria-label="Your rearrangement of hello world" placeholder="ten letters, any order"
+       autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="60">
+<output aria-live="polite">The tray is full. Nothing has been taken out of it yet.</output>
+<p class="small">Whether your ten letters mean anything is not weighed. The originals were never asked either.</p>
+<aside class="pencil"><span>&ldquo;dlrow olleh&rdquo; passes. it says so, and then says nothing else, pointedly.</span></aside>
+<script>
+(function () {
+  // The anagrammist's scales. One pan holds the ten letters; the other holds whatever the visitor has typed.
+  var box = document.querySelector('#anagram input'), out = document.querySelector('#anagram output');
+  if (!box || !out) return;
+  var stock = 'dehllloorw';
+  var known = { ohwelllord: 1, holdwellor: 1, rollwehold: 1, whollolder: 1, howledroll: 1, whorledlol: 1 };
+  function list(o) {
+    var a = [];
+    Object.keys(o).sort().forEach(function (k) { if (o[k] > 0) a.push(o[k] > 1 ? o[k] + ' × ' + k : k); });
+    return a.join(', ');
+  }
+  box.addEventListener('input', function () {
+    var typed = box.value.toLowerCase().replace(/[^a-z]/g, ''), left = {}, over = {}, i, c;
+    for (i = 0; i < stock.length; i++) left[stock[i]] = (left[stock[i]] || 0) + 1;
+    for (i = 0; i < typed.length; i++) {
+      c = typed[i];
+      if (left[c] > 0) left[c]--; else over[c] = (over[c] || 0) + 1;
+    }
+    var l = list(left), o = list(over);
+    if (!typed) out.textContent = 'The tray is full. Nothing has been taken out of it yet.';
+    else if (!l && !o) {
+      out.textContent = typed === 'helloworld' ? 'That is the order they came in. It balances, but nothing has been moved.'
+        : typed === 'dlrowolleh' ? 'It balances.'
+        : typed === 'worldhello' ? 'It balances. Two words changing places is a dance, not an anagram, but it balances.'
+        : known[typed] ? 'It balances. It is also already on the list, in the anagrammist’s handwriting.'
+        : 'It balances. All ten, none over. The anagrammist nods, which is the most that happens here.';
+    }
+    else out.textContent = (o ? 'Over: ' + o + '. These were not in the tray and have been handed back. ' : '') +
+                           (l ? 'Still in the tray: ' + l + '.' : 'The tray is empty, all the same.');
+  });
+})();
+</script>
+</section>
 <section id="leave">
 <style>
   #leave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; counter-reset: ticked; }
