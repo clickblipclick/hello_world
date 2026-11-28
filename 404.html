@@ -14,6 +14,10 @@
            overflow-wrap: anywhere; }
   #blank { font: 12px/1 ui-monospace, Menlo, Consolas, monospace; color: #263048; margin: 2rem 0; overflow: hidden; }
   #blank b { font-weight: normal; color: #d9cfa6; }
+  #reckon { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; color: #6b7388; letter-spacing: 0.05em;
+            margin: -1.2rem 0 2rem; min-height: 1.3em; }
+  #near { border-left: 1px solid #263048; padding-left: 0.9rem; }
+  #near:empty { display: none; }
   p { line-height: 1.55; color: #b9b6ac; }
   a { color: #7fb7a4; }
   footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; }
@@ -25,10 +29,12 @@
 <p class="lede">The world is forty-four characters wide. You have gone further than that.</p>
 <p id="asked"></p>
 <pre id="blank" aria-label="an empty chart, with one mark on it, which is you"></pre>
+<p id="reckon" aria-hidden="true"></p>
 <p>There is nothing here, and it has not been named, which in these parts amounts to the same thing.
    The chart above is accurate. The mark is you. It drifts because you have nothing to hold on to.</p>
 <p>The usual advice to the lost is to stay where you are until somebody comes. Nobody will,
    so the advice here is different.</p>
+<p id="near"></p>
 <footer>The world is small and round and easy to find again.
 <a href="./">It is this way.</a></footer>
 </main>
@@ -63,6 +69,71 @@
   }
   draw();
   if (!still) setInterval(draw, 600);
+})();
+// Dead reckoning, kept under the chart: where the mark is, and how far it is to the edge of nowhere.
+// Nowhere has edges like anywhere else. Going over one brings you back in at the other, which is the trouble with it.
+(function () {
+  var blank = document.getElementById('blank'), reckon = document.getElementById('reckon');
+  var num = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+  function say(n) { return n < num.length ? num[n] : String(n); }
+  function fix() {
+    var rows = blank.textContent.split('\n'), r, c = -1;
+    for (r = 0; r < rows.length; r++) { c = rows[r].indexOf('?'); if (c >= 0) break; }
+    if (c < 0) return;
+    var W = rows[r].length, H = rows.length - 1;
+    var ways = [[r, 'north'], [H - 1 - r, 'south'], [c, 'west'], [W - 1 - c, 'east']];
+    ways.sort(function (a, b) { return a[0] - b[0]; });
+    var d = ways[0][0];
+    reckon.textContent = (c + 1) + ' across, ' + (r + 1) + ' down. ' +
+      (d ? 'nearest edge: ' + say(d) + (d === 1 ? ' space ' : ' spaces ') + ways[0][1] + '. it is not the way out.'
+         : 'on the ' + ways[0][1] + ' edge. there is more nowhere on the other side of it.');
+  }
+  fix();
+  if (window.MutationObserver) new MutationObserver(fix).observe(blank, { childList: true });
+})();
+// Asking the way. The name asked for is held up against the names that are on the chart,
+// and the one it most resembles is offered, with the number of letters that would have to change.
+(function () {
+  var near = document.getElementById('near');
+  var names = ['ashore', 'assembly', 'below', 'customs', 'departures', 'depth', 'exam', 'forecast', 'inland',
+               'kept', 'phrasebook', 'round', 'search', 'shanty', 'trial', 'yours'];
+  var said = '';
+  try { said = decodeURIComponent(location.pathname); } catch (e) { said = location.pathname; }
+  said = said.replace(/^\/+|\/+$/g, '').split('/').pop().toLowerCase().replace(/\.[a-z0-9]+$/, '').slice(0, 40);
+  if (!said) return;
+  function apart(a, b) {
+    var prev = [], cur, i, j;
+    for (j = 0; j <= b.length; j++) prev[j] = j;
+    for (i = 1; i <= a.length; i++) {
+      cur = [i];
+      for (j = 1; j <= b.length; j++)
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a.charAt(i - 1) === b.charAt(j - 1) ? 0 : 1));
+      prev = cur;
+    }
+    return prev[b.length];
+  }
+  var best = names[0], d = apart(said, best), i, n;
+  for (i = 1; i < names.length; i++) { n = apart(said, names[i]); if (n < d) { d = n; best = names[i]; } }
+  var num = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+  var a = document.createElement('a');
+  a.href = best + '.html';
+  a.textContent = best;
+  function put(before, after) {
+    near.appendChild(document.createTextNode(before));
+    near.appendChild(a);
+    near.appendChild(document.createTextNode(after));
+  }
+  if (d === 0)
+    put('You may have been close, though. There is a place called ', ', spelled exactly as you spelled it, ' +
+        'and it is not at this address. Somebody has given you good directions to the wrong door.');
+  else if (d <= Math.max(1, Math.floor(best.length / 2)) && d < said.length)
+    put('You may have been close, though. The nearest name that is on the chart is ', ', ' +
+        (d < num.length ? num[d] : d) + (d === 1 ? ' letter' : ' letters') + ' from what you said. ' +
+        'It may be what you meant. It is there either way.');
+  else
+    put('Nothing on the chart sounds like what you said. The nearest name is ', ', and it is not near: ' +
+        'you would have to change more of the word than you would keep. It is mentioned only so that ' +
+        'you have heard one real name today.');
 })();
 </script>
 </body>
