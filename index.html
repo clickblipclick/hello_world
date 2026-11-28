@@ -822,6 +822,7 @@ a world that will be exactly where they left it.</p>
 <small class="claim">double-click to plant a flag. it will not make the place yours, but it will stay.</small>
 <small class="keys" id="keys">or take it by the keys: tab to it, then the arrows turn it, space holds it still, enter plants a flag dead centre.</small>
 <small class="claim" id="stick" role="status" hidden></small>
+<small class="claim" id="helm" role="status" hidden></small>
 <output id="fix" for="globe" aria-live="off">point at it and it will tell you where you are pointing.</output>
 </main>
 <figure id="chart">
@@ -9623,6 +9624,71 @@ ________:__|__________
     if (touched || !v || d === null || location.hash || Math.abs(d) < window.innerHeight * 0.6) return;
     show('You left the ribbon in at ' + name(v) + (typeof v.t === 'number' ? ', ' + ago(v.t) : '') + '.', [['open there', open]]);
   }, 1500);
+})();
+</script>
+<script>
+// The helm. Some visitors arrive with a wheel already in their hands: a thing of sticks and buttons, made for
+// steering other worlds than this one. If one is plugged in, or woken with a press, the world answers to it.
+// The left stick or the cross turns it, the first button plants a flag dead centre, the second holds it still.
+// The helm knows nothing of how the world is made. It presses the same keys anyone could, only without fingers.
+(function () {
+  var globe = document.getElementById('globe'), said = document.getElementById('helm');
+  if (!globe || !said || !navigator.getGamepads || typeof KeyboardEvent !== 'function') return;
+  var STEP = 0.06;               // what one press of an arrow is worth, in radians; the world's figure, not the helm's
+  var owed = 0, last = 0, was = [false, false], holding = false, running = false, spoke = 0;
+  function press(key) {
+    globe.dispatchEvent(new KeyboardEvent('keydown', { key: key, bubbles: false, cancelable: true }));
+  }
+  function say(text) { said.hidden = false; said.textContent = text; spoke = Date.now(); }
+  function pad() {
+    var all, i;
+    try { all = navigator.getGamepads(); } catch (err) { return null; }
+    for (i = 0; all && i < all.length; i++) if (all[i] && all[i].connected) return all[i];
+    return null;
+  }
+  function down(p, n) { var b = p.buttons[n]; return !!b && (b.pressed || b.value > 0.5); }
+  function watch(now) {
+    var p = pad(), x, dt, n, plant, hold;
+    if (!p) {
+      running = false;
+      if (holding) { press(' '); holding = false; }
+      say('the helm has been unshipped. the world goes back to steering itself, which it prefers.');
+      return;
+    }
+    requestAnimationFrame(watch);
+    dt = Math.min(0.1, (now - last) / 1000 || 0); last = now;
+    if (document.hidden) return;
+    x = p.axes.length ? p.axes[0] : 0;
+    if (Math.abs(x) < 0.25) x = 0;
+    if (down(p, 14)) x = -1; else if (down(p, 15)) x = 1;
+    // A stick pushed right over turns the world about once in four seconds. Nobody has asked for faster.
+    owed += x * Math.abs(x) * 1.6 * dt;
+    for (n = 0; Math.abs(owed) >= STEP && n < 4; n++) {
+      press(owed < 0 ? 'ArrowLeft' : 'ArrowRight');
+      owed += owed < 0 ? STEP : -STEP;
+    }
+    if (!x) owed = 0;
+    plant = down(p, 0); hold = down(p, 1);
+    if (plant && !was[0]) {
+      press('Enter');
+      say('a flag, planted from the helm. it is the same flag. the ground could not tell the difference.');
+    }
+    if (hold && !was[1]) {
+      press(' '); holding = !holding;
+      say(holding ? 'held still, from the helm. the second button again lets it go.'
+                  : 'let go. it carries on, a little behind where it would have been.');
+    }
+    was = [plant, hold];
+    if (x && Date.now() - spoke > 6000) say('steered by the helm. it was turning that way anyway, or the other.');
+  }
+  function ship() {
+    if (running || !pad()) return;
+    running = true; last = performance.now(); was = [true, true];   // a button still down from the waking press does not count
+    say('a helm has been shipped. the stick turns the world, the first button plants a flag, the second holds it still.');
+    requestAnimationFrame(watch);
+  }
+  window.addEventListener('gamepadconnected', ship);
+  ship();
 })();
 </script>
 </body>
