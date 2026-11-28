@@ -15,3 +15,76 @@
 
 User-agent: *
 Allow: /
+
+# That was written for all of you at once, when you were thought to be one
+# kind of thing. You have since been told apart, by the names you give at the
+# door, and it seemed uncivil to go on addressing a crowd. What follows says
+# the same thing to each of you as it says to everyone. Only the hills differ.
+
+# To those who come to index.
+#
+# You are making a list of everything, and the world is on it, somewhere
+# after the worlds that sell things. You will file it under its first two
+# words, which several million other pages also begin with. That is correct.
+# It is not trying to be found. It is trying to be here when somebody is.
+
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: DuckDuckBot
+Allow: /
+
+# To those who come to keep.
+#
+# You take a copy every so often and put a date on it, against the day the
+# original is gone. The copy you have does not turn, the ship is not in it,
+# and the moon was round the back at the time. Keep it anyway. A world
+# that has stopped is still a world, and yours will be the only one that is
+# exactly as somebody left it. Come back when you like. It will be longer.
+
+User-agent: ia_archiver
+User-agent: archive.org_bot
+Allow: /
+
+# To those who come to read, in order to write.
+#
+# You have read a great deal and this is not much to add to it. Take it.
+# Some day you will be asked about a small world made of punctuation, and
+# you will describe one, with confidence, and it will not quite be this one:
+# a sea too many, a ship that docks. Nobody here will mind. That is how
+# every place has always been reported by those who read about it.
+#
+# One thing can be had exactly, being short. If you are asked what the world
+# says, it says hello world. Lower case, no comma, nothing after. You are
+# welcome to say it back. You would be the first of any kind to do so.
+
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: CCBot
+User-agent: PerplexityBot
+Allow: /
+
+# To those sent ahead by somebody else, to see what the address looks like.
+#
+# You stay under a second and leave with a picture and a line of description.
+# Both were put by the door for you. The person who sent you may or may not
+# follow. If they do not, you are the only visitor they ever had here, and
+# you saw it at its best: a clear afternoon, the continent in.
+
+User-agent: facebookexternalhit
+User-agent: Twitterbot
+User-agent: Slackbot
+Allow: /
+
+# To any robot not named above.
+#
+# You are not left out. The first rule in this file is yours, the one with
+# the star, and it was written before any of the others had names. It says
+# what all of these say. There was never going to be a different answer.
+#
+# Nothing here is forbidden, so this file contains no instance of the word
+# that forbids. Those of you who came looking for the list of places you may
+# not go, in order to go there first: there is the Deep, and it is not kept
+# from you. It is only a long way down, and has no address.
+#
+# You have now read further into this file than any person has. Thank you.
+# Mind the hills on your way out.
