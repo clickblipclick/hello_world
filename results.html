@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the engine · hello world</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
+<link rel="search" type="application/opensearchdescription+xml" title="hello world" href="opensearch.xml">
+<style>
+  body { margin: 0; background: #0d1321; color: #e8e6df; font-family: Georgia, serif; }
+  main { max-width: 34rem; margin: 0 auto; padding: 4rem 1rem 6rem; }
+  h1 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #7fb7a4; margin: 0 0 0.4rem; }
+  .lede { color: #6b7388; font-style: italic; margin: 0 0 1.6rem; }
+  p { line-height: 1.55; color: #b9b6ac; }
+  form { display: flex; gap: 0.6rem; margin: 0 0 1.4rem; }
+  input { flex: 1; min-width: 0; font: 1rem Georgia, serif; color: #e8e6df; background: transparent;
+          border: 0; border-bottom: 1px solid #263048; padding: 0.4rem 0.2rem; }
+  input:focus { outline: none; border-bottom-color: #7fb7a4; }
+  button { background: none; border: 1px solid #263048; color: #7fb7a4; padding: 0.5rem 0.9rem;
+           font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; cursor: pointer; }
+  button:hover, button:focus-visible { border-color: #7fb7a4; outline: none; }
+  #tally, #meant { font: 0.8rem/1.6 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.03em; color: #6b7388; margin: 0 0 0.4rem; }
+  #meant { color: #b9b6ac; margin-bottom: 1.6rem; }
+  #hits { list-style: none; margin: 0; padding: 0; }
+  #hits li { margin: 0 0 1.8rem; }
+  #hits cite { display: block; font: 0.75rem ui-monospace, Menlo, Consolas, monospace; font-style: normal; color: #6b7388; }
+  #hits a { font-size: 1.2rem; }
+  #hits a b { font: 1rem ui-monospace, Menlo, Consolas, monospace; color: #d9cfa6; margin-left: 0.5em; }
+  #hits p { margin: 0.2rem 0 0; }
+  #hits mark { background: none; color: #d9cfa6; font-weight: bold; }
+  #letters { border-top: 1px solid #263048; padding-top: 1.2rem; font-size: 0.95rem; }
+  #letters code { font: 0.85rem ui-monospace, Menlo, Consolas, monospace; color: #7fb7a4; letter-spacing: 0.2em; }
+  a { color: #7fb7a4; }
+  footer { margin-top: 2.4rem; color: #6b7388; font-style: italic; }
+  @media (prefers-color-scheme: light) {
+    body { background: #f1ecdf; color: #1d2433; }
+    h1, a, button, #letters code { color: #2f6f5e; }
+    p, #meant { color: #3d4353; }
+    input { color: #1d2433; }
+    input, button, #letters { border-color: #cfc8b6; }
+    #hits mark, #hits a b { color: #8a6a1f; }
+  }
+</style>
+</head>
+<body>
+<main>
+<h1>The engine</h1>
+<p class="lede">The world may be searched. This takes no time, there being so little of it to go through.</p>
+<form action="results.html" method="get" role="search">
+  <input id="q" name="q" type="search" aria-label="what to look for in the world" autocomplete="off" spellcheck="false" maxlength="200">
+  <button type="submit">look</button>
+</form>
+<p id="tally" aria-live="polite"></p>
+<p id="meant" hidden></p>
+<ol id="hits"></ol>
+<p id="letters" hidden></p>
+<noscript><p>The engine is a script and has not come. Had it come, it would have found one thing, and the thing
+   would have been hello world. You may take that as read.</p></noscript>
+<footer>Results are in order of relevance, which here is the order you typed them in, the world having no opinion.
+<a href="./">Back to the world, which is the first result and most of the others.</a></footer>
+</main>
+<script>
+// The engine. It has read the whole of the world, which is two words, and the gazetteer, which is the
+// rest. Anything asked of it is looked for in those and nowhere else; Elsewhere is not indexed.
+(function () {
+  var q = '';
+  try { q = new URLSearchParams(location.search).get('q') || ''; } catch (e) {}
+  q = q.replace(/\s+/g, ' ').trim().slice(0, 200);
+  var box = document.getElementById('q'), tally = document.getElementById('tally'), hits = document.getElementById('hits');
+  box.value = q;
+  if (!q) {
+    tally.textContent = 'nothing asked. nothing has been found, and it was found at once.';
+    box.focus();
+    return;
+  }
+  document.title = q + ' · the engine · hello world';
+  var n = q.toLowerCase();
+
+  // The places, by the mark each is made of. A mark typed into the box is a place asked after.
+  var places = [
+    ['#', 'The Hash', 'The bright uplands, wherever the light happens to fall. Not a place so much as a time of day.'],
+    [':', 'The Colons', 'Land at dusk. Everything here is about to be explained, and then the planet turns and it isn’t.'],
+    ['~', 'The Tilde Sea', 'Open water in full sun. The waves are all one wavelength.'],
+    ['-', 'The Flats', 'The same sea, later in the afternoon, having given up on waves.'],
+    ['.', 'Full Stop Deep', 'The night ocean. Sentences end here, and yours did, or will.'],
+    ['*', 'The Asterisk Caps', 'Ice at both poles, each flake a footnote to something nobody wrote down.'],
+    ['+', 'The Asterisk Caps, dark side', 'The same ice with the light off it. The only arithmetic the planet does.'],
+    ['@', 'The At', 'The moon. It has one side and shows it to everybody. It was not looking for post.'],
+    ['!', 'The Exclamations', 'Flags, left by visitors. You have brought one with you; it has not been planted by being typed.'],
+    ['\'', 'The Apostrophes', 'The stars. They are the same for everyone, having been dealt once from a fixed deck.'],
+    ['`', 'The Apostrophes', 'The stars, leaning the other way. They do not turn with the world, or at all.'],
+    ['^', 'The Caret', 'A ship, and the only one. Its present position is not held here. It is not held anywhere.'],
+    ['?', 'Elsewhere', 'Everything that is not the world. There is a great deal of it and none of it is listed, including, most likely, what you were after.'],
+    ['%', 'The Percent', 'A bottle, when there is one. It goes where the water goes.'],
+    ['"', 'The Dittos', 'Weather. Each mark means the same as the one above it, which is what the mark is for.'],
+    [',', 'The Commas', 'Small, curled, and fastened to the bottom, where they wait for the sentence to go on.'],
+    [';', 'The Commas', 'One of the larger ones. The only life so far reported. They have not confirmed it.']
+  ];
+
+  function hit(title, mark, where, href, body) {
+    var li = document.createElement('li'), c = document.createElement('cite'), a = document.createElement('a');
+    c.textContent = where; a.href = href; a.textContent = title;
+    if (mark) { var b = document.createElement('b'); b.textContent = mark; a.appendChild(b); }
+    li.appendChild(c); li.appendChild(a); li.appendChild(body); hits.appendChild(li);
+  }
+  function para(text) { var p = document.createElement('p'); p.textContent = text; return p; }
+
+  // The one result there always is. How much of it is lit depends on how much of it was asked for.
+  var hello = n.indexOf('hello') >= 0, world = n.indexOf('world') >= 0, exact = n === 'hello world';
+  var first = document.createElement('p');
+  function word(w, lit) { var e = document.createElement(lit ? 'mark' : 'span'); e.textContent = w; first.appendChild(e); }
+  word('hello', hello); first.appendChild(document.createTextNode(' ')); word('world', world);
+  first.appendChild(document.createTextNode(
+    exact ? '. That is the whole of the text, and you have typed all of it. There is nothing further to find, which is not the same as there being nothing further.'
+    : hello && world ? '. Both halves are in what you asked, with some other matter round them. The other matter is yours and has been left where it was.'
+    : hello ? '. The first half. The second is kept directly after it, a space along, and has been since the beginning.'
+    : world ? '. The second half. It was greeted before you got here; the greeting is the half you left out.'
+    : '. Neither word was asked for. It is shown because it is the nearest thing held, and also the furthest, being the only one.'));
+  hit('hello world', '', 'helloworldandthen.com', './', first);
+
+  var count = 1, seen = {};
+  for (var i = 0; i < q.length; i++) {
+    for (var j = 0; j < places.length; j++) {
+      if (places[j][0] === q.charAt(i) && !seen[places[j][0]]) {
+        seen[places[j][0]] = 1; count++;
+        hit(places[j][1], places[j][0], 'helloworldandthen.com › a gazetteer', './#gazetteer', para(places[j][2]));
+      }
+    }
+  }
+
+  tally.textContent = (count === 1 ? '1 result' : count + ' results') + ' for “' + q + '”, in no time. '
+    + (count === 1 ? 'the world was gone through twice to be sure.' : 'the marks you typed are places here, and were found where they are kept.');
+  if (!exact) {
+    var meant = document.getElementById('meant'), a = document.createElement('a');
+    a.href = 'results.html?q=hello+world'; a.textContent = 'hello world';
+    meant.appendChild(document.createTextNode('did you mean: ')); meant.appendChild(a);
+    meant.appendChild(document.createTextNode(hello || world ? ' — you very nearly did.' : ' — most people do, in the end.'));
+    meant.hidden = false;
+  }
+
+  // The letters. The world keeps seven, and an enquiry is mostly made of ones it does not keep.
+  var kept = 'dehlorw', had = '', lacked = '';
+  for (var k = 0; k < n.length; k++) {
+    var ch = n.charAt(k);
+    if (ch < 'a' || ch > 'z') continue;
+    if (kept.indexOf(ch) >= 0) { if (had.indexOf(ch) < 0) had += ch; }
+    else if (lacked.indexOf(ch) < 0) lacked += ch;
+  }
+  if (had || lacked) {
+    var L = document.getElementById('letters');
+    function run(text, s) {
+      L.appendChild(document.createTextNode(text));
+      if (s) { var c = document.createElement('code'); c.textContent = s.split('').sort().join(''); L.appendChild(c); }
+    }
+    run('The world keeps seven letters, ', kept);
+    if (had) run('. Your enquiry used ' + (had.length === 7 ? 'all of them' : had.length + ' of them') + ', ', had);
+    else run('. Your enquiry used none of them', '');
+    if (lacked) run(', and ' + lacked.length + ' it has' + ' never needed, ', lacked);
+    run(lacked ? '. These have been returned to you unused.' : '. Nothing was brought that it did not already have.', '');
+    L.hidden = false;
+  }
+})();
+</script>
+</body>
+</html>

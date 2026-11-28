@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Papers for a browser that wishes to keep the world among its search engines, beside the large ones.
+
+  It is the smallest of them. The large ones have read everything and will find you ten million
+  things in half a second. This one has read two words and a gazetteer, and will find you one
+  thing in no time at all. It is the same thing whatever was asked. This is offered as a
+  service: an engine that has never once returned the wrong result.
+
+  To use it, visit the world, then look in the browser's settings under search, where it will
+  have been written down without anybody saying so. Give it a short word to answer to.
+  "hello" has been found suitable.
+-->
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>hello world</ShortName>
+  <Description>Search the world. There is one result and it is always in.</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Language>en</Language>
+  <Url type="text/html" method="get" template="https://helloworldandthen.com/results.html?q={searchTerms}"/>
+  <Query role="example" searchTerms="hello world"/>
+</OpenSearchDescription>

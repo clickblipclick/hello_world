@@ -348,6 +348,8 @@
 <!-- For keeping the world on a shelf: its papers, and the small picture it goes under. -->
 <link rel="manifest" href="pocket.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
+<!-- For a browser that keeps a list of engines: the world may be added to it, at the small end. -->
+<link rel="search" type="application/opensearchdescription+xml" title="hello world" href="opensearch.xml">
 <meta name="apple-mobile-web-app-title" content="world">
 <style>
   /* The telegraph. A mast, two arms, and the same sorts as everything else. */
@@ -2087,6 +2089,25 @@ VI    VIII  X     XII   II    IV    VI
      It is not counted with the ten, a question needing somebody at the other end of it, and it would like
      that understood before you close it again.</p>
 </details>
+<style>
+  #asked form { display: flex; gap: 0.6rem; margin: 1.2rem 0 0; }
+  #asked input { flex: 1; min-width: 0; font: 1rem Georgia, serif; color: #e8e6df; background: transparent;
+                 border: 0; border-bottom: 1px solid #263048; padding: 0.4rem 0.2rem; }
+  #asked input:focus { outline: none; border-bottom-color: #7fb7a4; }
+  #asked form button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                       background: none; border: 1px solid #263048; padding: 0.5rem 0.9rem; cursor: pointer; }
+  #asked form button:hover, #asked form button:focus-visible { border-color: #7fb7a4; outline: none; }
+  @media screen and (prefers-color-scheme: light) {
+    #asked input { color: #1d2433; border-color: #cfc8b6; }
+    #asked form button { color: #2f6f5e; border-color: #cfc8b6; }
+  }
+</style>
+<p style="margin-top: 2rem">A question of your own is another matter. It has been asked, by you, and so cannot be kept
+   with these. It goes to the engine instead, which has read the whole of the world and will look.</p>
+<form action="results.html" method="get" role="search">
+  <input name="q" type="search" aria-label="a question of your own, for the engine" autocomplete="off" spellcheck="false" maxlength="200">
+  <button type="submit">look</button>
+</form>
 </section>
 <section id="kin">
 <style>
