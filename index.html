@@ -7746,6 +7746,144 @@ ________:__|__________
 })();
 </script>
 </section>
+<section id="pendulum">
+<style>
+  #pendulum { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #pendulum h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+                 color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #pendulum p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #pendulum p.lede { color: #6b7388; font-style: italic; }
+  #pendulum svg { display: block; width: min(100%, 19rem); height: auto; margin: 1.6rem auto 1.2rem; overflow: visible; }
+  #pendulum .floor { fill: none; stroke: #263048; }
+  #pendulum .rose { fill: #6b7388; font: 7px ui-monospace, Menlo, Consolas, monospace; text-anchor: middle; }
+  #pendulum .swing { stroke: #7fb7a4; stroke-width: 0.6; stroke-dasharray: 1.5 2.5; opacity: 0.7; }
+  #pendulum .peg { fill: #d9cfa6; }
+  #pendulum .felled { stroke: #6b7388; stroke-width: 1.6; stroke-linecap: round; }
+  #pendulum .bob { fill: #e8e6df; stroke: #0d1321; stroke-width: 1; }
+  #pendulum label { display: block; font-size: 0.85rem; color: #6b7388; font-style: italic; margin: 0 0 0.2rem; }
+  #pendulum input { display: block; width: 100%; margin: 0 0 0.9rem; accent-color: #7fb7a4; }
+  #pendulum output { display: block; min-height: 4.7em; line-height: 1.55; color: #d9cfa6; border-left: 1px solid #263048;
+                     padding-left: 0.9rem; margin: 0 0 1rem; }
+  #pendulum button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                     background: none; border: 1px solid #263048; border-radius: 2px; padding: 0.35rem 0.7rem;
+                     margin: 0 0.5rem 1.2rem 0; cursor: pointer; }
+  #pendulum button:hover, #pendulum button:focus-visible { border-color: #7fb7a4; outline: none; }
+  #pendulum .small { font-size: 0.85rem; color: #6b7388; font-style: italic; text-align: right; }
+  @media screen and (prefers-color-scheme: light) {
+    #pendulum h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #pendulum p { color: #3d4353; }
+    #pendulum p.lede, #pendulum .small, #pendulum label { color: #6a6f7d; }
+    #pendulum .floor { stroke: #cfc8b6; }
+    #pendulum .swing { stroke: #2f6f5e; }
+    #pendulum .peg { fill: #8a6a1f; }
+    #pendulum .bob { fill: #1c2030; stroke: #f4f1e8; }
+    #pendulum output { color: #8a6a1f; border-color: #cfc8b6; }
+    #pendulum button { color: #2f6f5e; border-color: #cfc8b6; }
+    #pendulum input { accent-color: #2f6f5e; }
+  }
+  @media print { #pendulum h2, #pendulum p { color: #000; border-color: #000; }
+                 #pendulum svg, #pendulum label, #pendulum input, #pendulum output, #pendulum button { display: none; } }
+</style>
+<h2>The pendulum</h2>
+<p class="lede">A weight on a long wire, let go once and not touched again. It is the only instrument here
+   that does nothing at all, and it is kept for that reason.</p>
+<p>Everything else on this page that says the world turns has been told so. The globe turns because it was
+   written to. The pendulum was not told anything. It swings to and fro along one line and has no means of
+   choosing another, so when the line is found to have come round, it is the floor that has moved, and
+   whoever is standing on the floor.</p>
+<p>You are looking down on it from the ceiling. Twenty-four pegs have been stood in a ring at the reach of
+   the swing, as is the custom, so that the turning leaves evidence. The clock has been hurried: an hour
+   here goes by in the time it takes to read this sentence slowly.</p>
+<svg viewBox="-112 -112 224 224" role="img" aria-labelledby="pendulum-says">
+  <circle class="floor" r="100"/>
+  <circle class="floor" r="1.2"/>
+  <text class="rose" y="-103">n</text>
+  <text class="rose" y="109">s</text>
+  <text class="rose" x="106" y="2.5">e</text>
+  <text class="rose" x="-106" y="2.5">w</text>
+  <line class="swing" x1="-88" x2="88"/>
+  <g class="pegs"></g>
+  <circle class="bob" r="5"/>
+</svg>
+<label for="parallel">Where the floor is: slide it north or south</label>
+<input id="parallel" type="range" min="-90" max="90" step="1" value="49">
+<output id="pendulum-says" aria-live="off">The weight is hanging still. It has not been let go yet.</output>
+<button type="button" class="on">an hour on</button><button type="button" class="again">stand the pegs up</button>
+<p>At either pole the line comes all the way round once a day, and a patient person could tell the time by
+   it. Nearer the middle it goes slower, by the sine of the latitude, which is the sort of thing a pendulum
+   knows without having been taught. At thirty degrees it wants two days. On the equator it does not come
+   round at all: the pegs stand for ever, and the keeper there has the easiest job in the trade and the
+   hardest time convincing anyone the thing works. South of the line it turns the other way.</p>
+<p class="small">The first one was hung in Paris in 1851, from a dome, with sixty-seven metres of wire. This one
+   hangs from the top of the page.</p>
+<aside class="pencil"><span>the pegs are stood back up every morning by someone who has never seen one fall.</span></aside>
+<script>
+(function () {
+  // The pendulum. It keeps one line; the floor is turned under it at fifteen degrees an hour times the sine of the latitude.
+  var root = document.getElementById('pendulum');
+  if (!root) return;
+  var svg = root.querySelector('svg'), ring = root.querySelector('.pegs'), bob = root.querySelector('.bob'),
+      line = root.querySelector('.swing'), slide = root.querySelector('input'), out = root.querySelector('output');
+  if (!svg || !ring || !bob || !line || !slide || !out || !svg.createSVGPoint) return;
+  var NS = 'http://www.w3.org/2000/svg', N = 24, REACH = 88, HOUR = 2500, BEAT = 2600, START = 0;
+  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pegs = [], hours = 0, lat = +slide.value, seen = false, last = 0, phase = 0, said = '';
+  for (var i = 0; i < N; i++) {
+    var a = (i * 360 / N + 7.5) * Math.PI / 180, g = document.createElementNS(NS, 'g');
+    var up = document.createElementNS(NS, 'circle'), down = document.createElementNS(NS, 'line');
+    up.setAttribute('class', 'peg'); up.setAttribute('r', 2);
+    up.setAttribute('cx', (Math.cos(a) * REACH).toFixed(2)); up.setAttribute('cy', (Math.sin(a) * REACH).toFixed(2));
+    down.setAttribute('class', 'felled');
+    down.setAttribute('x1', (Math.cos(a) * (REACH + 2)).toFixed(2)); down.setAttribute('y1', (Math.sin(a) * (REACH + 2)).toFixed(2));
+    down.setAttribute('x2', (Math.cos(a) * (REACH + 9)).toFixed(2)); down.setAttribute('y2', (Math.sin(a) * (REACH + 9)).toFixed(2));
+    down.style.display = 'none';
+    g.appendChild(up); g.appendChild(down); ring.appendChild(g);
+    pegs.push({ at: i * 360 / N + 7.5, up: up, down: down });
+  }
+  function turned() { return 15 * hours * Math.sin(lat * Math.PI / 180); }   // degrees, clockwise from above when north
+  function draw() {
+    var t = turned(), way = t < 0 ? -1 : 1, deg = START + t, r = deg * Math.PI / 180, fallen = 0;
+    pegs.forEach(function (p) {
+      var need = (((way * (p.at - START)) % 180) + 180) % 180, gone = Math.abs(t) >= need;
+      if (gone) fallen++;
+      p.up.style.display = gone ? 'none' : '';
+      p.down.style.display = gone ? '' : 'none';
+    });
+    line.setAttribute('transform', 'rotate(' + deg.toFixed(2) + ')');
+    var s = still ? 0 : Math.cos(phase) * (REACH - 6);
+    bob.setAttribute('cx', (Math.cos(r) * s).toFixed(2));
+    bob.setAttribute('cy', (Math.sin(r) * s).toFixed(2));
+    var where = lat === 0 ? 'On the equator' : Math.abs(lat) === 90 ? 'At the ' + (lat > 0 ? 'north' : 'south') + ' pole'
+              : Math.abs(lat) + '° ' + (lat > 0 ? 'north' : 'south');
+    var h = Math.floor(hours), d = Math.floor(h / 24), clock = (d ? d + (d === 1 ? ' day ' : ' days ') : '') + (h % 24) + ' h';
+    var text = where + '. ' + clock + ' gone. ';
+    if (lat === 0) text += 'The line has not come round and is not going to. All ' + N + ' pegs are standing. Nothing is wrong.';
+    else if (fallen === N) text += 'The line has come half way round and met itself. Every peg is down, and there is nothing left to prove it with.';
+    else text += 'The line has come round ' + Math.abs(t).toFixed(0) + '°, ' + (lat > 0 ? 'with the clock' : 'against the clock') + '. '
+               + (fallen ? fallen + ' of the ' + N + ' pegs ' + (fallen === 1 ? 'is' : 'are') + ' down.' : 'No peg is down yet.');
+    if (text !== said) { said = text; out.textContent = text; }
+  }
+  function reset() { hours = 0; draw(); }
+  function tick(now) {
+    if (!seen || document.hidden) { last = 0; return; }
+    if (last) { var dt = Math.min(now - last, 200); hours += dt / HOUR; phase += dt / BEAT * 2 * Math.PI; }
+    last = now;
+    draw();
+    requestAnimationFrame(tick);
+  }
+  function go() { if (!still && seen && !document.hidden && !last) requestAnimationFrame(tick); }
+  slide.addEventListener('input', function () { lat = +slide.value; reset(); });
+  root.querySelector('.on').addEventListener('click', function () { hours = Math.floor(hours) + 1; draw(); });
+  root.querySelector('.again').addEventListener('click', reset);
+  document.addEventListener('visibilitychange', go);
+  if (!still && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { seen = es[es.length - 1].isIntersecting; go(); }).observe(svg);
+  } else seen = !still;
+  draw();
+  go();
+})();
+</script>
+</section>
 <section id="leave">
 <style>
   #leave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; counter-reset: ticked; }
