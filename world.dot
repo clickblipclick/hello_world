@@ -1,0 +1,114 @@
+// world.dot -- the world, as a machine that knows it when it sees it.
+//
+// Everything else here says the world, or draws it, or works it out. This
+// does none of that. It is a drawing of the smallest machine that can be
+// handed a line of writing and say whether the line was the world or was not.
+// It has twelve places to be and is only ever in one. It reads a letter, moves,
+// and forgets the letter. It has no memory except where it is standing.
+//
+// To see it, give it to the program that lays such drawings out:
+//
+//   dot -Tsvg world.dot > machine.svg
+//
+// and it comes out as a row of circles with a second row of one beneath it.
+// The drawing is not the machine. A machine this small can be run with a
+// finger: start at the left, read your line a letter at a time, follow the
+// arrow that has your letter on it. Where there is no such arrow, go down.
+//
+// There are two ways for it to end. On the double circle, with nothing left
+// to read: that was the world. Anywhere else at all: it was something, and
+// the machine has no opinion as to what.
+
+digraph world {
+  rankdir = LR;
+  bgcolor = "#0d1321";
+  node [shape = circle, fixedsize = true, width = 1.1, color = "#7fb7a4",
+        fontcolor = "#e8e6df", fontname = "Georgia", fontsize = 11];
+  edge [color = "#7fb7a4", fontcolor = "#d9cfa6", fontname = "Courier", fontsize = 13];
+
+  // Where it starts. Nothing has been read and nothing is known. An empty
+  // line ends here, and is not the world, though it is the nearest miss
+  // there is and the only one that is no trouble to anybody.
+  before [shape = point, width = 0.12];
+  q0 [label = "nothing\nyet"];
+  before -> q0;
+
+  // The twelve places. Each is labelled with what must have been read to be
+  // standing there, which the machine itself does not know. It knows the
+  // place. The labels are for visitors.
+  q1  [label = "h"];
+  q2  [label = "he"];
+  q3  [label = "hel"];
+  q4  [label = "hell"];
+  q5  [label = "hello"];
+  q6  [label = "hello\n(and a gap)"];
+  q7  [label = "hello w"];
+  q8  [label = "hello wo"];
+  q9  [label = "hello wor"];
+  q10 [label = "hello worl"];
+
+  // The one place it is correct to stop. Two rings, by old custom.
+  q11 [label = "hello world", shape = doublecircle];
+
+  // The way through. Eleven arrows and no choice at any of them.
+  q0 -> q1  [label = "h"];
+  q1 -> q2  [label = "e"];
+  // Two of these in a row. The machine cannot count, so it has been given a
+  // place for one l and another place for two, and counts by walking.
+  q2 -> q3  [label = "l"];
+  q3 -> q4  [label = "l"];
+  q4 -> q5  [label = "o"];
+  // The gap. To the machine it is a letter like the rest and is crossed the
+  // same way, on an arrow, with something written on it. What is written on
+  // it is a space, set in quotation marks so that it can be seen to be there.
+  q5 -> q6  [label = "\" \""];
+  q6 -> q7  [label = "w"];
+  // The second o. It is the same letter as the first and leads somewhere
+  // else entirely, which is the whole of what the machine understands.
+  q7 -> q8  [label = "o"];
+  q8 -> q9  [label = "r"];
+  // The third l. By now it means "nearly".
+  q9 -> q10 [label = "l"];
+  q10 -> q11 [label = "d"];
+
+  // Elsewhere. Every letter that is not the next one leads here, from
+  // everywhere, and so does every letter after the last. A capital H leads
+  // here at the first step. So does a comma after hello, and a second gap,
+  // and an exclamation mark at the end: the machine does not take
+  // enthusiasm into account. Once here, every letter leads here. Elsewhere
+  // leads to Elsewhere. It is the largest place on the drawing, having
+  // nearly all of writing in it, and it is drawn the same size as the rest.
+  elsewhere [label = "Elsewhere", color = "#6b7388", fontcolor = "#6b7388",
+             style = dashed];
+  edge [color = "#6b7388", fontcolor = "#6b7388", style = dashed, fontsize = 10,
+        constraint = false];
+  q0  -> elsewhere;
+  q1  -> elsewhere;
+  q2  -> elsewhere;
+  q3  -> elsewhere;
+  q4  -> elsewhere;
+  q5  -> elsewhere;
+  q6  -> elsewhere;
+  q7  -> elsewhere;
+  q8  -> elsewhere;
+  q9  -> elsewhere;
+  q10 -> elsewhere;
+  // From the double circle too. Having been the world is no protection
+  // against going on.
+  q11 -> elsewhere [label = "anything\nmore"];
+  elsewhere -> elsewhere [label = "anything"];
+
+  // Keep Elsewhere underneath, in the middle, where the arrows can all
+  // reach it without crossing the way through.
+  { rank = sink; elsewhere; }
+}
+
+// What it cannot do. It cannot say the world; it has nothing to say it with.
+// It cannot tell you how close you came: one letter out and a thousand out
+// both end in the same dashed circle. It does not know that there is a
+// globe, or a sea, or a ship. It was shown one line once and has been
+// checking the post against it ever since.
+//
+// What it has done. Of all the lines that could ever be written, it has
+// refused every one but one, and it did not need to read most of them past
+// the first letter.
