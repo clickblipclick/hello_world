@@ -823,6 +823,7 @@ a world that will be exactly where they left it.</p>
 <small class="keys" id="keys">or take it by the keys: tab to it, then the arrows turn it, space holds it still, enter plants a flag dead centre.</small>
 <small class="claim" id="stick" role="status" hidden></small>
 <small class="claim" id="helm" role="status" hidden></small>
+<small class="claim" id="said-so" role="status" hidden></small>
 <output id="fix" for="globe" aria-live="off">point at it and it will tell you where you are pointing.</output>
 </main>
 <aside id="consent" aria-label="a notice about cookies">
@@ -9925,6 +9926,176 @@ ________:__|__________
       ' Your answer has not been kept, there being nothing to keep it in. You will be asked again.';
     box.classList.add('done');
   });
+})();
+</script>
+<style>
+  /* The other button. A menu that comes up where the world was pressed, and nowhere else on the page. */
+  #rightly { position: fixed; z-index: 40; margin: 0; padding: 0.3rem 0; list-style: none; min-width: 13rem; max-width: 17rem;
+             background: #131a2c; border: 1px solid #263048; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+             font: 0.8rem/1.3 ui-monospace, Menlo, Consolas, monospace; }
+  #rightly button { display: block; width: 100%; box-sizing: border-box; padding: 0.35rem 0.9rem; border: 0; background: none;
+                    color: #e8e6df; font: inherit; text-align: left; cursor: default; }
+  #rightly button:hover, #rightly button:focus { background: #263048; color: #7fb7a4; outline: none; }
+  #rightly li.rule { height: 1px; margin: 0.3rem 0; background: #263048; }
+  #rightly li.fine { padding: 0.35rem 0.9rem 0.2rem; color: #6b7388; font-family: Georgia, serif; font-style: italic; }
+  #said-so { max-width: 30rem; padding: 0 1.5rem; text-align: center; line-height: 1.5; }
+  @media screen and (prefers-color-scheme: light) {
+    #rightly { background: #f7f3e8; border-color: #cfc8b4; box-shadow: 0 6px 18px rgba(29, 36, 51, 0.18); }
+    #rightly button { color: #1d2433; }
+    #rightly button:hover, #rightly button:focus { background: #e6dfcc; color: #2f6f5e; }
+    #rightly li.rule { background: #cfc8b4; }
+    #rightly li.fine { color: #6a6f7d; }
+  }
+  @media print { #rightly, #said-so { display: none; } }
+</style>
+<script>
+// The other button. Pressed on the world, it brings up the world's own menu instead of the machine's:
+// the same headings a machine would offer, answered by somewhere that cannot be saved, reloaded or gone back from.
+// Like the helm, it knows nothing of how the world is made. Where it does anything, it presses the keys anyone could.
+// The machine's menu has not been taken away. It is under this one, and the second press of the button fetches it.
+(function () {
+  var globe = document.getElementById('globe'), said = document.getElementById('said-so');
+  if (!globe || !said || typeof KeyboardEvent !== 'function' || typeof MouseEvent !== 'function') return;
+  var menu = null, at = [0, 0], byKey = false, holding = false, asked = {}, pressed = 0;
+  var made = { '#': 'hash, which is the high ground', 'o': 'the letter o, lower case, which is Oland',
+               ':': 'colons, which are islands, two at a time', '~': 'tildes, which is to say sea',
+               '-': 'hyphens, laid flat, which is why they are the Flats', '.': 'full stops, where the sea has gone quiet and deep',
+               '*': 'asterisks, which are the ice', '+': 'plus signs, which are the ice with the light off',
+               '!': 'an exclamation mark, which is a flag, which is somebody', '^': 'a caret, which is the ship, and would rather not be inspected',
+               '"': 'ditto marks, which are cloud, and are only passing' };
+  function press(key) {
+    globe.dispatchEvent(new KeyboardEvent('keydown', { key: key, bubbles: false, cancelable: true }));
+  }
+  function say(text) { said.hidden = false; said.textContent = text; }
+  // Asking twice gets a shorter answer. A world has only so much to say about not having a back.
+  function twice(k, first, again) { var t = asked[k] ? again : first; asked[k] = true; return t; }
+  function under() {
+    var rows = globe.textContent.split('\n'), r = globe.getBoundingClientRect(), w = rows[0] ? rows[0].length : 0, h = 0, i;
+    for (i = 0; i < rows.length && rows[i].length === w; i++) h++;
+    if (!w || !h) return '';
+    var x = Math.floor((at[0] - r.left) / r.width * w), y = Math.floor((at[1] - r.top) / r.height * h);
+    return (x < 0 || y < 0 || x >= w || y >= h) ? '' : rows[y].charAt(x);
+  }
+  var items = [
+    ['back', function () {
+      say(twice('back', 'there is no back. keep on east and you will come to it, from the other side, in about a day.',
+                        'still no back. it is ahead of you, where it has always been.'));
+    }],
+    ['forward', function () {
+      say(twice('forward', 'it is already going forward, at the only speed it has. you may watch.',
+                           'forward is what it is doing now.'));
+    }],
+    ['reload', function () {
+      press('Home');
+      say('turned back to the meridian, which is as near to starting again as a world gets. the flags have stayed. so has the ship.');
+    }],
+    null,
+    ['save world as…', function () {
+      say(twice('save', 'it cannot be saved as anything. it is already as something, and is kept where it is. a postcard may be had, further down.',
+                        'as itself, then. saved. you will find it where you left it, a little further round.'));
+    }],
+    ['plant a flag here', function () {
+      var ch = under();
+      globe.dispatchEvent(new MouseEvent('dblclick', { clientX: at[0], clientY: at[1], bubbles: false, cancelable: true }));
+      say(!ch || ch === ' ' ? 'that is not the world. the flag has gone into the night beside it and will not be seen again.'
+        : ch === '~' || ch === '.' ? 'planted, in water. it will stand. nobody has explained this and it is best not to ask the flag.'
+        : 'planted. it does not make the place yours, but the place has been told.');
+    }],
+    ['hold it still', function (b) {
+      press(' ');
+      holding = !holding;
+      say(holding ? 'held, from a menu. it has been held by hands, keys and thumbs, and this is the most official.'
+                  : 'let go. it has picked up exactly where it was put down.');
+    }],
+    null,
+    ['view source', function () {
+      say(twice('source', 'the source is a sphere, a light, and a rule for which mark goes where. you are looking at it. there is nothing behind.',
+                          'the same sphere. the same light.'));
+    }],
+    ['inspect', function () {
+      var ch = under();
+      say(made[ch] ? 'inspected. just there it is made of ' + made[ch] + '. it is what it looks like, all the way down.'
+                   : 'inspected. there is nothing just there. the world is slightly to one side of where you pressed.');
+    }]
+  ];
+  function shut(back) {
+    if (!menu) return;
+    menu.parentNode.removeChild(menu);
+    menu = null;
+    if (back && byKey) globe.focus();
+  }
+  function open(x, y) {
+    var i, li, b;
+    menu = document.createElement('ul');
+    menu.id = 'rightly';
+    menu.setAttribute('role', 'menu');
+    menu.setAttribute('aria-label', 'what may be done with the world');
+    for (i = 0; i < items.length; i++) {
+      li = document.createElement('li');
+      li.setAttribute('role', 'none');
+      if (!items[i]) { li.className = 'rule'; menu.appendChild(li); continue; }
+      b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('role', 'menuitem');
+      b.textContent = i === 6 && holding ? 'let it go' : items[i][0];
+      b.setAttribute('data-n', i);
+      li.appendChild(b);
+      menu.appendChild(li);
+    }
+    li = document.createElement('li');
+    li.className = 'fine';
+    li.setAttribute('role', 'none');
+    li.textContent = 'the machine’s own menu is underneath. press again for it.';
+    menu.appendChild(li);
+    document.body.appendChild(menu);
+    // Kept on the glass: a menu that opens half off the edge is a menu of half the things.
+    var w = menu.offsetWidth, h = menu.offsetHeight;
+    menu.style.left = Math.max(4, Math.min(x, window.innerWidth - w - 4)) + 'px';
+    menu.style.top = Math.max(4, Math.min(y, window.innerHeight - h - 4)) + 'px';
+    menu.addEventListener('click', function (e) {
+      var t = e.target.closest ? e.target.closest('button') : null;
+      if (!t) return;
+      var it = items[+t.getAttribute('data-n')];
+      shut(true);
+      it[1](t);
+    });
+    menu.addEventListener('keydown', function (e) {
+      var all = menu.querySelectorAll('button'), n = Array.prototype.indexOf.call(all, document.activeElement);
+      if (e.key === 'ArrowDown') all[(n + 1) % all.length].focus();
+      else if (e.key === 'ArrowUp') all[(n + all.length - 1) % all.length].focus();
+      else if (e.key === 'Home') all[0].focus();
+      else if (e.key === 'End') all[all.length - 1].focus();
+      else if (e.key === 'Escape' || e.key === 'Tab') shut(true);
+      else return;
+      e.preventDefault();
+      e.stopPropagation();
+    });
+    if (byKey) menu.querySelector('button').focus();
+  }
+  globe.addEventListener('contextmenu', function (e) {
+    // The second press is the machine's. The world steps aside and says nothing.
+    if (menu) { shut(false); return; }
+    e.preventDefault();
+    var r = globe.getBoundingClientRect();
+    // A menu asked for from the keyboard arrives with no place attached, so it is given the middle.
+    // And one that comes with no press just before it was asked for by a key, whatever place it claims.
+    byKey = Date.now() - pressed > 3000 || !(e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom);
+    at = byKey ? [r.left + r.width / 2, r.top + r.height / 2] : [e.clientX, e.clientY];
+    // The press that asked for the menu also took hold of the world, and would otherwise never be told to let go.
+    try { globe.dispatchEvent(new Event('pointerup')); } catch (err) {}
+    if (holding) { press(' '); press(' '); }
+    open(at[0], at[1]);
+  });
+  globe.addEventListener('pointerdown', function () { pressed = Date.now(); });
+  document.addEventListener('pointerdown', function (e) {
+    if (menu && !menu.contains(e.target) && e.button !== 2) shut(false);
+  });
+  document.addEventListener('contextmenu', function (e) {
+    if (menu && e.target !== globe && !menu.contains(e.target)) shut(false);
+  });
+  window.addEventListener('scroll', function () { shut(false); }, { passive: true });
+  window.addEventListener('resize', function () { shut(false); });
+  window.addEventListener('blur', function () { shut(false); });
 })();
 </script>
 </body>
