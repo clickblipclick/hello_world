@@ -62,6 +62,10 @@ nine more on top of it.</p>
 <p class="hint">Where you stopped reading, if you laid the ribbon in: the name of the part, and how far through it.</p>
 <ul id="ribbon"></ul>
 
+<h2>The pencil</h2>
+<p class="hint">What you wrote in the margin by the list at the door, if you wrote anything. It is the only thing here in your own words.</p>
+<ul id="pencil"></ul>
+
 <h2>The drawer</h2>
 <p class="hint">The keeper&rsquo;s copies, for when the line is down. They are of the world and not of you, but it is
 your shelf they are taking up.</p>
@@ -162,6 +166,18 @@ The world will not notice, and will be exactly as pleased to see you.</p>
     });
   }
 
+  var pencilList = document.getElementById('pencil');
+  function pencil() {
+    var p = read('pencil', '');
+    pencilList.textContent = '';
+    if (typeof p !== 'string' || !p.trim()) { row(pencilList, 'nothing. the margin is clean, and the pencil is still sharp.'); return; }
+    row(pencilList, '\u201c' + p + '\u201d', 'rub it out', function () {
+      try { localStorage.removeItem('pencil'); } catch (e) {}
+      say('rubbed out. held to the light the page still shows where the pencil pressed, but that is the page\u2019s business and it cannot read.');
+      pencil();
+    });
+  }
+
   var drawerList = document.getElementById('drawer');
   function drawer() {
     drawerList.textContent = '';
@@ -192,6 +208,8 @@ The world will not notice, and will be exactly as pleased to see you.</p>
   window.addEventListener('storage', function () { flags(); seen(); });
   ribbon();
   window.addEventListener('storage', ribbon);
+  pencil();
+  window.addEventListener('storage', pencil);
 })();
 </script>
 </body>

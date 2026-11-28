@@ -858,7 +858,8 @@ a world that will be exactly where they left it.</p>
    gone. You are asked to agree to that. Every other place asks, and the world did not like to be the one
    that had not.</p>
 <p class="fine">Nothing is sent anywhere. What is remembered is remembered on your side of the glass, where you
-   may get at it and the world may not: your flags, when you were last seen, and where you left the ribbon.</p>
+   may get at it and the world may not: your flags, when you were last seen, where you left the ribbon,
+   and anything you wrote in the margin with the pencil provided.</p>
 <noscript><p class="fine">You have come without scripts, so there is nothing to press. That has been taken as an
    answer, and it is the one most visitors would have given if they had known it was allowed.</p></noscript>
 <div hidden>
@@ -7947,6 +7948,79 @@ ________:__|__________
    the way a pocket is emptied onto a hall table, and whatever it was is handed straight back. This is no
    reflection on the article. The sixth item has to be true of somebody.</p>
 <aside class="pencil"><span>I ticked all eight and am still here. the list did not say when.</span></aside>
+<p class="small">The sixth item expects pencil, and it seemed hard to expect it and not supply it. One has been
+   tied to the list on a string: out in the other margin where the page is wide, in between the lines where it
+   is not. Write there. It stays in this copy, which is yours, and its next reader will be you.</p>
+<aside class="pencil left" id="own"><span contenteditable="true" role="textbox" spellcheck="false"
+   aria-label="a note of your own, in pencil, kept in your copy only"
+   data-blank="this margin is yours. the pencil is on the string."></span></aside>
+<style>
+  /* The visitor's own hand. Same pencil as the other reader's, a little darker for being fresher. */
+  #own span { min-width: 9rem; min-height: 1.35em; color: #a9aebd; outline: none; cursor: text;
+              border-bottom: 1px dotted transparent; overflow-wrap: anywhere; }
+  #own span:empty::after { content: attr(data-blank); color: #5d6478; }
+  #own span:focus { border-bottom-color: #5d6478; }
+  #own span:focus:empty::after { content: "\00a0"; }
+  @media screen and (prefers-color-scheme: light) {
+    #own span { color: #55524b; }
+    #own span:empty::after { color: #a39f94; }
+    #own span:focus { border-bottom-color: #a39f94; }
+  }
+</style>
+<noscript><style>#own { display: none; }</style></noscript>
+<script>
+// The pencil on the string. Whatever is written with it is kept on the reader's side and nowhere else,
+// and the cloakroom has a rubber for it.
+(function () {
+  var el = document.querySelector('#own span'), ROOM = 120;
+  if (!el) return;
+  function kept() {
+    try { var v = JSON.parse(localStorage.getItem('pencil') || 'null'); return typeof v === 'string' ? v.slice(0, ROOM) : ''; }
+    catch (e) { return ''; }
+  }
+  function keep() {
+    // A margin note is one line of thought. Whatever the machine put in by way of markup is rubbed out.
+    var s = el.textContent.replace(/\s+/g, ' ').slice(0, ROOM);
+    if (el.textContent !== s || el.children.length) el.textContent = s;
+    try {
+      if (s.trim()) localStorage.setItem('pencil', JSON.stringify(s));
+      else localStorage.removeItem('pencil');
+    } catch (e) {}
+  }
+  el.textContent = kept();
+  el.addEventListener('input', function () {
+    // Only tidy while typing if it has run over; otherwise the caret would be thrown back to the start.
+    if (el.textContent.length > ROOM || el.children.length) {
+      keep();
+      try { var r = document.createRange(); r.selectNodeContents(el); r.collapse(false);
+            var sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); } catch (e) {}
+    } else {
+      try {
+        if (el.textContent.trim()) localStorage.setItem('pencil', JSON.stringify(el.textContent));
+        else localStorage.removeItem('pencil');
+      } catch (e) {}
+    }
+  });
+  el.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); el.blur(); }
+    e.stopPropagation();
+  });
+  el.addEventListener('paste', function (e) {
+    // Pencil only. What comes off the clipboard comes as plain words or not at all.
+    e.preventDefault();
+    var t = '';
+    try { t = (e.clipboardData.getData('text/plain') || '').replace(/\s+/g, ' '); } catch (err) {}
+    t = t.slice(0, Math.max(0, ROOM - el.textContent.length));
+    try { document.execCommand('insertText', false, t); } catch (err) {}
+  });
+  el.addEventListener('drop', function (e) { e.preventDefault(); });
+  el.addEventListener('blur', keep);
+  // The same copy, open in another window, is the same margin.
+  window.addEventListener('storage', function (e) {
+    if (e.key === 'pencil' && document.activeElement !== el) el.textContent = kept();
+  });
+})();
+</script>
 </section>
 <footer id="colophon">
 <h2>Colophon</h2>
