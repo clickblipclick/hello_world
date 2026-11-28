@@ -9691,5 +9691,66 @@ ________:__|__________
   ship();
 })();
 </script>
+<style>
+  /* The snail. Not a section and not in the index. It lives on the rules between things. */
+  .slime { position: relative; height: 0; pointer-events: none; }
+  .slime i { position: absolute; left: 0; top: 0; height: 1px; background: #d9cfa6; opacity: 0.4; }
+  .slime b { position: absolute; bottom: -2px; font: 12px/1 ui-monospace, Menlo, Consolas, monospace; font-weight: normal;
+             color: #d9cfa6; white-space: pre; pointer-events: auto; cursor: default; user-select: none; }
+  @media screen and (prefers-color-scheme: light) { .slime i { background: #8a6a1f; } .slime b { color: #8a6a1f; } }
+  @media print { .slime { display: none; } }
+</style>
+<script>
+// The snail does one rule a day: it sets out from the left end at midnight, by the visitor's own clock, and is at
+// the right end by the next. Then it is on the rule below, and the trail it left on the old one dries through the day.
+// From the last rule it goes back to the first. How is not known. Nobody has been up at that hour.
+(function () {
+  var rules = [].filter.call(document.querySelectorAll('section > h2, footer > h2'), function (h) {
+    return h.getClientRects().length && parseFloat(getComputedStyle(h).borderTopWidth) > 0;
+  });
+  if (rules.length < 2) return;
+  function lay(h) {
+    var d = document.createElement('div');
+    d.className = 'slime'; d.setAttribute('aria-hidden', 'true');
+    d.appendChild(document.createElement('i'));
+    h.parentNode.insertBefore(d, h);
+    return d;
+  }
+  var today = lay(rules[0]), dry = lay(rules[0]), snail = document.createElement('b'), on = -1, shy = 0, pokes = 0;
+  var OUT = '_@"', HALF = "_@'", IN = '_@';
+  today.appendChild(snail);
+  function crawl() {
+    var now = new Date(), day = Math.floor((now.getTime() - now.getTimezoneOffset() * 60000) / 864e5),
+        frac = (now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds()) / 86400,
+        n = ((day % rules.length) + rules.length) % rules.length, was = (n + rules.length - 1) % rules.length;
+    if (n !== on) {
+      rules[n].parentNode.insertBefore(today, rules[n]);
+      rules[was].parentNode.insertBefore(dry, rules[was]);
+      on = n;
+    }
+    snail.style.left = 'calc(' + frac.toFixed(5) + ' * (100% - 22px))';
+    today.firstChild.style.width = 'calc(' + frac.toFixed(5) + ' * (100% - 22px) + 8px)';
+    dry.firstChild.style.width = '100%';
+    dry.firstChild.style.opacity = (0.4 * (1 - frac)).toFixed(3);
+    if (!shy) snail.title = 'a snail. it does one rule a day and is ' + Math.round(frac * 100) +
+      ' hundredths of the way along this one. it is not the moon. the moon is bigger and has no horns.';
+  }
+  snail.textContent = OUT;
+  snail.addEventListener('pointerdown', function () {
+    pokes++;
+    snail.textContent = IN;
+    snail.title = pokes > 3 ? 'it has gone in again. it has stopped being surprised and is now only being polite.'
+                            : 'it has gone in. it will come out when you have stopped looking, or a little after.';
+    clearTimeout(shy);
+    shy = setTimeout(function () {
+      snail.textContent = HALF;
+      shy = setTimeout(function () { snail.textContent = OUT; shy = 0; crawl(); }, 2500);
+    }, 6000 + Math.min(pokes, 6) * 1500);
+  });
+  crawl();
+  setInterval(crawl, 30000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) crawl(); });
+})();
+</script>
 </body>
 </html>
