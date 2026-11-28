@@ -7987,6 +7987,86 @@ ________:__|__________
 <aside class="pencil"><span>I signed it. somebody had to, and I had the pencil.</span></aside>
 <aside class="pencil left ink"><span>a C for history. I was there for all of it, both times.</span></aside>
 </section>
+<section id="fold">
+<style>
+  #fold { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #fold h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #fold p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #fold p.lede { color: #6b7388; font-style: italic; }
+  #fold ol { list-style: none; margin: 1.6rem 0 1.4rem; padding: 0; counter-reset: fold;
+             display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 1.4rem; }
+  #fold li { counter-increment: fold; font-size: 0.9rem; line-height: 1.5; color: #b9b6ac; }
+  #fold li::before { content: counter(fold) "."; display: block; font-variant-numeric: oldstyle-nums;
+                     color: #d9cfa6; margin-bottom: 0.2rem; }
+  #fold svg { display: block; width: 100%; max-width: 9rem; height: auto; margin: 0 auto 0.5rem; }
+  #fold .sheet { fill: #131b2e; stroke: #b9b6ac; stroke-width: 1; stroke-linejoin: round; }
+  #fold .under { fill: #1b2540; stroke: #b9b6ac; stroke-width: 1; stroke-linejoin: round; }
+  #fold .crease { fill: none; stroke: #7fb7a4; stroke-width: 1; stroke-dasharray: 3 2.5; }
+  #fold .way { fill: none; stroke: #d9cfa6; stroke-width: 0.9; stroke-linecap: round; stroke-linejoin: round; }
+  #fold .sea { fill: none; stroke: #7fb7a4; stroke-width: 0.9; stroke-linecap: round; }
+  #fold .small { font-size: 0.85rem; color: #6b7388; font-style: italic; text-align: right; }
+  @media (max-width: 22rem) { #fold ol { grid-template-columns: 1fr; } }
+  @media screen and (prefers-color-scheme: light) {
+    #fold h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #fold p, #fold li { color: #3d4353; }
+    #fold p.lede, #fold .small { color: #6a6f7d; }
+    #fold li::before { color: #8a6a1f; }
+    #fold .sheet { fill: #fbf8ef; stroke: #3d4353; }
+    #fold .under { fill: #ebe5d3; stroke: #3d4353; }
+    #fold .crease, #fold .sea { stroke: #2f6f5e; }
+    #fold .way { stroke: #8a6a1f; }
+  }
+  @media print { #fold h2, #fold p, #fold li, #fold li::before { color: #000; border-color: #000; }
+                 #fold .sheet, #fold .under { fill: #fff; stroke: #000; }
+                 #fold .crease, #fold .way, #fold .sea { stroke: #000; }
+                 #fold li { break-inside: avoid; } }
+</style>
+<h2>The paper boat</h2>
+<p class="lede">Instructions for making a second ship out of the page. The first one cannot be got at, being
+   behind the glass and under way.</p>
+<p>You will need one sheet of this, printed. It runs to a good many sheets and any one of them will do; the
+   boat carries whatever was on it, folded inwards, and does not let on. No scissors and no paste. A thumbnail
+   helps. Lay the sheet down the tall way, words up or words down, as you would like them kept.</p>
+<ol>
+  <li><svg viewBox="0 0 100 100" role="img" aria-label="A tall sheet with a crease across the middle.">
+        <path class="sheet" d="M27 8h46v84H27z"/><path class="crease" d="M27 50h46"/>
+        <path class="way" d="M82 16q8 34 0 68m-5-5l5 5 4-6"/></svg>
+      Fold the top down to the bottom. The page is now half as long and says half as much, on the outside.</li>
+  <li><svg viewBox="0 0 100 100" role="img" aria-label="The folded sheet, wide, with two creases running down from the middle of the top edge to either side.">
+        <path class="sheet" d="M18 28h64v44H18z"/><path class="crease" d="M50 28L18 60M50 28l32 32"/>
+        <path class="way" d="M22 24q14-12 24 8m-5-2l5 2 1-6M78 24q-14-12-24 8m5-2l-5 2-1-6"/></svg>
+      Bring the two top corners down to meet in the middle. They will not quite meet. Nobody's do.</li>
+  <li><svg viewBox="0 0 100 100" role="img" aria-label="A triangle with a strip below it, and a crease where the two join.">
+        <path class="under" d="M18 60h64v12H18z"/><path class="sheet" d="M50 28L18 60h64z"/>
+        <path class="crease" d="M18 60h64"/><path class="way" d="M50 82V66m-4 5l4-5 4 5"/></svg>
+      Turn the strip at the bottom up, one leaf to the front and one to the back. This is a hat. You may stop
+      here and wear it; many have. The boat is three folds further on.</li>
+  <li><svg viewBox="0 0 100 100" role="img" aria-label="A square standing on its corner, with a crease across the middle.">
+        <path class="sheet" d="M50 14l36 36-36 36-36-36z"/><path class="crease" d="M14 50h72"/>
+        <path class="way" d="M50 94V72m-4 5l4-5 4 5"/></svg>
+      Put your thumbs inside the hat and pull the front and back apart until the two ends come together.
+      Press it flat. It is a square now, standing on its corner, and no longer fits anyone.</li>
+  <li><svg viewBox="0 0 100 100" role="img" aria-label="A smaller square on its corner, with arrows drawing its top two points apart.">
+        <path class="sheet" d="M50 22l28 28-28 28-28-28z"/><path class="crease" d="M50 22v56"/>
+        <path class="way" d="M44 18H20m5-4l-5 4 5 4M56 18h24m-5-4l5 4-5 4"/></svg>
+      Fold the bottom corner up to the top, front and back, and open that out into a square the same way.
+      Then take the two points at the top, one in each hand, and draw them gently apart.</li>
+  <li><svg viewBox="0 0 100 100" role="img" aria-label="A paper boat on a line of water.">
+        <path class="under" d="M50 20L36 52h28z"/><path class="sheet" d="M8 52h84L68 80H32z"/>
+        <path class="sea" d="M4 86q6-5 12 0t12 0 12 0 12 0 12 0 12 0 12 0 8-2"/></svg>
+      It is a boat. The middle stands up by itself and will be taken for a sail. It is the top of the hat.</li>
+</ol>
+<p>She draws about a finger of water and is good for one crossing of a bath or a slow gutter, after which she
+   becomes the page again, wetter, and may be dried and read. She has no name until somebody writes one on
+   the bow, and the hull is the only part of the site where that is permitted in ink.</p>
+<p>Fold it words up and the greeting is on deck, where it can be seen from the bank. Fold it words down and
+   the boat goes out plain and says hello only to whatever is underneath. Both have been tried. The second
+   one was not heard from again, but then neither was the first.</p>
+<p class="small">The ship behind the glass has been told about this and has asked only that it be kept off the
+   chart. It has been. There is no puddle marked anywhere on the world.</p>
+<aside class="pencil"><span>I made the hat and stopped. it suits me. the instructions were right about that.</span></aside>
+</section>
 <section id="leave">
 <style>
   #leave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; counter-reset: ticked; }
