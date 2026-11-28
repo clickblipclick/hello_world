@@ -5591,6 +5591,98 @@ The set is cold. It warms on the same current as the world, and without it this 
 })();
 </script>
 </section>
+<section id="stave">
+<style>
+  /* The score. Two bars, drawn and not played. The clef is an At and the rests are Commas. No script. */
+  #stave { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #stave h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+              color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #stave p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #stave p.lede { color: #6b7388; font-style: italic; }
+  #stave svg { display: block; width: 100%; height: auto; margin: 1.6rem 0 1.4rem; color: #d9cfa6; }
+  #stave .lines { stroke: #4a5674; stroke-width: 0.8; fill: none; }
+  #stave .bars { stroke: currentColor; fill: none; }
+  #stave .head { fill: currentColor; }
+  #stave .stem { stroke: currentColor; stroke-width: 1.1; fill: none; stroke-linecap: round; }
+  #stave .clef { font: 25px/1 ui-monospace, Menlo, Consolas, monospace; fill: #7fb7a4; }
+  #stave .time { font: bold 17px/1 Georgia, serif; fill: currentColor; }
+  #stave .rest { font: 21px/1 ui-monospace, Menlo, Consolas, monospace; fill: #7fb7a4; }
+  #stave .sung { font: italic 11px/1 Georgia, serif; fill: #b9b6ac; }
+  #stave .pace { font: italic 10px/1 Georgia, serif; fill: #6b7388; }
+  #stave text { text-anchor: middle; }
+  #stave .small { font-size: 0.85rem; color: #6b7388; font-style: italic; text-align: right; }
+  @media screen and (prefers-color-scheme: light) {
+    #stave h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #stave p { color: #3d4353; }
+    #stave p.lede, #stave .small { color: #6a6f7d; }
+    #stave svg { color: #1b2233; }
+    #stave .lines { stroke: #b5ad98; }
+    #stave .clef, #stave .rest { fill: #2f6f5e; }
+    #stave .sung { fill: #3d4353; }
+    #stave .pace { fill: #6a6f7d; }
+  }
+  @media print {
+    #stave h2, #stave p, #stave p.lede, #stave .small, #stave svg { color: #000; border-color: #000; }
+    #stave .lines { stroke: #000; }
+    #stave .clef, #stave .rest, #stave .sung, #stave .pace { fill: #000; }
+  }
+</style>
+<h2>The score</h2>
+<p class="lede">The two words, set for whatever instrument happens to be in the house. Three of the ten
+   letters turned out to be notes. The other seven were asked, and declined.</p>
+<p>Music is lettered from A to G, and the greeting gets little help from that: an e, and at the far end a d.
+   But the Germans, for reasons of their own, have called one note H for some centuries, and nobody here
+   had found a use for the fact until now. So the piece opens on H, which everybody else would call B, goes
+   to E, and then waits a long time for D.</p>
+<svg viewBox="0 0 320 108" role="img" aria-labelledby="scoretitle">
+  <title id="scoretitle">Two bars of music in five-eight time, on a stave whose clef is an at sign. The first bar has the notes B and E and then three commas for rests, over the letters of hello. The second bar has four commas and then the note D with a pause mark above it, over the letters of world.</title>
+  <text class="pace" x="70" y="14" style="text-anchor: start">Round, and not fast</text>
+  <path class="lines" d="M8 40H308M8 48H308M8 56H308M8 64H308M8 72H308"/>
+  <path class="bars" stroke-width="0.9" d="M8 40V72M175 40V72M301 40V72"/>
+  <path class="bars" stroke-width="3" d="M306.5 40V72"/>
+  <text class="clef" x="25" y="68" aria-hidden="true">@</text>
+  <text class="time" x="48" y="54" aria-hidden="true">5</text>
+  <text class="time" x="48" y="70" aria-hidden="true">8</text>
+  <g aria-hidden="true">
+    <ellipse class="head" cx="70" cy="56" rx="4.6" ry="3.3" transform="rotate(-20 70 56)"/>
+    <path class="stem" d="M74.2 55V31c1 6 8 7 6 15"/>
+    <ellipse class="head" cx="92" cy="72" rx="4.6" ry="3.3" transform="rotate(-20 92 72)"/>
+    <path class="stem" d="M96.2 71V47c1 6 8 7 6 15"/>
+    <text class="rest" x="114" y="60">,</text>
+    <text class="rest" x="136" y="60">,</text>
+    <text class="rest" x="158" y="60">,</text>
+    <text class="rest" x="192" y="60">,</text>
+    <text class="rest" x="214" y="60">,</text>
+    <text class="rest" x="236" y="60">,</text>
+    <text class="rest" x="258" y="60">,</text>
+    <ellipse class="head" cx="280" cy="48" rx="4.6" ry="3.3" transform="rotate(-20 280 48)"/>
+    <path class="stem" d="M275.8 49V73c1 -6 8 -7 6 -15"/>
+    <path class="stem" d="M271 33a9 9 0 0 1 18 0"/>
+    <circle class="head" cx="280" cy="31" r="1.3"/>
+    <text class="sung" x="70" y="96">h</text>
+    <text class="sung" x="92" y="96">e</text>
+    <text class="sung" x="114" y="96">l</text>
+    <text class="sung" x="136" y="96">l</text>
+    <text class="sung" x="158" y="96">o</text>
+    <text class="sung" x="192" y="96">w</text>
+    <text class="sung" x="214" y="96">o</text>
+    <text class="sung" x="236" y="96">r</text>
+    <text class="sung" x="258" y="96">l</text>
+    <text class="sung" x="280" y="96">d</text>
+  </g>
+</svg>
+<p>The clef is the At, that being the only thing on hand that curls. A clef is named for the note it curls
+   round, and the At curls round an a; the space it sits in is therefore A, and every line takes its bearings
+   from there. The rests are Commas. They were resting already, and agreed to do it in time. There are five
+   quavers to the bar, there being five letters to the word, and the gap between the words is the bar line,
+   which is the one part played by nobody.</p>
+<p>It is not sounded here. Enough on this page makes a noise when pressed. This is for carrying off to a
+   piano, or a whistle, or a glass with the right amount of water in it. The last note has a pause over it
+   and may be held for as long as the player likes. The world holds it in any case.</p>
+<p class="small">Seven rests in ten is thought a high proportion. It was put to the Commas, who counted
+   themselves and found it about right.</p>
+<aside class="pencil"><span>played it on a comb. three notes. somebody in the next room said hello back.</span></aside>
+</section>
 <section id="surgery">
 <style>
   #surgery { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
