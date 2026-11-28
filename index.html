@@ -2823,6 +2823,153 @@ change .............. none due
 })();
 </script>
 </section>
+<section id="sale">
+<style>
+  #sale { max-width: 30rem; padding: 0 1.5rem 6rem; width: 100%; box-sizing: border-box; }
+  #sale h2 { font-size: 1.1rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase;
+             color: #7fb7a4; border-top: 1px solid #263048; padding-top: 2rem; margin: 0 0 0.4rem; }
+  #sale p { font-size: 1rem; letter-spacing: 0; line-height: 1.55; color: #b9b6ac; margin: 0 0 0.9rem; }
+  #sale p.lede { color: #6b7388; font-style: italic; }
+  #sale dl { margin: 1.4rem 0; padding: 1rem 1.1rem 0.4rem; border: 1px solid #263048; }
+  #sale dt { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: #d9cfa6; margin: 0 0 0.1rem; }
+  #sale dd { margin: 0 0 0.7rem; font-size: 0.9rem; line-height: 1.5; color: #b9b6ac; }
+  #sale .room { margin: 0 0 1.2rem; }
+  #sale button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                 background: none; border: 1px solid #7fb7a4; padding: 0.45rem 0.9rem; cursor: pointer; }
+  #sale button:hover, #sale button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #sale button:disabled { color: #3a4560; border-color: #263048; background: none; cursor: default; }
+  #sale .stands { font-size: 0.85rem; font-variant: small-caps; letter-spacing: 0.05em; color: #d9cfa6; margin: 0.9rem 0 0; }
+  #sale ol { list-style: none; margin: 1rem 0 1.2rem; padding: 0 0 0 0.9rem; border-left: 1px solid #263048; }
+  #sale ol:empty { display: none; }
+  #sale li { font-size: 0.9rem; line-height: 1.5; color: #b9b6ac; margin: 0 0 0.5rem; }
+  #sale li.book { color: #6b7388; }
+  #sale li.call { font-style: italic; color: #6b7388; }
+  #sale li.gavel { color: #d9cfa6; }
+  #sale .small { font-size: 0.85rem; color: #6b7388; font-style: italic; text-align: right; }
+  @media screen and (prefers-color-scheme: light) {
+    #sale h2 { color: #2f6f5e; border-color: #cfc8b6; }
+    #sale p, #sale dd, #sale li { color: #3d4353; }
+    #sale p.lede, #sale .small, #sale li.book, #sale li.call { color: #6a6f7d; }
+    #sale dl, #sale ol { border-color: #cfc8b6; }
+    #sale dt, #sale .stands, #sale li.gavel { color: #8a6a1f; }
+    #sale button { color: #2f6f5e; border-color: #2f6f5e; }
+    #sale button:hover, #sale button:focus-visible { background: #2f6f5e; color: #f1ecdf; }
+    #sale button:disabled { color: #a9a493; border-color: #cfc8b6; background: none; }
+  }
+  @media print { #sale h2, #sale p, #sale dt, #sale dd, #sale li { color: #000; border-color: #000; }
+                 #sale dl, #sale ol { border-color: #000; } #sale .room { display: none; } }
+</style>
+<h2>The saleroom</h2>
+<p class="lede">A coin having been struck and a till having rung, somebody asked what the whole thing would
+   fetch. There is one way to find out. The sale is of one lot, and the catalogue is this.</p>
+<dl>
+  <dt>Lot 1</dt>
+  <dd>A world, small, round, in characters. One continent, one sea, ice to both ends. Turning, and sold as such.</dd>
+  <dt>Condition</dt>
+  <dd>Some foxing to the west, since identified as weather. A number of flags, later additions, not
+      affecting the text. The moon is associated with the lot but not attached to it, and is not warranted
+      to be present on the day. Pencil in the margins throughout, in one hand, not the maker's.</dd>
+  <dt>Provenance</dt>
+  <dd>By descent from a page that said hello. Never previously offered. Never previously asked for.</dd>
+  <dt>Estimate</dt>
+  <dd>One comma to one comma. The saleroom regrets that it cannot be more exact.</dd>
+</dl>
+<p>Bids are taken by a show of hands, one hand being a quorum. There being a single coin in the currency,
+   the auctioneer will accept advances in kind once it has been bid, and will say what he has taken you to
+   mean. He is usually right. Anybody who cannot attend may leave a bid on the book, and one such has been left.</p>
+<noscript><p>The auctioneer is a script and has not come. The lot may be viewed, above, at the usual hours.</p></noscript>
+<div class="room" hidden>
+  <button type="button">raise a hand</button>
+  <p class="stands" role="status"></p>
+  <ol aria-live="polite" aria-label="what the auctioneer has said"></ol>
+</div>
+<p class="small">Buyers are reminded that lots are sold as seen, from the front, and that the back is the
+   same lot. No premium is charged. Nothing is, the coin being elsewhere.</p>
+<aside class="pencil"><span>did not bid. scratched my ear at the wrong moment and very nearly owned a moon.</span></aside>
+<script>
+(function () {
+  // One lot, one room, one hand in it. The other bidder is a book, and the book is the house.
+  var room = document.querySelector('#sale .room');
+  if (!room) return;
+  var hand = room.querySelector('button'), stands = room.querySelector('.stands'), said = room.querySelector('ol');
+  // Even rungs are the visitor's, odd ones the book's. The book runs out first, as it was written to.
+  var ladder = [
+    ['one comma', 'One comma. I have one comma, at the front. It is the only one there is, so we shall go on in kind.'],
+    ['one comma and a full stop', 'One comma and a full stop. That is on the book, left with me by somebody who could not attend.'],
+    ['a comma, a full stop and the afternoon', 'And the afternoon. The visitor offers the afternoon. I am told it was going anyway.'],
+    ['the above and a moon', 'The book says all that and a moon. The book has not got a moon. Nor has anybody; I will take it.'],
+    ['the above and a paper hat', 'And a paper hat, at the front. It is three folds short of a boat. I will take that as well.'],
+    ['the above and the ship', 'The book says the same again with the ship, which is under way and was not consulted.'],
+    ['the above and your word', 'And your word. The visitor gives their word. It is hello; I have heard it before. Against you, book.']
+  ];
+  var rung = -1, timers = [], over = false;
+  function say(text, kind) {
+    var li = document.createElement('li');
+    li.textContent = text;
+    if (kind) li.className = kind;
+    said.appendChild(li);
+  }
+  function wait(fn, ms) { timers.push(setTimeout(fn, ms)); }
+  function hush() { while (timers.length) clearTimeout(timers.pop()); }
+  function standing() {
+    stands.textContent = rung < 0 ? 'Nothing bid.' :
+      'Standing at ' + ladder[rung][0] + ', with ' + (rung % 2 ? 'the book.' : 'the visitor.');
+  }
+  function knock() {
+    over = true;
+    hand.disabled = false;
+    hand.textContent = 'hold the sale again';
+    if (rung % 2) {
+      say('Sold, to the book.', 'gavel');
+      say('The book was opened afterwards to see who had left the bid. It was in the house’s own hand. ' +
+          'The lot has been bought in, as lots are when the room will not go high enough, and stays where it is.', 'call');
+      stands.textContent = 'Bought in at ' + ladder[rung][0] + '.';
+    } else {
+      say('Sold, to the visitor at the front, who is also the back.', 'gavel');
+      say('Buyers collect by the end of the day, a day being one turn. The lot cannot be lifted, wrapped or ' +
+          'passed through the glass, and will be kept for you where it is, indefinitely. That was the ' +
+          'arrangement before. You owe a comma. So does everyone.', 'call');
+      stands.textContent = 'Sold at ' + ladder[rung][0] + '. Uncollected.';
+    }
+  }
+  function going() {
+    wait(function () { say('Going once.', 'call'); }, 5000);
+    wait(function () { say('Going twice. Anyone at the back? There is no back.', 'call'); }, 9000);
+    wait(knock, 13000);
+  }
+  function book() {
+    hand.disabled = false;
+    if (rung + 1 < ladder.length) {
+      rung++;
+      say(ladder[rung][1], 'book');
+    } else {
+      say('The book is looking. The book has nothing above a word. There are only two here and the visitor has bid one of them.', 'book');
+      hand.disabled = true;
+    }
+    standing();
+    going();
+  }
+  hand.addEventListener('click', function () {
+    hush();
+    if (over) {
+      over = false; rung = -1;
+      said.textContent = '';
+      hand.textContent = 'raise a hand';
+      say('The lot is put up again, there being nothing else to put up. Who will start me?', 'call');
+      standing();
+      return;
+    }
+    rung++;
+    say(ladder[rung][1]);
+    standing();
+    hand.disabled = true;
+    wait(book, 1800);
+  });
+  standing();
+  room.hidden = false;
+})();
+</script>
+</section>
 <section id="strip">
 <style>
   /* The strip. Four boxes ruled on the back page, and the same sorts drawn in them as everywhere else. */
