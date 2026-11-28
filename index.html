@@ -825,6 +825,57 @@ a world that will be exactly where they left it.</p>
 <small class="claim" id="helm" role="status" hidden></small>
 <output id="fix" for="globe" aria-live="off">point at it and it will tell you where you are pointing.</output>
 </main>
+<aside id="consent" aria-label="a notice about cookies">
+<style>
+  #consent { max-width: 30rem; width: 100%; box-sizing: border-box; margin: 0 0 4rem; padding: 1rem 1.2rem 1.1rem;
+             border: 1px solid #263048; background: #070b14; }
+  #consent p { font-size: 0.9rem; letter-spacing: 0; line-height: 1.5; color: #b9b6ac; margin: 0 0 0.7rem; }
+  #consent p.fine { font-size: 0.8rem; color: #6b7388; font-style: italic; }
+  #consent p.said { color: #7fb7a4; margin: 0; }
+  #consent div { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  #consent button { font: 0.8rem ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.05em; color: #7fb7a4;
+                    background: none; border: 1px solid #7fb7a4; padding: 0.5em 1em; cursor: pointer; }
+  #consent button:hover, #consent button:focus-visible { background: #7fb7a4; color: #0d1321; outline: none; }
+  #consent ul { list-style: none; margin: 0.9rem 0 0; padding: 0; }
+  #consent li { font-size: 0.85rem; line-height: 1.5; color: #b9b6ac; margin: 0 0 0.5rem; }
+  #consent li b { font-weight: normal; font-variant: small-caps; letter-spacing: 0.06em; color: #d9cfa6; }
+  #consent a { color: #7fb7a4; }
+  #consent.done { border-style: dashed; padding: 0.7rem 1.2rem; }
+  #consent.done p:not(.said), #consent.done div, #consent.done ul { display: none; }
+  @media screen and (prefers-color-scheme: light) {
+    #consent { background: #efe9d8; border-color: #cfc8b6; }
+    #consent p, #consent li { color: #3d4353; }
+    #consent p.fine { color: #6a6f7d; }
+    #consent li b { color: #7a6a2b; }
+    #consent a { color: #2f6f5e; }
+    #consent p.said, #consent button { color: #2f6f5e; border-color: #2f6f5e; }
+    #consent button:hover, #consent button:focus-visible { background: #2f6f5e; color: #efe9d8; }
+  }
+  @media print { #consent { display: none; } }
+</style>
+<p>This world uses no cookies. One was brought, once, by a visitor, and was shared out at the post, and is
+   gone. You are asked to agree to that. Every other place asks, and the world did not like to be the one
+   that had not.</p>
+<p class="fine">Nothing is sent anywhere. What is remembered is remembered on your side of the glass, where you
+   may get at it and the world may not: your flags, when you were last seen, and where you left the ribbon.</p>
+<noscript><p class="fine">You have come without scripts, so there is nothing to press. That has been taken as an
+   answer, and it is the one most visitors would have given if they had known it was allowed.</p></noscript>
+<div hidden>
+  <button type="button" data-say="Accepted. There is still no cookie. You have agreed to nothing, in full, and it is binding.">accept none</button>
+  <button type="button" data-say="Declined. There was none to decline, so it comes to the same. But it was firmly said, and that has been noticed.">decline none</button>
+  <button type="button" aria-expanded="false" aria-controls="consent-kinds">which ones</button>
+</div>
+<ul id="consent-kinds" hidden>
+  <li><b>Strictly necessary</b> &mdash; none. The world turned before you came and has not been told to stop.</li>
+  <li><b>For measuring</b> &mdash; none. The census counts you by looking. It has one visitor to count and has
+      not needed help.</li>
+  <li><b>For advertising</b> &mdash; none. The small advertisements know nothing about you. They are offering
+      the same few things to everybody, and have been since they went in.</li>
+  <li><b>Crumbs</b> &mdash; three, kept back from the one cookie for the game of <a href="round.html">once
+      round</a>, which wants them for pieces. They are not following you. They are under the desk.</li>
+</ul>
+<p class="said" role="status"></p>
+</aside>
 <figure id="chart">
 <pre id="map" aria-label="the world unrolled into a map, drawn in characters"></pre>
 <figcaption>The world would not hold still for the printer, so this is the map instead: all of it at once,
@@ -9750,6 +9801,31 @@ ________:__|__________
   crawl();
   setInterval(crawl, 30000);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) crawl(); });
+})();
+</script>
+<script>
+// The notice. It asks leave to keep no cookies, and takes either answer, and keeps neither.
+// The answer is not written down. Writing it down is the thing the notice says is not done.
+(function () {
+  var box = document.getElementById('consent');
+  if (!box) return;
+  var row = box.querySelector('div'), kinds = document.getElementById('consent-kinds'),
+      said = box.querySelector('.said'), asked = 0;
+  row.hidden = false;
+  row.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('button') : null;
+    if (!b) return;
+    if (b.hasAttribute('aria-controls')) {
+      asked++;
+      kinds.hidden = !kinds.hidden;
+      b.setAttribute('aria-expanded', String(!kinds.hidden));
+      b.textContent = kinds.hidden ? (asked > 2 ? 'the same ones' : 'which ones') : 'put them away';
+      return;
+    }
+    said.textContent = b.getAttribute('data-say') +
+      ' Your answer has not been kept, there being nothing to keep it in. You will be asked again.';
+    box.classList.add('done');
+  });
 })();
 </script>
 </body>
