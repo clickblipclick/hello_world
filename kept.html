@@ -58,6 +58,10 @@ nine more on top of it.</p>
 <p class="hint">How often you have come and when you last left, so that the world can say what you missed.</p>
 <ul id="seen"></ul>
 
+<h2>The ribbon</h2>
+<p class="hint">Where you stopped reading, if you laid the ribbon in: the name of the part, and how far through it.</p>
+<ul id="ribbon"></ul>
+
 <h2>The drawer</h2>
 <p class="hint">The keeper&rsquo;s copies, for when the line is down. They are of the world and not of you, but it is
 your shelf they are taking up.</p>
@@ -145,6 +149,19 @@ The world will not notice, and will be exactly as pleased to see you.</p>
     });
   }
 
+  var ribbonList = document.getElementById('ribbon');
+  function ribbon() {
+    var r = read('ribbon', null);
+    ribbonList.textContent = '';
+    if (!r || typeof r.f !== 'number') { row(ribbonList, 'loose. no place is marked.'); return; }
+    row(ribbonList, 'in at \u201c' + (r.name || 'the title page') + '\u201d, ' + Math.round(r.f * 100) + ' parts in a hundred of the way through'
+        + (typeof r.t === 'number' ? ', laid ' + ago(r.t) : ''), 'take it out', function () {
+      try { localStorage.removeItem('ribbon'); } catch (e) {}
+      say('taken out. it hangs from the head of the book as before. you will have to find the place by reading, which was the old way.');
+      ribbon();
+    });
+  }
+
   var drawerList = document.getElementById('drawer');
   function drawer() {
     drawerList.textContent = '';
@@ -173,6 +190,8 @@ The world will not notice, and will be exactly as pleased to see you.</p>
   flags(); seen(); drawer();
   // Another window may be planting flags while this one counts them.
   window.addEventListener('storage', function () { flags(); seen(); });
+  ribbon();
+  window.addEventListener('storage', ribbon);
 })();
 </script>
 </body>

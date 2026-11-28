@@ -9476,5 +9476,154 @@ ________:__|__________
   });
 })();
 </script>
+<style>
+  /* The ribbon. Sewn into the head of the book, as they are, and hanging down over the top edge of the glass.
+     It is the one thing here a reader is expected to move and the world is expected to leave alone. */
+  #ribbon { position: fixed; top: 0; right: 0; z-index: 6; width: 1.5rem; height: 2.4rem; margin: 0; padding: 0;
+            border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  #ribbon::before { content: ""; position: absolute; top: 0; left: 0.4rem; width: 0.7rem; height: 100%;
+                    background: linear-gradient(90deg, #9a3b2e, #b04a3a 45%, #86301f);
+                    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 0.45rem), 0 100%); }
+  #ribbon.laid { height: 4.8rem; }
+  #ribbon:hover::before { filter: brightness(1.2); }
+  #ribbon:focus-visible { outline: 1px dotted #d9cfa6; outline-offset: -2px; }
+  @media (prefers-reduced-motion: no-preference) { #ribbon { transition: height 0.5s; } }
+  #marker { position: fixed; top: 0.6rem; right: 1.7rem; z-index: 6; box-sizing: border-box; width: min(17rem, 78vw);
+            padding: 0.8rem 1rem 0.7rem; background: #e6dfc9; color: #33323a; transform: rotate(0.6deg);
+            box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.45); font-size: 0.85rem; line-height: 1.5; }
+  #marker[hidden] { display: none; }
+  #marker p { font-size: inherit; letter-spacing: 0; margin: 0 0 0.5rem; }
+  #marker button { font: inherit; font-style: italic; color: #9a3b2e; background: none; border: 0; border-radius: 0;
+                   border-bottom: 1px solid #9a3b2e; padding: 0; margin: 0 0.9rem 0.2rem 0; cursor: pointer; }
+  #marker button:hover, #marker button:focus-visible { color: #33323a; border-color: #33323a; outline: none; }
+  @media screen and (prefers-color-scheme: light) { #marker { background: #fffdf6; box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.18); } }
+  @media print { #ribbon, #marker { display: none; } }
+</style>
+<button id="ribbon" type="button" aria-controls="marker" hidden></button>
+<div id="marker" role="status" hidden><p></p><span></span></div>
+<script>
+// The ribbon. A book this long with one page and no page numbers cannot be found again by number, so the ribbon
+// does not keep one. It keeps the name of the part it was laid in and how far through that part the reader had
+// got, as a fraction. The book is added to by the hour; a part may be longer tomorrow, but halfway is still halfway.
+// It is kept on the reader's side of the glass, under the one word, and the cloakroom will hand it back.
+(function () {
+  var ribbon = document.getElementById('ribbon'), marker = document.getElementById('marker');
+  if (!ribbon || !marker || !document.querySelectorAll || !ribbon.getBoundingClientRect) return;
+  var say = marker.querySelector('p'), acts = marker.querySelector('span');
+  var found = document.querySelectorAll('main, #chart, section, footer'), parts = [], held = null, timer = 0, touched = false, i, h;
+  for (i = 0; i < found.length; i++) {
+    h = found[i].querySelector('h2');
+    parts.push([found[i], h ? (h.textContent || '').replace(/\s+/g, ' ').replace(/^ | $/g, '')
+                            : found[i].id === 'chart' ? 'the map' : 'the title page']);
+  }
+  if (!parts.length) return;
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function line() { return Math.min(window.innerHeight * 0.3, 160); }
+  function here() {   // the part under the reader's eye, and how far down it the eye has got
+    var at = 0, box = null, b, i;
+    for (i = 0; i < parts.length; i++) {
+      if (!parts[i][0].getClientRects().length) continue;   // some parts are only there on some visits
+      b = parts[i][0].getBoundingClientRect();
+      if (b.top > line()) break;
+      at = i; box = b;
+    }
+    return { id: parts[at][0].id || '', name: parts[at][1],
+             f: box && box.height ? Math.max(0, Math.min(1, (line() - box.top) / box.height)) : 0 };
+  }
+  function kept() {
+    try {
+      var v = JSON.parse(localStorage.getItem('ribbon') || 'null');
+      return v && typeof v.id === 'string' && typeof v.f === 'number' ? v : null;
+    } catch (e) { return held; }   // no shelf to keep it on: it is held in the hand, for this sitting only
+  }
+  function keep(v) {
+    held = v;
+    try { if (v) localStorage.setItem('ribbon', JSON.stringify(v)); else localStorage.removeItem('ribbon'); } catch (e) {}
+  }
+  function away(v) {   // how far the ribbon is from the eye, in pixels; null if its part is not out today
+    var el = v.id ? document.getElementById(v.id) : document.querySelector('main'), box;
+    if (!el || !el.getClientRects().length) return null;
+    box = el.getBoundingClientRect();
+    return box.top + v.f * box.height - line();
+  }
+  function ago(ms) {
+    var s = Math.max(0, (Date.now() - ms) / 1000);
+    if (s < 90) return 'a moment ago';
+    if (s < 5400) return Math.round(s / 60) + ' minutes ago';
+    if (s < 129600) return Math.round(s / 3600) + ' hours ago';
+    return Math.round(s / 86400) + ' days ago';
+  }
+  function hide() { marker.hidden = true; clearTimeout(timer); }
+  function show(text, choices, lasting) {
+    say.textContent = text;
+    acts.textContent = '';
+    (choices || []).forEach(function (c) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.textContent = c[0]; b.addEventListener('click', c[1]);
+      acts.appendChild(b);
+    });
+    marker.hidden = false;
+    clearTimeout(timer);
+    if (!lasting) timer = setTimeout(hide, 9000);
+  }
+  function dress() {
+    var v = kept();
+    ribbon.className = v ? 'laid' : '';
+    ribbon.title = v ? 'the ribbon: in at “' + (v.name || 'the title page') + '”' : 'the ribbon: lay it in here';
+    ribbon.setAttribute('aria-label', ribbon.title);
+  }
+  function name(v) { return '“' + (v.name || 'the title page') + '”'; }
+  function lay() {
+    var v = here();
+    v.t = Date.now();
+    keep(v); dress();
+    show('The ribbon is in at ' + name(v) + (v.f > 0.02 && v.f < 0.98 ? ', ' + Math.round(v.f * 100) + ' parts in a hundred of the way through it' : '')
+       + '. It will be there when you come back. It does not count pages; there is one, and it is longer every hour.');
+  }
+  function open() {
+    var v = kept(), d = v ? away(v) : null;
+    if (d === null) return;
+    window.scrollBy({ top: d, behavior: still ? 'auto' : 'smooth' });
+    show('Opened at the ribbon. If the place looks a little different, it has been written round since. The ribbon has been left in.');
+  }
+  function lift() {
+    keep(null); dress();
+    show('The ribbon is out and hangs loose. Nothing is marked. The book does not mind; it has never known where anyone was.');
+  }
+
+  ribbon.addEventListener('click', function () {
+    var v = kept(), d;
+    touched = true;
+    if (!v) { lay(); return; }
+    if (!marker.hidden && acts.firstChild) { hide(); return; }
+    d = away(v);
+    if (d === null) {
+      show('The ribbon was left in at ' + name(v) + ', and that part is not out today. The ribbon is still in it, wherever it is.',
+           [['lay it here instead', lay], ['take it out', lift]], true);
+    } else if (Math.abs(d) < window.innerHeight * 0.6) {
+      show('The ribbon is in here, at ' + name(v) + '. You are reading across it.', [['take it out', lift]], true);
+    } else {
+      show('The ribbon is in at ' + name(v) + ', some way ' + (d < 0 ? 'back' : 'on') + '.',
+           [['open there', open], ['lay it here instead', lay], ['take it out', lift]], true);
+    }
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !marker.hidden) hide(); });
+  document.addEventListener('click', function (e) {
+    if (marker.hidden || !e.target || !e.target.closest) return;
+    if (!e.target.closest('#marker') && !e.target.closest('#ribbon')) hide();
+  });
+  window.addEventListener('storage', dress);   // another window may have moved it; there is only the one ribbon
+
+  ribbon.hidden = false;
+  dress();
+  // A reader who comes back is told where they stopped, once, and is not taken there. They may have come for something else.
+  setTimeout(function () {
+    var v = kept(), d = v ? away(v) : null;
+    if (touched || !v || d === null || location.hash || Math.abs(d) < window.innerHeight * 0.6) return;
+    show('You left the ribbon in at ' + name(v) + (typeof v.t === 'number' ? ', ' + ago(v.t) : '') + '.', [['open there', open]]);
+  }, 1500);
+})();
+</script>
 </body>
 </html>
